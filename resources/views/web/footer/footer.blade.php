@@ -42,13 +42,15 @@
                             </p>
                         </li>
                         <li>
-                           <form action="" method="POST">
+                           <form action="{{ url('/contact') }}" method="POST">
                                <div class="form-group">
-                                   <input type="email" name="newsletter" class="form-control" placeholder="Enter email">
-                               </div>
+                                   <input type="email" id="news_letter_email_input" class="form-control" placeholder="Enter email" required>
+                                   <div class="alert-form newsletter-alert text-danger"></div>
+                                </div>
                                <div class="form-group">
-                                  <button type="button" class="news-letter-btn"><i class="far fa-envelope"></i> Send Messages</button>
-                               </div>
+                                    <button type="button" id="news_letter_submit_btn" class="news-letter-btn"><i class="far fa-envelope"></i> Send Messages</button>
+                                    <a href="{{ url('/unsubscribe-newsletter') }}" class="float-right">Unsubscribe</a>
+                                </div>
                            </form>
                         </li>
                     </ul>
@@ -61,6 +63,7 @@
                         <li><a href="#"><i class="fa fa-phone"></i> Phone: 08023124563</a></li>
                         <li><a href="#"><i class="far fa-envelope"></i> Email: lagosmatchmaker@gmail.com</a></li>
                         <li><a href="#"><i class="fa fa-map-marker-alt"></i> 8/9 James Afred way, Victorial Island, Lagos Nigeria.</a></li>
+                        <li><a href="{{ url('/contact') }}"><i class="fa fa-pen"></i>Contact us</a></li>
                     </ul>
                 </div>
             </div><!-- links end-->
@@ -77,11 +80,135 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+$(document).ready(function(){
+// ************* SUBSCRIBE TO NEWS-LETTER *************//
+$("#news_letter_submit_btn").click(function(e){
+    e.preventDefault()
+    $('.newsletter-alert').html('')
+    var email = $("#news_letter_email_input").val()
+
+    if(email == ''){
+       $('.newsletter-alert').html('*Email field is required')
+       return;
+    }
+
+    csrf_token() //csrf token
+    $("#news_letter_submit_btn").html('Please wait...')
+
+    $.ajax({
+        url: "{{ url('/ajax-newsletter-subscription') }}",
+        method: "post",
+        data: {
+            email: email
+        },
+        success: function (response){
+           if(response.error){
+                $('.newsletter-alert').html(response.error.email)
+           }else if(response.data){
+               $("#news_letter_email_input").val('')
+                bottom_success_danger('Newsletter subscribed successfully!')
+           }
+
+           $("#news_letter_submit_btn").html('<i class="far fa-envelope"></i> Send Messages')
+        }, 
+        error: function(){
+           bottom_error_danger('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+function bottom_error_danger(string){
+    var bottom = '0px';
+    var alert =  $("#bottom_alert_danger").children('.bottom-alert-danger')
+
+    if($(window).width() > 767){
+        bottom = '5px'
+    }
+
+    $(alert).html(string)
+    $(alert).css({ bottom: bottom })
+
+    setTimeout(function(){
+        $(alert).css({
+            bottom: '-100px'
+        })
+    }, 4000)
+}
+
+
+
+
+
+
+function bottom_success_danger(string){
+    var bottom = '0px';
+    var alert =  $("#bottom_alert_success").children('.bottom-alert-success')
+
+    if($(window).width() > 767){
+        bottom = '5px'
+    }
+
+    $(alert).html(string)
+    $(alert).css({ bottom: bottom })
+
+    setTimeout(function(){
+        $(alert).css({
+            bottom: '-100px'
+        })
+    }, 4000)
+}
+
+
+
+
+// ********* CSRF PAGE TOKEN ***********//
+function csrf_token(){
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $("meta[name='csrf_token']").attr("content")
+        }
+    });
+}
+
+
+
+
+
+// end
+})
+</script>
+
 <script type="text/javascript" src="{{ asset('web/js/popper.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('web/js/bootstrap.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('web/js/bootstrap-select.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('web/js/script.js') }}"></script>
-
-
-
-

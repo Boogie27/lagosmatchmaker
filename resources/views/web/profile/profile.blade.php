@@ -1,7 +1,12 @@
 <!-- PROFILE START-->
 <section class="profile-section">
     <div class="profile-container">
-        <div class="profile-banner" style="background-image: linear-gradient(rgba(0, 0, 0, 0.274), rgba(0, 0, 0, 0.288)) , url({{ asset('web/images/banner/1.jpg') }});">
+        <div class="profile-banner" id="profile_banner_div" style="background-image: linear-gradient(rgba(0, 0, 0, 0.274), rgba(0, 0, 0, 0.288)) , url({{ asset('web/images/banner/1.jpg') }});">
+            @if(is_loggedin() && user('id') == $user->id)
+            <div class="banner-icon">
+               <a href="#" id="profile_banner_open"><i class="fa fa-camera"></i></a>
+           </div>
+           @endif
             <div class="profile-inner-banner">
                 <div class="profile-img" id="profile_img_container">
                     <img src="{{ asset($profile_image) }}" alt="{{ $user->user_name }}">
@@ -11,13 +16,18 @@
                 </div>
                 <div class="profile-banner-body">
                     <div class="title-header text-center">
-                        <h4 class="user-display-name">{{ $display_name }}</h4>
+                        <h4 class="user-display-name">{{ $user->user_name }}</h4>
                         <p class="text-warning">{{ ucfirst($user->membership_level) }}</p>
                     </div>
                     <ul id="user_like_action_btns">
                         <li class="profile-status">
                             Status: <span class="{{ $user->is_active ? 'active' : ''}}">{{ $user->is_active ? 'Online' : 'Offline'}}</span>
                         </li>
+                        @if(is_loggedin() && user('id') == $user->id)
+                        <li class="profile-settings">
+                            <a href="{{ url('/settings') }}"><i class="fa fa-cog"></i> Settings</a>
+                        </li>
+                        @endif
                         @if(!is_loggedin())
                             <li><a href="#" class="login_confirm_modal_popup"><i class="far fa-comment"></i> Message</a></li>
                             <li><a href="#" class="login_confirm_modal_popup"><i class="fa fa-video"></i></a></li>
@@ -287,29 +297,17 @@
                         </form>
                     </div>
                 </div>
-                <div class="you-may-like"><!-- you may like start-->
-                    <div class="title-header"><h4>You May Like</h4></div>
-                    @if(count($you_may_like))
-                    <div class="you-may-like-body">
-                        <div class="row">
-                            @foreach($you_may_like as $member)
-                            @php($image = avatar($member->display_image, $member->gender))
-                            <div class="col-xl-4 col-lg-4 col-md-3 col-sm-4 col-4 like-expand"><!-- like start-->
-                                <div class="like-content">
-                                    <a href="{{ url('/profile/'.$member->id) }}">
-                                        <img src="{{ asset($image) }}" alt="{{ $member->user_name }}">
-                                    </a>
-                                </div>
-                            </div><!-- like end-->
-                            @endforeach
+                @if(is_loggedin() && user_detail()->id != $user->id)
+                <div class="profile-detail-right"> <!-- report start-->
+                    <div class="title-header"><h4>Report Members</h4></div>
+                    <div class="profile-right-form">
+                        <p>We use your feeback to help us learn when something's not right.</p>
+                        <div class="text-right">
+                            <a href="#" id="report_modal_open_btn" class="report-btn">Report</a>
                         </div>
                     </div>
-                    @else 
-                    <div class="empty-page p-3">
-                        <p>There are no members yet!</p>
-                    </div>
-                    @endif
-                </div><!-- you may like end-->
+                </div><!-- report end-->
+                @endif
             </div><!-- profile detail right end-->
         </div>
     </div>
@@ -327,8 +325,15 @@
 
 @include('web.profile.modal-popup')
 
+
+@if(is_loggedin())
+    @include('web.profile.profile-report-member-modal-popup')
+@endif
+
+
 @if(is_loggedin() && user('id') == $user->id)
     @include('web.profile.profile-image-modal-popup')
+    @include('web.profile.profile-banner-modal-popup')
     @include('web.profile.profile-detail-info-modal-popup')
     @include('web.profile.profile-about-modal-popup')
     @include('web.profile.profile-looking-for-modal-popup')

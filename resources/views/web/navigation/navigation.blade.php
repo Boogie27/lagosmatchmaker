@@ -44,6 +44,13 @@
                         </li>
                         <li>
                             <div class="notification-drop-down">
+                                <a href="{{ url('/profile/'. user('id')) }}">
+                                    <i class="fa fa-user notification-icon notification-users-icon"></i>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="notification-drop-down">
                                 <i class="far fa-bell drop-down-btn notification-icon">
                                     <span class="badge bg-danger">0</span>
                                 </i>
@@ -85,12 +92,8 @@
                     @if(is_loggedin())
                         <li>
                             <div class="notification-drop-down">
-                                <a href="{{ url('/friends') }}">
-                                    <i class="fa fa-users notification-icon notification-users-icon">
-                                        @if(nav_user_likes() > 0)
-                                        <span class="badge bg-danger">{{ nav_user_likes() }}</span>
-                                        @endif
-                                    </i>
+                                <a href="{{ url('/profile/'. user('id')) }}">
+                                    <i class="fa fa-user notification-icon notification-users-icon"></i>
                                 </a>
                             </div>
                         </li>
@@ -107,7 +110,18 @@
                         </li>
                         <li>
                             <div class="notification-drop-down">
-                                <i class="far fa-bell drop-down-btn notification-icon">
+                                <a href="{{ url('/friends') }}">
+                                    <i class="fa fa-users notification-icon notification-users-icon">
+                                        @if(nav_user_likes() > 0)
+                                        <span class="badge bg-danger">{{ nav_user_likes() }}</span>
+                                        @endif
+                                    </i>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="notification-drop-down">
+                                <i class="far fa-bell drop-down-btn notification-icon note-bell">
                                     <span class="badge bg-danger">0</span>
                                 </i>
                                 <ul class="drop-down-body ul-notification-body">

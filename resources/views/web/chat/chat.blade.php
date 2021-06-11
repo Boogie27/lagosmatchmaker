@@ -20,8 +20,8 @@
                             <div class="chat-message-content">
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/6.jpg') }}" alt="" class="">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -31,8 +31,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/29.png') }}" alt="" class="active">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -42,8 +42,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/11.jpg') }}" alt="" class="active">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -53,8 +53,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/21.jpeg') }}" alt="" class="">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -64,8 +64,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/16.jpg') }}" alt="" class="active">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -75,8 +75,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/13.jpg') }}" alt="" class="active">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -86,8 +86,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/21.jpeg') }}" alt="" class="">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -97,8 +97,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/21.jpeg') }}" alt="" class="">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -108,8 +108,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/14.jpg') }}" alt="" class="active">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -121,8 +121,9 @@
                             <br>
                             <div class="chat-profile-img">
                                 <ul class="ul-chat-profile-img">
-                                    <li>
-                                       <a href="#"><img src="{{ asset('web/images/avatar/15.jpg') }}" alt=""></a>
+                                    <li class="profile-img-img">
+                                        <h4>M</h4>
+                                       <!-- <a href="#"><img src="{{ asset('web/images/avatar/15.jpg') }}" alt=""></a> -->
                                     </li>
                                     <li class="chat-profile-right">
                                        <a href="#">
@@ -142,8 +143,8 @@
                         <div class="chat-head-left">
                             <ul>
                                 <li><a href="{{ url('/messages') }}"><i class="fa fa-arrow-left"></i></a></li>
-                                <li>
-                                    <a href="#"><img src="{{ asset($profile_image) }}" alt="" class="{{ $receiver->is_active ? 'active' : '' }}"></a>
+                                <li class="chat-profile-img {{ $receiver->is_active ? 'active' : '' }}">
+                                    <h4>{{ $profile_image }}</h4>
                                 </li>
                                 <li><h5>{{ ucfirst($display_name) }}</h5></li>
                             </ul>

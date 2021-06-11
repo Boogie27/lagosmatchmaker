@@ -30,12 +30,12 @@
             <div class="col-xl-12"><!-- profile detail left end-->
                 @foreach($friends as $friend)
                 @php($display_name = $friend->display_name ? ucfirst($friend->display_name) : ucfirst($friend->user_name))
-                @php($image =  avatar($friend->display_image, $friend->gender))
+                @php($image = $friend->gender == 'male' ? 'M' : 'F')
                 <div class="firends-main-body"><!-- firend start-->
                     <div class="friends-inner-content">
                         <div class="message-img">
                             <i class="fa fa-circle {{ $friend->is_active ? 'active' : '' }}"></i>   
-                            <a href="{{ url('/profile/'.$friend->id) }}"><img src="{{ asset($image) }}" alt="{{ $display_name }}"></a>
+                            <h4>{{ $image }}</h4>
                         </div>
                         <ul class="ul-friends">
                             <li>

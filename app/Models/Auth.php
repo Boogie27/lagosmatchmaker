@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
@@ -53,16 +54,18 @@ class Auth extends Model
                 
                 if($remember_me)
                 {
-                    $cookie_expiry = 604800;
+                    $cookie_expiry = 8640;
                     $cookie_hash = uniqid();
 
-                    if($user->remember_me)
-                    {
-                        $cookie_hash = $user->remember_me;
-                        Cookie::forget('remember_me');
-                    }
+                    // if($user->remember_me)
+                    // {
+                    //     $cookie_hash = $user->remember_me;
+                    //     Cookie::forget('remember_me');
+                    // }
         
-                    Cookie::make('remember_me', $cookie_hash, $cookie_expiry);
+                    // $response = new Response('true');
+                    // $response->withCookie(cookie('lagosmatchmaker_remember_me', $cookie_hash, $cookie_expiry));
+                   
                 }else if($user->remember_me){
                     $cookie_hash = $user->remember_me;
                 }

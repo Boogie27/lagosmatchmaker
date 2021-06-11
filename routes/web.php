@@ -38,7 +38,6 @@ Route::get("/login", [ClientController::class, "login_index"]);
 Route::post("/login", [ClientController::class, "login_store"]);
 
 
-
 // ************ LOGOUT SECTION ***************//
 Route::get("/logout", [ClientController::class, "logout"]);
 Route::post("/ajax-logout", [ClientAjaxController::class, "ajax_logout"]);
@@ -66,6 +65,10 @@ Route::post("/ajax-get-physical-info", [ClientAjaxController::class, "ajax_get_p
 Route::post("/fetch-all-avatar", [ClientAjaxController::class, "ajax_fetch_all_avatar"]);
 Route::post("/upload-profile-image", [ClientAjaxController::class, "ajax_upload_profile_image"]);
 Route::post("/ajax-login-check", [ClientAjaxController::class, "ajax_login_check"]);
+Route::post("/ajax-get-profile-banners", [ClientAjaxController::class, "ajax_get_profile_banners"]);
+
+
+
 
 
 // ************ MEMBER SECTION ***************//
@@ -128,6 +131,60 @@ Route::get("/success", [ClientController::class, "success_index"]);
 
 // ************* FRIENDS SECTION ********************//
 Route::get("/friends", [ClientController::class, "friends_index"]);
+
+
+
+
+// ************ NEWS LETTER SECTION ******************//
+Route::get("/unsubscribe-newsletter", [ClientController::class, "unsubescribe_newsletter"]);
+Route::post("/ajax-newsletter-subscription", [ClientAjaxController::class, "ajax_newsletter_subscription"]);
+Route::post("/ajax-newsletter-unsubscription", [ClientAjaxController::class, "ajax_newsletter_unsubscription"]);
+
+
+// ************ CONTACT SECTION ******************//
+Route::get("/contact", [ClientController::class, "contact_index"]);
+Route::post("/contact", [ClientController::class, "contact_store"]);
+
+
+// ************ SETTINGS SECTION ******************//
+Route::get("/settings", [ClientController::class, "settings_index"]);
+Route::post("/update-username", [ClientController::class, "update_username_update"]);
+Route::post("/change-password", [ClientController::class, "change_password_update"]);
+
+
+
+
+// ************ REPORT SECTION ******************//
+Route::get("/report-member", [ClientController::class, "report_index"]);
+Route::post("/ajax-report-member", [ClientAjaxController::class, "ajax_report_member"]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

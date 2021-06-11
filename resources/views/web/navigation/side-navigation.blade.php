@@ -11,8 +11,14 @@
             <li><a href="{{ url('/friends') }}">Friends</a></li>
             <li><a href="{{ url('/subscription') }}">Subscription</a></li>
             <li><a href="{{ url('/how-it-works') }}">How it works</a></li>
+            @if(is_loggedin())
+            <li><a href="{{ url('/profile/'.user('id')) }}">Profile</a></li>
+            <li><a href="{{ url('/settings') }}">Settings</a></li>
+            <li><a href="{{ url('/logout') }}" id="mobile_logout_modal_open_btn">Logout</a></li>
+            @else
             <li><a href="{{ url('/login') }}">Login</a></li>
             <li><a href="{{ url('/register') }}">Register</a></li>
+            @endif
         </ul>
     </div>
 </div>

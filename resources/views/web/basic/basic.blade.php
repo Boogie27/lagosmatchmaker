@@ -11,15 +11,12 @@
                 @if(count($basics))
                 <div class="row">
                     @foreach($basics as $basic)
-                    @php($image =  avatar($basic->display_image, $basic->gender))
+                    @php($image = $basic->gender == 'male' ? 'M' : 'F')
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"><!-- member start-->
                         <div class="member-inner-div"> 
                             <div class="member-img">
                                 <div class="member-img-img">
-                                    <a href="{{ url('/profile/'.$basic->id) }}">
-                                        <img src="{{ asset($image) }}" alt="{{ $basic->user_name}}">
-                                    </a>
-                                    <i class="fa fa-circle {{ $basic->is_active ? 'active' : '' }}"></i>
+                                    <h4><a href="{{ url('/profile/'.$basic->id) }}">{{ $image }}</a></h4>
                                 </div>
                                 <ul class="ul-member-anchor">
                                    <li><a href="{{ url('/chat') }}"><i class="far fa-envelope"></i></a></li>
@@ -39,7 +36,6 @@
                                 </div>
                                 <div class="member-info-container">
                                     <ul class="ul-member-body">
-                                        <li>Looking for: <span>{{ $basic->looking_for ?? '' }}</span></li>
                                         <li>Marital status: <span>{{ $basic->marital_status ?? '' }}</span></li>
                                         <li>Genotype: <span>{{ $basic->genotype ?? '' }}</span></li>
                                         <li>Height: <span>{{ $basic->height ?? '' }}</span></li>

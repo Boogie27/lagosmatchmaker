@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use App\Models\User;
 use App\Models\Auth;
 use App\Models\Paystack;
 use App\Models\Chat;
+use App\Models\ContactUs;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
 use Session;
 use Cookie;
-use Validator;
+// use Validator;
 
 
 class ClientController extends Controller
@@ -115,6 +117,11 @@ class ClientController extends Controller
 
     public function login_index()
     {
+        if(Cookie::has('lagosmatchmaker_remember_me'))
+        {
+            dd(Cookie::get('lagosmatchmaker_remember_me'));
+        }
+        
         if(Auth::is_loggedin())
         {
             return redirect('/');
@@ -141,6 +148,17 @@ class ClientController extends Controller
             return back()->with('error', 'Wrong email or password, try again!');
         }
 
+
+        if($request->remember_me)
+        {
+            $cookie_expiry = 8640;
+            $cookie_hash = uniqid();
+
+            Cookie::queue('lagosmatchmaker_remember_me', $cookie_hash, $cookie_expiry);
+            
+            return back();
+        }
+
         if(Auth::login($request->email, $request->remember_me))
         {
             if(Session::has('old_url'))
@@ -159,7 +177,6 @@ class ClientController extends Controller
         }
         return back()->with('error', 'Network error, try again!');
     }
-
 
 
 
@@ -259,9 +276,13 @@ class ClientController extends Controller
             return redirect('/');
         }
 
+        $reports = DB::table('reports')->where('is_featured', 1)->get(); // aget all reports
+        
         $states = DB::table('states')->where('is_featured', 1)->get(); // aget all states
 
-        $avatars = DB::table('avatars')->where('is_featured', 1)->get(); //get all avatars 
+        $avatars = DB::table('avatars')->where('is_featured', 1)->get(); //get all avatars
+        
+        $banners = DB::table('banners')->where('is_featured', 1)->get(); //get all banners
 
         $genotypes = DB::table('genotypes')->where('is_featured', 1)->get(); //get all genotypes options
 
@@ -294,7 +315,8 @@ class ClientController extends Controller
         }
 
 
-        return view('web.profile', compact('marital_status', 'was_liked', 'you_liked','states', 'user', 'profile_image', 'display_name', 'gender', 'you_may_like', 'smokings', 'drinkings', 'heights', 'weights', 'body_types', 'ethnicities', 'genotypes', 'avatars'));
+
+        return view('web.profile', compact('reports', 'banners', 'marital_status', 'was_liked', 'you_liked','states', 'user', 'profile_image', 'display_name', 'gender', 'you_may_like', 'smokings', 'drinkings', 'heights', 'weights', 'body_types', 'ethnicities', 'genotypes', 'avatars'));
     }
 
 
@@ -489,7 +511,7 @@ class ClientController extends Controller
 
         $display_name = $receiver->display_name ? $receiver->display_name : $receiver->user_name; //user name
 
-        $profile_image =  avatar($receiver->display_image, $receiver->gender); //get user image
+        $profile_image =  $receiver->gender == 'male' ? 'M' : 'F'; //get user image
 
         // set sender chat to seen
         $seen_chats = Chat::where('sender_id', $receiver_id)->where('is_seen', 0)->get();
@@ -791,7 +813,144 @@ class ClientController extends Controller
     }
 
 
+
+
+
+
+    public function unsubescribe_newsletter(){
+       return view('web.unsubscribe-newsletter');
+    }
+    
+
+
+    public function contact_index(){
+        return view('web.contact');
+    }
+     
+    
+
+
+    public function contact_store(Request $request){
+        $request->validate([
+            'full_name' => 'required|min:3|max:100',
+            'email' => 'required|email',
+            'comment' => 'required|min:6|max:5000|',
+        ]);
+        
+        $create = ContactUs::create([
+            'full_name' => $request->full_name,
+            'email' => $request->email,
+            'comment' => $request->comment,
+        ]);
+
+        if($create)
+        {
+            return back()->with('success', 'Message sent successfully');
+        }
+        return back()->with('error', 'Network error, try again later');
+    }
+     
   
+
+
+
+    public function settings_index(){
+        if(!Auth::is_loggedin())
+        {
+            return redirect('/');
+        }
+        return view('web.settings');
+    }
+    
+
+
+
+
+
+    public function update_username_update(Request $request){
+        $request->validate([
+            'username' => 'required|min:3|max:100',
+        ]);
+
+        $user = User::where('id', Auth::user('id'))->where('email', Auth::user('email'))->where('user_name', $request->username)->first();
+        if(!$user)
+        {
+            $check = User::where('user_name', $request->username)->get();
+            if(count($check))
+            {
+                return back()->with('error-username', '*Username already exists');
+            }
+        }
+
+
+        $current_user = User::where('id', Auth::user('id'))->where('email', Auth::user('email'))->first();
+        $current_user->user_name = $request->username;
+        if($current_user->save())
+        {
+            Auth::login(Auth::user('email'));
+            return back()->with('success-username', 'User name updated successfully');
+        }
+
+        return back()->with('error-username', 'Network error, try again later');
+    }
+    
+
+
+
+
+
+
+    public function change_password_update(Request $request){
+        $request->validate([
+            'old_password' => 'required|min:6|max:12',
+            'new_password' => 'required|min:6|max:12|same:confirm_password',
+            'confirm_password' => 'required|min:3|max:100',
+        ]);
+
+        $user = User::where('id', Auth::user('id'))->where('email', Auth::user('email'))->first();
+        if(!$user || !Hash::check($request->old_password, $user->password))
+        {
+            return back()->with('error-password', 'Wrong old password, try again!');
+        }
+
+        if($user)
+        {
+            $user->password = hash::make($request->new_password);
+            $user->save();
+            return back()->with('success-password', 'Password updated successfully');
+        }
+
+
+
+        return back()->with('error-password', 'Network error, try again later');
+    }
+    
+
+
+
+
+    public function report_index(){
+        return view('web.report');
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     
     // end

@@ -54,6 +54,39 @@ a {
     height: 16px;
     color: rgb(202, 0, 0);
 }
+
+/* ***********BOTTOM ALERT *********** */
+.bottom-alert{
+    height: 0px;
+}
+.bottom-alert-danger, .bottom-alert-success{
+    z-index: 10;
+    right: 3px;
+    bottom: -100px;
+    width: 450px;
+    position: fixed;
+    padding: 15px 5px;
+    font-size: 13px;
+    border-radius: 4px;
+    text-align: center;
+    color: rgb(202, 0, 0);
+    transition: all 0.2s ease;
+    border: 1px solid rgb(253, 71, 71);
+    background-color: rgb(230, 140, 140);
+}
+.bottom-alert-success{
+    color: green;
+    border: 1px solid rgb(68, 247, 68);
+    background-color: rgb(170, 250, 170);
+}
+@media only screen and (max-width: 767px){
+    .bottom-alert-danger, .bottom-alert-success{
+        width: 100%;
+        right: 0px;
+        border-radius: 0px;
+    }
+
+}
 /* ********** EMPTY PAGE ************ */
 .empty-page p{
     color: #fff;
@@ -183,6 +216,10 @@ ul.nav-right-small li{
 }
 ul.nav-right-small li .notification-icon i{
     font-size: 19px;
+}
+i.note-bell{
+    top: 6px;
+    position: relative;
 }
 ul.nav-right-small li a{
     color: rgb(196, 142, 44);
@@ -833,13 +870,19 @@ ul.ul-logout li p{
 .avatar-img{
     display: inline-block;
 }
-.avatar-img img{
+.avatar-img{
     width: 80px;
-    height: 80px;
+    height: 80px; 
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: rgba(247, 208, 136, 0.39);
+}
+.avatar-img img{
+    width: 100%;
     border-radius: 3px;
     border: 2px solid transparent;
 }
-.avatar-img img:hover{
+.avatar-img:hover{
     border: 2px solid rgb(196, 142, 44);
 }
 .avatar-img-preview{
@@ -916,7 +959,141 @@ ul.ul-logout li p{
     }
 }
 
-
+/* ********* PROFILE BANNER MODAL *************** */
+.toggle-popup-modal{
+    display: none;
+}
+.banner-modal-container{
+    top: 0px;
+    width: 100%;
+    z-index: 20;
+    height: 100vh;
+    position: fixed;
+    display: table;
+    text-align: center; 
+}
+.banner-modal-dark-theme{
+    width: 100%;
+    height: 100vh;
+    padding: 0px 20px;
+    display: table-cell;
+    vertical-align: middle;
+    background-color: rgba(0, 0, 0, 0.623);
+}
+.banner-inner-content{
+    width: 80%;
+    border-radius: 5px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: #fff;
+}
+.banner-inner-content .title-header{
+    padding: 30px 0px;
+}
+.banner-inner-content .title-header h4{
+   color: #555;
+   font-size: 20px;
+}
+.banner-body-container{
+    display: flex;
+}
+.banner-preview-container{
+    width: 30%;
+    padding: 0px 10px;
+}
+.banner-preview{
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+}
+.banner-preview img{
+    width: 100%;
+}
+.banner-body{
+    width: 75%;
+    height: 300px;
+    overflow-y: scroll;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.banner-body::-webkit-scrollbar{
+    width: 0px;
+}
+.banner-body ul{
+    padding: 10px 0px;
+}
+.banner-body ul li{
+    width: 170px;
+    height: 80px;
+    overflow: hidden;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    display: inline-block;
+    border: 2px solid transparent;
+    background-color: rgba(228, 228, 228, 0.589);
+}
+.banner-body ul li:hover{
+    opacity: 0.9;
+    border: 2px solid rgb(196, 142, 44);
+}
+.banner-body ul li img{
+    width: 100%;
+}
+@media only screen and (max-width: 1125px){
+    .banner-inner-content{
+        width: 95%;
+    }
+}
+@media only screen and (max-width: 992px){
+    .banner-inner-content{
+        width: 100%;
+    }
+    .banner-body ul li{
+        width: 140px;
+        height: 60px;
+    }
+    .banner-preview-container{
+        width: 40%;
+        padding: 0px 10px;
+    }
+    .banner-body{
+        width: 60%;
+    }
+}
+@media only screen and (max-width: 810px){
+    .banner-body-container{
+        display: block;
+    }
+    .banner-preview-container{
+        width: 100%;
+    }
+    .banner-preview img{
+        width: 400px;
+    }
+    .banner-body{
+        width: 100%;
+        margin-top: 30px;
+    }
+}
+@media only screen and (max-width: 567px){
+    .banner-preview img{
+        width: 300px;
+    }
+    .banner-body ul li{
+        width: 100px;
+        height: 50px;
+    }
+}
+@media only screen and (max-width: 398px){
+    .banner-preview img{
+        width: 250px;
+    }
+}
+@media only screen and (max-width: 320px){
+    .banner-preview img{
+        width: 100%;
+    }
+}
 
 /* ******* NEW MEMBERS ********** */
 .new-people-container{
@@ -1147,6 +1324,10 @@ ul.ul-footer-about li p{
     font-size: 12px;
     margin-bottom: 15px;
 }
+ul.ul-footer-about li a{
+    font-size: 12px;
+    color: rgb(196, 142, 44);
+}
 .news-letter-btn{
     color: #fff;
     padding: 10px 30px;
@@ -1323,6 +1504,7 @@ ul.ul-footer-links li a i{
 .profile-inner-banner{
     position: relative;
     display: flex;
+    height: 250px;
 }
 .background-img{
     width: 100%;
@@ -1381,11 +1563,6 @@ ul.ul-footer-links li a i{
     bottom: 10px;
     left: 50px;
 }
-
-
-
-
-
 .profile-banner-body ul li{
     margin-left: 20px;
     display: inline-block;
@@ -1467,6 +1644,23 @@ ul.ul-p-option-body li a{
 ul.ul-p-option-body li a:hover{
     background-color:  rgb(255, 195, 83);
  }
+.banner-icon{
+    height: 0px;
+    text-align: right;
+    position: relative;
+}
+.banner-icon a{
+    right: 0px;
+    z-index: 10;
+    padding: 5px 7px;
+    cursor: pointer;
+    position: absolute;
+    color: rgb(196, 142, 44);
+    transition: color 0.2s ease;
+}
+.banner-icon a:hover{
+    color: #fff;
+}
 @media only screen and (max-width: 1125px){
     .profile-container{
         width: 100%;
@@ -1787,7 +1981,8 @@ ul.ul-profile-detail li p.detail-about-p{
     width: 100px;
     height: 100px;
     margin: 0 auto;
-    overflow: hidden;
+    display: table;
+    text-align: center;
     margin-bottom: 20px;
     margin-top: 10px;
     position: relative;
@@ -1795,9 +1990,15 @@ ul.ul-profile-detail li p.detail-about-p{
     background-color: #fff;
     border: 2px solid rgb(196, 142, 44);
 }
-.member-img-img img{
-    width: 100%;
-    background-color: #fff;
+.member-img-img h4{
+    font-size: 40px;
+    display: table-cell;
+    color: rgb(196, 142, 44);
+    vertical-align: middle;
+}
+.member-img-img h4 a{
+    text-decoration: none;
+    color: rgb(196, 142, 44);
 }
 .member-body-div{
     color: #fff;
@@ -1806,7 +2007,7 @@ ul.ul-profile-detail li p.detail-about-p{
 }
 .member-body-div .direction i{
     right: -5px;
-    z-index: 20;
+    z-index: 10;
     cursor: pointer;
     padding: 3px 7px;
     border-radius: 4px;
@@ -1979,8 +2180,16 @@ ul.ul-member-body li span{
 .message-img{
     width: 70px;
     height: 70px; 
+    display: table;
+    text-align: center;
     border-radius: 50%;
     position: relative;
+    background-color: #fff;
+}
+.message-img h4{ 
+    display: table-cell;
+    vertical-align: middle;
+    color: rgb(196, 142, 44);
 }
 .message-img i{
     bottom: 3px;
@@ -1994,13 +2203,6 @@ ul.ul-member-body li span{
     color:  rgb(57, 236, 57);
 }
 
-.message-img img{
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background-color: #fff;
-    border: 2px solid rgb(196, 142, 44);
-}
 ul.ul-message{
     width: 90%;
     top: 7px;
@@ -2638,6 +2840,24 @@ ul.ul-chat-message li img{
 ul.ul-chat-message li img.active{
     border: 2px solid rgb(80, 246, 80);
 }
+ul.ul-chat-message li.chat-profile-img{
+    width: 50px;
+    height: 50px;
+    display: table;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid rgb(250, 53, 53);
+}
+ul.ul-chat-message li.chat-profile-img.active{
+    border: 2px solid rgb(80, 246, 80);
+}
+ul.ul-chat-message li.chat-profile-img h4{
+    font-size: 18px;
+    display: table-cell;
+    vertical-align: middle;
+    color: rgb(196, 142, 44);
+}
 ul.ul-chat-message li h5{
     font-size: 13px;
 }
@@ -2667,10 +2887,19 @@ ul.ul-chat-profile-img{
     color: inherit;
     text-decoration: none;
 }
-ul.ul-chat-profile-img li img{
+ul.ul-chat-profile-img li.profile-img-img{
     width: 40px;
     height: 40px;
+    display: table;
+    text-align: center;
     border-radius: 50%;
+    background-color: #fff;
+}
+ul.ul-chat-profile-img li.profile-img-img h4{
+    font-size: 15px;
+    display: table-cell;
+    color: rgb(196, 142, 44);
+    vertical-align: middle;
 }
 ul.ul-chat-profile-img li h5{
    font-size: 12px;
@@ -2705,22 +2934,30 @@ ul.ul-chat-profile-img li.chat-profile-right{
 .chat-head-left a i.fa-arrow-left:hover{
     background-color:  rgb(104, 104, 104);
 }
-.chat-head-left ul li{
-    display: inline-block;
+.chat-head-left ul{
+    display: flex;
+    align-items: center;
 }
-.chat-head-left ul li img{
-    width: 50px;
-    height: 50px;
+.chat-head-left ul li.chat-profile-img{
+    width: 45px;
+    height: 45px;
+    margin: 0px;
+    font-size: 20px;
+    display: table;
+    text-align: center;
     border-radius: 50%;
-}
-.chat-head-left ul li img{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    background-color: #fff;
     border: 2px solid rgb(250, 53, 53);
 }
-.chat-head-left ul li img.active{
+.chat-head-left ul li.chat-profile-img.active{
     border: 2px solid rgb(80, 246, 80); 
+}
+.chat-head-left ul li h4{
+    font-size: 20px;
+    margin: 0px;
+    display: table-cell;
+    vertical-align: middle;
+    color:  rgb(196, 142, 44);
 }
 .chat-head-left ul li h5{
     font-size: 12px;
@@ -3184,7 +3421,7 @@ ul.ul-right-chatting li.chat-time{
 @media only screen and (max-width: 767px){
     .edit-info-container{
         width: 100%;
-        height: 500px;
+        height: 600px;
         overflow-y: scroll;
     }
     .edit-info-container::-webkit-scrollbar{
@@ -3194,6 +3431,11 @@ ul.ul-right-chatting li.chat-time{
 @media only screen and (max-width: 567px){
     .form-input-popup{
         padding: 20px 10px;
+    }
+}
+@media only screen and (max-width: 398px){
+    .edit-info-container{
+        height: 500px;
     }
 }
 
@@ -3423,18 +3665,160 @@ ul.ul-how-it-work li.hiw-button a:hover{
 
 
 
+/* *********** UNSUBSCRIBE NEWLETTER ************ */
+.news-letter-section{
+    background-color: rgb(27, 27, 27);
+}
+.unsubcribe-newsletter{
+    width: 50%;
+    margin: 0 auto;
+    padding: 50px 0px;
+}
+.unsubcribe-newsletter form input, .unsubcribe-newsletter form input:focus, .unsubcribe-newsletter form textarea, .unsubcribe-newsletter form textarea:focus{
+    border: none;
+    font-size: 13px;
+    padding: 25px 10px;
+    border-radius: 0px;
+    color: rgb(151, 151, 151);
+    background-color: rgb(15, 15, 15);
+}
+.unsubcribe-newsletter form input:focus, .unsubcribe-newsletter form textarea:focus{
+    box-shadow: none;
+    color:  rgb(196, 142, 44);
+}
+.unsubcribe-newsletter form button{
+    width: 100%;
+    padding: 10px 0px;
+}
+@media only screen and (max-width: 1125px){
+    .unsubcribe-newsletter{
+        width: 60%;
+    }  
+}
+@media only screen and (max-width: 992px){
+    .unsubcribe-newsletter{
+        width: 80%;
+    }  
+}
+@media only screen and (max-width: 567px){
+    .unsubcribe-newsletter{
+        width: 100%;
+        padding: 50px 10px;
+    } 
+}
 
 
 
+/* ************ SETTINGS SECTION ************ */
+.settings-section{
+    padding: 50px 0px;
+    background-color:  rgb(24, 24, 24);
+}
+.setting-container{
+    width: 60%;
+    margin: 0 auto;
+}
+.settings-body{
+    margin-bottom: 150px;
+    border-radius: 10px 10px 0px 0px;
+    background-color: rgb(39, 39, 39);
+}
+.settings-body .title-header{
+    padding: 10px 0px;
+    border-radius: 4px 4px 0px 0px;
+    border: 1px solid rgb(24, 24, 24);
+}
+.settings-body .title-header h4{
+    font-size: 18px;
+    padding: 0px 10px;
+    margin: 0px;
+}
+.settings-body .title-header p{
+    font-size: 11px;
+    padding: 0px 10px;
+    margin: 0px;
+}
+.content-body-body{
+    padding: 20px 10px;
+}
+.settings-body form input, .settings-body form input:focus, .settings-body form textarea, .settings-body form textarea:focus{
+    border: none;
+    font-size: 13px;
+    padding: 25px 10px;
+    border-radius: 0px;
+    color: rgb(151, 151, 151);
+    background-color: rgb(15, 15, 15);
+}
+.settings-body form input:focus, .settings-body form textarea:focus{
+    box-shadow: none;
+    color:  rgb(196, 142, 44);
+}
+@media only screen and (max-width: 1125px){
+    .setting-container{
+        width: 80%;
+    } 
+}
+@media only screen and (max-width: 992px){
+    .setting-container{
+        width: 90%;
+    }  
+}
+@media only screen and (max-width: 567px){
+    .setting-container{
+        width: 100%;
+        padding: 0px 10px;
+    } 
+    .settings-body form button{
+        width: 100%;
+    }
+}
 
 
 
-
-
-
-
-
-
-
-
-
+/* *********** REPORT SECTION *********** */
+a.report-btn{
+    font-size: 12px;
+    text-decoration: none;
+    color: rgb(196, 142, 44);
+}
+a.report-btn:hover{
+    color: rgb(195, 127, 0);
+}
+ul.ul-report{
+    text-align: center;
+    margin-bottom: 10px;
+}
+ul.ul-report li{
+    margin: 0px 10px 10px 10px;
+    display: inline-block;
+}
+ul.ul-report li a{
+    display: block;
+    font-size: 14px;
+    padding: 5px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: rgb(196, 142, 44);
+    background-color: #fff;
+}
+ul.ul-report li a.active{
+    color: #fff;
+    background-color: rgb(196, 142, 44);
+}
+.report-form{
+    display: none;
+    margin-top: 50px;
+}
+.report-form h4{
+    color: #fff;
+    font-size: 17px;
+}
+.report-form p{
+    color: rgb(196, 142, 44);
+    font-size: 11px;
+}
+.report-bottom p{
+    color: #ccc;
+    font-size: 11px;
+    text-align: center;
+}

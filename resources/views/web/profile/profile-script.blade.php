@@ -88,6 +88,14 @@ $("#detail_info_edit_btn_open").click(function(e){
 
 
 
+// ********* REPORT MEMBER MODAL OPEN ***********//
+$("#report_modal_open_btn").click(function(e){
+    e.preventDefault()
+    $("#report_member_section").show()
+})
+
+
+
 // ********* OPEN ABOUT ME MODAL ***********//
 $("#about_me_edit_btn_open").click(function(e){
     e.preventDefault()

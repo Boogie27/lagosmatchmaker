@@ -8,8 +8,11 @@ use App\Models\User;
 use App\Models\Auth;
 use App\Models\Image;
 use App\Models\Chat;
+use App\Models\Newsletter;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+
+
 
 use Session;
 use Cookie;
@@ -911,6 +914,180 @@ class ClientAjaxController extends Controller
        return response()->json(['data' => $data]);
    }
     
+
+
+
+
+    public function ajax_get_profile_banners(Request $request)
+    {
+        if($request->ajax())
+        {
+            $user = $this->user_detail();
+            $banners = DB::table('banners')->where('is_featured', 1)->get(); //get all banners
+            
+            return view('web.common.ajax-profile-banner', compact('user', 'banners'));
+        }
+        return response()->json(['error' => true]);
+    }
+   
+
+
+
+
+
+
+    public function ajax_newsletter_subscription(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email|unique:newsletters',
+            ]);
+
+            if(!$validator->passes())
+            {
+                return response()->json(['error' => $validator->errors()]);
+            }
+            
+            if($validator->passes())
+            {
+                $create = Newsletter::create([
+                    'email' => $request->email
+                ]);
+                if($create)
+                {
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
+
+
+
+
+
+
+    public function ajax_newsletter_unsubscription(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email',
+            ]);
+
+            if(!$validator->passes())
+            {
+                return response()->json(['error' => $validator->errors()]);
+            }
+
+            if($validator->passes())
+            {
+                $check = Newsletter::where('email', $request->email)->first();
+                if(!$check)
+                {
+                    return response()->json(['error' => ['email' => '*Email does not exists']]);
+                }
+                
+
+                if($check)
+                {
+                    $check->delete();
+                    $data = true;            
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+    
+
+    public function ajax_report_member(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;  
+            if($request->report_id == 'other')
+            {
+                $validator = Validator::make($request->all(), [
+                    'other_report' => 'required|max:1000',
+                ]);
+    
+                if(!$validator->passes())
+                {
+                    return response()->json(['error' => $validator->errors()]);
+                }  
+                
+                $report = $request->other_report;
+            }
+
+            if($request->report_id != 'other')
+            {
+                $get_report = DB::table('reports')->where('id', $request->report_id)->first();
+                if($get_report)
+                {
+                    $report = $get_report->report;
+                }
+            }
+            
+            $user_id = $request->user_id;
+            $is_friends = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('acceptor_id', $user_id)
+                            ->orWhere(function($query) use ($user_id){
+                                $query->where('initiator_id', $user_id)->where('acceptor_id', Auth::user('id'))->first();
+                            })->first();
+
+            if(!$is_friends)
+            {
+                return response()->json(['not_friends' => true]);
+            }
+
+             if($request->report_id == 'other' || $request->report_id != 'other')
+            {
+                $create_report = DB::table('user_reports')->insert([
+                    'reporter_id' => Auth::user('id'),
+                    'reported_id' => $request->user_id,
+                    'report' => $report,
+                ]);
+                
+                if($create_report)
+                {
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

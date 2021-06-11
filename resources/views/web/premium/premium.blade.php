@@ -11,15 +11,12 @@
                 @if(count($premiums))
                 <div class="row">
                     @foreach($premiums as $premium)
-                    @php($image =  avatar($premium->display_image, $premium->gender))
+                    @php($image = $premium->gender == 'male' ? 'M' : 'F')
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"><!-- member start-->
                         <div class="member-inner-div"> 
                             <div class="member-img">
                                 <div class="member-img-img">
-                                    <a href="{{ url('/profile/'.$premium->id) }}">
-                                        <img src="{{ asset($image) }}" alt="{{ $premium->user_name}}">
-                                    </a>
-                                    <i class="fa fa-circle {{ $premium->is_active ? 'active' : '' }}"></i>
+                                    <h4><a href="{{ url('/profile/'.$premium->id) }}">{{ $image }}</a></h4>
                                 </div>
                                 <ul class="ul-member-anchor">
                                    <li><a href="{{ url('/chat') }}"><i class="far fa-envelope"></i></a></li>
@@ -39,7 +36,6 @@
                                 </div>
                                 <div class="member-info-container">
                                     <ul class="ul-member-body">
-                                        <li>Looking for: <span>{{ $premium->looking_for ?? '' }}</span></li>
                                         <li>Marital status: <span>{{ $premium->marital_status ?? '' }}</span></li>
                                         <li>Genotype: <span>{{ $premium->genotype ?? '' }}</span></li>
                                         <li>Height: <span>{{ $premium->height ?? '' }}</span></li>

@@ -30,13 +30,11 @@
                 @foreach($messages as $message)
                     @php($last_chat = last_chat($message->id))
                     @php($unread_message = unread($message->id))
-                    @php($image =  avatar($message->display_image, $message->gender))
+                    @php($image = $message->gender == 'male' ? 'M' : 'F')
                     <div class="message-inner-content">
                         <div class="message-img">
-                            <a href="{{ url('/chat/'.$message->id) }}">
-                                <i class="fa fa-circle {{ $message->is_active ? 'active' : '' }}"></i>   
-                                <img src="{{ asset($image) }}" alt="{{ $message->user_name }}">
-                            </a>
+                            <i class="fa fa-circle {{ $message->is_active ? 'active' : '' }}"></i>   
+                            <h4>{{ $image }}</h4>
                         </div>
                         <ul class="ul-message">
                             <li>

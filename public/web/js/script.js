@@ -60,17 +60,18 @@ $('select').selectpicker();
 
 
 // ********** OPEN SIDE NAVIGATION ************//
-function open_mobile_navigation(){
-    $(".side-navigation-open-button").click(function(e){
-        e.preventDefault()
+$(".side-navigation-open-button").click(function(e){
+    e.preventDefault()
+    open_mobile_navigation()
+})
 
-        $("#side_dark_theme").show()
-        $("#side_nav_content").css({
-            left: '0px',
-        })
+function open_mobile_navigation(){
+    $("#side_dark_theme").show()
+    $("#side_nav_content").css({
+        left: '0px',
     })
 }
-open_mobile_navigation()
+
 
 
 
@@ -79,17 +80,18 @@ open_mobile_navigation()
 
 
 // ********** CLOSE SIDE NAVIGATION ************//
-function close_mobile_navigation(){
-    $("#side_nav_close").click(function(e){
-        e.preventDefault()
+$("#side_nav_close").click(function(e){
+    e.preventDefault()
+    close_mobile_navigation()
+})
 
-        $("#side_dark_theme").hide()
-        $("#side_nav_content").css({
-            left: '-500px',
-        })
+function close_mobile_navigation(){
+    $("#side_dark_theme").hide()
+    $("#side_nav_content").css({
+        left: '-500px',
     })
 }
-close_mobile_navigation()
+
 
 
 
@@ -156,11 +158,7 @@ $("#smooth_scroll_btn").click(function(e){
 
 
 
-// *********** LOGOUT MODAL BTN CANCLE ***********//
-$("#logout_user_cancle_btn").click(function(e){
-    e.preventDefault()
-    $("#logout_preloader_container").hide()
-})
+
 
 
 
@@ -182,6 +180,23 @@ $(window).click(function(e){
 $("#logout_modal_open_btn").click(function(e){
     e.preventDefault();
     $("#logout_preloader_container").show();
+})
+
+
+// *********** MOBILE LOGOUT MODAL BTN CANCLE ***********//
+$("#mobile_logout_modal_open_btn").click(function(e){
+    e.preventDefault()
+    close_mobile_navigation()
+    $("#logout_preloader_container").show();
+})
+
+
+
+
+// *********** LOGOUT MODAL BTN CANCLE ***********//
+$("#logout_user_cancle_btn").click(function(e){
+    e.preventDefault()
+    $("#logout_preloader_container").hide()
 })
 
 
@@ -297,6 +312,11 @@ $(".member_angle_up").click(function(e){
         scrollTop: 0
     })
 })
+
+
+
+
+
 
 
 
