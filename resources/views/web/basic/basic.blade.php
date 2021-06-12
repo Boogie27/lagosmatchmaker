@@ -12,16 +12,31 @@
                 <div class="row">
                     @foreach($basics as $basic)
                     @php($image = $basic->gender == 'male' ? 'M' : 'F')
+                    @php($name = $basic->display_name ? ucfirst($basic->display_name) : ucfirst($basic->user_name))
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"><!-- member start-->
                         <div class="member-inner-div"> 
                             <div class="member-img">
                                 <div class="member-img-img">
                                     <h4><a href="{{ url('/profile/'.$basic->id) }}">{{ $image }}</a></h4>
                                 </div>
-                                <ul class="ul-member-anchor">
-                                   <li><a href="{{ url('/chat') }}"><i class="far fa-envelope"></i></a></li>
-                                   <li><a href="#" class="profile_like_member"><i class="far fa-heart"></i></a></li>
-                                   <li><a href="#" class="video_call_open_btn" id="{{ $basic->id }}"><i class="fa fa-video"></i></a></li>
+                                <ul class="ul-member-anchor" id="ul_member_anchor">
+                                    @if(!is_loggedin())
+                                    <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-envelope"></i></a></li>
+                                    <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-heart"></i></a></li>
+                                    <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="fa fa-video"></i></a></li>
+                                    @else
+                                        @if(user('id') != $basic->id && !get_like($basic->id))
+                                        <li><a href="{{ url('/ajax-like-user') }}" data-links="{{ url('/ajax-get-member-links') }}" data-url="{{ current_url() }}" data-name="{{ $name }}" class="like-a-member-btn" id="{{ $basic->id }}"><i class="far fa-heart"></i></a></li>
+                                        @endif
+                                        @if(user('id') != $basic->id && get_like($basic->id) && get_like($basic->id)->is_accept)
+                                        <li><a href="{{ url('/chat/'.$basic->id) }}" data-name="{{ $name }}" id="{{ $basic->id }}"><i class="far fa-envelope"></i></a></li>
+                                        <li><a href="#" data-name="{{ $name }}" class="unlike-a-member-btn" id="{{ $basic->id }}"><i class="far fa-heart text-success"></i></a></li>
+                                        <li><a href="#" data-name="{{ $name }}" class="video_call_open_btn" id="{{ $basic->id }}"><i class="fa fa-video"></i></a></li>
+                                        @endif
+                                        @if(user('id') != $basic->id && get_like($basic->id) && !get_like($basic->id)->is_accept)
+                                        <li><a href="#" data-name="{{ $name }}" class="user-like-confrim-member-btn" id="{{ $basic->id }}"><i class="far fa-heart text-danger"></i></a></li>
+                                        @endif
+                                    @endif
                                 </ul>
                             </div>
                             <div class="member-body-div member-body-container">
@@ -31,7 +46,7 @@
                                 </div> 
                                 <div class="member-name">
                                     <a href="{{ url('/profile/'.$basic->id) }}">
-                                        <h4>{{ $basic->display_name ? ucfirst($basic->display_name) : ucfirst($basic->user_name) }}</h4>
+                                        <h4>{{ $name }}</h4>
                                     </a>
                                 </div>
                                 <div class="member-info-container">
@@ -125,6 +140,15 @@ $("#profile_match_close_btn").click(function(e){
     e.preventDefault()
     $("#profile_match_section").hide()
 })
+
+
+
+
+
+
+
+
+
 
 
 

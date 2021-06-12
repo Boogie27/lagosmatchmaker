@@ -511,6 +511,10 @@ class ClientAjaxController extends Controller
 
 
 
+
+
+
+
     public function ajax_like_user(Request $request)
     {
         if($request->ajax())
@@ -553,6 +557,13 @@ class ClientAjaxController extends Controller
     
 
 
+
+
+
+
+
+
+
     public function run_as_premium($user_id)
     {
         $user_sub = DB::table('user_subscriptions')->where('subscription_type', 'premium')->where('user_id', Auth::user('id'))->where('is_expired', 0)->first();
@@ -569,6 +580,12 @@ class ClientAjaxController extends Controller
 
         return false;
     }
+
+
+
+
+
+
 
 
 
@@ -605,6 +622,10 @@ class ClientAjaxController extends Controller
 
         return false;
     }
+
+
+
+
 
 
 
@@ -737,6 +758,11 @@ class ClientAjaxController extends Controller
 
 
 
+
+
+
+
+
      public function ajax_get_matched_detail(Request $request)
      {
         if($request->ajax())
@@ -752,6 +778,10 @@ class ClientAjaxController extends Controller
         }
         return response()->json(['data' => $data]);
      }
+
+
+
+
 
 
 
@@ -802,6 +832,12 @@ class ClientAjaxController extends Controller
 
 
 
+
+
+
+
+
+
     public function ajax_call_user(Request $request)
      {
         if($request->ajax())
@@ -846,10 +882,19 @@ class ClientAjaxController extends Controller
 
 
 
+
+
+
+
+
      public function make_a_call($user_id)
      {
         return 'make a call';
      }
+
+
+
+
 
 
 
@@ -918,6 +963,12 @@ class ClientAjaxController extends Controller
 
 
 
+
+
+
+
+
+
     public function ajax_get_profile_banners(Request $request)
     {
         if($request->ajax())
@@ -930,6 +981,12 @@ class ClientAjaxController extends Controller
         return response()->json(['error' => true]);
     }
    
+
+
+
+
+
+
 
 
 
@@ -964,6 +1021,10 @@ class ClientAjaxController extends Controller
         return response()->json(['data' => $data]);
     }
     
+
+
+
+
 
 
 
@@ -1006,6 +1067,13 @@ class ClientAjaxController extends Controller
 
 
 
+
+
+
+
+
+
+
     
 
     public function ajax_report_member(Request $request)
@@ -1039,7 +1107,7 @@ class ClientAjaxController extends Controller
             $user_id = $request->user_id;
             $is_friends = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('acceptor_id', $user_id)
                             ->orWhere(function($query) use ($user_id){
-                                $query->where('initiator_id', $user_id)->where('acceptor_id', Auth::user('id'))->first();
+                                $query->where('initiator_id', $user_id)->where('acceptor_id', Auth::user('id'));
                             })->first();
 
             if(!$is_friends)
@@ -1073,8 +1141,20 @@ class ClientAjaxController extends Controller
 
 
 
-
-
+    public function ajax_get_member_links(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $user = User::where('id', $request->user_id)->first();
+            if($user)
+            {
+                return view('web.common.ajax-get-member-links', compact('user'));
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
 
 
 

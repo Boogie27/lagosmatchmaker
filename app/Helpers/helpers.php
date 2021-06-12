@@ -245,7 +245,21 @@ function unread_nav_msg()
 
 
 
-
+function get_like($user_id)
+{
+    if($user_id)
+    {
+        $is_friends = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('acceptor_id', $user_id)
+                    ->orWhere(function($query) use ($user_id){
+                        $query->where('initiator_id', $user_id)->where('acceptor_id', Auth::user('id'));
+                    })->first();
+        if($is_friends)
+        {
+            return $is_friends;
+        }
+    }
+    return false;
+}
 
 
 

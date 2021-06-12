@@ -231,7 +231,7 @@ ul.nav-right-small li a{
 .inner-nav-mobile h4{
     color: rgb(196, 142, 44);
 }
-/* *********** NOTIFICATION ************** */
+/* *********** MOBILE NOTIFICATION ************** */
 .notification-drop-down{
     z-index: 20;
     position: relative;
@@ -334,25 +334,8 @@ ul.ul-notification-body li p{
     ul.nav-right-small{
         display: flex;
         padding: 10px 0px;
-        justify-content: space-between;
+        justify-content: flex-end;
     }
-}
-@media only screen and (max-width: 767px){
-    .notification-drop-down{
-        position: static;
-    }
-    .notification-drop-down ul.ul-notification-body{
-        top: 70px;
-        right: inherit;
-        left: 0px;
-        width: 100%;
-        display: none;
-    }
-    ul.ul-notification-body h4{
-        text-align: center;
-    }
-}
-@media only screen and (max-width: 567px){
     .navigation{
         padding: 0px;
     }
@@ -380,6 +363,22 @@ ul.ul-notification-body li p{
         justify-content: space-between;
     }
 }
+@media only screen and (max-width: 767px){
+    .notification-drop-down{
+        position: static;
+    }
+    .notification-drop-down ul.ul-notification-body{
+        top: 80px;
+        right: inherit;
+        left: 0px;
+        width: 100%;
+        display: none;
+    }
+    ul.ul-notification-body h4{
+        text-align: center;
+    }
+}
+
 /* ********* DROP DOWN *********** */
 .drop-down{
     z-index: 10;
@@ -1429,8 +1428,8 @@ ul.ul-footer-links li a i{
     color: rgb(143, 143, 143);
     margin: 0 auto;
     padding: 40px 20px;
-    background-color: rgb(24, 24, 24);
-    box-shadow: 2px 2px 6px 2px rgb(8, 8, 8);
+    background-color: rgb(31, 31, 31);
+    /* box-shadow: 2px 2px 6px 2px rgb(8, 8, 8); */
 }
 .form-container form input{
     border: none;
@@ -1473,6 +1472,7 @@ ul.ul-footer-links li a i{
 @media only screen and (max-width: 767px){
     .form-container form{
         width: 80%;
+        box-shadow: 2px 2px 6px 2px rgb(8, 8, 8);
     }
 }
 @media only screen and (max-width: 567px){
@@ -2007,7 +2007,7 @@ ul.ul-profile-detail li p.detail-about-p{
 }
 .member-body-div .direction i{
     right: -5px;
-    z-index: 10;
+    z-index: 5;
     cursor: pointer;
     padding: 3px 7px;
     border-radius: 4px;

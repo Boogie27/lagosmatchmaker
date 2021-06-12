@@ -141,8 +141,10 @@
                                 </ul>
                             </div>
                         </li>
-                        @endif
                         <li><a href="#" class="side-navigation-open-button"><i class="fa fa-bars"></i></a></li>
+                        @else
+                        <li class="float-right"><a href="#" class="side-navigation-open-button"><i class="fa fa-bars"></i></a></li>
+                        @endif
                     </ul>
                 </div>
             </div><!-- NAVIGATION MOBILE END -->

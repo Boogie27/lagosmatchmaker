@@ -12,6 +12,7 @@
                 <div class="row">
                     @foreach($premiums as $premium)
                     @php($image = $premium->gender == 'male' ? 'M' : 'F')
+                    @php($name = $premium->display_name ? ucfirst($premium->display_name) : ucfirst($premium->user_name))
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"><!-- member start-->
                         <div class="member-inner-div"> 
                             <div class="member-img">
@@ -19,9 +20,15 @@
                                     <h4><a href="{{ url('/profile/'.$premium->id) }}">{{ $image }}</a></h4>
                                 </div>
                                 <ul class="ul-member-anchor">
-                                   <li><a href="{{ url('/chat') }}"><i class="far fa-envelope"></i></a></li>
-                                   <li><a href="#" class="profile_like_member"><i class="far fa-heart"></i></a></li>
-                                   <li><a href="#" class="video_call_open_btn" id="{{ $premium->id }}"><i class="fa fa-video"></i></a></li>
+                                @if(!is_loggedin())
+                                    <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-envelope"></i></a></li>
+                                    <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-heart"></i></a></li>
+                                    <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="fa fa-video"></i></a></li>
+                                @else
+                                    <li><a href="{{ url('/chat') }}" data-name="{{ $name }}" id="{{ $premium->id }}"><i class="far fa-envelope"></i></a></li>
+                                    <li><a href="{{ url('/ajax-like-user') }}" data-url="{{ current_url() }}" data-name="{{ $name }}" class="like-a-member-btn" id="{{ $premium->id }}"><i class="far fa-heart"></i></a></li>
+                                    <li><a href="#" data-name="{{ $name }}" class="video_call_open_btn" id="{{ $premium->id }}"><i class="fa fa-video"></i></a></li>
+                                @endif
                                 </ul>
                             </div>
                             <div class="member-body-div member-body-container">

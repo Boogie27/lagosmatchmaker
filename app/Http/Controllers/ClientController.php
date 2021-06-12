@@ -117,11 +117,6 @@ class ClientController extends Controller
 
     public function login_index()
     {
-        if(Cookie::has('lagosmatchmaker_remember_me'))
-        {
-            dd(Cookie::get('lagosmatchmaker_remember_me'));
-        }
-        
         if(Auth::is_loggedin())
         {
             return redirect('/');
@@ -148,17 +143,6 @@ class ClientController extends Controller
             return back()->with('error', 'Wrong email or password, try again!');
         }
 
-
-        if($request->remember_me)
-        {
-            $cookie_expiry = 8640;
-            $cookie_hash = uniqid();
-
-            Cookie::queue('lagosmatchmaker_remember_me', $cookie_hash, $cookie_expiry);
-            
-            return back();
-        }
-
         if(Auth::login($request->email, $request->remember_me))
         {
             if(Session::has('old_url'))
@@ -181,6 +165,23 @@ class ClientController extends Controller
 
 
 
+
+
+
+    
+    public function forgot_password_index()
+    {
+        return view('web.forgot-password');
+    }
+    
+
+
+
+    public function new_password_index()
+    {
+        return view('web.new-password');
+    }
+    
 
 
     
@@ -684,7 +685,13 @@ class ClientController extends Controller
             $basics= DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'basic')->where('users.gender', 'male')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1)->get();//get basic when its not free  
         }
 
-        return view('web.basic', compact('basics'));
+        $states = DB::table('states')->where('is_featured', 1)->get(); // aget all states
+
+        $genotypes = DB::table('genotypes')->where('is_featured', 1)->get(); //get all genotypes options
+
+        $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
+
+        return view('web.basic', compact('basics', 'states', 'genotypes', 'marital_status'));
     }
 
 
@@ -706,7 +713,13 @@ class ClientController extends Controller
             $basics= DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'basic')->where('users.gender', 'female')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1)->get();//get basic when its not free  
         }
 
-        return view('web.basic', compact('basics'));
+        $states = DB::table('states')->where('is_featured', 1)->get(); // aget all states
+
+        $genotypes = DB::table('genotypes')->where('is_featured', 1)->get(); //get all genotypes options
+
+        $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
+
+        return view('web.basic', compact('basics', 'states', 'genotypes', 'marital_status'));
     }
 
 

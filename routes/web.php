@@ -23,146 +23,146 @@ use App\Http\Controllers\ClientAjaxController;
 |
 */
 
-
-// ********** CLIENT ROUTE SECTION ******************//
-// Route::get('/', function () { return view('welcome'); });
-
-
-// ************ HOME SECTION ***************//
-Route::get("/", [ClientController::class, "index"]);
-Route::get("/search", [ClientController::class, "index_search"]);
+// *********************************************************************************************************************************//
+//                                        CLIENT ROUTE SECTION                                                                    *//
+// ********************************************************************************************************************************//
 
 
-// ************ LOGIN SECTION ***************//
-Route::get("/login", [ClientController::class, "login_index"]);
-Route::post("/login", [ClientController::class, "login_store"]);
+Route::group(['middleware' => 'remember_me'], function(){
+    // ************ HOME SECTION ***************//
+    Route::get("/", [ClientController::class, "index"]);
+    Route::get("/search", [ClientController::class, "index_search"]);
 
 
-// ************ LOGOUT SECTION ***************//
-Route::get("/logout", [ClientController::class, "logout"]);
-Route::post("/ajax-logout", [ClientAjaxController::class, "ajax_logout"]);
+    // ************ LOGIN SECTION ***************//
+    Route::get("/login", [ClientController::class, "login_index"]);
+    Route::post("/login", [ClientController::class, "login_store"]);
 
 
+    // ************ FORGOT PASSWORD SECTION ***************//
+    Route::get("/forgot-password", [ClientController::class, "forgot_password_index"]);
+    Route::get("/new-password", [ClientController::class, "new_password_index"]);
 
-// ************ REGISTER SECTION ***************//
-Route::get("/register", [ClientController::class, "register_index"]);
-Route::post("/register", [ClientController::class, "register_store"]);
-
-
-// ************ PROFILE SECTION ***************//
-Route::get("/profile", [ClientController::class, "profile_index"]);
-Route::get("/profile/{id}", [ClientController::class, "profile_detail"]);
-Route::post("/edit-detail-info", [ClientAjaxController::class, "edit_detail_info_ajax"]);
-Route::post("/ajax-get-detail-info", [ClientAjaxController::class, "ajax_get_detail_info"]);
-Route::post("/edit-about-me", [ClientAjaxController::class, "ajax_edit_about_me"]);
-Route::post("/ajax-get-about-me", [ClientAjaxController::class, "ajax_get_about_me"]);
-Route::post("/edit-looking-for", [ClientAjaxController::class, "ajax_edit_looking_for"]);
-Route::post("/ajax-get-looking-for", [ClientAjaxController::class, "ajax_get_looking_for"]);
-Route::post("/edit-life-style", [ClientAjaxController::class, "ajax_edit_life_style"]);
-Route::post("/ajax-get-lifestyle", [ClientAjaxController::class, "ajax_get_life_style"]);
-Route::post("/edit-physical-info", [ClientAjaxController::class, "ajax_edit_physical_info"]);
-Route::post("/ajax-get-physical-info", [ClientAjaxController::class, "ajax_get_physical_info"]);
-Route::post("/fetch-all-avatar", [ClientAjaxController::class, "ajax_fetch_all_avatar"]);
-Route::post("/upload-profile-image", [ClientAjaxController::class, "ajax_upload_profile_image"]);
-Route::post("/ajax-login-check", [ClientAjaxController::class, "ajax_login_check"]);
-Route::post("/ajax-get-profile-banners", [ClientAjaxController::class, "ajax_get_profile_banners"]);
+    // ************ REGISTER SECTION ***************//
+    Route::get("/register", [ClientController::class, "register_index"]);
+    Route::post("/register", [ClientController::class, "register_store"]);
 
 
-
-
-
-// ************ MEMBER SECTION ***************//
-Route::get("/premium", [ClientController::class, "premium_index"]);
-Route::get("/premium/men", [ClientController::class, "premium_men"]);
-Route::get("/premium/women", [ClientController::class, "premium_women"]);
-
-
-
-// ********** BASIC MEMBERS SECTION ***********//
-Route::get("/basic", [ClientController::class, "basic_idex"]);
-Route::get("/basic/men", [ClientController::class, "basic_men"]);
-Route::get("/basic/women", [ClientController::class, "basic_women"]);
-
-
-
-// ************ MESSAGE SECTION ***************//
-Route::get("/messages", [ClientController::class, "message_index"]);
-Route::get("/chat/{user_id}", [ClientController::class, "chat_index"]);
-Route::post("/ajax-get-user-chats", [ClientAjaxController::class, "ajax_get_user_chats"]);
-Route::post("/ajax-send-user-text-chats", [ClientAjaxController::class, "ajax_send_user_text_chats"]);
-
-
-
-// ************ SUBCRIPTION SECTION ***************//
-Route::get("/subscription", [ClientController::class, "subscription_index"]);
-Route::post("/upload-ID-card", [ClientAjaxController::class, "ajax_upload_id_card"]);
-Route::post("/ajax-subscribe-now", [ClientAjaxController::class, "ajax_subscribe_now"]);
-Route::post("/subscription", [ClientController::class, "subscription_store"]);
-
-
-// ********** HOW IT WORKS SECTION ***************//
-Route::get("/how-it-works", [ClientController::class, "how_it_works_index"]);
-
-
-
-// ************ LIKE  A MEMBER SECTION **************//
-Route::post("/ajax-like-user", [ClientAjaxController::class, "ajax_like_user"]);
-Route::post("/ajax-subscribe-to-plan", [ClientAjaxController::class, "ajax_subscribe_plan"]);
-Route::post("/ajax-cancle-like-request", [ClientAjaxController::class, "ajax_cancle_like_request"]);
-Route::post("/ajax-accept-like-request", [ClientAjaxController::class, "ajax_accept_like_request"]);
-Route::post("/ajax-get-matched-detail", [ClientAjaxController::class, "ajax_get_matched_detail"]);
-Route::post("/ajax-get-users-notification-count", [ClientAjaxController::class, "ajax_get_users_notification_count"]);
-Route::post("/ajax-unlike-matched-user", [ClientAjaxController::class, "ajax_unlike_matched_user"]);
-
-
-
-// ************* VIDEO CALL SECTION *******************//
-Route::post("/ajax-call-user", [ClientAjaxController::class, "ajax_call_user"]);
+    // ************ PROFILE SECTION ***************//
+    Route::get("/profile", [ClientController::class, "profile_index"]);
+    Route::get("/profile/{id}", [ClientController::class, "profile_detail"]);
+    Route::post("/edit-detail-info", [ClientAjaxController::class, "edit_detail_info_ajax"]);
+    Route::post("/ajax-get-detail-info", [ClientAjaxController::class, "ajax_get_detail_info"]);
+    Route::post("/edit-about-me", [ClientAjaxController::class, "ajax_edit_about_me"]);
+    Route::post("/ajax-get-about-me", [ClientAjaxController::class, "ajax_get_about_me"]);
+    Route::post("/edit-looking-for", [ClientAjaxController::class, "ajax_edit_looking_for"]);
+    Route::post("/ajax-get-looking-for", [ClientAjaxController::class, "ajax_get_looking_for"]);
+    Route::post("/edit-life-style", [ClientAjaxController::class, "ajax_edit_life_style"]);
+    Route::post("/ajax-get-lifestyle", [ClientAjaxController::class, "ajax_get_life_style"]);
+    Route::post("/edit-physical-info", [ClientAjaxController::class, "ajax_edit_physical_info"]);
+    Route::post("/ajax-get-physical-info", [ClientAjaxController::class, "ajax_get_physical_info"]);
+    Route::post("/fetch-all-avatar", [ClientAjaxController::class, "ajax_fetch_all_avatar"]);
+    Route::post("/upload-profile-image", [ClientAjaxController::class, "ajax_upload_profile_image"]);
+    Route::post("/ajax-login-check", [ClientAjaxController::class, "ajax_login_check"]);
+    Route::post("/ajax-get-profile-banners", [ClientAjaxController::class, "ajax_get_profile_banners"]);
 
 
 
 
 
-
-// ************* SUCCESS SECTION ********************//
-Route::get("/success", [ClientController::class, "success_index"]);
-
-
-
-// ************* FRIENDS SECTION ********************//
-Route::get("/friends", [ClientController::class, "friends_index"]);
+    // ************ MEMBER SECTION ***************//
+    Route::get("/premium", [ClientController::class, "premium_index"]);
+    Route::get("/premium/men", [ClientController::class, "premium_men"]);
+    Route::get("/premium/women", [ClientController::class, "premium_women"]);
 
 
 
-
-// ************ NEWS LETTER SECTION ******************//
-Route::get("/unsubscribe-newsletter", [ClientController::class, "unsubescribe_newsletter"]);
-Route::post("/ajax-newsletter-subscription", [ClientAjaxController::class, "ajax_newsletter_subscription"]);
-Route::post("/ajax-newsletter-unsubscription", [ClientAjaxController::class, "ajax_newsletter_unsubscription"]);
-
-
-// ************ CONTACT SECTION ******************//
-Route::get("/contact", [ClientController::class, "contact_index"]);
-Route::post("/contact", [ClientController::class, "contact_store"]);
-
-
-// ************ SETTINGS SECTION ******************//
-Route::get("/settings", [ClientController::class, "settings_index"]);
-Route::post("/update-username", [ClientController::class, "update_username_update"]);
-Route::post("/change-password", [ClientController::class, "change_password_update"]);
+    // ********** BASIC MEMBERS SECTION ***********//
+    Route::get("/basic", [ClientController::class, "basic_idex"]);
+    Route::get("/basic/men", [ClientController::class, "basic_men"]);
+    Route::get("/basic/women", [ClientController::class, "basic_women"]);
 
 
 
-
-// ************ REPORT SECTION ******************//
-Route::get("/report-member", [ClientController::class, "report_index"]);
-Route::post("/ajax-report-member", [ClientAjaxController::class, "ajax_report_member"]);
-
-
-
+    // ************ MESSAGE SECTION ***************//
+    Route::get("/messages", [ClientController::class, "message_index"]);
+    Route::get("/chat/{user_id}", [ClientController::class, "chat_index"]);
+    Route::post("/ajax-get-user-chats", [ClientAjaxController::class, "ajax_get_user_chats"]);
+    Route::post("/ajax-send-user-text-chats", [ClientAjaxController::class, "ajax_send_user_text_chats"]);
 
 
 
+    // ************ SUBCRIPTION SECTION ***************//
+    Route::get("/subscription", [ClientController::class, "subscription_index"]);
+    Route::post("/upload-ID-card", [ClientAjaxController::class, "ajax_upload_id_card"]);
+    Route::post("/ajax-subscribe-now", [ClientAjaxController::class, "ajax_subscribe_now"]);
+    Route::post("/subscription", [ClientController::class, "subscription_store"]);
+
+
+    // ********** HOW IT WORKS SECTION ***************//
+    Route::get("/how-it-works", [ClientController::class, "how_it_works_index"]);
+
+
+
+    // ************ LIKE  A MEMBER SECTION **************//
+    Route::post("/ajax-like-user", [ClientAjaxController::class, "ajax_like_user"]);
+    Route::post("/ajax-subscribe-to-plan", [ClientAjaxController::class, "ajax_subscribe_plan"]);
+    Route::post("/ajax-cancle-like-request", [ClientAjaxController::class, "ajax_cancle_like_request"]);
+    Route::post("/ajax-accept-like-request", [ClientAjaxController::class, "ajax_accept_like_request"]);
+    Route::post("/ajax-get-matched-detail", [ClientAjaxController::class, "ajax_get_matched_detail"]);
+    Route::post("/ajax-get-users-notification-count", [ClientAjaxController::class, "ajax_get_users_notification_count"]);
+    Route::post("/ajax-unlike-matched-user", [ClientAjaxController::class, "ajax_unlike_matched_user"]);
+    Route::post("/ajax-get-member-links", [ClientAjaxController::class, "ajax_get_member_links"]);
+    
+
+    // ************* VIDEO CALL SECTION *******************//
+    Route::post("/ajax-call-user", [ClientAjaxController::class, "ajax_call_user"]);
+
+
+
+    // ************* SUCCESS SECTION ********************//
+    Route::get("/success", [ClientController::class, "success_index"]);
+
+
+
+    // ************* FRIENDS SECTION ********************//
+    Route::get("/friends", [ClientController::class, "friends_index"]);
+
+
+
+
+    // ************ NEWS LETTER SECTION ******************//
+    Route::get("/unsubscribe-newsletter", [ClientController::class, "unsubescribe_newsletter"]);
+    Route::post("/ajax-newsletter-subscription", [ClientAjaxController::class, "ajax_newsletter_subscription"]);
+    Route::post("/ajax-newsletter-unsubscription", [ClientAjaxController::class, "ajax_newsletter_unsubscription"]);
+
+
+    // ************ CONTACT SECTION ******************//
+    Route::get("/contact", [ClientController::class, "contact_index"]);
+    Route::post("/contact", [ClientController::class, "contact_store"]);
+
+
+    // ************ SETTINGS SECTION ******************//
+    // Route::get("/settings", [ClientController::class, "settings_index"]);
+    Route::post("/update-username", [ClientController::class, "update_username_update"]);
+    Route::post("/change-password", [ClientController::class, "change_password_update"]);
+
+
+
+
+    // ************ REPORT SECTION ******************//
+    Route::get("/report-member", [ClientController::class, "report_index"]);
+    Route::post("/ajax-report-member", [ClientAjaxController::class, "ajax_report_member"]);
+
+
+   
+}); //end f remember_me middleware
+
+
+
+    // ************ LOGOUT SECTION ***************//
+    Route::get("/logout", [ClientController::class, "logout"]);
+    Route::post("/ajax-logout", [ClientAjaxController::class, "ajax_logout"]);
 
 
 

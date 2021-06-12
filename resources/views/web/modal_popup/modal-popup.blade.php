@@ -55,6 +55,28 @@
 
 
 
+<!-- CONFIRM ALERT START -->
+<section class="modal-alert-popup" id="confirm_modal_popup">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Signup or Login to chat with <br><b>example</b></p>
+                </div>
+                <div class="confirm-form">
+                    <form action="{{ url('/login') }}" method="GET">
+                        <button type="submit"  class="login-confirm-submit-btn confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- CONFIRM ALERT END -->
 
 
 
@@ -62,51 +84,59 @@
 
 
 
-
-
-
-
-<script>
-$(document).ready(function(){
-// ********** LOGOUT USER *************//
-$("#logout_user_btn").click(function(e){
-    e.preventDefault()
-    var url = $(this).attr('href')
-    $("#logout_preloader_container").hide()
-    $("#access_preloader_container").show()
-
-    csrf_token() //csrf token
-
-    $.ajax({
-        url: url,
-        method: "post",
-        data: {
-            logout: 'logout'
-        },
-        success: function (response){
-            location.reload()
-        }
-    });
-   
-})
+<!-- SUBSCRIPTION ALERT START -->
+<section class="modal-alert-popup" id="user_confirm_sub_modal_popup">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Subscribe to premium to be able to call <br><b>simbi</b></p>
+                </div>
+                <div class="confirm-form">
+                    <form action="{{ url('/subscription') }}" method="GET">
+                        <button type="submit"  id="@subscribe_to_plan_submit_btn" class="confirm-btn">Subscribe Now</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- SUBSCRIPTION ALERT END -->
 
 
 
 
 
-// ********* CSRF PAGE TOKEN ***********//
-function csrf_token(){
-    $.ajaxSetup({
-        headers: {
-            "X-CSRF-TOKEN": $("meta[name='csrf_token']").attr("content")
-        }
-    });
-}
+
+
+<!-- SUBSCRIPTION ALERT START -->
+<section class="modal-alert-popup" id="user_confirm_modal_popup">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to unlike <b>simbi</b></p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="GET">
+                        <input type="hidden" data-url="{{ url('/ajax-unlike-matched-user') }}" id="user_unlike_id_input" value="">
+                        <button type="button"  id="user_confirm_unlike_submit" class="confirm-btn">Proceed</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- SUBSCRIPTION ALERT END -->
 
 
 
 
 
-    // end
-})
-</script>

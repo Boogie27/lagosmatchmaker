@@ -57,14 +57,13 @@ class Auth extends Model
                     $cookie_expiry = 8640;
                     $cookie_hash = uniqid();
 
-                    // if($user->remember_me)
-                    // {
-                    //     $cookie_hash = $user->remember_me;
-                    //     Cookie::forget('remember_me');
-                    // }
-        
-                    // $response = new Response('true');
-                    // $response->withCookie(cookie('lagosmatchmaker_remember_me', $cookie_hash, $cookie_expiry));
+                    if($user->remember_me)
+                    {
+                        $cookie_hash = $user->remember_me;
+                        $cookie = Cookie::queue(Cookie::forget('lagosmatchmaker_remember_me'));
+                    }
+    
+                    Cookie::queue('lagosmatchmaker_remember_me', $cookie_hash, $cookie_expiry);
                    
                 }else if($user->remember_me){
                     $cookie_hash = $user->remember_me;
@@ -117,9 +116,9 @@ class Auth extends Model
             $user = User::where('email', $detail['email'])->where('id', $detail['id'])->first();
             if($user)
             {
-                if(Cookie::has('remember_me'))
+                if(Cookie::has('lagosmatchmaker_remember_me'))
                 {
-                    Cookie::forget('remember_me');
+                    $cookie = Cookie::queue(Cookie::forget('lagosmatchmaker_remember_me'));
                 }
 
                 $user->is_active = 0;
@@ -140,11 +139,12 @@ class Auth extends Model
 
 
 
-    public static function remember_login($remember_me)
+    public static function remember_login()
     {
-        if($remember_me){
-            $connection = new DB();
-            $user = $connection->select('course_users')->where('remember_me', $remember_me)->first();
+        if(!Session::has('user') && Cookie::has('lagosmatchmaker_remember_me'))
+        {
+            $remember_me = Cookie::get('lagosmatchmaker_remember_me');
+            $user = User::where('remember_me', $remember_me)->where('is_approved', 1)->where('is_suspend', 0)->where('is_deactivated', 0)->first();
             if($user)
             {
                 if(self::login($user->email))

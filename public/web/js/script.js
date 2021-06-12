@@ -148,6 +148,59 @@ if($(".angle-up-container").length){
 
 
 
+
+
+
+
+function bottom_error_danger(string){
+    var bottom = '0px';
+    var alert =  $("#bottom_alert_danger").children('.bottom-alert-danger')
+
+    if($(window).width() > 767){
+        bottom = '5px'
+    }
+
+    $(alert).html(string)
+    $(alert).css({ bottom: bottom })
+
+    setTimeout(function(){
+        $(alert).css({
+            bottom: '-100px'
+        })
+    }, 4000)
+}
+
+
+
+
+
+
+function bottom_success_danger(string){
+    var bottom = '0px';
+    var alert =  $("#bottom_alert_success").children('.bottom-alert-success')
+
+    if($(window).width() > 767){
+        bottom = '5px'
+    }
+
+    $(alert).html(string)
+    $(alert).css({ bottom: bottom })
+
+    setTimeout(function(){
+        $(alert).css({
+            bottom: '-100px'
+        })
+    }, 4000)
+}
+
+
+
+
+
+
+
+
+
 // ********* SMOOTH SCROLL UP *************//
 $("#smooth_scroll_btn").click(function(e){
     e.preventDefault()
@@ -198,6 +251,49 @@ $("#logout_user_cancle_btn").click(function(e){
     e.preventDefault()
     $("#logout_preloader_container").hide()
 })
+
+
+
+
+
+
+
+// ********** LOGOUT USER *************//
+$("#logout_user_btn").click(function(e){
+    e.preventDefault()
+    var url = $(this).attr('href')
+    $("#logout_preloader_container").hide()
+    $("#access_preloader_container").show()
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            logout: 'logout'
+        },
+        success: function (response){
+            location.reload()
+        }
+    });
+   
+})
+
+
+
+
+
+// ********* CSRF PAGE TOKEN ***********//
+function csrf_token(){
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $("meta[name='csrf_token']").attr("content")
+        }
+    });
+}
+
+
 
 
 
@@ -312,6 +408,214 @@ $(".member_angle_up").click(function(e){
         scrollTop: 0
     })
 })
+
+
+
+
+
+
+
+// ********* OPEN CONFIRM MODAL ***********//
+$(".confirm_modal_popup").click(function(e){
+    e.preventDefault()
+   
+    var button = $(this).children()
+    var display_name = $(this).attr('data-name')
+   
+    if($(button).hasClass('fa-heart')){
+        apend_message('<p>Signup or Login to like <br><b>'+display_name+'</b></p>')
+    }
+    if($(button).hasClass('fa-envelope')){
+        apend_message('<p>Signup or Login to message <br><b>'+display_name+'</b></p>')
+    }
+    if($(button).hasClass('fa-video')){
+        apend_message('<p>Signup or Login to call <br><b>'+display_name+'</b></p>')
+    }
+
+    $("#confirm_modal_popup").show()
+    $(".login-confirm-submit-btn").html('Proceed')
+})
+
+
+
+
+function apend_message(message){
+    $("#confirm_modal_popup").find('.confirm-header').html(message)
+    $("#user_confirm_sub_modal_popup").find('.confirm-header').html(message)
+}
+
+
+
+
+
+// ******** ADD MESSAGE TO MODAL BUTTON **********//
+$(".login-confirm-submit-btn").click(function(){
+    $(".login-confirm-submit-btn").html('Please wait...')
+})
+
+
+
+
+
+
+// **************** LIKE A MEMBER *********************//
+$("ul.ul-member-anchor").on('click', '.like-a-member-btn', function(e){
+    e.preventDefault()
+    var url = $(this).attr('href')
+    var user_id = $(this).attr('id')
+    var link_url = $(this).attr('data-links')
+    var display_name = $(this).attr('data-name')
+    var current_url = $(this).attr('data-url')
+
+    var parent = $(this).parent().parent() 
+
+    $("#access_preloader_container").show()
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            user_id: user_id,
+            current_url: current_url
+        },
+        success: function (response){
+            if(response.subscribe_to_premium){
+                apend_message('<p>Subscribe to premium to like <br><b>'+display_name+'</b></p>')
+                $("#user_confirm_sub_modal_popup").show()
+                $("#access_preloader_container").hide()
+            }else if(response.like_this_user){
+                // location.reload()
+                get_member_links(link_url, user_id, parent)
+                bottom_success_danger(display_name+' has been liked!')
+            }else if(response.subscribe){
+                apend_message('<p>Subscribe to like <b>'+display_name+'</b></p>')
+                $("#user_confirm_sub_modal_popup").show()
+                $("#access_preloader_container").hide()
+            }else{
+                bottom_error_danger('Network error, try again later!')
+                $("#access_preloader_container").hide()
+            }
+        }, 
+        error: function(){
+           $("#access_preloader_container").hide()
+           bottom_error_danger('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+function get_member_links(url, user_id, parent){
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            user_id: user_id,
+        },
+        success: function (response){
+            $(parent).html(response)
+            $("#access_preloader_container").hide()
+        }
+    });
+}
+
+
+
+
+
+
+
+// *************** UNLIKE A USER MODAL CONFRIM**************//
+$("ul.ul-member-anchor").on('click', '.unlike-a-member-btn', function(e){
+    e.preventDefault()
+    var display_name = $(this).attr('data-name')
+    var user_id = $(this).attr('id')
+
+    $("#user_confirm_modal_popup").show()
+    $("#user_unlike_id_input").val(user_id)
+    $("#user_confirm_unlike_submit").html('Proceed')
+    $("#user_confirm_modal_popup").find('.confirm-header').html(' <p>Do you wish to unlike <b>'+display_name+'</b></p>')
+})
+
+
+
+
+
+
+// ************ UNLIKE A USER ******************//
+$("#user_confirm_unlike_submit").click(function(e){
+    e.preventDefault()
+    var url = $("#user_unlike_id_input").attr('data-url')
+    var user_id = $("#user_unlike_id_input").val()
+    $("#user_confirm_unlike_submit").html('Please wait...')
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            user_id: user_id,
+        },
+        success: function (response){
+            if(response.data){
+                location.reload()
+            }else{
+                $("#user_confirm_modal_popup").hide()
+                bottom_error_danger('Network error, try again later!')
+            }
+        }, 
+        error: function(){
+            $("#user_confirm_modal_popup").hide()
+            bottom_error_danger('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
