@@ -23,7 +23,7 @@
                         <li>
                             <div class="notification-drop-down">
                                 <a href="{{ url('/friends') }}">
-                                    <i class="fa fa-users notification-icon notification-users-icon">
+                                    <i class="fa fa-users notification-icon notification-users-icon notification_users_icon_js">
                                         @if(nav_user_likes() > 0)
                                         <span class="badge bg-danger">{{ nav_user_likes() }}</span>
                                         @endif
@@ -111,7 +111,7 @@
                         <li>
                             <div class="notification-drop-down">
                                 <a href="{{ url('/friends') }}">
-                                    <i class="fa fa-users notification-icon notification-users-icon">
+                                    <i class="fa fa-users notification-icon notification-users-icon notification_users_icon_js">
                                         @if(nav_user_likes() > 0)
                                         <span class="badge bg-danger">{{ nav_user_likes() }}</span>
                                         @endif

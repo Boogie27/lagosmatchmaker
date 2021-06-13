@@ -134,57 +134,6 @@ $("#detail_physical_info_btn_open").click(function(e){
 
 
 
-
-// ******** OPEN AVATAR MODAL ************//
-var avatar_state = false;
-$("#profile_img_upload_btn").click(function(e){
-    e.preventDefault()
-    if(!avatar_state){
-        fetch_all_avatar()
-    }else{
-        $("#avatar_popup_section").show()
-    }
-})
-
-
-// *********** FECTH ALL AVATARS ************//
-function fetch_all_avatar(){
-    var url = $('#profile_img_upload_btn').attr('href')
-    $("#access_preloader_container").show()
-
-    csrf_token() //csrf token
-
-    $.ajax({
-        url: url,
-        method: "post",
-        data: {
-            fetch_all_avatar: 'fetch_all_avatar'
-        },
-        success: function (response){
-            if(!response.data){
-                $("#access_preloader_container").hide()
-            }
-            avatar_state = true;
-            $("#avatar_body_container").html(response)
-            $("#avatar_popup_section").show()
-            $("#access_preloader_container").hide()
-        }, 
-        error: function(){
-            $("#access_preloader_container").hide()
-        }
-    });
-}
-
-
-
-
-
-
-
-
-
-
-
 // ********* CSRF PAGE TOKEN ***********//
 function csrf_token(){
     $.ajaxSetup({
@@ -398,8 +347,9 @@ $(".user-accept-like-btn").click(function(e){
                 $("#access_preloader_container").hide()
             }else if(response.matched){
                get_matched_modal(user_id)
-               var ulikeBtn = ' <li><a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart"></i> Unlike</a></li>';
-               $("#user_like_action_btns").append(ulikeBtn);
+               get_profile_likns(user_id)
+            //    var ulikeBtn = ' <li><a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart"></i> Unlike</a></li>';
+            //    $("#user_like_action_btns").append(ulikeBtn);
             }else{
                 $("#access_preloader_container").hide()
             }
@@ -429,8 +379,8 @@ function get_matched_modal(user_id){
             }else{
                 get_user_alert()
                 $(".action-like-btn").hide()
-                $("#matched_detail_modal_popup").html(response)
-                $("#profile_match_section").show()
+                $("#add_match_members_profile").html(response)
+                $("#profile_match_open_btn").show()
                 $("#access_preloader_container").hide()
             }
         }, 
@@ -442,6 +392,28 @@ function get_matched_modal(user_id){
 
 
 
+
+
+
+// ********** GET PROFILE LINKS **************//
+function get_profile_likns(user_id){
+    $.ajax({
+        url: "{{ url('/ajax-get-profile-links') }}",
+        method: "post",
+        data: {
+            user_id: user_id,
+        },
+        success: function (response){
+            if(response.data == false){
+                location.reload()
+            }
+            $("#user_like_action_btns").html(response)
+        }, 
+        error: function(){
+           $("#access_preloader_container").hide()
+        }
+    });
+}
 
 
 
@@ -459,9 +431,9 @@ function get_user_alert(){
         },
         success: function (response){
             if(response.data){
-                $(".notification-users-icon").append('<span class="badge bg-danger">'+response.data+'</span>')
+                $(".notification_users_icon_js").append('<span class="badge bg-danger">'+response.data+'</span>')
             }else{
-                $(".notification-users-icon").html('')
+                $(".notification_users_icon_js").html('')
             }
         },
     }); 

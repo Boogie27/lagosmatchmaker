@@ -11,61 +11,68 @@
                 @if(count($basics))
                 <div class="row">
                     @foreach($basics as $basic)
-                    @php($image = $basic->gender == 'male' ? 'M' : 'F')
-                    @php($name = $basic->display_name ? ucfirst($basic->display_name) : ucfirst($basic->user_name))
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"><!-- member start-->
-                        <div class="member-inner-div"> 
-                            <div class="member-img">
-                                <div class="member-img-img">
-                                    <h4><a href="{{ url('/profile/'.$basic->id) }}">{{ $image }}</a></h4>
+                        @if(user('id') != $basic->id)
+                            @php($image = $basic->gender == 'male' ? 'M' : 'F')
+                            @php($name = $basic->display_name ? ucfirst($basic->display_name) : ucfirst($basic->user_name))
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"><!-- member start-->
+                                <div class="member-inner-div"> 
+                                    <div class="member-img">
+                                        <div class="member-img-img">
+                                            <h4><a href="{{ url('/profile/'.$basic->id) }}">{{ $image }}</a></h4>
+                                        </div>
+                                        <ul class="ul-member-anchor" id="ul_member_anchor">
+                                            @if(!is_loggedin())
+                                            <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-envelope"></i></a></li>
+                                            <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-heart"></i></a></li>
+                                            <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="fa fa-video"></i></a></li>
+                                            @else
+                                                @if(!get_like($basic->id))
+                                                <li><a href="{{ url('/ajax-like-user') }}" data-links="{{ url('/ajax-get-member-links') }}" data-url="{{ current_url() }}" data-name="{{ $name }}" class="like-a-member-btn" id="{{ $basic->id }}"><i class="far fa-heart"></i></a></li>
+                                                @endif
+                                                @if(get_like($basic->id) && get_like($basic->id)->is_accept)
+                                                <li><a href="{{ url('/chat/'.$basic->id) }}" data-name="{{ $name }}" id="{{ $basic->id }}"><i class="far fa-envelope"></i></a></li>
+                                                <li><a href="#" data-name="{{ $name }}" class="unlike-a-member-btn" id="{{ $basic->id }}"><i class="far fa-heart text-success"></i></a></li>
+                                                <li><a href="#" data-name="{{ $name }}" class="video_call_open_btn" id="{{ $basic->id }}"><i class="fa fa-video"></i></a></li>
+                                                @endif
+                                                @if(get_like($basic->id) && user('id') == get_like($basic->id)->acceptor_id && !get_like($basic->id)->is_accept)
+                                                <li><a href="#" data-name="{{ $name }}" id="{{ $basic->id }}" class="cancle-user-like-request cancle-btn">Cancle</a></li>
+                                                <li><a href="#"><i class="fa fa-heart text-danger"></i></a></li>
+                                                <li><a href="{{ url('/ajax-accept-like-request') }}" data-name="{{ $name }}" data-detail="{{ url('/ajax-get-matched-detail') }}" data-links="{{ url('/ajax-get-member-links') }}" id="{{ $basic->id }}" class="accept-user-like-request accept-btn">Accept</a></li>
+                                                @endif
+                                                @if(get_like($basic->id) && user('id') == get_like($basic->id)->initiator_id && !get_like($basic->id)->is_accept)
+                                                <li><a href="#" data-name="{{ $name }}" class="unlike-a-member-btn" id="{{ $basic->id }}"><i class="far fa-heart text-danger"></i></a></li>
+                                                @endif
+                                            @endif
+                                        </ul>
+                                    </div>
+                                    <div class="member-body-div member-body-container">
+                                        <div class="direction">
+                                            <a href="#" class="member_angle_up"><i class="fa fa-angle-up"></i></a>
+                                            <a href="#" class="member_angle_down"><i class="fa fa-angle-down"></i></a>
+                                        </div> 
+                                        <div class="member-name">
+                                            <a href="{{ url('/profile/'.$basic->id) }}">
+                                                <h4>{{ $name }}</h4>
+                                            </a>
+                                        </div>
+                                        <div class="member-info-container">
+                                            <ul class="ul-member-body">
+                                                <li>Marital status: <span>{{ $basic->marital_status ?? '' }}</span></li>
+                                                <li>Genotype: <span>{{ $basic->genotype ?? '' }}</span></li>
+                                                <li>Height: <span>{{ $basic->height ?? '' }}</span></li>
+                                                <li>Weight: <span>{{ $basic->weight ?? '' }}</span></li>
+                                                <li>Religion: <span>{{ $basic->religion ?? '' }}</span></li>
+                                                <li>Language: <span>{{ $basic->language ?? '' }}</span></li>
+                                                <li>Location: <span>{{ $basic->location ?? '' }}</span></li>
+                                                <li>Membership level: <span style="color:  rgb(196, 142, 44);">{{ ucfirst($basic->membership_level) }}</span></li>
+                                                <li>Interest: <span>{{ $basic->interest ?? '' }}</span></li>
+                                                <li>About: <span>{{ $basic->about ?? '' }}</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <ul class="ul-member-anchor" id="ul_member_anchor">
-                                    @if(!is_loggedin())
-                                    <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-envelope"></i></a></li>
-                                    <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-heart"></i></a></li>
-                                    <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="fa fa-video"></i></a></li>
-                                    @else
-                                        @if(user('id') != $basic->id && !get_like($basic->id))
-                                        <li><a href="{{ url('/ajax-like-user') }}" data-links="{{ url('/ajax-get-member-links') }}" data-url="{{ current_url() }}" data-name="{{ $name }}" class="like-a-member-btn" id="{{ $basic->id }}"><i class="far fa-heart"></i></a></li>
-                                        @endif
-                                        @if(user('id') != $basic->id && get_like($basic->id) && get_like($basic->id)->is_accept)
-                                        <li><a href="{{ url('/chat/'.$basic->id) }}" data-name="{{ $name }}" id="{{ $basic->id }}"><i class="far fa-envelope"></i></a></li>
-                                        <li><a href="#" data-name="{{ $name }}" class="unlike-a-member-btn" id="{{ $basic->id }}"><i class="far fa-heart text-success"></i></a></li>
-                                        <li><a href="#" data-name="{{ $name }}" class="video_call_open_btn" id="{{ $basic->id }}"><i class="fa fa-video"></i></a></li>
-                                        @endif
-                                        @if(user('id') != $basic->id && get_like($basic->id) && !get_like($basic->id)->is_accept)
-                                        <li><a href="#" data-name="{{ $name }}" class="user-like-confrim-member-btn" id="{{ $basic->id }}"><i class="far fa-heart text-danger"></i></a></li>
-                                        @endif
-                                    @endif
-                                </ul>
-                            </div>
-                            <div class="member-body-div member-body-container">
-                                <div class="direction">
-                                    <a href="#" class="member_angle_up"><i class="fa fa-angle-up"></i></a>
-                                    <a href="#" class="member_angle_down"><i class="fa fa-angle-down"></i></a>
-                                </div> 
-                                <div class="member-name">
-                                    <a href="{{ url('/profile/'.$basic->id) }}">
-                                        <h4>{{ $name }}</h4>
-                                    </a>
-                                </div>
-                                <div class="member-info-container">
-                                    <ul class="ul-member-body">
-                                        <li>Marital status: <span>{{ $basic->marital_status ?? '' }}</span></li>
-                                        <li>Genotype: <span>{{ $basic->genotype ?? '' }}</span></li>
-                                        <li>Height: <span>{{ $basic->height ?? '' }}</span></li>
-                                        <li>Weight: <span>{{ $basic->weight ?? '' }}</span></li>
-                                        <li>Religion: <span>{{ $basic->religion ?? '' }}</span></li>
-                                        <li>Language: <span>{{ $basic->language ?? '' }}</span></li>
-                                        <li>Location: <span>{{ $basic->location ?? '' }}</span></li>
-                                        <li>Membership level: <span style="color:  rgb(196, 142, 44);">{{ ucfirst($basic->membership_level) }}</span></li>
-                                        <li>Interest: <span>{{ $basic->interest ?? '' }}</span></li>
-                                        <li>About: <span>{{ $basic->about ?? '' }}</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- member end-->
+                            </div><!-- member end-->
+                        @endif
                     @endforeach
                 </div>
                 <div class="join-us-btn top-members-btn">
@@ -91,7 +98,7 @@
 
 
 
-@include('web.basic.modal-popup')
+
 @include('web.basic.basic-member-search-modal-popup')
 
 

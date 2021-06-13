@@ -1494,61 +1494,23 @@ ul.ul-footer-links li a i{
     width: 80%;
     margin: 0 auto;
 }
-/* background-image: url({{ asset('web/images/banner/1.jpg') }}) */
 .profile-banner{
-    width: 100%;
-    background-size: cover;
-    background-position: center center;
+    border-radius: 6px 6px 0px 0px;
     background-color: rgb(53, 53, 53);
 }
 .profile-inner-banner{
-    position: relative;
-    display: flex;
-    height: 250px;
-}
-.background-img{
     width: 100%;
-    height: 220px;
-    position: absolute;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-}
-.profile-img{
-    width: 200px;
-    height: 220px;
-    border-radius: 50%;
-    position: relative;
-}
-.profile-img img{
-    top: 20px;
-    left: 20px;
-    width: 200px;
-    height: 220px;
-    position: relative;
-    background-color: #fff;
-    border: 2px solid rgb(196, 142, 44);
-}
-.profile-img a.p-img-upload-btn{
-    bottom: 0px;
-    right: -10px;
-    padding: 3px 7px;
-    position: absolute;
-    color: #fff;
-    border-radius: 6px;
-    background-color: rgba(253, 166, 5, 0.472);
 }
 .profile-banner-body{
     color: #fff;
-    width: 85%;
-    position: relative;
+    width: 100%;
 }
 .profile-banner-body .title-header{
-    top: 90px;
-    position: relative;
+    width: 100%;
+    padding: 50px 0px;
 }
 .profile-banner-body .title-header h4{
-    font-size: 35px;
+    font-size: 50px;
     font-weight: 300;
     color:  #fff;
 }
@@ -1559,13 +1521,10 @@ ul.ul-footer-links li a i{
     color:  rgb(117, 253, 117);
 }
 .profile-banner-body ul{
-    position: absolute;
-    bottom: 10px;
-    left: 50px;
-}
-.profile-banner-body ul li{
-    margin-left: 20px;
-    display: inline-block;
+    display: flex;
+    width: 50%;
+    margin: 0 auto;
+    justify-content: space-between;
 }
 .profile-banner-body ul li a{
     color: #fff;
@@ -1574,7 +1533,9 @@ ul.ul-footer-links li a i{
     transition: color 0.2s ease;
 }
 li.profile-status{
+    top: 5px;
     font-size: 12px;
+    position: relative;
 }
 li.profile-status span{
     color: rgb(250, 34, 34);
@@ -1621,7 +1582,7 @@ li.profile-status span.active{
     border: 1px solid  #fff;
 }
 .mobile-like-btn{
-    display: none;
+    /* display: none; */
 }
 .p-option-container{
     width: 100%;
@@ -1644,87 +1605,30 @@ ul.ul-p-option-body li a{
 ul.ul-p-option-body li a:hover{
     background-color:  rgb(255, 195, 83);
  }
-.banner-icon{
-    height: 0px;
-    text-align: right;
-    position: relative;
-}
-.banner-icon a{
-    right: 0px;
-    z-index: 10;
-    padding: 5px 7px;
-    cursor: pointer;
-    position: absolute;
-    color: rgb(196, 142, 44);
-    transition: color 0.2s ease;
-}
-.banner-icon a:hover{
-    color: #fff;
-}
 @media only screen and (max-width: 1125px){
     .profile-container{
         width: 100%;
         padding: 0px 20px;
     }
 }
+@media only screen and (max-width: 992px){
+    .profile-banner-body ul{
+        width: 60%;
+    }
+}
 @media only screen and (max-width: 767px){
     .profile-section{
-        height: 650px;
         background-color: rgb(24, 24, 24);
-    }
-    .profile-inner-banner{
-        display: block;
-        top: 160px;
     }
     .profile-banner{
         border-radius: 10px 10px 0px 0px;
     }
-    .profile-banner-body{
+    .profile-banner-body ul{
         width: 100%;
-        position: static;
-    }
-    .profile-img{
-        width: 220px;
-        height: 220px;
-        margin: 0 auto;
-    }
-    .profile-img img{
-        position: static;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-    }
-    .profile-img a.p-img-upload-btn{
-        bottom: 30px;
-        right: 8px;
-        padding: 7px 12px;
-    }
-    .profile-banner-body .title-header{
-        position: static;
-        margin-top: 20px;
+        padding: 0px 10px;
     }
     .profile-banner-body .title-header h4{
-        font-size: 18px;
-    }
-    .profile-banner-body ul{
-        position: static;
-        margin: 10px 0px;
-        text-align: center;
-    }
-    .profile-banner-body ul li{
-        margin-left: 0px;
-    }
-    .profile-container .profile-bottom{
-        display: none;
-    }
-    .p-option-container{
-        display: block;
-    }
-    .p-option-container ul.ul-p-option-body{
-        z-index: 20;
-        position: fixed;
-        bottom: 0px;
-        width: 100%;
+        font-size: 40px;
     }
     .mobile-like-btn{
         display: block;
@@ -1738,28 +1642,24 @@ ul.ul-p-option-body li a:hover{
     .profile-container{
         padding: 0px 10px;
     }
+    .profile-banner-body .title-header h4{
+        font-size: 30px;
+    }
+    .profile-banner-body ul{
+        display: inherit;
+        text-align: center;
+    }
     .profile-banner-body ul li{
+        display: inline-block;
         padding: 0px 10px;
+    }
+    li.profile-status{
+        top: 0px;
     }
 }
 @media only screen and (max-width: 398px){
-    .profile-banner{
-        height: 220px;
-    }
-    .profile-section{
-        height: 500px;
-    }
-    .profile-inner-banner{
-        top: 100px;
-    }
-    .profile-img{
-        width: 150px;
-        height: 150px;
-    }
-    .profile-img a.p-img-upload-btn{
-        bottom: 10px;
-        right: 10px;
-        padding: 5px 10px;
+    .profile-banner-body .title-header h4{
+        font-size: 25px;
     }
 }
 
@@ -2039,6 +1939,13 @@ ul.ul-member-anchor li a{
 ul.ul-member-anchor li a:hover{
     background-color: rgba(248, 179, 50, 0.137);
 }
+ul.ul-member-anchor li a.cancle-btn, ul.ul-member-anchor li a.accept-btn{
+   font-size: 12px;
+   text-decoration: none;
+}
+ul.ul-member-anchor li a.accept-btn{
+   color: #fff;
+}
 .member-name{
     text-align: center;
 }
@@ -2126,7 +2033,6 @@ ul.ul-member-body li span{
 .message-container .title-header{
     color: #fff;
     text-align: center;
-    /* margin-bottom: 50px; */
     padding-bottom: 50px;
 }
 .message-header{
@@ -2617,10 +2523,13 @@ button.confirm-btn:hover{
 #profile_match_section{
     display: none;
 }
+.member-match-form-container{
+    display: none;
+}
 .profile-match-main{
     top: 0px;
     width: 100%;
-    z-index: 20;
+    z-index: 50;
     height: 100vh;
     position: fixed;
     display: table;
@@ -2664,11 +2573,11 @@ ul.ul-profile-match li.profile-one{
     display: flex;
     justify-content: center;
 }
-ul.ul-profile-match li.match-heart-icon{
+/* ul.ul-profile-match li.match-heart-icon{
     top: 10px;
     padding: 5px 0px;
     position: relative;
-}
+} */
 ul.ul-profile-match li.profile-one img{
     width: 100px;
     height: 100px;
@@ -2689,7 +2598,9 @@ ul.profile-one-content li h4, ul.profile-two-content li h4{
     margin: 0px;
 }
 ul.ul-profile-match li i.fa-heart{
+    left: -7px;
     font-size: 30px;
+    position: relative;
 }
 ul.profile-two-content{
     text-align: left;
@@ -2716,6 +2627,23 @@ ul.profile-two-content{
 .profile-match-body ul li a.match-anchor-btn:hover{
     background-color: rgb(224, 148, 5)
 }
+.profile-head-img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: table;
+    margin: 0px 15px;
+    text-align: center;
+    background-color: #fff;
+}
+.profile-head-img h4{
+    margin: 0px;
+    padding: 0px;
+    font-size: 30px;
+    display: table-cell;
+    color: rgb(196, 142, 44);
+    vertical-align: middle;
+}
 @media only screen and (max-width: 767px){
     .profile-match-container{
         width: 400px;
@@ -2740,9 +2668,17 @@ ul.profile-two-content{
     ul.profile-one-content li p, ul.profile-two-content li p{
         font-size: 11px;
     }
+    .profile-head-img{
+        width: 90px;
+        height: 90px;
+    }
 }
 @media only screen and (max-width: 320px){
     ul.ul-profile-match li.profile-one img{
+        width: 80px;
+        height: 80px;
+    }
+    .profile-head-img{
         width: 80px;
         height: 80px;
     }
@@ -3821,4 +3757,13 @@ ul.ul-report li a.active{
     color: #ccc;
     font-size: 11px;
     text-align: center;
+}
+
+
+/* ***********FRIENDS SECTION ********* */
+.friends-section{
+    background-color:  rgb(24, 24, 24);
+}
+.friends-container{
+    padding: 0px 20px;
 }

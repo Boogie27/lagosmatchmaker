@@ -559,6 +559,11 @@ class ClientController extends Controller
 
     public function friends_index()
     {
+        if(!Auth::is_loggedin())
+        {
+            return redirect('/login');
+        }
+
         $friends = [];
         $initiators = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('is_accept', 1)->get();
         $acceptors = DB::table('likes')->where('acceptor_id', Auth::user('id'))->where('is_accept', 1)->get();
@@ -586,7 +591,10 @@ class ClientController extends Controller
             }
         }
 
-        return view('web.friends', compact('friends'));
+        $friends_request = DB::table('likes')->where('acceptor_id', Auth::user('id'))->where('is_accept', 0)
+                            ->leftJoin('users', 'likes.initiator_id', 'users.id')->where('is_approved', 1)->where('is_suspend', 0)->where('is_deactivated', 0)->get();
+
+        return view('web.friends', compact('friends', 'friends_request'));
     }
     
 

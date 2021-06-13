@@ -61,10 +61,7 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/ajax-get-lifestyle", [ClientAjaxController::class, "ajax_get_life_style"]);
     Route::post("/edit-physical-info", [ClientAjaxController::class, "ajax_edit_physical_info"]);
     Route::post("/ajax-get-physical-info", [ClientAjaxController::class, "ajax_get_physical_info"]);
-    Route::post("/fetch-all-avatar", [ClientAjaxController::class, "ajax_fetch_all_avatar"]);
-    Route::post("/upload-profile-image", [ClientAjaxController::class, "ajax_upload_profile_image"]);
     Route::post("/ajax-login-check", [ClientAjaxController::class, "ajax_login_check"]);
-    Route::post("/ajax-get-profile-banners", [ClientAjaxController::class, "ajax_get_profile_banners"]);
 
 
 
@@ -113,7 +110,9 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/ajax-get-users-notification-count", [ClientAjaxController::class, "ajax_get_users_notification_count"]);
     Route::post("/ajax-unlike-matched-user", [ClientAjaxController::class, "ajax_unlike_matched_user"]);
     Route::post("/ajax-get-member-links", [ClientAjaxController::class, "ajax_get_member_links"]);
-    
+    Route::post("/ajax-get-profile-links", [ClientAjaxController::class, "ajax_get_profile_links"]);
+
+
 
     // ************* VIDEO CALL SECTION *******************//
     Route::post("/ajax-call-user", [ClientAjaxController::class, "ajax_call_user"]);

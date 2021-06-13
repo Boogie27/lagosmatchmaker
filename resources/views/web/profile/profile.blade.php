@@ -1,22 +1,11 @@
 <!-- PROFILE START-->
 <section class="profile-section">
     <div class="profile-container">
-        <div class="profile-banner" id="profile_banner_div" style="background-image: linear-gradient(rgba(0, 0, 0, 0.274), rgba(0, 0, 0, 0.288)) , url({{ asset('web/images/banner/1.jpg') }});">
-            @if(is_loggedin() && user('id') == $user->id)
-            <div class="banner-icon">
-               <a href="#" id="profile_banner_open"><i class="fa fa-camera"></i></a>
-           </div>
-           @endif
+        <div class="profile-banner" id="profile_banner_div">
             <div class="profile-inner-banner">
-                <div class="profile-img" id="profile_img_container">
-                    <img src="{{ asset($profile_image) }}" alt="{{ $user->user_name }}">
-                    @if(is_loggedin() && user('id') == $user->id)
-                    <a href="{{ url('/fetch-all-avatar') }}" id="profile_img_upload_btn" class="p-img-upload-btn"><i class="fa fa-camera"></i></a>
-                    @endif
-                </div>
                 <div class="profile-banner-body">
                     <div class="title-header text-center">
-                        <h4 class="user-display-name">{{ $user->user_name }}</h4>
+                        <h4 class="user-display-name">{{ ucfirst($user->user_name) }}</h4>
                         <p class="text-warning">{{ ucfirst($user->membership_level) }}</p>
                     </div>
                     <ul id="user_like_action_btns">
@@ -42,7 +31,6 @@
                             @if($was_liked && $was_liked->is_accept || $you_liked && $you_liked->is_accept)
                             <li><a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart"></i> Unlike</a></li>
                             @endif
-
                             @if(!$was_liked && !$you_liked)
                             <li><a href="#" class="user_like_confirm_modal_popup"><i class="fa fa-heart"></i> Like</a></li>
                             @endif
@@ -72,19 +60,6 @@
 
 <!-- PROFILE DETAILS START-->
 <section class="profile-detail-section">
-   <div class="mobile-like-btn">
-        @if(is_loggedin() && user_detail()->id != $user->id && $was_liked)
-        <div class="action-like-btn">
-            <a href="#" class="user-accept-like-btn accept"><i class="fa fa-heart"></i> Accept</a>
-            <a href="#" class="user-decline-like-btn decline"><i class="fa fa-heart"></i> Decline</a>
-        </div>
-        @endif
-        @if(is_loggedin() && user_detail()->id != $user->id && $you_liked && !$you_liked->is_accept)
-        <div class="action-like-btn">
-            <a href="#" class="user-cancle-like-request-btn decline"><i class="fa fa-heart"></i> Cancle request</a>
-        </div>
-        @endif
-   </div>
     <div class="profile-detail-container">
         <div class="row">
             <div class="col-xl-8 col-lg-8"><!-- profile detail left end-->
@@ -332,8 +307,6 @@
 
 
 @if(is_loggedin() && user('id') == $user->id)
-    @include('web.profile.profile-image-modal-popup')
-    @include('web.profile.profile-banner-modal-popup')
     @include('web.profile.profile-detail-info-modal-popup')
     @include('web.profile.profile-about-modal-popup')
     @include('web.profile.profile-looking-for-modal-popup')

@@ -140,3 +140,92 @@
 
 
 
+
+
+
+
+
+
+<!-- MATCH START-->
+<section class="member-match-form-container" id="profile_match_open_btn">
+    <div class="profile-match-main">
+        <div class="profile-match-dark-theme">
+            <div class="profile-match-container">
+                <img src="{{ asset('web/images/banner/match.png') }}" alt="" class="match-banner-img">
+                <div class="center-body" id="add_match_members_profile">
+                    <!-- <div class="title-header text-center">
+                        <h4>You're Matched</h4>
+                        <p>You and emeka have both liked each other</p>
+                        <ul class="ul-profile-match">
+                            <li class="profile-one">
+                                <ul class="profile-one-content">
+                                    <li><h4>Jessica James</h4></li>
+                                    <li><p>Age: 25</p></li>
+                                    <li><p><i class="fa fa-map-marker-alt"></i> Lagos</p></li>
+                                </ul>
+                                <div class="profile-head-img"><h4>F</h4></div>
+                            </li>
+                            <li><i class="fa fa-heart"></i></li>
+                            <li class="profile-one">
+                                <div class="profile-head-img"><h4>M</h4></div>
+                                <ul class="profile-two-content">
+                                    <li><h4>Emeka Ezeugo</h4></li>
+                                    <li><p>Age: 30</p></li>
+                                    <li><p><i class="fa fa-map-marker-alt"></i> Lagos</p></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="profile-match-body">
+                        <ul>
+                            <li><a href="#" class="match-anchor-btn">Send a message</a></li>
+                            <li><a href="#" class="member_match_close_btn">Back to Profile</a></li>
+                        </ul>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+     </div>
+</section>
+<!-- MATCH END-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- VIDEO CALL START-->
+<section id="video_call_section">
+    <div class="video-call-main">
+        <div class="video-call-dark-theme">
+            <div class="video-call-container">
+                <ul class="ul-video-call">
+                    <li>
+                        <img src="{{ asset('web/images/avatar/15.jpg') }}" alt="">
+                    </li>
+                    <li>
+                        <h4>James Jessica <span class="text-success">Video Calling...</span></h4>
+                    </li>
+                    <li>
+                        <div class="call-btn bg-danger">
+                            <a href="#" id="video_call_close_btn"><i class="fa fa-times"></i></a>
+                        </div>
+                        <div class="call-btn bg-success">
+                            <a href="#"><i class="fa fa-video"></i></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+     </div>
+</section>
+<!-- VIDEO CALL END-->

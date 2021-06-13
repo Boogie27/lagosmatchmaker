@@ -436,65 +436,6 @@ class ClientAjaxController extends Controller
 
 
 
-    public function ajax_fetch_all_avatar(Request $request)
-    {
-        if($request->ajax())
-        {
-            $data = false;
-            if(Auth::is_loggedin())
-            {
-                $user = $this->user_detail();
-                $profile_image =  avatar($user->display_image, $user->gender); //get user image
-
-                $avatars = DB::table('avatars')->where('is_featured', 1)->get(); //get all avatars 
-                
-                return view('web.common.ajax-get-avatars', compact('avatars', 'user','profile_image'));
-            }
-        }
-        return response()->json(['data' => $data]);
-    }
-
-
-
-
-
-
-
-
-    public function ajax_upload_profile_image(Request $request)
-    {
-        if($request->ajax())
-        {
-            $data = false;
-            $id = Auth::user('id');
-            $user = User::where('id', $id)->where('is_active', 1)->where('is_deactivated', 0)->first(); //get user detail
-            $avatar = DB::table('avatars')->where('id', $request->avatar_id)->where('is_featured', 1)->first(); //get avatar
-            
-            if($user || $avatar)
-            {
-                if($request->avatar_id == 'profile_image')
-                {
-                    $image = $user->profile_image;
-                    $data = asset($user->profile_image);
-                }else{
-                    $image = $avatar->avatar;
-                    $data = asset($avatar->avatar);
-                }
-
-                $user->display_image = $image;
-                $user->save();
-            }
-        }
-        return response()->json(['data' => $data]);
-    }
-
-
-
-
-
-
-
-
     public function ajax_login_check(Request $request)
     {
         if($request->ajax())
@@ -760,7 +701,29 @@ class ClientAjaxController extends Controller
 
 
 
+    public function ajax_get_profile_links(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $user = User::where('id', $request->user_id)->where('is_deactivated', 0)->first(); //get user detail
+            if($user)
+            {
+                $you_liked = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('acceptor_id', $request->user_id)->first(); //you liked this user
+                $was_liked = DB::table('likes')->where('initiator_id', $request->user_id)->where('acceptor_id', Auth::user('id'))->first(); // this user liked you
+            
+                return view('web.common.ajax-get-profile-links', compact('you_liked', 'was_liked', 'user'));
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
+
+
+
+
+
+    
 
 
      public function ajax_get_matched_detail(Request $request)
@@ -771,9 +734,9 @@ class ClientAjaxController extends Controller
             $user = User::where('id', $request->user_id)->where('is_deactivated', 0)->first(); //get user detail
             if($user)
             {
-                $profile_image =  avatar($user->display_image, $user->gender); //get user image
-                $display_name = $user->display_name ? $user->display_name : $user->user_name; //user name
-                return view('web.common.ajax-matched-modal-popup', compact('display_name', 'user', 'profile_image'));
+                $display_name = $user->display_name ? ucfirst($user->display_name) : $user->user_name; //user name
+            
+                return view('web.common.ajax-matched-modal-popup', compact('display_name', 'user'));
             }
         }
         return response()->json(['data' => $data]);
@@ -969,17 +932,17 @@ class ClientAjaxController extends Controller
 
 
 
-    public function ajax_get_profile_banners(Request $request)
-    {
-        if($request->ajax())
-        {
-            $user = $this->user_detail();
-            $banners = DB::table('banners')->where('is_featured', 1)->get(); //get all banners
+    // public function ajax_get_profile_banners(Request $request)
+    // {
+    //     if($request->ajax())
+    //     {
+    //         $user = $this->user_detail();
+    //         $banners = DB::table('banners')->where('is_featured', 1)->get(); //get all banners
             
-            return view('web.common.ajax-profile-banner', compact('user', 'banners'));
-        }
-        return response()->json(['error' => true]);
-    }
+    //         return view('web.common.ajax-profile-banner', compact('user', 'banners'));
+    //     }
+    //     return response()->json(['error' => true]);
+    // }
    
 
 

@@ -459,7 +459,7 @@ $(".login-confirm-submit-btn").click(function(){
 
 
 // **************** LIKE A MEMBER *********************//
-$("ul.ul-member-anchor").on('click', '.like-a-member-btn', function(e){
+$("ul#ul_member_anchor").on('click', '.like-a-member-btn', function(e){
     e.preventDefault()
     var url = $(this).attr('href')
     var user_id = $(this).attr('id')
@@ -534,7 +534,7 @@ function get_member_links(url, user_id, parent){
 
 
 // *************** UNLIKE A USER MODAL CONFRIM**************//
-$("ul.ul-member-anchor").on('click', '.unlike-a-member-btn', function(e){
+$("ul#ul_member_anchor").on('click', '.unlike-a-member-btn', function(e){
     e.preventDefault()
     var display_name = $(this).attr('data-name')
     var user_id = $(this).attr('id')
@@ -542,7 +542,7 @@ $("ul.ul-member-anchor").on('click', '.unlike-a-member-btn', function(e){
     $("#user_confirm_modal_popup").show()
     $("#user_unlike_id_input").val(user_id)
     $("#user_confirm_unlike_submit").html('Proceed')
-    $("#user_confirm_modal_popup").find('.confirm-header').html(' <p>Do you wish to unlike <b>'+display_name+'</b></p>')
+    $("#user_confirm_modal_popup").find('.confirm-header').html(' <p>Do you wish to unlike <b>'+display_name+'</b>?</p>')
 })
 
 
@@ -588,6 +588,65 @@ $("#user_confirm_unlike_submit").click(function(e){
 
 
 
+// ******** OPEN CANCLE A USER REQUEST MODAL ************//
+$("ul#ul_member_anchor").on('click', '.cancle-user-like-request', function(e){
+    e.preventDefault()
+    var display_name = $(this).attr('data-name')
+    var user_id = $(this).attr('id')
+
+    $("#user_confirm_modal_popup").show()
+    $("#user_unlike_id_input").val(user_id)
+    $("#user_confirm_unlike_submit").html('Proceed')
+    $("#user_confirm_modal_popup").find('.confirm-header').html(' <p>Do you wish to cancle <b>'+display_name+'</b> request?</p>')
+})
+
+
+
+
+
+
+
+
+// ******* ACCEPT USER REQUEST **********//
+$("ul#ul_member_anchor").on('click', '.accept-user-like-request', function(e){
+    e.preventDefault()
+    var user_id = $(this).attr('id')
+    var url = $(this).attr('href')
+    var popup_url = $(this).attr('data-detail')
+    var link_url = $(this).attr('data-links')
+    var display_name = $(this).attr('data-name')
+
+    var parent = $(this).parent().parent() 
+
+    $("#access_preloader_container").show()
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            user_id: user_id,
+        },
+        success: function (response){
+            if(response.subscribe_to_premium){
+                apend_message('<p>Subscribe to premium to accept <br><b>'+display_name+'</b> request</p>')
+                $("#user_confirm_sub_modal_popup").show()
+                $("#access_preloader_container").hide()
+            }else if(response.matched){
+                get_matched_modal(popup_url, user_id)
+                get_member_links(link_url, user_id, parent)
+            }else{
+                $("#access_preloader_container").hide()
+                bottom_error_danger('Network error, try again later!')
+            }
+        }, 
+        error: function(){
+           $("#access_preloader_container").hide()
+           bottom_error_danger('Network error, try again later!')
+        }
+    });
+})
 
 
 
@@ -601,15 +660,41 @@ $("#user_confirm_unlike_submit").click(function(e){
 
 
 
+// ********GET MATCHED MODAL ************//
+function get_matched_modal(url, user_id){
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            user_id: user_id,
+        },
+        success: function (response){
+            if(response.data == false){
+                location.reload()
+            }else{
+                $("#add_match_members_profile").html(response)
+                $("#profile_match_open_btn").show()
+                $("#access_preloader_container").hide()
+            }
+        }, 
+        error: function(){
+           $("#access_preloader_container").hide()
+        }
+    });
+}
 
 
 
 
 
 
-
-
-
+// ********* CLOSE PROFILE MATCH ***********//
+$("#add_match_members_profile").on('click', '.member_match_close_btn', function(e){
+    e.preventDefault()
+    $(".member-match-form-container").hide()
+})
 
 
 
