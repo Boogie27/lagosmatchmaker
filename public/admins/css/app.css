@@ -40,7 +40,7 @@ html {
   min-height: 100%; }
 
 body {
-  padding-bottom: 60px;
+  /* padding-bottom: 60px; */
   overflow-x: hidden; }
 
 /* 3. Left Menu */
@@ -84,7 +84,7 @@ body {
           transition-duration: .2s;
   -webkit-box-shadow: 1px 0.05rem 0.01rem rgba(75, 75, 90, 0.075);
           box-shadow: 1px 0.05rem 0.01rem rgba(75, 75, 90, 0.075);
-  z-index: 99; }
+  z-index: 20; }
   .left-side-menu .sidebar-content {
     height: 100%;
     padding-bottom: 30px; }
@@ -415,7 +415,7 @@ body {
   left: 0px;
   right: 0px;
   height: 72px;
-  z-index: 100;
+  z-index: 20;
   background-color: #ffffff;
   -webkit-box-shadow: 0 0.05rem 0.01rem rgba(75, 75, 90, 0.075);
           box-shadow: 0 0.05rem 0.01rem rgba(75, 75, 90, 0.075);

@@ -111,7 +111,11 @@ class ClientController extends Controller
 
 
 
-
+    public function error_index()
+    {
+        return view('web.404');
+    }
+    
 
 
 
@@ -274,17 +278,13 @@ class ClientController extends Controller
         
         if(!$user)
         {
-            return redirect('/');
+            return redirect('web/404');
         }
 
         $reports = DB::table('reports')->where('is_featured', 1)->get(); // aget all reports
         
         $states = DB::table('states')->where('is_featured', 1)->get(); // aget all states
-
-        $avatars = DB::table('avatars')->where('is_featured', 1)->get(); //get all avatars
         
-        $banners = DB::table('banners')->where('is_featured', 1)->get(); //get all banners
-
         $genotypes = DB::table('genotypes')->where('is_featured', 1)->get(); //get all genotypes options
 
         $ethnicities = DB::table('ethnicities')->where('is_featured', 1)->get(); //get all ethnicities options
@@ -303,8 +303,6 @@ class ClientController extends Controller
 
         $gender = $user->gender == 'male' ? 'man' : 'woman'; // gender
 
-        $profile_image =  avatar($user->display_image, $user->gender); //get user image
-
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
         $you_may_like = User::where('is_approved', 1)->where('is_deactivated', 0)->inRandomOrder()->limit(9)->get();
@@ -317,7 +315,7 @@ class ClientController extends Controller
 
 
 
-        return view('web.profile', compact('reports', 'banners', 'marital_status', 'was_liked', 'you_liked','states', 'user', 'profile_image', 'display_name', 'gender', 'you_may_like', 'smokings', 'drinkings', 'heights', 'weights', 'body_types', 'ethnicities', 'genotypes', 'avatars'));
+        return view('web.profile', compact('reports', 'marital_status', 'was_liked', 'you_liked','states', 'user', 'display_name', 'gender', 'you_may_like', 'smokings', 'drinkings', 'heights', 'weights', 'body_types', 'ethnicities', 'genotypes'));
     }
 
 

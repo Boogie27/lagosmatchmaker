@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Chat;
 use App\Models\Auth;
+use App\Models\Admin;
 
 
 
@@ -23,35 +24,35 @@ function money($string)
 
 
 
-function image($image, $avatar, $gender, $toggle)
-{
-    if($image && $avatar)
-    {
-        return $toggle == 1 ? $image : $avatar;
-    }
+// function image($image, $avatar, $gender, $toggle)
+// {
+//     if($image && $avatar)
+//     {
+//         return $toggle == 1 ? $image : $avatar;
+//     }
 
-    if($image && !$avatar)
-    {
-        return $image;
-    }
+//     if($image && !$avatar)
+//     {
+//         return $image;
+//     }
 
-    if(!$image && $avatar)
-    {
-        return $avatar;
-    }
+//     if(!$image && $avatar)
+//     {
+//         return $avatar;
+//     }
 
-    if($gender == 'male' && !$image && !$avatar)
-    {
-        return 'web/images/avartar/male.png';
-    }
+//     if($gender == 'male' && !$image && !$avatar)
+//     {
+//         return 'web/images/avartar/male.png';
+//     }
 
-    if($gender == 'female' && !$image && !$avatar)
-    {
-        return 'web/images/avartar/female.jpg';
-    }
+//     if($gender == 'female' && !$image && !$avatar)
+//     {
+//         return 'web/images/avartar/female.jpg';
+//     }
 
-    return false;
-}
+//     return false;
+// }
 
 
 
@@ -129,21 +130,6 @@ function user($string){
 
 
 
-
-
-
-function avatar($display_image, $gender)
-{
-    $img = 'web/images/avatar/female.jpg';
-    if($display_image)
-    {
-        $img = $display_image;
-    }else if($gender == 'male')
-    {
-        $img = 'web/images/avatar/male.png';
-    }
-    return $img;
-}
 
 
 
@@ -267,8 +253,50 @@ function get_like($user_id)
 
 
 
+// ***********************************************************************************************************************************************//
+//                    ADMIN HELPER SECTION                                                                                                        //
+// ***********************************************************************************************************************************************//
 
 
+function admin_image($image, $gender)
+{
+    $img = 'admins/images/profile_image/female.jpg';
+    if($gender == 'male')
+    {
+        $img = 'admins/images/profile_image/male.png';
+    }
+    if($image)
+    {
+       $img = $image;
+    }
+    return $img;
+}
+
+
+
+
+
+function admin_loggedin(){
+    if(Admin::is_loggedin())
+    {
+        return true;
+    }
+    return false;
+}
+
+
+
+
+
+
+
+function admin($string = null){
+    if(Session::has('admin'))
+    {
+        return Admin::admin($string);
+    }
+    return false;
+}
 
 
 

@@ -5,7 +5,7 @@
         <a href="index.html" class="navbar-brand mr-0 mr-md-2 logo">
             <span class="logo-lg">
                 <img src="{{ asset('admins/images/logo.png') }}" alt="" height="24" />
-                <span class="d-inline h5 ml-1 text-logo">Shreyu</span>
+                <span class="d-inline h5 ml-1 text-logo">Lagosmatchmaker</span>
             </span>
             <span class="logo-sm">
                 <img src="{{ asset('admins/images/logo.png') }}" alt="" height="24">

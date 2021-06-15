@@ -236,12 +236,19 @@ $("#logout_modal_open_btn").click(function(e){
 })
 
 
+
+
+
+
 // *********** MOBILE LOGOUT MODAL BTN CANCLE ***********//
 $("#mobile_logout_modal_open_btn").click(function(e){
     e.preventDefault()
     close_mobile_navigation()
     $("#logout_preloader_container").show();
 })
+
+
+
 
 
 
@@ -374,7 +381,6 @@ $(window).click(function(e){
     if($(e.target).hasClass('drop-down-header')){
         $(e.target).parent().parent().children('.drop-down-body').show()
     }
-    
 })
 
 

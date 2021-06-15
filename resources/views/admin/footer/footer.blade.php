@@ -1,5 +1,5 @@
- <!-- Footer Start -->
- <footer class="footer">
+    <!-- Footer Start -->
+    <footer class="footer mt-3">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
@@ -20,17 +20,3 @@
 
 <!-- Right bar overlay-->
 <div class="rightbar-overlay"></div>
-
-<!-- Vendor js -->
-<script src="{{ asset('admins/js/vendor.min.js') }}"></script>
-
-<!-- optional plugins -->
-<script src="{{ asset('admins/libs/moment/moment.min.js') }}"></script>
-<script src="{{ asset('admins/libs/apexcharts/apexcharts.min.js') }}"></script>
-<script src="{{ asset('admins/libs/flatpickr/flatpickr.min.js') }}"></script>
-
-<!-- page js -->
-<script src="{{ asset('admins/js/pages/dashboard.init.js') }}"></script>
-
-<!-- App js -->
-<script src="{{ asset('admins/js/app.min.js') }}"></script>

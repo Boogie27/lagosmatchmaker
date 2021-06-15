@@ -128,6 +128,10 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/friends", [ClientController::class, "friends_index"]);
 
 
+    // ************* ERROR SECTION ********************//
+    Route::get("/404", [ClientController::class, "error_index"]);
+
+
 
 
     // ************ NEWS LETTER SECTION ******************//
@@ -155,7 +159,7 @@ Route::group(['middleware' => 'remember_me'], function(){
 
 
    
-}); //end f remember_me middleware
+}); //end of remember_me middleware
 
 
 
@@ -190,16 +194,116 @@ Route::group(['middleware' => 'remember_me'], function(){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // *********************************************************************************************************************************//
 //                                        ADMIN ROUTE SECTION                                                                    *//
 // ********************************************************************************************************************************//
     use App\Http\Controllers\AdminController;
+    use App\Http\Controllers\AdminAjaxController;
+
+    
 
 
 
 
+    Route::group(['middleware' => 'admin_authentication'], function(){
 
 
-
-
+    // ********* DASHBOARD SECTION **************//
     Route::get("/admin", [AdminController::class, "index"]);
+
+
+
+    // ********* LOGOUT ***********//
+    Route::get("/admin/logout", [AdminController::class, "logout_admin"]);
+
+
+
+    // ********** MEMBER SECTION ***********//
+    Route::get("/admin/basic", [AdminController::class, "basic_index"]);
+    Route::get("/admin/premium", [AdminController::class, "premium_index"]);
+    Route::get("/admin/member-detail/{id}", [AdminController::class, "member_detail_index"]);
+    Route::post("/ajax-suspend-member", [AdminAjaxController::class, "ajax_suspend_member"]);
+    Route::post("/ajax-approve-member", [AdminAjaxController::class, "ajax_approve_member"]);
+    Route::post("/ajax-deactivate-member", [AdminAjaxController::class, "ajax_deactivate_member"]);
+    
+    
+
+    // ********* ERROR SECTION ************//
+    Route::get("/admin/404", [AdminController::class, "error_index"]);
+
+    
+
+    
+    
+}); //end of admin authenication middleware
+
+
+
+    // ********* LOGIN SECTION **************//
+    Route::get("/admin/login", [AdminController::class, "login_index"]);
+    Route::post("/admin/login", [AdminController::class, "login_admin"]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

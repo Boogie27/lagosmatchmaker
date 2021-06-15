@@ -8,12 +8,15 @@
         
         <!-- Begin page -->
         <div id="wrapper">
+            @include("admin.preloader") <!-- meta -->
+            @include("admin.modal-popup") <!-- modal popup -->
+
             @yield("navigation")<!-- navigation -->
 
-            @yield("content")<!-- page content -->                
+            @yield("content")<!-- page content -->   
+            @include("admin.script") <!-- javascript  -->             
         </div>
         <!-- END wrapper -->
-
     </body>
 </html>
 

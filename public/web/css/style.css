@@ -55,6 +55,29 @@ a {
     color: rgb(202, 0, 0);
 }
 
+/* *********** ERROR PAGE ********* */
+.account-pages{
+    height: 100vh;
+    background-color: #fff;
+}
+.account-pages .title-header h3{
+    color: #333;
+    margin-top: 20px;
+}
+.account-pages a.error-btn{
+    border: none;
+    color: #fff;
+    border: 1px solid transparent;
+    background-color:  rgb(196, 142, 44);
+    border: 1px solid rgb(192, 129, 13);
+}
+.account-pages a.error-btn:focus{
+    outline: none;
+    box-shadow: none;
+    border: 1px solid rgb(192, 129, 13);
+    background-color:  rgb(196, 142, 44);
+}
+
 /* ***********BOTTOM ALERT *********** */
 .bottom-alert{
     height: 0px;
@@ -93,6 +116,7 @@ a {
     margin: 0px;
     text-align: center;
 }
+
 /* ********** BUTTONS ************ */
 button.btn-fill{
     padding: 5px 10px;
@@ -101,10 +125,10 @@ button.btn-fill{
     transition:  background-color 0.2s ease;
     background-color:   rgb(196, 142, 44);
 }
-  button.btn-fill:hover{
+button.btn-fill:hover{
     background-color:  rgb(240, 156, 0);
-  }
-  button.btn-fill-block{
+}
+button.btn-fill-block{
     padding: 5px 10px;
     border: none;
     color: #fff;
@@ -113,11 +137,11 @@ button.btn-fill{
     border: 1px solid  rgb(246, 193, 95);
     transition:  background-color 0.2s ease;
     background-color:  rgb(196, 142, 44);
-  }
-  button.btn-fill-block:hover{
+}
+button.btn-fill-block:hover{
     color: #fff;
     background-color:  rgb(235, 164, 33);
-  }
+}
 /* ******** SELECT PICKER ******** */
 .dropdown-item.active{
     color: #fff;

@@ -63,5 +63,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'remember_me' => \App\Http\Middleware\RememberMe::class, //lagosmatchmaker remember me middleware
+        'admin_authentication' => \App\Http\Middleware\AdminAuth::class, //Admin authentication middleware
     ];
 }
