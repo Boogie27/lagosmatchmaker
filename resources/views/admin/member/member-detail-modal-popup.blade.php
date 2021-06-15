@@ -103,7 +103,8 @@
                             </div>
                             <div class="col-xl-12 mt-4">
                                 <div class="form-group">
-                                    <button type="button" data-url="{{ url('/edit-detail-info') }}" id="edit_detail_info_submit_btn" class="btn-fill-block">Update Detail</button>
+                                    <input type="hidden" id="user_id_input" value="{{ $user->id }}">
+                                    <button type="button" id="edit_detail_info_submit_btn" class="btn-fill-block">Update Detail</button>
                                     <div class="form-error-alert form_alert_0 text-danger"></div>
                                 </div>
                             </div>
@@ -115,4 +116,192 @@
     <div>
 </section>
 <!-- EDIT DETAIL INFO END-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+$(document).ready(function(){
+
+// ********* CSRF PAGE TOKEN ***********//
+function csrf_token(){
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $("meta[name='csrf_token']").attr("content")
+        }
+    });
+}
+
+
+
+
+
+
+// ********* DETAIL INFO EDIT ***************//
+$("#edit_detail_info_submit_btn").click(function(e){
+    e.preventDefault()
+    edit_detail_info()
+})
+
+
+
+
+
+function edit_detail_info(){
+    $(".form_alert_0").html('')
+    $(".alert-form").html('')
+    var user_id = $("#user_id_input").val()
+    var display_name = $("#edit_display_name_input").val()
+    var i_am = $("#edit_im_am_input").val()
+    var looking_for = $("#edit_looking_for_input").val()
+    var marital_status = $("#edit_marital_status_input").val()
+    var age = $("#edit_age_input").val()
+    var religion = $("#edit_religion_input").val()
+    var date_of_birth = $("#edit_date_of_birth_input").val()
+    var location = $("#edit_location_input").val()
+    var genotype = $("#edit_genotype_input").val()
+
+    $("#edit_detail_info_submit_btn").html('Please wait...')
+
+    csrf_token() //csrf token
+
+    if(validate_detail_field(genotype, display_name, i_am, looking_for, marital_status, age, religion, date_of_birth, location)){
+        $("#edit_detail_info_submit_btn").html('Update Detail')
+        return;
+    }
+    
+    $.ajax({
+        url: "{{ url('/admin/edit-detail-info') }}",
+        method: "post",
+        data: {
+            age: age,
+            i_am: i_am,
+            user_id: user_id,
+            genotype: genotype,
+            location: location,
+            religion: religion,
+            looking_for: looking_for,
+            display_name: display_name,
+            date_of_birth: date_of_birth,
+            marital_status: marital_status,
+        },
+        success: function (response){
+            if(response.error){
+                get_detail_error(response.error)
+                $("#edit_detail_info_submit_btn").html('Update Detail')
+            }else if(response.data){
+                get_ajax_edit_detail(user_id)
+                $(".modal-btn-close").click()
+                $("#access_preloader_container").show()
+            }else{
+                $(".form_alert_0").html('Network error, try again later!')
+            }
+        },
+        error: function(){
+            $(".form_alert_0").html('Network error, try again later!')
+        }
+    });
+    
+}
+
+
+
+
+// *********** GET DETAIL INFO *************//
+function get_ajax_edit_detail(user_id){
+    
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/admin/ajax-get-detail-info') }}",
+        method: "post",
+        data: {
+            user_id: user_id
+        },
+        success: function (response){
+            if(response.data){
+                location.reload()
+            }
+            preloader_toggle()
+            $("#ul_profile_detail_body").html(response)
+            $("#edit_detail_info_submit_btn").html('Update Detail')
+        }
+    });
+}
+
+
+
+
+function validate_detail_field(genotype, display_name, i_am, looking_for, marital_status, age, religion, date_of_birth, location){
+    var is_state = false;
+
+    if(!genotype || !display_name || !looking_for || !i_am || !marital_status || !age || !religion || !date_of_birth || !location){
+        is_state = true;
+        $(".form_alert_0").html('*All fields is required')
+    }else{
+        if(display_name.length > 50){
+            is_state = true;
+            $(".alert_0").html('*Maximum of 50 characters')
+        }
+    }
+    return is_state;
+}
+
+
+
+
+
+function get_detail_error(error){
+    $(".alert_0").html(error.display_name)
+    $(".alert_1").html(error.i_am)
+    $(".alert_2").html(error.looking_for)
+    $(".alert_3").html(error.marital_status)
+    $(".alert_4").html(error.age)
+    $(".alert_5").html(error.religion)
+    $(".alert_6").html(error.date_of_birth)
+    $(".alert_7").html(error.location)
+    $(".alert_21").html(error.genotype)
+}
+
+
+
+
+
+// ********** REMOVE ACCESS PRELOADER ***********//
+function preloader_toggle(){
+    $("#access_preloader_container").show()
+    setTimeout(function(){
+        bottom_alert_success('Profile updated successfully!')
+        $("#access_preloader_container").hide()
+    }, 1000)
+}
+
+
+// end
+})
+</script>
+
+
 

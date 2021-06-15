@@ -129,9 +129,6 @@
 
 
 <!-- AJAX URLS -->
-<a href="{{ url('/ajax-get-detail-info') }}" id="ajax_get_detail_info_url" style="display: none"></a>
-
-
 
 
 
@@ -183,10 +180,10 @@ function edit_detail_info(){
 
     csrf_token() //csrf token
 
-    // if(validate_detail_field(genotype, display_name, i_am, looking_for, marital_status, age, religion, date_of_birth, location)){
-    //     $("#edit_detail_info_submit_btn").html('Update Detail')
-    //     return;
-    // }
+    if(validate_detail_field(genotype, display_name, i_am, looking_for, marital_status, age, religion, date_of_birth, location)){
+        $("#edit_detail_info_submit_btn").html('Update Detail')
+        return;
+    }
     
     $.ajax({
         url: url,
@@ -226,12 +223,12 @@ function edit_detail_info(){
 
 // *********** GET DETAIL INFO *************//
 function get_ajax_edit_detail(){
-    var url = $("#ajax_get_detail_info_url").attr('href')
+    // var url = $("#ajax_get_detail_info_url").attr('href')
 
     csrf_token() //csrf token
 
     $.ajax({
-        url: url,
+        url: "{{ url('/ajax-get-detail-info') }}",
         method: "post",
         data: {
             get_detail_info: 'get_detail_info'

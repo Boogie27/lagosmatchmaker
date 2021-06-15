@@ -11,7 +11,7 @@
                         <nav aria-label="breadcrumb" class="float-right mt-1">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void()">{{ ucfirst($user->membership_level) }}</a></li>
+                                <li class="breadcrumb-item"><a href="#">{{ ucfirst($user->membership_level) }}</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">{{ ucfirst($user->user_name) }}</li>
                             </ol>
                         </nav>
@@ -183,8 +183,19 @@
 
 
 
-@include('admin.member.profile-script')
+
 @include('admin.member.member-detail-modal-popup')
+@include('admin.member.profile-about-modal-popup')
+@include('admin.member.profile-looking-for-modal-popup')
+@include('admin.member.profile-lifestyle-modal-popup')
+@include('admin.member.profile-physical-info-modal-popup')
+
+
+
+
+
+
+<!-- web/images/ID_card/ID_CARD_60b0ebfe4e531.jpg -->
 
 
 
@@ -193,7 +204,55 @@
 
 
 
+<script>
+$(document).ready(function(){
+// ************ OPEN DETAIL MODAL *********//
+$("#detail_info_edit_btn_open").click(function(e){
+    e.preventDefault();
+    $("#edit_detail_info_section").show()
+})
 
 
 
 
+
+// ************ OPEN ABOUT MODAL *********//
+$("#about_me_edit_btn_open").click(function(e){
+    e.preventDefault();
+    $("#about_me_edit_btn_modal").show()
+})
+
+
+
+
+// ************ OPEN LOOKING FOR MODAL *********//
+$("#looking_for_btn_open").click(function(e){
+    e.preventDefault();
+    $("#looking_for_modal_popup").show()
+})
+
+
+
+
+
+// ************ OPEN LIFESTYLE MODAL *********//
+$("#detail_lifestyle_btn_open").click(function(e){
+    e.preventDefault();
+    $("#lifestyle_modal_popup").show()
+})
+
+
+
+
+
+// ************ OPEN PHYSICAL MODAL *********//
+$("#detail_physical_info_btn_open").click(function(e){
+    e.preventDefault();
+    $("#physical_info_modal_popup").show()
+})
+
+
+
+// end
+})
+</script>

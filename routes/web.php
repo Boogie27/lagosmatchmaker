@@ -247,8 +247,16 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/ajax-suspend-member", [AdminAjaxController::class, "ajax_suspend_member"]);
     Route::post("/ajax-approve-member", [AdminAjaxController::class, "ajax_approve_member"]);
     Route::post("/ajax-deactivate-member", [AdminAjaxController::class, "ajax_deactivate_member"]);
-    
-    
+    Route::post("/admin/edit-detail-info", [AdminAjaxController::class, "edit_detail_info_ajax"]);
+    Route::post("/admin/ajax-get-detail-info", [AdminAjaxController::class, "ajax_get_detail_info"]);
+    Route::post("/admin/edit-about-me", [AdminAjaxController::class, "ajax_edit_about_me"]);
+    Route::post("/admin/edit-looking-for", [AdminAjaxController::class, "ajax_edit_looking_for"]);
+    Route::post("/admin/edit-life-style", [AdminAjaxController::class, "ajax_edit_life_style"]);
+    Route::post("/admin/ajax-get-lifestyle", [AdminAjaxController::class, "ajax_get_life_style"]);
+    Route::post("/admin/edit-physical-info", [AdminAjaxController::class, "ajax_edit_physical_info"]);
+    Route::post("/admin/ajax-get-physical-info", [AdminAjaxController::class, "ajax_get_physical_info"]);
+
+
 
     // ********* ERROR SECTION ************//
     Route::get("/admin/404", [AdminController::class, "error_index"]);

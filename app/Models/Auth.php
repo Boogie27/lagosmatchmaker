@@ -94,7 +94,7 @@ class Auth extends Model
         if(Session::has('user'))
         {
             $user = Session::get('user');
-            $loggedIn = User::where('email', $user['email'])->where('id', $user['id'])->where('is_active', 1)->first();
+            $loggedIn = User::where('email', $user['email'])->where('id', $user['id'])->where('is_active', 1)->where('is_suspend', 0)->where('is_deactivated', 0)->first();
             if($loggedIn)
             {
                 return true;

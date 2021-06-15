@@ -147,6 +147,17 @@ class ClientController extends Controller
             return back()->with('error', 'Wrong email or password, try again!');
         }
 
+        if($user && $user->is_deactivated)
+        {
+            return back()->with('error', 'This account has been deactivated, contact the admin');
+        }
+
+
+        if($user && $user->is_suspend)
+        {
+            return back()->with('error', 'This account has been suspended, contact the admin');
+        }
+
         if(Auth::login($request->email, $request->remember_me))
         {
             if(Session::has('old_url'))
@@ -274,7 +285,7 @@ class ClientController extends Controller
         $was_liked = false;
         $you_liked = false;
 
-        $user = User::where('id', $id)->where('is_deactivated', 0)->first(); //get user detail
+        $user = User::where('id', $id)->where('is_suspend', 0)->where('is_approved', 1)->where('is_deactivated', 0)->first(); //get user detail
         
         if(!$user)
         {
