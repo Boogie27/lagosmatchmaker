@@ -7,9 +7,12 @@
 
 <div class="slider-main-header">
     <div class="inner-title">
-        <h3>DO YOU WANT TO FALL INLOVE?</h3>
-        <p>Lagos match maker, the fastest way to find a partner</p>
-        <a href="{{ url('/premium') }}" class="slider-inner-title">Get Started</a>
+        @if(settings() && settings()->home_page)
+        @php($home_page = json_decode(settings()->home_page, true))
+        <h3>{{ strtoupper($home_page['title']) }}</h3>
+        <p>{{ $home_page['body'] }}</p>
+        <a href="{{ url($home_page['link']) }}" class="slider-inner-title">Get Started</a>
+        @endif
     </div>
 </div>
 
@@ -19,8 +22,11 @@
     <div class="inner-slider-form">
         <form action="{{ url('/search') }}" method="GET">
             <div class="slider-form-header">
-               <h4>LAGOS MATCH MAKER</h4>
-               <p>Serious dating with Lagos match maker  Your <br> perfect match is just a click away</p>
+               @if(settings() && settings()->home_page)
+               @php($home_page = json_decode(settings()->home_page, true))
+                <h4>{{ strtoupper($home_page['title']) }}</h4>
+                <p>{{ $home_page['body'] }}</p>
+               @endif
             </div>
            <div class="container">
             <div class="row">

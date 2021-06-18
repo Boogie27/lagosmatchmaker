@@ -146,7 +146,7 @@ Route::group(['middleware' => 'remember_me'], function(){
 
 
     // ************ SETTINGS SECTION ******************//
-    // Route::get("/settings", [ClientController::class, "settings_index"]);
+    Route::get("/settings", [ClientController::class, "settings_index"]);
     Route::post("/update-username", [ClientController::class, "update_username_update"]);
     Route::post("/change-password", [ClientController::class, "change_password_update"]);
 
@@ -158,7 +158,20 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/ajax-report-member", [ClientAjaxController::class, "ajax_report_member"]);
 
 
-   
+
+   // ************ LEGAL SECTION ******************//
+    Route::get("/about-us", [ClientController::class, "about_us_index"]);
+    Route::get("/terms", [ClientController::class, "terms_index"]);
+    Route::get("/privacy-policy", [ClientController::class, "privacy_policy_index"]);
+
+
+
+
+
+
+
+
+
 }); //end of remember_me middleware
 
 
@@ -371,7 +384,41 @@ Route::group(['middleware' => 'remember_me'], function(){
     
 
 
+    // *********** ACCOUNT SECTION *************//
+    Route::get("/admin/profile", [AdminController::class, "profile_index"]);
+    Route::post("/admin/profile", [AdminController::class, "profile_update"]);
+    Route::get("/admin/change-password", [AdminController::class, "change_password_index"]);
+    Route::post("/admin/change-password", [AdminController::class, "change_password_update"]);
+
     
+
+
+    // ********** LEGAL SECTION ***************//
+    Route::get("/admin/privacy-policy", [AdminController::class, "privacy_policy_index"]);
+    Route::post("/admin/privacy-policy", [AdminController::class, "privacy_policy_update"]);
+    Route::get("/admin/terms", [AdminController::class, "terms_index"]);
+    Route::post("/admin/terms", [AdminController::class, "terms_update"]);
+    Route::get("/admin/about-us", [AdminController::class, "about_us_index"]);
+    Route::post("/admin/about-us", [AdminController::class, "about_us_update"]);
+
+
+
+    // ********** SETTINGS SECTION ***************//
+    Route::get("/admin/settings", [AdminController::class, "settings_index"]);
+    Route::post("/admin/home-page", [AdminController::class, "home_page_update"]);
+    Route::post("/admin/footer-left", [AdminController::class, "tooter_left_update"]);
+    Route::post("/admin/footer-middle", [AdminController::class, "tooter_middle_update"]);
+    Route::post("/admin/app-contact", [AdminController::class, "app_contact_update"]);
+    Route::post("/admin/site-detail", [AdminController::class, "side_detail_update"]);
+
+    
+    
+    
+
+
+
+
+
 
 
 

@@ -15,32 +15,32 @@
 <section class="footer-section">
     <div class="footer-container">
         <div class="row">
+            @if(settings() && settings()->footer_left)
+            @php($footer_left = json_decode(settings()->footer_left, true))
             <div class="col-xl-4 col-lg-6"> <!-- about start-->
                 <div class="footer-content">
                     <ul class="ul-footer-about">
-                        <li><h4>About Lagos Match Maker</h4></li>
+                        <li><h4>{{ ucfirst($footer_left['title']) }}</h4></li>
                         <li>
-                            <p>
-                                You Are Just Three Steps Away From A Greate Date <br>
-                                You Are Just Three Steps Away From A Greate Date
-                            </p>
+                            <p>{{ $footer_left['body'] }}</p>
                         </li>
                         <li>
-                            <img src="{{ asset('web/images/banner/5.jpg') }}" alt="">
+                            <img src="{{ asset($footer_left['image']) }}" alt="">
                         </li>
                     </ul>
                 </div>
             </div><!-- about end-->
+            @endif
             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-10"> <!-- newsletter start-->
                 <div class="footer-content">
                     <ul class="ul-footer-about">
-                        <li><h4>Signup To Our Newsletter</h4></li>
+                        @if(settings() && settings()->footer_middle)
+                        @php($footer_middle = json_decode(settings()->footer_middle, true))
+                        <li><h4>{{ ucfirst($footer_middle['title']) }}</h4></li>
                         <li>
-                            <p>
-                                By subscribing to our mailing list you will always <br>
-                                be updated with the lastest news from us.
-                            </p>
+                            <p>{{ $footer_middle['body'] }}</p>
                         </li>
+                        @endif
                         <li>
                            <form action="{{ url('/contact') }}" method="POST">
                                <div class="form-group">
@@ -60,16 +60,25 @@
                 <div class="footer-content">
                     <ul class="ul-footer-links">
                         <li class="footer-link-h"><h4>Contact Links</h4></li>
-                        <li><a href="#"><i class="fa fa-phone"></i> Phone: 08023124563</a></li>
-                        <li><a href="#"><i class="far fa-envelope"></i> Email: lagosmatchmaker@gmail.com</a></li>
-                        <li><a href="#"><i class="fa fa-map-marker-alt"></i> 8/9 James Afred way, Victorial Island, Lagos Nigeria.</a></li>
+                        @if(settings() && settings()->phone)
+                        <li><a href="#"><i class="fa fa-phone"></i> Phone: {{ settings()->phone }}</a></li>
+                        @endif
+                        @if(settings() && settings()->email)
+                        <li><a href="#"><i class="far fa-envelope"></i> Email: settings()->email</a></li>
+                        @endif
+                        @if(settings() && settings()->address)
+                        <li><a href="#"><i class="fa fa-map-marker-alt"></i> {{ settings()->address }}</a></li>
+                        @endif
+                        <li><a href="{{ url('/about-us') }}"><i class="fa fa-users"></i>About us</a></li>
+                        <li><a href="{{ url('/terms') }}"><i class="fa fa-folder"></i>Terms & Condition</a></li>
+                        <li><a href="{{ url('/privacy-policy') }}"><i class="fa fa-file"></i>Privacy policy</a></li>
                         <li><a href="{{ url('/contact') }}"><i class="fa fa-pen"></i>Contact us</a></li>
                     </ul>
                 </div>
             </div><!-- links end-->
         </div>
     </div>
-    <div class="footer-rights">Copyright lagosmatchmaker &copy; 2021. All Rights Reserved.</div>
+    <div class="footer-rights">{{ settings()->copyright }}</div>
 </section>
 <!-- FOOTER START-->
 

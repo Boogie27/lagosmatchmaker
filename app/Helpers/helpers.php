@@ -349,3 +349,60 @@ function user_report_count($reported_id){
     }
     return $count;
 }
+
+
+
+
+
+
+
+
+function simily_message_count($email){
+    $count = 0;
+    $messages = ContactUs::where('email', $email)->get();
+    if(count($messages))
+    {
+        return count($messages);
+    }
+    return $count;
+}
+
+
+
+
+
+
+
+function settings(){
+    $settings = DB::table('settings')->where('id', 1)->first();
+    if($settings)
+    {
+        return $settings;
+    }
+    return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

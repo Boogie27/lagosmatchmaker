@@ -15,9 +15,9 @@
                 <span data-feather="chevron-down"></span>
             </a>
             <div class="dropdown-menu profile-dropdown">
-                <a href="pages-profile.html" class="dropdown-item notify-item">
+                <a href="{{ url('/admin/profile') }}" class="dropdown-item notify-item">
                     <i data-feather="user" class="icon-dual icon-xs mr-2"></i>
-                    <span>My Account</span>
+                    <span>Profile</span>
                 </a>
 
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
@@ -165,7 +165,7 @@
                             <a href="{{ url('/admin/profile') }}">Profile</a>
                         </li>
                         <li>
-                            <a href="{{ url('/admin/change-passoword') }}">Change passowrd</a>
+                            <a href="{{ url('/admin/change-password') }}">Change password</a>
                         </li>
                     </ul>
                 </li>
@@ -186,7 +186,39 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="javascript: void(0);">
+                        <i class="fa fa-key"></i>
+                        <span> Legal</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li>
+                            <a href="{{ url('/admin/about-us') }}">About us</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/privacy-policy') }}">Privacy policy</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/terms') }}">Terms & Condition</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);">
+                        <i class="fa fa-folder"></i>
+                        <span> Other</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li>
+                            <a href="{{ url('/admin/how-it-works') }}">How it works</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ url('/admin/settings') }}">
                         <i class="fa fa-cog"></i>
                         <span>Settings</span>
                     </a>

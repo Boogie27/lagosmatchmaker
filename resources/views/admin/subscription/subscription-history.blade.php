@@ -79,7 +79,6 @@
                                                         <ul class="drop-down-body">
                                                             <li>
                                                                 <a href="{{ url('/admin/member-detail/'.$user_sub->id) }}">User detail</a>
-                                                                <a href="{{ url('/admin/subscription-history/'.$user_sub->user_id) }}">subscription history</a>
                                                                 @if(date('Y-m-d H:i:s') < $user_sub->end_date)
                                                                 <a href="#" data-name="{{ $user_sub->user_name }}" id="{{ $user_sub->user_sub_id }}" class="confimr-box-open-btn">End subscription</a>
                                                                 @endif

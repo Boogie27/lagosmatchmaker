@@ -61,6 +61,26 @@
                                         </li>
                                     </ul>
                                 </div>
+                                <div class="profile-detail-left">
+                                    <div class="title-header"><h4>Message from simily email</h4></div>
+                                    <ul class="ul-profile-detail ul-report">
+                                        <li>
+                                            <p class="detail-about-p">
+                                                Message count: <span class="pl-3"><span class="bg-warning badge" style="color: #fff;">{{ simily_message_count($contact->email) }}</span></span>
+                                            </p>
+                                        </li>
+                                        @if(count($other_messages))
+                                        <li class="other-reports">
+                                            Other Messages: 
+                                            <div class="ul-other-reports">
+                                                @foreach($other_messages as $other_message)
+                                                <div class="child-report"><a href="{{ url('/admin/contact-detail/'.$other_message->id) }}">{{ ucfirst($other_message->full_name) }}</a></div class="child-report">
+                                                @endforeach
+                                            </div>
+                                        </li>
+                                        @endif
+                                    </ul>
+                                </div>
                             </div> <!-- profile detail left end-->
                         </div>
                     </div>

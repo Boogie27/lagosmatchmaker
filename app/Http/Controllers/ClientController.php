@@ -343,7 +343,7 @@ class ClientController extends Controller
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
-        $members = DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'premium')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1);//get all premium members
+        $members = DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'premium')->where('users.membership_level', 'premium')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1);//get all premium members
 
         
 
@@ -408,7 +408,7 @@ class ClientController extends Controller
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
-        $premiums = DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'premium')->where('users.gender', 'male')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1)->get();//get all male premium members
+        $premiums = DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'premium')->where('users.membership_level', 'premium')->where('users.gender', 'male')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1)->get();//get all male premium members
        
         return view('web.premium', compact('premiums', 'states', 'genotypes', 'marital_status'));
     }
@@ -427,7 +427,7 @@ class ClientController extends Controller
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
-        $premiums = DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'premium')->where('users.gender', 'female')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1)->get();//get all female premium members
+        $premiums = DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'premium')->where('users.membership_level', 'premium')->where('users.gender', 'female')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1)->get();//get all female premium members
        
         return view('web.premium', compact('premiums', 'states', 'genotypes', 'marital_status'));
     }
@@ -966,15 +966,34 @@ class ClientController extends Controller
     
 
 
+    public function about_us_index(){
+        $about_us = DB::table('settings')->where('id', 1)->first();
+
+        return view('web.about-us', compact('about_us'));
+    }
+    
+
+
+
+
+
+    public function terms_index(){
+        $terms = DB::table('settings')->where('id', 1)->first();
+
+        return view('web.terms', compact('terms'));
+    }
 
 
 
 
 
 
+    public function privacy_policy_index(){
+        $privacy = DB::table('settings')->where('id', 1)->first();
 
-
-
+        return view('web.privacy-policy', compact('privacy'));
+    }
+    
 
 
 

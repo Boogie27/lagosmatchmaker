@@ -26,7 +26,10 @@
 <link href="{{ asset('admins/css/main-style.css') }}" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="{{ asset('admins/font-awesome/all.min.css') }}"> <!-- main style font-awesome-->
 
+<!-- Summernote css -->
+<link href="{{ asset('admins/libs/summernote/summernote-bs4.css') }}" rel="stylesheet" />
 
 <script src="{{ asset('admins/js/jquery-3.3.1.js') }}" type="text/javascript"></script>
 
-
+<link href="{{ asset('cropper/cropper.min.css') }}" rel="stylesheet" type="text/css" /> <!-- cropper css-->
+<script src="{{ asset('cropper/cropper.min.js') }}" type="text/javascript"></script> <!-- cropper js-->

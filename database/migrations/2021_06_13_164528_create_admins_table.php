@@ -21,10 +21,14 @@ class CreateAdminsTable extends Migration
             $table->string('password');
             $table->string('image')->nullable();
             $table->string('gender')->nullable();
+            $table->text('about')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('country')->nullable();
             $table->string('is_active')->nullable();
+            $table->tinyInteger('in_control')->default('0');
+            $table->dateTime('last_login')->nullable();
+            $table->dateTime('date')->default(date('Y-m-d H:i:s'));
             $table->timestamps();
         });
     }
