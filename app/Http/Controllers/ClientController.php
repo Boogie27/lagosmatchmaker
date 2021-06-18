@@ -808,6 +808,7 @@ class ClientController extends Controller
                         'reference' => $request->reference,  
                         'user_id' => $user->id,      
                         'subscription_id' => $sub->sub_id,  
+                        'duration' => $sub->duration,  
                         'amount' => $sub->amount,  
                         'subscription_type' => $sub->type,  
                         'end_date' => $expiry,  

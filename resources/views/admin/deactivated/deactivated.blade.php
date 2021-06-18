@@ -16,10 +16,10 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Home</a></li>
                                 <li class="breadcrumb-item"><a href="javascript: void()">Members</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Basic</li>
+                                <li class="breadcrumb-item active" aria-current="page">Deactivated</li>
                             </ol>
                         </nav>
-                        <h4 class="mb-1 mt-0">Basic members</h4>
+                        <h4 class="mb-1 mt-0">Deactivated members</h4>
                         @if(Session::has('error'))
                         <div class="main-alert-danger text-center mt-3">{{ Session::get('error')}}</div>
                         @endif
@@ -50,50 +50,36 @@
                                                 <th>Avatar</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
-                                                <th>Suspend</th>
                                                 <th>Date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            @if(count($basics))
-                                            @foreach($basics as $basic)
-                                            @php($avatar = $basic->gender == 'male' ? 'M' : 'F')
+                                        <tbody id="parent_table">
+                                            @if(count($deactivates))
+                                            @foreach($deactivates as $deactivated)
+                                            @php($avatar = $deactivated->gender == 'male' ? 'M' : 'F')
                                             <tr>
                                                 <td class="avatar-parent">
-                                                    <a href="{{ url('/admin/member-detail/'.$basic->id) }}" class="avatar-link">
-                                                        <div class="avatar {{ $basic->is_active ? 'active' : ''}}">
+                                                    <a href="{{ url('/admin/member-detail/'.$deactivated->id) }}" class="avatar-link">
+                                                        <div class="avatar {{ $deactivated->is_active ? 'active' : ''}}">
                                                             <h4>{{ $avatar }}</h4>
                                                         </div>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a href="{{ url('/admin/member-detail/'.$basic->id) }}" class="member-name">{{ ucfirst($basic->user_name) }} </a>
+                                                    <a href="{{ url('/admin/member-detail/'.$deactivated->id) }}" class="member-name">{{ ucfirst($deactivated->user_name) }} </a>
                                                 </td>
-                                                <td>{{ $basic->email }}</td>
-                                                <td>
-                                                    <div class="suspend {{ $basic->is_suspend ? 'active' : ''}}">
-                                                        <a href="#" data-name="{{ $basic->user_name }}" id="{{ $basic->id }}" class="suspend-confirm-box-open"></a>
-                                                    </div>
-                                                </td>
-                                                <td>{{ date('d M Y', strtotime($basic->date_registered)) }}</td>
+                                                <td>{{ $deactivated->email }}</td>
+                                                <td>{{ date('d M Y', strtotime($deactivated->date_deactivated)) }}</td>
                                                 <td>
                                                     <div class="drop-down">
                                                         <i class="fa fa-ellipsis-h drop-down-open"></i>
                                                         <ul class="drop-down-body">
                                                             <li>
-                                                                <a href="{{ url('/admin/member-detail/'.$basic->id) }}">Detail</a>
+                                                                <a href="{{ url('/admin/member-detail/'.$deactivated->id) }}">Detail</a>
                                                             </li>
-                                                            <li>
-                                                                <a href="{{ url('/admin/subscription-history/'.$basic->id) }}" class="">subscription details</a>
-                                                            </li>
-                                                            @if(!$basic->is_approved)
-                                                            <li>
-                                                                <a href="#" data-name="{{ $basic->user_name }}" id="{{ $basic->id }}" class="approve-confirm-box-open">Approve</a>
-                                                            </li>
-                                                            @endif
                                                             <li class="li-deactivate">
-                                                                <a href="#" data-name="{{ $basic->user_name }}" id="{{ $basic->id }}" class="deactivate-confirm-box-open {{ $basic->is_deactivated ? 'active' : '' }}">{{ !$basic->is_deactivated ? 'Deactivate' : 'Activate' }}</a>
+                                                                <a href="#" data-name="{{ $deactivated->user_name }}" id="{{ $deactivated->id }}" class="deactivate-confirm-box-open {{ $deactivated->is_deactivated ? 'active' : '' }}">{{ !$deactivated->is_deactivated ? 'Deactivate' : 'Activate' }}</a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -104,12 +90,14 @@
                                         </tbody>
                                     </table>
                                 </div><!-- table end-->
-                                @if(!count($basics))
-                                <div class="text-center">There are no members yet!</div>
-                                @endif
-                                @if(count($basics))
-                                <div class="paginate">{{ $basics->links("pagination::bootstrap-4") }}</div>
-                                @endif
+                                <div id="bottom_table_part">
+                                    @if(!count($deactivates))
+                                    <div class="text-center">There are no members yet!</div>
+                                    @endif
+                                    @if(count($deactivates))
+                                    <div class="paginate">{{ $deactivates->links("pagination::bootstrap-4") }}</div>
+                                    @endif
+                                </div>
                             </div> <!-- end card body-->
                         </div> <!-- end card -->
                     </div><!-- end col-->

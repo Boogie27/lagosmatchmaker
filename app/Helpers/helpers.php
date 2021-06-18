@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Chat;
 use App\Models\Auth;
 use App\Models\Admin;
+use App\Models\ContactUs;
 
 
 
@@ -303,9 +304,48 @@ function admin($string = null){
 
 
 
+function contact_count(){
+    $count = 0;
+    $contacts = ContactUs::where('is_seen', 0)->get();
+    if(count($contacts))
+    {
+        return count($contacts);
+    }
+    return $count;
+}
 
 
 
 
 
 
+
+
+
+
+
+function report_count(){
+    $count = 0;
+    $reports = DB::table('user_reports')->where('is_seen', 0)->get();
+    if(count($reports))
+    {
+        return count($reports);
+    }
+    return $count;
+}
+
+
+
+
+
+
+
+function user_report_count($reported_id){
+    $count = 0;
+    $reports = DB::table('user_reports')->where('reported_id', $reported_id)->get();
+    if(count($reports))
+    {
+        return count($reports);
+    }
+    return $count;
+}

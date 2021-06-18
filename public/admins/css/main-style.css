@@ -70,11 +70,18 @@ button.btn-fill-block{
     transition:  background-color 0.2s ease;
     background-color: rgb(31, 31, 77);
 }
-button.btn-fill-block:hover{
+button.btn-fill-block:hover, a.mini-btn:hover{
     color: #fff;
     background-color: rgb(14, 14, 77);
 }
-
+a.mini-btn{
+    padding: 5px 10px;
+    color: #fff;
+    border-radius: 3px;
+    border: 1px solid rgb(62, 62, 165); 
+    transition:  background-color 0.2s ease;
+    background-color: rgb(68, 68, 179); 
+}
 /* ********* ALERT *************** */
 .alert-form{
     height: 16px;
@@ -184,7 +191,7 @@ button.confirm-box-close{
 button.confirm-box-close i{
     color:  rgb(51, 51, 143);
 }
-button.confirm-btn{
+button.confirm-btn, button.btn-fill{
     border: none;
     cursor: pointer;
     width: 80%;
@@ -196,6 +203,12 @@ button.confirm-btn{
     background-color:  rgb(51, 51, 143);
 }
 button.confirm-btn:hover{
+    background-color: rgb(14, 14, 65);
+}
+button.btn-fill{
+    width: 100%;
+}
+button.btn-fill:hover{
     background-color: rgb(14, 14, 65);
 }
 @media only screen and (max-width: 767px){
@@ -320,6 +333,7 @@ button.confirm-btn:hover{
 /* ************* TABLE ************* */
 .table-top{
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 .table-top .page-icon i{
@@ -370,7 +384,7 @@ a.member-name{
     top: 0px;
     right: 0px;
     padding: 0px;
-    width: 150px;
+    width: 200px;
     z-index: 10;
     display: none;
     list-style: none;
@@ -401,6 +415,27 @@ a.member-name{
 .suspend.active{
     border: 1px solid transparent;
     background-color: rgb(252, 110, 110);
+}
+.suspend a{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.check-box{
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid rgb(184, 184, 184);
+}
+.check-box a{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.check-box.active{
+    border: 1px solid transparent;
+    background-color: rgb(96, 221, 96);
 }
 ul.drop-down-body li.li-deactivate a{
     color: rgb(252, 110, 110);
@@ -573,10 +608,29 @@ ul.ul-profile-detail li p.detail-about-p{
         height: 500px;
     }
 }
+/* ********** ADD MEMBERS *********** */
+.form-validation{
+    width: 50%;
+    margin: 0 auto;
+    padding: 30px 0px;
+}
 
 
+/* ************ REPORT PAGE ************* */
+ul.ul-report li.other-reports{
+    display: block;
+}
+.ul-other-reports{
+    /* text-align: center; */
+}
+.ul-other-reports .child-report{
+    padding: 5px 10px;
+    margin: 5px 5px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 
-
+}
 
 
 

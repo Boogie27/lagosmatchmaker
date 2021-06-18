@@ -27,6 +27,16 @@
                
                 <!-- PROFILE DETAILS START-->
                 <div class="profile-detail-section">
+                    <div class="text-right pb-3">
+                        <div class="drop-down">
+                            <i class="fa fa-ellipsis-h drop-down-open"></i>
+                            <ul class="drop-down-body">
+                                <li class="text-left">
+                                    <a href="{{ url('/admin/subscription-history/'.$user->id) }}" class="">subscription details</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="profile-detail-container">
                         <div class="row">
                             <div class="col-xl-12"><!-- profile detail left end-->

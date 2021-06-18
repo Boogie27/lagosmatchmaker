@@ -72,9 +72,9 @@
                                                 </td>
                                                 <td>{{ $premium->email }}</td>
                                                 <td>
-                                                    <a href="#" data-name="{{ $premium->user_name }}" id="{{ $premium->id }}" class="suspend-confirm-box-open">
-                                                        <div class="suspend {{ $premium->is_suspend ? 'active' : ''}}"></div>
-                                                    </a>
+                                                    <div class="suspend {{ $premium->is_suspend ? 'active' : ''}}">
+                                                        <a href="#" data-name="{{ $premium->user_name }}" id="{{ $premium->id }}" class="suspend-confirm-box-open"></a>
+                                                    </div>
                                                 </td>
                                                 <td>{{ date('d M Y', strtotime($premium->date_registered)) }}</td>
                                                 <td>
@@ -83,6 +83,9 @@
                                                         <ul class="drop-down-body">
                                                             <li>
                                                                 <a href="{{ url('/admin/member-detail/'.$premium->id) }}">Detail</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{{ url('/admin/subscription-history/'.$premium->id) }}" class="">subscription details</a>
                                                             </li>
                                                             @if(!$premium->is_approved)
                                                             <li>

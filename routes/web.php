@@ -241,8 +241,12 @@ Route::group(['middleware' => 'remember_me'], function(){
 
 
     // ********** MEMBER SECTION ***********//
+    Route::get("/admin/add-member", [AdminController::class, "add_member_index"]);
+    Route::post("/admin/add-member", [AdminController::class, "add_member_store"]);
     Route::get("/admin/basic", [AdminController::class, "basic_index"]);
     Route::get("/admin/premium", [AdminController::class, "premium_index"]);
+    Route::get("/admin/deactivated", [AdminController::class, "deactivated_index"]);
+    Route::get("/admin/unapproved", [AdminController::class, "unapproved_index"]);
     Route::get("/admin/member-detail/{id}", [AdminController::class, "member_detail_index"]);
     Route::post("/ajax-suspend-member", [AdminAjaxController::class, "ajax_suspend_member"]);
     Route::post("/ajax-approve-member", [AdminAjaxController::class, "ajax_approve_member"]);
@@ -255,15 +259,123 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/ajax-get-lifestyle", [AdminAjaxController::class, "ajax_get_life_style"]);
     Route::post("/admin/edit-physical-info", [AdminAjaxController::class, "ajax_edit_physical_info"]);
     Route::post("/admin/ajax-get-physical-info", [AdminAjaxController::class, "ajax_get_physical_info"]);
+    
 
 
 
     // ********* ERROR SECTION ************//
     Route::get("/admin/404", [AdminController::class, "error_index"]);
 
+
+
+
+
+    // *********** GENOTYPE SECTION ***********//
+    Route::get("/admin/genotype", [AdminController::class, "genotype_index"]);
+    Route::post("/admin/ajax-edit-genotype", [AdminAjaxController::class, "ajax_edit_genotype"]);
+    Route::post("/admin/ajax-delete-genotype", [AdminAjaxController::class, "ajax_delete_genotype"]);
+    Route::post("/admin/ajax-add-genotype", [AdminAjaxController::class, "ajax_add_genotype"]);
+    Route::post("/admin/ajax-feature-genotype", [AdminAjaxController::class, "ajax_feature_genotype"]);
+   
+    
+    
+
+    // *********** MARITAL STATUS SECTION *************//
+    Route::get("/admin/marital-status", [AdminController::class, "marital_status_index"]);
+    Route::post("/admin/ajax-edit-marital-status", [AdminAjaxController::class, "ajax_edit_marital_status"]);
+    Route::post("/admin/ajax-feature-marital-status", [AdminAjaxController::class, "ajax_feature_marital_status"]);
+    Route::post("/admin/ajax-add-marital-status", [AdminAjaxController::class, "ajax_add_martital_status"]);
+    Route::post("/admin/ajax-delete-marital-status", [AdminAjaxController::class, "ajax_delete_marital_status"]);
+
+
+    
+    // *********** DRINKING SECTION *************//
+    Route::get("/admin/drinking", [AdminController::class, "drinking_index"]);
+    Route::post("/admin/ajax-edit-drinking", [AdminAjaxController::class, "ajax_edit_drinking"]);
+    Route::post("/admin/ajax-delete-drinking", [AdminAjaxController::class, "ajax_delete_drinking"]);
+    Route::post("/admin/ajax-add-drinking", [AdminAjaxController::class, "ajax_add_drinking"]);
+    Route::post("/admin/ajax-feature-drinking", [AdminAjaxController::class, "ajax_feature_drinking"]);
+
+    
     
 
     
+    // *********** SMOKING SECTION *************//
+    Route::get("/admin/smoking", [AdminController::class, "smoking_index"]);
+    Route::post("/admin/ajax-edit-smoking", [AdminAjaxController::class, "ajax_edit_smoking"]);
+    Route::post("/admin/ajax-delete-smoking", [AdminAjaxController::class, "ajax_delete_smoking"]);
+    Route::post("/admin/ajax-add-smoking", [AdminAjaxController::class, "ajax_add_smoking"]);
+    Route::post("/admin/ajax-feature-smoking", [AdminAjaxController::class, "ajax_feature_smoking"]);
+
+
+    
+    
+
+
+    // *********** BODY TYPE SECTION *************//
+    Route::get("/admin/body-types", [AdminController::class, "body_type_index"]);
+    Route::post("/admin/ajax-edit-body-type", [AdminAjaxController::class, "ajax_edit_body_type"]);
+    Route::post("/admin/ajax-delete-body-type", [AdminAjaxController::class, "ajax_delete_body_type"]);
+    Route::post("/admin/ajax-add-body-type", [AdminAjaxController::class, "ajax_add_body_type"]);
+    Route::post("/admin/ajax-feature-body-type", [AdminAjaxController::class, "ajax_feature_body_type"]);
+
+
+    
+
+
+    // *********** HEIGHT SECTION *************//
+    Route::get("/admin/heights", [AdminController::class, "height_index"]);
+    Route::post("/admin/ajax-edit-height", [AdminAjaxController::class, "ajax_edit_height"]);
+    Route::post("/admin/ajax-delete-height", [AdminAjaxController::class, "ajax_delete_delete"]);
+    Route::post("/admin/ajax-add-height", [AdminAjaxController::class, "ajax_add_height"]);
+    Route::post("/admin/ajax-feature-height", [AdminAjaxController::class, "ajax_feature_height"]);
+
+
+
+    
+    // *********** HEIGHT SECTION *************//
+    Route::get("/admin/weights", [AdminController::class, "weights_index"]);
+    Route::post("/admin/ajax-edit-weight", [AdminAjaxController::class, "ajax_edit_weight"]);
+    Route::post("/admin/ajax-delete-weight", [AdminAjaxController::class, "ajax_delete_weight"]);
+    Route::post("/admin/ajax-add-weight", [AdminAjaxController::class, "ajax_add_weight"]);
+    Route::post("/admin/ajax-feature-weight", [AdminAjaxController::class, "ajax_feature_weight"]);
+
+
+
+    // *********** SUBSCRIPTION SECTION *************//
+    Route::get("/admin/subscription", [AdminController::class, "subscription_index"]);
+    Route::get("/admin/edit-subscription/{id}", [AdminController::class, "edit_subscription_index"]);
+    Route::post("/admin/edit-subscription/{id}", [AdminController::class, "edit_subscription_update"]);
+    Route::post("/admin/ajax-feature-subscription", [AdminAjaxController::class, "ajax_feature_subscription"]);
+    Route::get("/admin/user-subscription", [AdminController::class, "user_subscription_index"]);
+    Route::get("/admin/subscription-history/{id}", [AdminController::class, "subscription_history_index"]);
+    Route::post("/admin/ajax-end-subscription", [AdminAjaxController::class, "ajax_end_subscription"]);
+
+
+
+    // *********** SUBSCRIPTION SECTION *************//
+    Route::get("/admin/contact", [AdminController::class, "contact_index"]);
+    Route::get("/admin/contact-detail/{id}", [AdminController::class, "contact_detail_index"]);
+    Route::post("/admin/ajax-contact-us-seen", [AdminAjaxController::class, "ajax_contact_us_seen"]);
+    Route::post("/admin/ajax-contact-us-delete", [AdminAjaxController::class, "ajax_contact_us_delete"]);
+
+
+
+    
+    // *********** REPORT SECTION *************//
+    Route::get("/admin/reports", [AdminController::class, "report_index"]);
+    Route::get("/admin/report-detail/{id}", [AdminController::class, "report_detail_index"]);
+    Route::post("/admin/ajax-report-seen", [AdminAjaxController::class, "ajax_report_seen"]);
+    Route::post("/admin/ajax-report-delete", [AdminAjaxController::class, "ajax_report_delete"]);
+      
+    
+
+
+    
+
+
+
+
     
 }); //end of admin authenication middleware
 

@@ -78,26 +78,119 @@
                             <a href="{{ url('/admin/premium') }}">Premium</a>
                         </li>
                         <li>
-                            <a href="{{ url('/admin/add-members') }}">Add members</a>
+                            <a href="{{ url('/admin/unapproved') }}">Unapproved</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/deactivated') }}">Deactivated</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/add-member') }}">Add member</a>
                         </li>
                     </ul>
                 </li>
-                <!-- <li>
+                <li>
                     <a href="javascript: void(0);">
-                        <i data-feather="briefcase"></i>
-                        <span> Projects </span>
+                        <i class="fa fa-cube"></i>
+                        <span> Options </span>
                         <span class="menu-arrow"></span>
                     </a>
 
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
-                            <a href="project-list.html">List</a>
+                            <a href="{{ url('/admin/genotype') }}">Genotype</a>
                         </li>
                         <li>
-                            <a href="project-detail.html">Detail</a>
+                            <a href="{{ url('/admin/marital-status') }}">Marital status</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/drinking') }}">Drinking</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/smoking') }}">Smoking</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/body-types') }}">Body types</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/heights') }}">Heights</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/weights') }}">Weights</a>
                         </li>
                     </ul>
-                </li> -->
+                </li>
+                <li>
+                    <a href="javascript: void(0);">
+                        <i data-feather="bookmark"></i>
+                        <span> Subscription</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li>
+                            <a href="{{ url('/admin/subscription') }}">Subscriptions</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/user-subscription') }}">User subscriptions</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ url('/admin/contact') }}">
+                        <i class="fa fa-phone"></i>
+                        <span> Contact</span>
+                        @if(contact_count() > 0)
+                        <span class="bg-danger badge" style="color: #fff; font-size: 9px;">{{ contact_count() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('/admin/reports') }}">
+                        <i class="far fa-circle"></i>
+                        <span>Reported members</span>
+                        @if(report_count() > 0)
+                        <span class="bg-danger badge" style="color: #fff; font-size: 9px;">{{ report_count() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript: void(0);">
+                        <i class="far fa-user"></i>
+                        <span> Account</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li>
+                            <a href="{{ url('/admin/profile') }}">Profile</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/change-passoword') }}">Change passowrd</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);">
+                        <i class="far fa-envelope"></i>
+                        <span> News letters</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li>
+                            <a href="{{ url('/admin/news-letter') }}">News letters</a>
+                        </li>
+                        <li>
+                            <a href="#">Compose letter</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
                 <!-- <li>
                     <a href="javascript: void(0);">
                         <i data-feather="bookmark"></i>

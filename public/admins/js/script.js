@@ -151,8 +151,8 @@ var suspend = null;
 var online_member = null;
 $(".suspend-confirm-box-open").click(function(e){
     e.preventDefault()
-    suspend = $(this).children()
-    online_member = $(this).parent().parent().children('.avatar-parent').children().children()
+    suspend = $(this).parent();
+    online_member = $(this).parent().parent().parent().children('.avatar-parent').children().children()
     
     var user_id = $(this).attr('id')
     var name = $(this).attr('data-name')
@@ -236,11 +236,13 @@ function csrf_token(){
 
 
 // *********** OPEN APPROVE MEMBER MODAL *************//
-var approve_member = null;
+var approve_parent_div = null;
+
 $(".approve-confirm-box-open").click(function(e){
     e.preventDefault()
     
     approve_member = $(this).parent()
+    approve_parent_div = $(this).parent().parent().parent().parent().parent()
     var user_id = $(this).attr('id')
     var name = $(this).attr('data-name')
     $("#member_approve_id_input").val(user_id)
@@ -270,7 +272,8 @@ $("#approve_confirm_submit_btn").click(function(e){
         },
         success: function (response){
             if(response.data){
-                $(approve_member).hide()
+                $(approve_parent_div).remove()
+                table_check()
                 bottom_alert_success('User has been approved!')
             }else{
                 bottom_alert_error('Network error, try again later!')
@@ -291,12 +294,13 @@ $("#approve_confirm_submit_btn").click(function(e){
 
 
 // ************ DEACTIVATE / ACTIVATE MEMBER OPEN MODAL **********//
-var deactivate_member = null;
+
+var parent_div = null;
+
 $(".deactivate-confirm-box-open").click(function(e){
     e.preventDefault()
 
-    deactivate_member = $(this);
-    online_member = $(this).parent().parent().parent().parent().parent().children('.avatar-parent').children().children()
+    parent_div = $(this).parent().parent().parent().parent().parent()
     
     var user_id = $(this).attr('id')
     var name = $(this).attr('data-name')
@@ -309,6 +313,7 @@ $(".deactivate-confirm-box-open").click(function(e){
     }else{
         apend_message('<p>Do you wish to deativate <b>'+name+'</b></p>')
     }
+    
 })
 
 
@@ -334,13 +339,12 @@ $("#deactivate_confirm_submit_btn").click(function(e){
         },
         success: function (response){
             if(response.deactivated){
-                $(online_member).removeClass('active')
-                $(deactivate_member).html('Activate')
-                $(deactivate_member).toggleClass('active')
+                $(parent_div).remove()
+                table_check()
                 bottom_alert_success('User has been deactivated!')
             }else if(response.activated){
-                $(deactivate_member).html('Deactivate')
-                $(deactivate_member).toggleClass('active')
+                $(parent_div).remove()
+                table_check()
                 bottom_alert_success('User has been activated!')
             }else{
                 bottom_alert_error('Network error, try again later!')
@@ -362,7 +366,13 @@ $("#deactivate_confirm_submit_btn").click(function(e){
 
 
 
-
+// ******* EMPTY TABLE MESSAGE **************//
+function table_check(){
+    var table = $("#parent_table").children()
+    if(table.length == 0){
+        $("#bottom_table_part").html("<div class='text-center'>There are no members yet!</div>")
+    }
+}
 
 
 
