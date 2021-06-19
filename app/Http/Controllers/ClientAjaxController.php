@@ -44,7 +44,7 @@ class ClientAjaxController extends Controller
             if($validator->passes())
             {
                 $id = Auth::user('id');
-                $user = User::where('id', $id)->where('is_deactivated', 0)->first(); //get user detail
+                $user = User::where('id', $id)->first(); //get user detail
                 if($user)
                 {
                     $user->age = $request->age;
@@ -110,7 +110,7 @@ class ClientAjaxController extends Controller
             if($validator->passes())
             {
                 $id = Auth::user('id');
-                $user = User::where('id', $id)->where('is_deactivated', 0)->first(); //get user detail
+                $user = User::where('id', $id)->first(); //get user detail
                 if($user)
                 {
                     $user->about = $request->about;
@@ -165,7 +165,7 @@ class ClientAjaxController extends Controller
             if($validator->passes())
             {
                 $id = Auth::user('id');
-                $user = User::where('id', $id)->where('is_deactivated', 0)->first(); //get user detail
+                $user = User::where('id', $id)->first(); //get user detail
                 if($user)
                 {
                     $user->looking_for_detail = $request->looking_for_detail;
@@ -199,7 +199,7 @@ class ClientAjaxController extends Controller
 
     public function user_detail(){
         $id = Auth::user('id');
-        $user = User::where('id', $id)->where('is_deactivated', 0)->first(); //get user detail
+        $user = User::where('id', $id)->first(); //get user detail
         return $user;
     }
     
@@ -228,7 +228,7 @@ class ClientAjaxController extends Controller
             if($validator->passes())
             {
                 $id = Auth::user('id');
-                $user = User::where('id', $id)->where('is_deactivated', 0)->first(); //get user detail
+                $user = User::where('id', $id)->first(); //get user detail
                 if($user)
                 {
                     $user->drinking = $request->drinking;
@@ -291,7 +291,7 @@ class ClientAjaxController extends Controller
             if($validator->passes())
             {
                 $id = Auth::user('id');
-                $user = User::where('id', $id)->where('is_deactivated', 0)->first(); //get user detail
+                $user = User::where('id', $id)->first(); //get user detail
                 if($user)
                 {
                     $user->height = $request->height;
@@ -342,7 +342,7 @@ class ClientAjaxController extends Controller
             
             $id = Auth::user('id');
             Session::put('subscription', $request->sub_id);
-            $user = User::where('id', $id)->where('is_active', 1)->where('is_deactivated', 0)->first(); //get user detail
+            $user = User::where('id', $id)->first(); //get user detail
 
             if(!$user)
             {
@@ -386,7 +386,7 @@ class ClientAjaxController extends Controller
             $data = false;
 
             $id = Auth::user('id');
-            $user = User::where('id', $id)->where('is_active', 1)->where('is_deactivated', 0)->first(); //get user detail
+            $user = User::where('id', $id)->first(); //get user detail
 
             if(!$user)
             {
@@ -731,7 +731,7 @@ class ClientAjaxController extends Controller
         if($request->ajax())
         {
             $data = false;
-            $user = User::where('id', $request->user_id)->where('is_deactivated', 0)->first(); //get user detail
+            $user = User::where('id', $request->user_id)->first(); //get user detail
             if($user)
             {
                 $display_name = $user->display_name ? ucfirst($user->display_name) : $user->user_name; //user name

@@ -15,7 +15,6 @@
                         <nav aria-label="breadcrumb" class="float-right mt-1">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void()">Options</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Subscriptions</li>
                             </ol>
                         </nav>

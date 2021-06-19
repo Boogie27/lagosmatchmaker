@@ -122,7 +122,7 @@ class AdminController extends Controller
 
     public function unapproved_index()
     {
-        $unapproved = User::where('is_approved', 0)->where('is_deactivated', 0)->paginate(25);
+        $unapproved = User::where('is_approved', 0)->paginate(25);
         
         return view('admin.unapproved', compact('unapproved'));
     }
@@ -708,7 +708,7 @@ class AdminController extends Controller
 
 
     
-    public function tooter_left_update(Request $request)
+    public function footer_left_update(Request $request)
     {
         $request->validate([
             'title' => 'required|min:3|max:50',

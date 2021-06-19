@@ -11,8 +11,7 @@
                         <nav aria-label="breadcrumb" class="float-right mt-1">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void()">Subscription</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">New members</li>
+                                <li class="breadcrumb-item"><a href="{{ url('/admin/subscription') }}">Subscription</a></li>
                             </ol>
                         </nav>
                         <h4 class="mb-1 mt-0">Edit {{ ucfirst($subscription->type) }}</h4>

@@ -65,43 +65,6 @@
             </div>
             @endif
         </div><!-- message content end -->
-
-
-
-
-
-
-
-
-            @if(count($may_likes))
-            <div class="disable"> <!-- profile detail right start-->
-                <div class="message-header title-header text-center">
-                    <h4>You May Like</h4>
-                    <p> Available lagosmatchmakers members you may also like</p>
-                </div>
-                <div class="you-may-like"><!-- you may like start-->
-                    <div class="title-header"><h4>You May Like <span class="float-right"><a href="#" data-modal="#member_search_form_modal"><i class="fa fa-search"></i> Search</a></span></h4></div>
-                    <div class="you-may-like-body">
-                        @foreach($may_likes as $may_like)
-                        @php($image =  avatar($may_like->display_image, $may_like->gender))
-                        <div class="like-content">
-                            <a href="{{ url('/profile/'.$may_like->id) }}">
-                                <img src="{{ asset($image) }}" alt="{{ $may_like->user_name }}">
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="{{ url('/profile/'.$may_like->id) }}">
-                                    {{ display_name($may_like->display_name, $may_like->user_name) }}    
-                                    </a>
-                                </li>
-                                <li><p>{{ ucfirst($may_like->membership_level) }}</p></li>
-                            </ul>
-                        </div>
-                        @endforeach
-                    </div>
-                </div><!-- you may like end-->
-            </div><!-- profile detail right end-->
-            @endif
     </div>
 </section>
 <!-- MESSAGE SECTION END-->

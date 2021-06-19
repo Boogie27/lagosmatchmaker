@@ -429,7 +429,8 @@ function send_chat(){
             receiver_id: receiver_id
         },
         success: function (response){
-           console.log(response)
+        //    console.log(response)
+        location.reload()
         }, 
         error: function(){
             console.log('something went wrong')

@@ -285,7 +285,7 @@ class ClientController extends Controller
         $was_liked = false;
         $you_liked = false;
 
-        $user = User::where('id', $id)->where('is_suspend', 0)->where('is_approved', 1)->where('is_deactivated', 0)->first(); //get user detail
+        $user = User::where('id', $id)->first(); //get user detail
         
         if(!$user)
         {
@@ -316,8 +316,6 @@ class ClientController extends Controller
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
-        $you_may_like = User::where('is_approved', 1)->where('is_deactivated', 0)->inRandomOrder()->limit(9)->get();
-
         if(Auth::user('id') != $id)
         {
             $you_liked = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('acceptor_id', $id)->first(); //you liked this user
@@ -326,7 +324,7 @@ class ClientController extends Controller
 
 
 
-        return view('web.profile', compact('reports', 'marital_status', 'was_liked', 'you_liked','states', 'user', 'display_name', 'gender', 'you_may_like', 'smokings', 'drinkings', 'heights', 'weights', 'body_types', 'ethnicities', 'genotypes'));
+        return view('web.profile', compact('reports', 'marital_status', 'was_liked', 'you_liked','states', 'user', 'display_name', 'gender', 'smokings', 'drinkings', 'heights', 'weights', 'body_types', 'ethnicities', 'genotypes'));
     }
 
 
@@ -469,22 +467,22 @@ class ClientController extends Controller
         {
             foreach($user_ids as $user_id)
             {
-                $messages[] = User::where('id', $user_id)->where('is_deactivated', 0)->where('is_suspend', 0)->where('is_approved', 1)->first();
+                $messages[] = User::where('id', $user_id)->first();
             }
         }
 
 
 
-        $basic_sub = DB::table('subscriptions')->where('type', 'basic')->first();
-        if($basic_sub && $basic_sub->amount == 0)
-        {
-            $may_likes = User::where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->inRandomOrder()->limit(8)->get();
-        }else{
-            $may_likes = DB::table('user_subscriptions')->leftJoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('users.is_suspend', 0)->where('users.is_deactivated', 0)->where('users.is_approved', 1)->inRandomOrder()->limit(8)->get();
-        }
+        // $basic_sub = DB::table('subscriptions')->where('type', 'basic')->first();
+        // if($basic_sub && $basic_sub->amount == 0)
+        // {
+        //     $may_likes = User::where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->inRandomOrder()->limit(8)->get();
+        // }else{
+        //     $may_likes = DB::table('user_subscriptions')->leftJoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('users.is_suspend', 0)->where('users.is_deactivated', 0)->where('users.is_approved', 1)->inRandomOrder()->limit(8)->get();
+        // }
         
 
-        return view('web.message', compact('messages', 'may_likes','marital_status', 'genotypes', 'states'));
+        return view('web.message', compact('messages','marital_status', 'genotypes', 'states'));
     }
 
 
@@ -515,7 +513,7 @@ class ClientController extends Controller
         // {
         //     return redirect('/');
         // }
-        $receiver = User::where('id', $receiver_id)->where('is_deactivated', 0)->where('is_suspend', 0)->where('is_approved', 1)->first();//get user detail;
+        $receiver = User::where('id', $receiver_id)->first();//get user detail;
 
         $chats = null;
 
@@ -581,7 +579,7 @@ class ClientController extends Controller
         {
             foreach($initiators as $initiator)
             {
-                $user_initiator = User::where('id', $initiator->acceptor_id)->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->first();
+                $user_initiator = User::where('id', $initiator->acceptor_id)->first();
                 if($user_initiator)
                 {
                     $friends[] = $user_initiator;
@@ -592,7 +590,7 @@ class ClientController extends Controller
         {
             foreach($acceptors as $acceptor)
             {
-                $user_acceptor = User::where('id', $acceptor->initiator_id)->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->first();
+                $user_acceptor = User::where('id', $acceptor->initiator_id)->first();
                 if($user_acceptor)
                 {
                     $friends[] = $user_acceptor;
@@ -601,7 +599,7 @@ class ClientController extends Controller
         }
 
         $friends_request = DB::table('likes')->where('acceptor_id', Auth::user('id'))->where('is_accept', 0)
-                            ->leftJoin('users', 'likes.initiator_id', 'users.id')->where('is_approved', 1)->where('is_suspend', 0)->where('is_deactivated', 0)->get();
+                            ->leftJoin('users', 'likes.initiator_id', 'users.id')->get();
 
         return view('web.friends', compact('friends', 'friends_request'));
     }
@@ -839,7 +837,7 @@ class ClientController extends Controller
 
 
     public function user_detail(){
-        $user = User::where('id', Auth::user('id'))->where('email', Auth::user('email'))->where('is_deactivated', 0)->first(); //get user detail
+        $user = User::where('id', Auth::user('id'))->where('email', Auth::user('email'))->first(); //get user detail
         return $user;
     }
 
