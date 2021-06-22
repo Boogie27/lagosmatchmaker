@@ -37,7 +37,7 @@
 
                 <div class="dropdown-divider"></div>
                 @if(admin_loggedin())
-                <a href="{{ url('/admin/logout') }}" class="dropdown-item notify-item">
+                <a href="{{ url('/admin/logout') }}" class="dropdown-item notify-item logout_modal_open_btn">
                     <i data-feather="log-out" class="icon-dual icon-xs mr-2"></i>
                     <span>Logout</span>
                 </a>
@@ -117,6 +117,9 @@
                         <li>
                             <a href="{{ url('/admin/weights') }}">Weights</a>
                         </li>
+                        <li>
+                            <a href="{{ url('/admin/states') }}">States</a>
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -136,12 +139,10 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="{{ url('/admin/contact') }}">
-                        <i class="fa fa-phone"></i>
-                        <span> Contact</span>
-                        @if(contact_count() > 0)
-                        <span class="bg-danger badge" style="color: #fff; font-size: 9px;">{{ contact_count() }}</span>
-                        @endif
+                    <a href="{{ url('/admin/notification') }}">
+                        <i class="far fa-bell"></i>
+                        <span>Notifications</span>
+                        <span class="bg-danger badge admin_notification_alert" style="color: #fff; font-size: 9px;">1</span>
                     </a>
                 </li>
                 <li>
@@ -150,6 +151,15 @@
                         <span>Reported members</span>
                         @if(report_count() > 0)
                         <span class="bg-danger badge" style="color: #fff; font-size: 9px;">{{ report_count() }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('/admin/contact') }}">
+                        <i class="fa fa-phone"></i>
+                        <span> Contact</span>
+                        @if(contact_count() > 0)
+                        <span class="bg-danger badge" style="color: #fff; font-size: 9px;">{{ contact_count() }}</span>
                         @endif
                     </a>
                 </li>
@@ -218,27 +228,33 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="{{ url('/admin/settings') }}">
+                    <a href="javascript: void(0);">
                         <i class="fa fa-cog"></i>
                         <span>Settings</span>
-                    </a>
-                </li>
-                <!-- <li>
-                    <a href="javascript: void(0);">
-                        <i data-feather="bookmark"></i>
-                        <span> Tasks </span>
                         <span class="menu-arrow"></span>
                     </a>
 
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
-                            <a href="task-list.html">List</a>
+                            <a href="{{ url('/admin/settings') }}">Genetal settings</a>
                         </li>
                         <li>
-                            <a href="task-board.html">Kanban Board</a>
+                            <a href="{{ url('/admin/email-settings') }}">Email settings</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/payment-settings') }}">Payment settings</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/banner-settings') }}">Banner settings</a>
                         </li>
                     </ul>
-                </li> -->
+                </li>
+                <li>
+                    <a href="{{ url('/admin/logout') }}" class="logout_modal_open_btn">
+                        <i class="fa fa-power-off"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
                 <!-- <li class="menu-title">Custom</li>
                 <li>
                     <a href="javascript: void(0);">

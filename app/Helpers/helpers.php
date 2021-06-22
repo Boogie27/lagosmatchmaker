@@ -388,6 +388,19 @@ function settings(){
 
 
 
+function get_friends($user_id, $friend){
+    if($friend)
+    {
+        $id = $friend->initiator_id == $user_id ? $friend->acceptor_id : $friend->initiator_id;
+
+        $user = User::where('id', $id)->first();
+        if($user)
+        {
+            return $user;
+        }
+    }
+    return false;
+}
 
 
 
@@ -397,9 +410,64 @@ function settings(){
 
 
 
+function admin_notification()
+{
+    $notifications = ['un_seen' => 0, 'nav_notification' => null, 'notification' => null];
+
+    $un_seen = DB::table('notifications')->where('notification_to', 'admin')->where('is_seen', 0)->get();
+    if(count($un_seen))
+    {
+        $notifications['un_seen'] = count($un_seen);
+    }
+
+    $nav_notification = DB::table('notifications')->where('notification_to', 'admin')->orderBy('date_sent', 'DESC')->limit(20)->get();
+    if(count($nav_notification))
+    {
+        $notifications['nav_notification'] = $nav_notification;
+    }
+
+    $all_notification = DB::table('notifications')->where('notification_to', 'admin')->orderBy('date_sent', 'DESC')->paginate(30);
+    if(count($all_notification))
+    {
+        $notifications['notification'] = $all_notification;
+    }
+
+    return $notifications;
+}
 
 
 
+
+
+
+
+
+function admin_notification_count()
+{
+    $notification = DB::table('notifications')->where('notification_to', 'admin')->where('is_seen', 0)->get();
+    if(count($notification))
+    {
+        return count($notification);
+    }
+    return false;
+}
+
+
+
+
+
+
+function get_reported_member($user_id)
+{
+    if($user_id){
+        $user = User::where('id', $user_id)->first();
+        if($user)
+        {
+            return $user->user_name;
+        }
+    } 
+    return false;
+}
 
 
 

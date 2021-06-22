@@ -331,9 +331,135 @@ button.btn-fill:hover{
         padding: 0px 10px;
     }
 }
-
-
-
+/* ************ NOTIFICATION *********** */
+.notification-container{
+    width: 60%;
+    margin: 0 auto;
+}
+.notification-body{
+    height: 450px;
+    overflow: auto;
+    /* padding: 20px 0px; */
+    background-color: #fff;
+    border-radius: 6px 6px 0px 0px;
+}
+.notification-body ul.ul-notification{
+    list-style: none;
+    padding: 0px 10px;
+    margin: 0px;
+    border-bottom: 1px solid #ccc;
+}
+.notification-body ul.ul-notification.active{
+    background-color: rgb(246, 246, 246);
+}
+.notification-body ul.ul-notification li{
+    font-size: 14px;
+}
+.notification-body ul.ul-notification li a{
+    color: #555;
+}
+ul li.notification-drop-down{
+    text-align: right;
+    height: 0px;
+}
+.notification-body ul.ul-notification li.nots-items{
+    display: flex;
+    justify-content: space-between;
+}
+.notification-body ul.ul-notification li.nots-items a{
+    font-size: 12px;
+    color: rgb(146, 146, 146);
+}
+.notification-body ul.ul-notification li.nots-items span.date{
+    font-size: 10px;
+    color: rgb(71, 245, 71);
+}
+.notification-body .clear-nots{
+    padding: 10px;
+}
+.notification-body .clear-not a{
+    font-size: 11px;
+}
+@media only screen and (max-width: 992px){
+    .notification-container{
+        width: 100%;
+    }
+}
+/* ********** LOGOUT ALERT ********* */
+#logout_preloader_container{
+    display: none;
+}
+.logout-preloader-container{
+    top: 0px;
+    width: 100%;
+    z-index: 40;
+    height: 100vh;
+    position: fixed;
+    display: table;
+    text-align: center; 
+}
+.logout-preloader-dark-theme{
+    width: 100%;
+    height: 100vh;
+    padding: 0px 40px;
+    display: table-cell;
+    vertical-align: middle;
+    background-color: rgba(0, 0, 0, 0.623);
+}
+.logout-inner-content{
+    width: 300px;
+    z-index: 20;
+    margin: 0 auto;
+    border-radius: 4px;
+    position: relative;
+    background-color: #fff;
+}
+.logout-first{
+    padding: 20px 0px 10px 0px;
+    position: relative;
+}
+ul.ul-logout{
+    list-style: none;
+    padding: 0px;
+}
+ul.ul-logout li.logout-btns{
+    border-top: 1px solid #ccc;
+}
+ul.ul-logout .logout-cancle, ul.ul-logout .logout-btn{
+    display: inline-block;
+    text-align: center;
+    width: 100px;
+}
+ul.ul-logout li .logout-cancle{
+    padding: 10px 0px;
+    border-right: 1px solid #ccc;
+}
+ul.ul-logout li .logout-cancle a:hover{
+    color: black;
+}
+ul.ul-logout li a{
+    font-size: 13px;
+    text-decoration: none;
+}
+ul.ul-logout li h4{
+    font-weight: 600;
+}
+ul.ul-logout li p{
+   font-size: 13px;
+}
+@media only screen and (max-width: 567px){
+    .logout-inner-content{
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 398px){
+    .logout-preloader-dark-theme{
+        padding: 0px 20px;
+    }
+    ul.ul-logout li h4{
+        font-size: 21px;
+    }
+}
 
 /* ************* TABLE ************* */
 .table-top{
@@ -456,7 +582,11 @@ ul.drop-down-body li.li-deactivate a.active{
 
 /* ************ PROFILE DETAIL ************ */
 .profile-detail-section{
-    padding-top: 50px;
+    /* padding-top: 50px; */
+}
+.expand{
+    padding:0px;
+    margin: 0px;
 }
 .profile-detail-container{
     width: 100%;
@@ -718,7 +848,6 @@ a.profile-image-icon{
 .form-body-settings{
     padding: 10px;
 }
-
 .footer-image {
     width: 200px;
     height: 100px;
@@ -740,12 +869,62 @@ a.profile-image-icon{
     width: 100%;
     border-radius: 3px;
 }
+.banner-slider-body{
+    padding: 10px;
+}
+ul.ul-slide-banner{
+    width: 100%;
+    padding: 0px;
+    margin-bottom: 20px;
+    /* overflow: hidden; */
+    list-style: none;
+    position: relative;
+    border-radius: 5px;
+}
+ul.ul-slide-banner img{
+    width: 100%;
+    border-radius: 5px;
+}
 
-
-
-
-
-
+ul.ul-slide-banner li.banner-slider-icon{
+    height: 0px;
+    z-index: 10;
+    text-align: right;
+}
+ul.ul-slide-banner li.banner-slider-icon a{
+    top: 5px;
+    right: 5px;
+    z-index: 5;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    position: absolute;
+    background-color: #ccc;
+}
+ul.ul-slide-banner li.banner-slider-icon a.slider-delete-icon{
+    top: 50px;
+    color: rgb(250, 68, 68);
+}
+.banner-slider-body{
+    display: inline-block;
+}
+ul.ul-slide-banner li a.upload-slider-icon{
+    color: #fff;
+    font-size: 200px;
+    padding: 5px 40px;
+    border-radius: 10px;
+    background-color: #ccc;
+}
+@media only screen and (max-width: 567px){
+    ul.ul-slide-banner li a.upload-slider-icon{
+        font-size: 150px;
+    }
+}
+@media only screen and (max-width: 398px){
+    ul.ul-slide-banner li a.upload-slider-icon{
+        font-size: 100px;
+    }
+}
 
 
 

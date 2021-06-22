@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Models\User;
 use App\Models\Chat;
+use App\Models\Admin;
+use App\Models\Image;
 use App\Models\ContactUs;
 use App\Models\Newsletter;
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +19,26 @@ use Validator;
 
 class AdminAjaxController extends Controller
 {
+
+
+    
+    public function ajax_logout_admin(Request $request)
+    {
+        $data = false;
+        if($request->ajax())
+        {
+            if(Admin::logout())
+            {
+                $data = url('/admin/login');
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
     public function ajax_suspend_member(Request $request)
     {
         $data = false;
@@ -521,6 +543,147 @@ class AdminAjaxController extends Controller
 
     
 
+
+
+
+
+
+
+
+    
+    public function ajax_edit_state(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $validator = Validator::make($request->all(), [
+                'state' => 'required|max:50',
+            ]);
+
+            if(!$validator->passes())
+            {
+                return response()->json(['error' => $validator->errors()]);
+            }
+
+            if($validator->passes())
+            {
+                $state = strtoupper($request->state);
+                $check = DB::table('states')->where('id', $request->id)->where('state', $state)->first();
+                if(!$check)
+                {
+                    $second_check = DB::table('states')->where('state', $state)->get();
+                    if(count($second_check))
+                    {
+                        return response()->json(['error' => ['state' => '*State already exists']]);
+                    }
+                }
+
+                DB::table('states')->where('id', $request->id)->update([
+                              'state' => $state
+                        ]);
+                $data = true;
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+    
+    public function ajax_delete_state(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $check = DB::table('states')->where('id', $request->id)->first();
+            if($check)
+            {
+                $delete = DB::table('states')->where('id', $request->id)->delete();
+                if($delete)
+                {
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+    
+    public function ajax_add_state(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $validator = Validator::make($request->all(), [
+                'state' => 'required|max:50',
+            ]);
+
+            if(!$validator->passes())
+            {
+                return response()->json(['error' => $validator->errors()]);
+            }
+
+            if($validator->passes())
+            {
+                $state = strtoupper($request->state);
+                $check = DB::table('states')->where('state', $state)->get();
+                if(count($check))
+                {
+                    return response()->json(['error' => ['state' => '*State already exists']]);
+                }
+
+                $create = DB::table('states')->insert([
+                              'state' => $state
+                        ]);
+                if($create)
+                {
+                    $data = true;
+                    Session::flash('success', 'State added successfully!');
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+    
+    public function ajax_feature_state(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $check = DB::table('states')->where('id', $request->id)->first();
+            if($check)
+            {
+                $is_featured = $check->is_featured ? 0 : 1;
+                $update = DB::table('states')->where('id', $request->id)->update([
+                        'is_featured' => $is_featured
+                ]);
+                if($is_featured)
+                {
+                    return response()->json(['featured' => true]);
+                }else{
+                    return response()->json(['unfeatured' => true]);
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
 
@@ -1543,6 +1706,21 @@ class AdminAjaxController extends Controller
 
 
 
+    public function ajax_get_notification_count(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+
+            $count = DB::table('notifications')->where('notification_to', 'admin')->where('is_seen', 0)->get();
+            if(count($count))
+            {
+                $data = count($count);
+            }
+            return response()->json(['data' => $data]);
+        }
+    }    
+    
 
 
 
@@ -1550,6 +1728,321 @@ class AdminAjaxController extends Controller
 
 
 
+
+    public function ajax_get_navi_notification(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            if(Admin::is_loggedin())
+            {
+                $notifications = DB::table('notifications')->where('notification_to', 'admin')->where('is_seen', 0)->orderBy('not_id', 'DESC')->limit(20)->get();
+                if($notifications)
+                {
+                    return view('admin.common.ajax-notification', compact('notifications'));
+                }
+            }
+            return response()->json(['data' => $data]);
+        }
+    } 
+
+
+
+
+
+
+
+
+    public function ajax_delete_notification(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $check = DB::table('notifications')->where('not_id', $request->notification_id)->first();
+            if($check)
+            {
+                $delete = DB::table('notifications')->where('not_id', $request->notification_id)->delete();
+                if($delete)
+                {
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+    
+    
+
+
+    public function ajax_seen_notification(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            if(Admin::is_loggedin())
+            {
+                $check = DB::table('notifications')->where('not_id', $request->notification_id)->first();
+                if($check)
+                {
+                    $update = DB::table('notifications')->where('not_id', $request->notification_id)->update([
+                                       'is_seen' => 1
+                                ]);
+                    if($update)
+                    {
+                        $data = true;
+                    }
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+    
+
+
+
+
+
+
+    public function ajax_clear_all_notification(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            if(Admin::is_loggedin())
+            {
+                $check = DB::table('notifications')->where('notification_to', 'admin')->get();
+                if(count($check))
+                {
+                    $error = false;
+                    foreach($check as $notification)
+                    {
+                        $delete = DB::table('notifications')->where('not_id', $notification->not_id)->delete();
+                        if(!$delete)
+                        {
+                            $error = true;
+                        }
+                    }
+                    if(!$error)
+                    {
+                        $data = true;
+                    }
+                }else{
+                    return response()->json(['empty' => true]);
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+    
+    
+    public function ajax_add_slider(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            if(Image::exists('image'))
+            {
+                $file = Image::files('image');
+                $image = new Image();
+
+                $fileName = Image::name('image', 'slider');
+                $slider = 'web/images/banner/'.$fileName;
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 1000000,'file_destination' => 'web/images/banner/' ]);
+                
+                if(!$image->passed())
+                {
+                    return response()->json(['error' => ['image' => $image->error()]]);
+                }
+                if($image->passed())
+                {
+                    $create = DB::table('banners')->insert([
+                        'banner' => $slider
+                    ]);
+                    if($create)
+                    {
+                        $data = true;
+                    }
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
+
+
+
+
+
+    
+    public function ajax_get_slider(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $sliders = DB::table('banners')->get(); //get all banners
+            if($sliders)
+            {
+                return view('admin.common.ajax-get-slider', compact('sliders'));
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+    public function ajax_delete_slider(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = true;
+            $banner = DB::table('banners')->where('id', $request->banner_id)->first(); //get banner
+            if($banner)
+            {
+                $banner_img = $banner->banner;
+                $delete = DB::table('banners')->where('id', $request->banner_id)->delete();
+                if($delete)
+                {
+                    Image::remove($banner_img);
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+
+    public function ajax_update_slider(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $banner = DB::table('banners')->where('id', $request->banner_id)->first(); //get banner
+            if(!$banner)
+            {
+                return response()->json(['data' => $data]);
+            }
+
+            if(Image::exists('image'))
+            {
+                $file = Image::files('image');
+                $image = new Image();
+
+                $fileName = Image::name('image', 'slider');
+                $slider = 'web/images/banner/'.$fileName;
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 1000000,'file_destination' => 'web/images/banner/' ]);
+                
+                if(!$image->passed())
+                {
+                    return response()->json(['error' => ['image' => $image->error()]]);
+                }
+                if($image->passed())
+                {
+                    $banner_img = $banner->banner;
+                    $update = DB::table('banners')->where('id', $request->banner_id)->update([
+                        'banner' => $slider
+                    ]);
+                    if($update)
+                    {
+                        Image::remove($banner_img);
+                        $data = asset($slider);
+                    }
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+    
+
+
+
+
+
+
+
+
+
+    public function ajax_feature_slider(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $banner = DB::table('banners')->where('id', $request->banner_id)->first(); //get banner
+            if($banner)
+            {
+                $is_featured = $banner->is_featured ? 0 : 1;
+                $update = DB::table('banners')->where('id', $request->banner_id)->update([
+                        'is_featured' => $is_featured
+                ]);
+                if($update)
+                {
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 
 

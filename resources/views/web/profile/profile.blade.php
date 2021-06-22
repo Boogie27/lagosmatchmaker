@@ -14,6 +14,9 @@
                         </li>
                         @if(is_loggedin() && user('id') == $user->id)
                         <li class="profile-settings">
+                            <a href="{{ url('/friends') }}"><i class="fa fa-users"></i> Friends</a>
+                        </li>
+                        <li class="profile-settings">
                             <a href="{{ url('/settings') }}"><i class="fa fa-cog"></i> Settings</a>
                         </li>
                         @endif
@@ -212,10 +215,10 @@
                     <div class="title-header"><h4>Filter Search Members</h4></div>
                     <div class="profile-right-form">
                         <p>Serious dating with Lagos match maker Yourperfect match is just a click away</p>
-                        <form action="" method="POST">
+                        <form action="{{ url('/search') }}" method="GET">
                             <div class="form-group">
                                 <div class="alert-form text-danger"></div>
-                                <select class="selectpicker form-control">
+                                <select  name="i_am" class="selectpicker form-control">
                                     <option value="">I am</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
@@ -223,7 +226,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="alert-form text-danger"></div>
-                                <select class="selectpicker form-control">
+                                <select  name="looking_for" class="selectpicker form-control">
                                     <option value="">Looking for</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
@@ -232,43 +235,80 @@
                             <div class="form-group">
                                 <div class="alert-form text-danger"></div>
                                 <div class="row-container">
-                                    <select class="selectpicker form-control">
-                                        <option value="">18</option>
-                                        <option value="">20</option>
-                                        <option value="">25</option>
-                                        <option value="">30</option>
-                                        <option value="">35</option>
-                                        <option value="">40</option>
-                                        <option value="">45</option>
-                                        <option value="">50</option>
-                                        <option value="">55</option>
-                                        <option value="">60</option>
+                                    <select name="from_age" class="selectpicker form-control">
+                                        <option value="">Age from</option>
+                                        <option value="20">20</option>
+                                        <option value="25">25</option>
+                                        <option value="30">30</option>
+                                        <option value="35">35</option>
+                                        <option value="40">40</option>
+                                        <option value="45">45</option>
+                                        <option value="50">50</option>
+                                        <option value="55">55</option>
+                                        <option value="60">60</option>
                                     </select>
-                                    <select class="selectpicker form-control">
-                                        <option value="">18</option>
-                                        <option value="">20</option>
-                                        <option value="">25</option>
-                                        <option value="">30</option>
-                                        <option value="">35</option>
-                                        <option value="">40</option>
-                                        <option value="">45</option>
-                                        <option value="">50</option>
-                                        <option value="">55</option>
-                                        <option value="">60</option>
+                                    <select name="to_age" class="selectpicker form-control">
+                                        <option value="">Age to</option>
+                                        <option value="20">20</option>
+                                        <option value="25">25</option>
+                                        <option value="30">30</option>
+                                        <option value="35">35</option>
+                                        <option value="40">40</option>
+                                        <option value="45">45</option>
+                                        <option value="50">50</option>
+                                        <option value="55">55</option>
+                                        <option value="60">60</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="alert-form text-danger"></div>
-                                <input type="text" class="form-control" value="" placeholder="City">
+                                <select name="genotype" class="selectpicker form-control">
+                                    <option value="">Select genotype</option>
+                                    @if(count($genotypes))
+                                        @foreach($genotypes as $genotype)
+                                        <option value="{{ $genotype->genotype }}">{{ $genotype->genotype }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
                             </div>
                             <div class="form-group">
-                                <div class="alert-form text-danger"></div>
-                                <input type="text" class="form-control" value="" placeholder="State">
+                                <select name="marital_status" class="selectpicker form-control">
+                                    <option value="">Marital status</option>
+                                    @if(count($marital_status))
+                                        @foreach($marital_status as $marital_stat)
+                                        <option value="{{ $marital_stat->marital_status }}">{{ $marital_stat->marital_status }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
                             </div>
                             <div class="form-group">
-                                <button type="button" class="btn-fill-block">Filter Your Partner</button>
+                                <select name="religion" class="selectpicker form-control">
+                                    <option value="">Select religion</option>
+                                    <option value="christain">Christain</option>
+                                    <option value="muslim">Muslim</option>
+                                </select>
                             </div>
+                            <div class="form-group">
+                                <select name="location" class="selectpicker form-control">
+                                    <option value="">Select location</option>
+                                    @if(count($states))
+                                        @foreach($states as $state)
+                                        <option value="{{ strtolower($state->state) }}">{{ $state->state }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select name="membership_level" class="selectpicker form-control">
+                                    <option value="">Select membership</option>
+                                    <option value="basic">Basic </option>
+                                    <option value="premium">Premium </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn-fill-block">Filter Your Partner</button>
+                            </div>
+                            @csrf
                         </form>
                     </div>
                 </div>

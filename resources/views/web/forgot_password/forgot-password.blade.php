@@ -3,7 +3,7 @@
 <!-- FORGOT PASSWORD START-->
 <section class="login-form-section">
     <div class="form-container">
-        <form action="{{ url('/login') }}" method="POST">
+        <form action="{{ url('/forgot-password') }}" method="POST">
             @if(Session::has('error'))
             <div class="main-alert-danger text-center mb-3">{{ Session::get('error')}}</div>
             @endif

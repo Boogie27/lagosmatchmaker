@@ -27,7 +27,7 @@ class Paystack extends Model
     public static function get_paystack_key()
     {
       $settings =  DB::table('settings')->where('id', 1)->first();
-       return $settings->is_paystack_activate ? $settings->paystack_secrete_key : $settings->paystack_public_key;
+       return $settings->is_paystack_activate ? $settings->paystack_live_key : $settings->paystack_test_key;
     }
 
     

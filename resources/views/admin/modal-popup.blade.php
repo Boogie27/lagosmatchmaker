@@ -111,6 +111,9 @@
 
 
 
+
+
+
 <!--  DEACTIVATEE USER ALERT START -->
 <section class="modal-alert-popup" id="deactivate_user_modal_popup_box">
     <div class="sub-confirm-container">
@@ -147,6 +150,26 @@
 
 
 
+<!-- LOGOUT ALERT START-->
+<section id="logout_preloader_container">
+    <div class="logout-preloader-container">
+        <div class="logout-preloader-dark-theme">
+            <div class="logout-inner-content">
+                <ul class="ul-logout">
+                    <li class="logout-first">
+                        <h4>Logout?</h4>
+                        <p>Are you sure you want to logout?</p>
+                    </li>
+                    <li class="logout-btns">
+                        <div class="logout-cancle"><a href="#" id="logout_user_cancle_btn">Cancle</a> </div>
+                        <div class="logout-btn"><a href="{{ url('/admin/ajax-logout') }}" id="logout_admin_user_submit" class="logout-btn text-danger">Logout</a></div> 
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- LOGOUT ALERT END-->
 
 
 
@@ -156,6 +179,29 @@
 
 
 
+
+<!--  DEACTIVATEE USER ALERT START -->
+<section class="modal-alert-popup" id="clear_notification_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to clear all notifications</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="submit"  data-url="{{ url('/admin/ajax-clear-all-notifications') }}" id="clear_notification_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  DEACTIVATEE USER ALERT END -->
 
 
 

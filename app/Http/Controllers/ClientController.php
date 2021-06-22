@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Auth;
 use App\Models\Paystack;
 use App\Models\Chat;
+use App\Models\Mail;
 use App\Models\ContactUs;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,12 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use Cookie;
 // use Validator;
+
+
+
+
+
+
 
 
 class ClientController extends Controller
@@ -28,7 +35,8 @@ class ClientController extends Controller
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
-       return view('web.index', compact('states', 'genotypes', 'marital_status'));
+        $banners = DB::table('banners')->where('is_featured', 1)->get(); //get slider banners
+       return view('web.index', compact('banners', 'states', 'genotypes', 'marital_status'));
     }
 
 
@@ -188,7 +196,36 @@ class ClientController extends Controller
     {
         return view('web.forgot-password');
     }
+
+
+
+
+
+
+    public function forgot_password_store(Request $request)
+    {
+        $mail = new Mail();
+        $send = $mail->mail([
+                    'to' => 'anonyecharles@gmail.com',
+                    'subject' => 'forgot password',
+                    'body' => 'body of the message',
+                ]);
+        if(!$send)
+        {
+            return back()->with('error', $send->error());
+        }
+
+        dd($send->send_email());
+        if($send->send_email())
+        {
+            
+        }
+        return back()->with('error', 'Network error, try again later!');
+    }
     
+    
+
+
 
 
 
@@ -245,17 +282,29 @@ class ClientController extends Controller
             'gender' => 'required'
         ]);
         
-        User::create([
-            'user_name' => $request->user_name,
-            'email' => $request->email,
-            'gender' => $request->gender,
-            'password' => hash::make($request->password),
-            'membership_level' => 'basic',
-        ]);
+        $register = User::create([
+                'user_name' => $request->user_name,
+                'email' => $request->email,
+                'gender' => $request->gender,
+                'password' => hash::make($request->password),
+                'membership_level' => 'basic',
+            ]);
 
         if(Auth::login($request->email))
         {
             $id = Auth::user('id');
+            if($register)
+            {
+                //send notification to admin
+                DB::table('notifications')->insert([
+                        'notification_from' => $id,
+                        'notification_to' => 'admin',
+                        'title' => $request->user_name,
+                        'description' => $request->user_name.' has just registered with lagosmatchmaker',
+                        'link' => 'admin/member-detail/'.$id,
+                ]);
+            }
+            
             return redirect('/profile/'.$id)->with('success', 'Account created successfully');
         }
     }
@@ -571,35 +620,10 @@ class ClientController extends Controller
             return redirect('/login');
         }
 
-        $friends = [];
-        $initiators = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('is_accept', 1)->get();
-        $acceptors = DB::table('likes')->where('acceptor_id', Auth::user('id'))->where('is_accept', 1)->get();
-
-        if(count($initiators))
-        {
-            foreach($initiators as $initiator)
-            {
-                $user_initiator = User::where('id', $initiator->acceptor_id)->first();
-                if($user_initiator)
-                {
-                    $friends[] = $user_initiator;
-                }
-            }
-        }
-        if(count($acceptors))
-        {
-            foreach($acceptors as $acceptor)
-            {
-                $user_acceptor = User::where('id', $acceptor->initiator_id)->first();
-                if($user_acceptor)
-                {
-                    $friends[] = $user_acceptor;
-                }
-            }
-        }
-
         $friends_request = DB::table('likes')->where('acceptor_id', Auth::user('id'))->where('is_accept', 0)
                             ->leftJoin('users', 'likes.initiator_id', 'users.id')->get();
+
+        $friends = DB::table('likes')->where('initiator_id', Auth::user('id'))->orWhere('acceptor_id', Auth::user('id'))->where('is_accept', 1)->paginate(25);
 
         return view('web.friends', compact('friends', 'friends_request'));
     }

@@ -33,15 +33,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <!-- <h4 class="header-title mt-0 mb-1">Buttons example</h4> -->
-                                <div class="table-top">
+                                <div class="table-top pb-2">
                                     <a href="#" id="add_content_btn" class="mini-btn">Add Body Type</a>
-                                    <div class="table-search">
-                                        <form action="" method="GET">
-                                            <div class="form-group">
-                                                <input type="text" name="search_members" class="form-control" placeholder="Search...">
-                                            </div>
-                                        </form>
-                                    </div>
                                 </div>
                                <div class="table-responsive"> <!-- table start-->
                                     <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
@@ -343,9 +336,11 @@ function table_check(){
 
 
 // ************ OPEN CONFIRM MODAL **************//
+var dataName = null;
 var content_parent = null;
 $(".content-edit-btn").click(function(e){
     e.preventDefault()
+    dataName = $(this)
     $(".alert-form").html('')
     var name = $(this).attr('data-name')
     var id =  $(this).attr('id')
@@ -406,6 +401,7 @@ function edit_marital_status(){
             }else if(response.data){
                 $(content_parent).html(body_type)
                 $(".modal-alert-popup").hide()
+                $(dataName).attr('data-name', body_type)
                 bottom_alert_success('Body type has been updated!')
             }else{
                 $(".modal-alert-popup").hide()

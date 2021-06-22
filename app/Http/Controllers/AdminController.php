@@ -20,18 +20,33 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $admin = Admin::where('in_control', 1)->first();
-        return view('admin.index', compact('admin'));
+        return view('admin.index');
     }
 
+    
+
+
+
+
+    public function notification_index()
+    {
+        $notifications = DB::table('notifications')->where('notification_to', 'admin')->orderBy('not_id', 'DESC')->paginate(25);
+
+        return view('admin.notification', compact('notifications'));
+    }
+
+    
 
 
 
 
     public function login_index()
     {
-        $admin = Admin::where('in_control', 1)->first();
-        return view('admin.login', compact('admin'));
+        if(Admin::is_loggedin())
+        {
+            return redirect('/admin');
+        }
+        return view('admin.login');
     }
     
 
@@ -87,9 +102,21 @@ class AdminController extends Controller
 
 
 
-    public function basic_index()
+    public function basic_index(Request $request)
     {
-        $basics = User::where('membership_level', 'basic')->where('is_deactivated', 0)->where('is_approved', 1)->paginate(25);
+        $basic = User::where('membership_level', 'basic')->where('is_deactivated', 0)->where('is_approved', 1);
+        if($request->search)
+        {
+            if(preg_match('/@/', $request->search))
+            {
+                $basic->where('email', 'LIKE', "%{$request->search}%");
+            }else{
+                $basic->where('user_name', 'LIKE', "%{$request->search}%");
+            }
+        }
+
+        $basics = $basic->paginate(25);
+        
         
         return view('admin.basic', compact('basics'));
     }
@@ -99,20 +126,43 @@ class AdminController extends Controller
 
 
 
-    public function premium_index()
+    public function premium_index(Request $request)
     {
-        $premiums = User::where('membership_level', 'premium')->where('is_approved', 1)->where('is_deactivated', 0)->paginate(25);
+        $premium = User::where('membership_level', 'premium')->where('is_approved', 1)->where('is_deactivated', 0);
         
+        if($request->search)
+        {
+            if(preg_match('/@/', $request->search))
+            {
+                $premium->where('email', 'LIKE', "%{$request->search}%");
+            }else{
+                $premium->where('user_name', 'LIKE', "%{$request->search}%");
+            }
+        }
+
+        $premiums = $premium->paginate(25);
+
         return view('admin.premium', compact('premiums'));
     }
 
 
 
 
-    public function deactivated_index()
+    public function deactivated_index(Request $request)
     {
-        $deactivates = User::where('is_deactivated', 1)->paginate(25);
-        
+        $deactivate = User::where('is_deactivated', 1);
+        if($request->search)
+        {
+            if(preg_match('/@/', $request->search))
+            {
+                $deactivate->where('email', 'LIKE', "%{$request->search}%");
+            }else{
+                $deactivate->where('user_name', 'LIKE', "%{$request->search}%");
+            }
+        }
+
+        $deactivates = $deactivate->paginate(25);
+
         return view('admin.deactivated', compact('deactivates'));
     }
     
@@ -120,14 +170,54 @@ class AdminController extends Controller
 
 
 
-    public function unapproved_index()
+
+
+
+
+
+
+
+
+
+
+
+    public function unapproved_index(Request $request)
     {
-        $unapproved = User::where('is_approved', 0)->paginate(25);
-        
+        $unapprove = User::where('is_approved', 0);
+        if($request->search)
+        {
+            if(preg_match('/@/', $request->search))
+            {
+                $unapprove->where('email', 'LIKE', "%{$request->search}%");
+            }else{
+                $unapprove->where('user_name', 'LIKE', "%{$request->search}%");
+            }
+        }
+
+        $unapproved = $unapprove->paginate(25);
+
         return view('admin.unapproved', compact('unapproved'));
     }
 
 
+
+
+
+
+
+
+
+
+    public function update_notification($id)
+    {
+        $notification = DB::table('notifications')->where('notification_from', $id)->where('type', 'register')->where('notification_to', 'admin')->where('is_seen', 0)->first();
+        if($notification)
+        {
+            DB::table('notifications')->where('notification_from', $id)->where('type', 'register')->where('notification_to', 'admin')->where('is_seen', 0)->update([
+                'is_seen' => 1
+            ]);
+        }
+    }
     
 
 
@@ -140,6 +230,9 @@ class AdminController extends Controller
         {
             return redirect('admin/404');
         }
+
+       $this->update_notification($id);
+
         $gender = $user->gender == 'male' ? 'man' : 'woman';
         $display_name = $user->display_name ? $user->display_name : $user->user_name;
 
@@ -221,6 +314,18 @@ class AdminController extends Controller
         $genotypes = DB::table('genotypes')->paginate(25);
 
         return view('admin.genotype', compact('genotypes'));
+    }
+    
+
+
+
+
+
+    public function states_index()
+    {
+        $states = DB::table('states')->paginate(25);
+
+        return view('admin.states', compact('states'));
     }
     
 
@@ -345,10 +450,21 @@ class AdminController extends Controller
 
 
 
-    public function user_subscription_index()
+    public function user_subscription_index(Request $request)
     {
-        $user_subs = User::leftJoin('user_subscriptions', 'users.id', '=', 'user_subscriptions.user_id')->where('user_subscriptions.is_expired', 0)->paginate(25);
+        $user_sub = User::leftJoin('user_subscriptions', 'users.id', '=', 'user_subscriptions.user_id')->where('user_subscriptions.is_expired', 0);
 
+        if($request->search)
+        {
+            if(preg_match('/@/', $request->search))
+            {
+                $user_sub->where('email', 'LIKE', "%{$request->search}%");
+            }else{
+                $user_sub->where('user_name', 'LIKE', "%{$request->search}%");
+            }
+        }
+
+        $user_subs = $user_sub->paginate(25);
 
         return view('admin.user-subscription', compact('user_subs'));
     }
@@ -872,12 +988,118 @@ class AdminController extends Controller
     }
 
 
+
+
+
+
+
+    public function email_settings_index()
+    {
+        $email_settings = DB::table('settings')->where('id', 1)->first();
+
+        return view('admin.email-settings', compact('email_settings'));
+    }
+
+    
+
+    
+
+
+    public function email_settings_update(Request $request)
+    {
+        $request->validate([
+            'from_name' => 'required|max:50',
+            'from_email' => 'required',
+            'smtp_host' => 'required|max:50',
+            'smtp_password' => 'required|max:100',
+            'smtp_port' => 'required|max:50',
+            'smtp_host' => 'required|max:50',
+        ]);
+
+        $settings = DB::table('settings')->where('id', 1)->first();
+        if($settings)
+        {
+            DB::table('settings')->where('id', 1)->update([
+                'from_name' => $request->from_name,
+                'from_email' => $request->from_email,
+                'smtp_host' => $request->smtp_host,
+                'smtp_password' => $request->smtp_password,
+                'smtp_port' => $request->smtp_port,
+                'smtp_host' => $request->smtp_host,
+            ]);
+            return back()->with('success', 'Email settings updated successfully!');
+        }
+        return back()->with('error', 'Network error, try again later');
+    }
     
 
 
 
 
-// web/images/icons/logo.png
+
+
+
+    public function payment_settings_index()
+    {
+        $paystack = DB::table('settings')->where('id', 1)->first();
+
+        return view('admin.payment-settings', compact('paystack'));
+    }
+
+
+
+
+
+
+
+    public function payment_settings_update(Request $request)
+    {
+        $request->validate([
+            'test_key' => 'required|max:255',
+            'live_key' => 'required|max:255',
+            'is_paystack_activate' => 'required',
+        ]);
+        
+        $is_paystack_activate = $request->is_paystack_activate ? '1' : '0';
+
+        $settings = DB::table('settings')->where('id', 1)->first();
+        if($settings)
+        {
+            DB::table('settings')->where('id', 1)->update([
+                'paystack_test_key' => $request->test_key,
+                'paystack_live_key' => $request->live_key,
+                'is_paystack_activate' => $is_paystack_activate,
+            ]);
+            return back()->with('success', 'Payment settings updated successfully!');
+        }
+        return back()->with('error', 'Network error, try again later');
+    }
+
+
+
+
+
+
+
+    public function friends_index($id)
+    {
+        $friends = DB::table('likes')->where('initiator_id', $id)->orWhere('acceptor_id', $id)->where('is_accept', 1)->paginate(25);
+    
+        return view('admin.friends', compact('friends', 'id'));
+    }
+
+    
+    
+
+
+
+    public function banner_settings_index()
+    {
+        $sliders = DB::table('banners')->get(); //get all banners
+
+        return view('admin.banner-settings', compact('sliders'));
+    }
+    
 
 
 

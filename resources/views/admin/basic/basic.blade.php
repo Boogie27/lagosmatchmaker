@@ -36,9 +36,9 @@
                                <div class="table-top">
                                     <div class="page-icon"><i class="fa fa-users"></i></div>
                                     <div class="table-search">
-                                        <form action="" method="GET">
+                                        <form action="{{ url('/admin/basic') }}" method="GET">
                                             <div class="form-group">
-                                                <input type="text" name="search_members" class="form-control" placeholder="Search...">
+                                                <input type="text" name="search" class="form-control" placeholder="Search...">
                                             </div>
                                         </form>
                                     </div>

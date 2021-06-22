@@ -15,10 +15,11 @@
                         <nav aria-label="breadcrumb" class="float-right mt-1">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="javascript: void()">Contact</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void()">Member</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void()">Report</a></li>
                             </ol>
                         </nav>
-                        <h4 class="mb-1 mt-0">Contact Messages</h4>
+                        <h4 class="mb-1 mt-0">Reported Members</h4>
                         @if(Session::has('error'))
                         <div class="main-alert-danger text-center mt-3">{{ Session::get('error')}}</div>
                         @endif
@@ -50,7 +51,7 @@
                                                         {{ ucfirst($user->user_name) }}
                                                     </td>
                                                     <td>
-                                                       {{ 'charles' }}
+                                                       {{ get_reported_member($user->reported_id) }}
                                                     </td>
                                                     <td>
                                                         <div class="suspend {{ !$user->is_seen ? 'active' : ''}}">

@@ -1,7 +1,11 @@
 <div class="slider-container" data-duration="15000">
-    <div class="slider-content" style="background-image: url({{ asset('web/images/banner/1.jpg') }})"></div>
-    <div class="slider-content" style="background-image: url({{ asset('web/images/banner/4.jpg') }})"></div>
-    <div class="slider-content" style="background-image: url({{ asset('web/images/banner/3.jpg') }})"></div>
+    @if(count($banners))
+       @foreach($banners as $banner)
+       <div class="slider-content" style="background-image: url({{ asset($banner->banner) }})"></div>
+       @endforeach
+    @else
+    <div class="slider-content" style="background-image: url({{ asset('web/images/banner/demo.jpg') }})"></div>
+    @endif
 </div>
 
 

@@ -32,16 +32,6 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="table-top">
-                                    <div class="page-icon"><i class="fa fa-cubes"></i></div>
-                                    <div class="table-search">
-                                        <form action="" method="GET">
-                                            <div class="form-group">
-                                                <input type="text" name="search_members" class="form-control" placeholder="Search...">
-                                            </div>
-                                        </form>
-                                    </div>
-                               </div>
                                <div class="table-responsive"> <!-- table start-->
                                     <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
                                         <thead>

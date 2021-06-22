@@ -16,10 +16,10 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Home</a></li>
                                 <li class="breadcrumb-item"><a href="javascript: void()">Options</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Weigths</li>
+                                <li class="breadcrumb-item active" aria-current="page">States</li>
                             </ol>
                         </nav>
-                        <h4 class="mb-1 mt-0">Weigths</h4>
+                        <h4 class="mb-1 mt-0">States</h4>
                         @if(Session::has('error'))
                         <div class="main-alert-danger text-center mt-3">{{ Session::get('error')}}</div>
                         @endif
@@ -34,40 +34,40 @@
                             <div class="card-body">
                                 <!-- <h4 class="header-title mt-0 mb-1">Buttons example</h4> -->
                                <div class="table-top pb-2">
-                                    <a href="#" id="add_content_btn" class="mini-btn">Add Weight</a>
+                                    <a href="#" id="add_content_btn" class="mini-btn">Add States</a>
                                </div>
                                <div class="table-responsive"> <!-- table start-->
                                     <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
                                         <thead>
                                             <tr>
-                                                <th>Weight</th>
+                                                <th>State</th>
                                                 <th>Featured</th>
                                                 <th>Date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody id="parent_table">
-                                            @if(count($weights))
-                                            @foreach($weights as $weight)
+                                            @if(count($states))
+                                            @foreach($states as $state)
                                             <tr>
                                                 <td>
-                                                    <div class="genotype-name">{{ ucfirst($weight->weight) }}</div>
+                                                    <div class="states-name">{{ ucfirst($state->state) }}</div>
                                                 </td>
                                                 <td>
-                                                    <div class="check-box {{ $weight->is_featured ? 'active' : ''}}">
-                                                        <a href="#" data-name="{{ $weight->weight }}" id="{{ $weight->id }}" class="feature-confirm-box-open"></a>
+                                                    <div class="check-box {{ $state->is_featured ? 'active' : ''}}">
+                                                        <a href="#" data-name="{{ $state->state }}" id="{{ $state->id }}" class="feature-confirm-box-open"></a>
                                                     </div>
                                                 </td>
-                                                <td>{{ date('d M Y', strtotime($weight->date)) }}</td>
+                                                <td>{{ date('d M Y', strtotime($state->date)) }}</td>
                                                 <td>
                                                     <div class="drop-down">
                                                         <i class="fa fa-ellipsis-h drop-down-open"></i>
                                                         <ul class="drop-down-body">
                                                             <li>
-                                                                <a href="#" data-name="{{ $weight->weight }}" id="{{ $weight->id }}" class="content-edit-btn">Edit</a>
+                                                                <a href="#" data-name="{{ $state->state }}" id="{{ $state->id }}" class="content-edit-btn">Edit</a>
                                                             </li>
                                                             <li>
-                                                                <a href="#" data-name="{{ $weight->weight }}" id="{{ $weight->id }}" class="content-delete-btn">Delete</a>
+                                                                <a href="#" data-name="{{ $state->state }}" id="{{ $state->id }}" class="content-delete-btn">Delete</a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -79,11 +79,11 @@
                                     </table>
                                 </div><!-- table end-->
                                 <div id="bottom_table_part">
-                                    @if(!count($weights))
-                                    <div class="text-center">There are no weight yet!</div>
+                                    @if(!count($states))
+                                    <div class="text-center">There are no states yet!</div>
                                     @endif
-                                    @if(count($weights))
-                                    <div class="paginate">{{ $weights->links("pagination::bootstrap-4") }}</div>
+                                    @if(count($states))
+                                    <div class="paginate">{{ $states->links("pagination::bootstrap-4") }}</div>
                                     @endif
                                 </div>
                             </div> <!-- end card body-->
@@ -121,8 +121,8 @@
                    <form action="" method="POST">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label for="userName">Weights<span>*</span></label>
-                                <input type="text" parsley-trigger="change" id="form_content_input" placeholder="Enter Weight" class="form-control" value="">
+                                <label for="userName">State<span>*</span></label>
+                                <input type="text" parsley-trigger="change" id="form_content_input" placeholder="Enter State" class="form-control" value="">
                                 <div class="alert-form alert_0 text-danger"></div>
                             </div>
                         </div>
@@ -228,8 +228,8 @@
                    <form action="" method="POST">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label for="userName">Weights<span>*</span></label>
-                                <input type="text" parsley-trigger="change" id="add_form_content_input" placeholder="Enter Weight" class="form-control" value="">
+                                <label for="userName">State<span>*</span></label>
+                                <input type="text" parsley-trigger="change" id="add_form_content_input" placeholder="Enter State" class="form-control" value="">
                                 <div class="alert-form alert_0 text-danger"></div>
                             </div>
                         </div>
@@ -325,7 +325,7 @@ $(document).ready(function(){
 function table_check(){
     var table = $("#parent_table").children()
     if(table.length == 0){
-        $("#bottom_table_part").html("<div class='text-center'>There are no weight yet!</div>")
+        $("#bottom_table_part").html("<div class='text-center'>There are no state yet!</div>")
     }
 }
 
@@ -345,7 +345,7 @@ $(".content-edit-btn").click(function(e){
     var name = $(this).attr('data-name')
     var id =  $(this).attr('id')
    
-    content_parent = $(this).parent().parent().parent().parent().parent().children().children('.genotype-name')
+    content_parent = $(this).parent().parent().parent().parent().parent().children().children('.states-name')
     $("#form_content_input").val(name)
     $("#options_id_input").val(id)
     $("#edit_modal_popup_box").show()
@@ -377,11 +377,11 @@ $("#form_content_input").keypress(function(e){
 
 function edit_marital_status(){
     $(".alert-form").html('')
-    var weight =$("#form_content_input").val()
+    var state =$("#form_content_input").val()
     var id = $("#options_id_input").val()
     $("#form_confirm_submit_btn").html('Please wait...')
 
-    if(validate_form(weight)){
+    if(validate_form(state)){
         $("#form_confirm_submit_btn").html('Proceed')
         return;
     }
@@ -389,20 +389,20 @@ function edit_marital_status(){
     csrf_token() //csrf token
 
     $.ajax({
-        url: "{{ url('/admin/ajax-edit-weight') }}",
+        url: "{{ url('/admin/ajax-edit-state') }}",
         method: "post",
         data: {
             id: id,
-            weight: weight,
+            state: state,
         },
         success: function (response){
             if(response.error){
-                $(".alert_0").html(response.error.weight)
+                $(".alert_0").html(response.error.state)
             }else if(response.data){
-                $(content_parent).html(weight)
+                $(dataName).attr('data-name', state.toUpperCase())
+                $(content_parent).html(state)
                 $(".modal-alert-popup").hide()
-                $(dataName).attr('data-name', weight)
-                bottom_alert_success('Weight has been updated!')
+                bottom_alert_success('State has been updated!')
             }else{
                 $(".modal-alert-popup").hide()
                 bottom_alert_error('Network error, try again later!')
@@ -418,14 +418,14 @@ function edit_marital_status(){
 
 
 
-function validate_form(weight){
+function validate_form(state){
     var state = false;
-    if(weight == ''){
+    if(state.length == 0){
         state = true;
-        $(".alert_0").html('*Weight field is required')
-    }else if(weight.length > 10){
+        $(".alert_0").html('*State field is required')
+    }else if(state.length > 50){
         state = true;
-        $(".alert_0").html('*Maximum of 10 characters')
+        $(".alert_0").html('*Maximum of 50 characters')
     }
     return state;
 }
@@ -470,7 +470,7 @@ $(".content-delete-btn").click(function(e){
     $("#options_delete_id_input").val(id)
     $("#delete_modal_popup_box").show()
     $("#delete_confirm_submit_btn").html('Proceed')
-    apend_message("<p>Do you wish to delete weight <br><b>"+name+"</b></p>")
+    apend_message("<p>Do you wish to delete state <br><b>"+name+"</b></p>")
 })
 
 
@@ -480,7 +480,7 @@ $(".content-delete-btn").click(function(e){
 
 
 
-// *********** DELETE SMOKING **************//
+// *********** DELETE STATE **************//
 $("#delete_confirm_submit_btn").click(function(e){
     e.preventDefault()
     var id = $("#options_delete_id_input").val()
@@ -489,7 +489,7 @@ $("#delete_confirm_submit_btn").click(function(e){
     csrf_token() //csrf token
 
     $.ajax({
-        url: "{{ url('/admin/ajax-delete-weight') }}",
+        url: "{{ url('/admin/ajax-delete-state') }}",
         method: "post",
         data: {
             id: id,
@@ -498,7 +498,7 @@ $("#delete_confirm_submit_btn").click(function(e){
             if(response.data){
                 $(content_parent).remove()
                 $(".modal-alert-popup").hide()
-                bottom_alert_success('Weight has been deleted!')
+                bottom_alert_success('State has been deleted!')
                 table_check()
             }else{
                 $(".modal-alert-popup").hide()
@@ -518,7 +518,7 @@ $("#delete_confirm_submit_btn").click(function(e){
 
 
 
-// **********ADD WEIGHT TYPE MODAL OPEN *************//
+// **********ADD STATE TYPE MODAL OPEN *************//
 $("#add_content_btn").click(function(e){
     e.preventDefault()
     $(".alert-form").html('')
@@ -526,7 +526,7 @@ $("#add_content_btn").click(function(e){
 })
 
 
-// ******* ADD WEIGHT TYPE ON ENTER ************//
+// ******* ADD STATE TYPE ON ENTER ************//
 $("#add_form_content_input").keypress(function(e){
     if(e.which == 13){
         e.preventDefault()
@@ -536,7 +536,7 @@ $("#add_form_content_input").keypress(function(e){
 
 
 
-// ********** ADD WEIGHT TYPE ***********//
+// ********** ADD STATE TYPE ***********//
 $("#add_confirm_submit_btn").click(function(e){
     e.preventDefault()
     add_content()
@@ -547,10 +547,10 @@ $("#add_confirm_submit_btn").click(function(e){
 
 function add_content(){
     $(".alert-form").html('')
-    var weight = $("#add_form_content_input").val()
+    var state = $("#add_form_content_input").val()
     $("#add_confirm_submit_btn").html('Please wait...')
-
-    if(validate_form(weight)){
+  
+    if(validate_form(state)){
         $("#add_confirm_submit_btn").html('Proceed')
         return;
     }
@@ -559,14 +559,14 @@ function add_content(){
     csrf_token() //csrf token
 
     $.ajax({
-        url: "{{ url('/admin/ajax-add-weight') }}",
+        url: "{{ url('/admin/ajax-add-state') }}",
         method: "post",
         data: {
-            weight: weight,
+            state: state,
         },
         success: function (response){
             if(response.error){
-                $(".alert_0").html(response.error.weight)
+                $(".alert_0").html(response.error.state)
             }else if(response.data){
                 location.reload()
             }else{
@@ -600,9 +600,9 @@ $(".feature-confirm-box-open").click(function(e){
     $("#feature_confirm_submit_btn").html('Proceed')
     $("#feature_modal_popup_box").show()
     if($(featured).hasClass('active')){
-        apend_message("<p>Do you wish to unfeature the weight <br><b>"+content+"</b></p>")  
+        apend_message("<p>Do you wish to unfeature the state <br><b>"+content+"</b></p>")  
     }else{
-        apend_message("<p>Do you wish to feature the weight <br><b>"+content+"</b></p>") 
+        apend_message("<p>Do you wish to feature the state <br><b>"+content+"</b></p>") 
     }
 })
 
@@ -619,7 +619,7 @@ $("#feature_confirm_submit_btn").click(function(e){
     csrf_token() //csrf token
 
     $.ajax({
-        url: "{{ url('/admin/ajax-feature-weight') }}",
+        url: "{{ url('/admin/ajax-feature-state') }}",
         method: "post",
         data: {
             id: id,
@@ -627,10 +627,10 @@ $("#feature_confirm_submit_btn").click(function(e){
         success: function (response){
             if(response.featured){
                 $(featured).addClass('active')
-                bottom_alert_success('Weight option has been featured!')
+                bottom_alert_success('State option has been featured!')
             }else if(response.unfeatured){
                 $(featured).removeClass('active')
-                bottom_alert_success('Weight option has been unfeatured!')
+                bottom_alert_success('State option has been unfeatured!')
             }else{
                 bottom_alert_error('Network error, try again later!')
             }

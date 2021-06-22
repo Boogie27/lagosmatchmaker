@@ -18,13 +18,10 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Session::has('admin'))
+        if(!Admin::is_loggedin())
         {
-            if(!Admin::is_loggedin())
-            {
-                Session::put('old_url', current_url());
-               return redirect('/admin/login');
-            }
+            Session::put('old_url', current_url());
+            return redirect('/admin/login');
         }
         return $next($request);
     }

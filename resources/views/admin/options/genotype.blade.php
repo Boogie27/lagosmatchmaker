@@ -33,15 +33,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <!-- <h4 class="header-title mt-0 mb-1">Buttons example</h4> -->
-                               <div class="table-top">
+                               <div class="table-top pb-2">
                                     <a href="#" id="add_genotype_btn" class="mini-btn">Add genotype</a>
-                                    <div class="table-search">
-                                        <form action="" method="GET">
-                                            <div class="form-group">
-                                                <input type="text" name="search_members" class="form-control" placeholder="Search...">
-                                            </div>
-                                        </form>
-                                    </div>
                                </div>
                                <div class="table-responsive"> <!-- table start-->
                                     <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
@@ -343,9 +336,11 @@ function table_check(){
 
 
 // ************ OPEN CONFIRM MODAL **************//
+var dataName = null;
 var genotype_parent = null;
 $(".genotype-edit-btn").click(function(e){
     e.preventDefault()
+    dataName = $(this)
     $(".alert-form").html('')
     var genotype = $(this).attr('data-name')
     var genotype_id =  $(this).attr('id')
@@ -404,8 +399,9 @@ function edit_genotype(){
             if(response.error){
                 $(".genotype_0").html(response.error.genotype)
             }else if(response.data){
-                $(genotype_parent).html(genotype.toUpperCase())
                 $(".modal-alert-popup").hide()
+                $(genotype_parent).html(genotype.toUpperCase())
+                $(dataName).attr('data-name', genotype.toUpperCase())
                 bottom_alert_success('Genotype has been updated!')
             }else{
                 $(".modal-alert-popup").hide()

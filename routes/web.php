@@ -41,6 +41,7 @@ Route::group(['middleware' => 'remember_me'], function(){
 
     // ************ FORGOT PASSWORD SECTION ***************//
     Route::get("/forgot-password", [ClientController::class, "forgot_password_index"]);
+    Route::post("/forgot-password", [ClientController::class, "forgot_password_store"]);
     Route::get("/new-password", [ClientController::class, "new_password_index"]);
 
     // ************ REGISTER SECTION ***************//
@@ -248,9 +249,21 @@ Route::group(['middleware' => 'remember_me'], function(){
 
 
 
+    // ********** NOTIFICATION ***************//
+    Route::get("/admin/notification", [AdminController::class, "notification_index"]);
+    Route::post("/admin/ajax-get-notification-count", [AdminAjaxController::class, "ajax_get_notification_count"]);
+    Route::post("/admin/ajax-get-navi-notification", [AdminAjaxController::class, "ajax_get_navi_notification"]);
+    Route::post("/admin/ajax-delete-notification", [AdminAjaxController::class, "ajax_delete_notification"]);
+    Route::post("/admin/ajax-seen-notification", [AdminAjaxController::class, "ajax_seen_notification"]);
+    Route::post("/admin/ajax-clear-all-notifications", [AdminAjaxController::class, "ajax_clear_all_notification"]);
+   
+    
+    
+
     // ********* LOGOUT ***********//
     Route::get("/admin/logout", [AdminController::class, "logout_admin"]);
-
+    Route::post("/admin/ajax-logout", [AdminAjaxController::class, "ajax_logout_admin"]);
+    
 
 
     // ********** MEMBER SECTION ***********//
@@ -258,6 +271,7 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/add-member", [AdminController::class, "add_member_store"]);
     Route::get("/admin/basic", [AdminController::class, "basic_index"]);
     Route::get("/admin/premium", [AdminController::class, "premium_index"]);
+    Route::get("/admin/friends/{id}", [AdminController::class, "friends_index"]);
     Route::get("/admin/deactivated", [AdminController::class, "deactivated_index"]);
     Route::get("/admin/unapproved", [AdminController::class, "unapproved_index"]);
     Route::get("/admin/member-detail/{id}", [AdminController::class, "member_detail_index"]);
@@ -346,12 +360,22 @@ Route::group(['middleware' => 'remember_me'], function(){
 
 
     
-    // *********** HEIGHT SECTION *************//
+    // *********** WEIGHT SECTION *************//
     Route::get("/admin/weights", [AdminController::class, "weights_index"]);
     Route::post("/admin/ajax-edit-weight", [AdminAjaxController::class, "ajax_edit_weight"]);
     Route::post("/admin/ajax-delete-weight", [AdminAjaxController::class, "ajax_delete_weight"]);
     Route::post("/admin/ajax-add-weight", [AdminAjaxController::class, "ajax_add_weight"]);
     Route::post("/admin/ajax-feature-weight", [AdminAjaxController::class, "ajax_feature_weight"]);
+
+
+
+    // *********** WEIGHT SECTION *************//
+    Route::get("/admin/states", [AdminController::class, "states_index"]);
+    Route::post("/admin/ajax-edit-state", [AdminAjaxController::class, "ajax_edit_state"]);
+    Route::post("/admin/ajax-delete-state", [AdminAjaxController::class, "ajax_delete_state"]);
+    Route::post("/admin/ajax-add-state", [AdminAjaxController::class, "ajax_add_state"]);
+    Route::post("/admin/ajax-feature-state", [AdminAjaxController::class, "ajax_feature_state"]);
+
 
 
 
@@ -410,11 +434,23 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/footer-middle", [AdminController::class, "tooter_middle_update"]);
     Route::post("/admin/app-contact", [AdminController::class, "app_contact_update"]);
     Route::post("/admin/site-detail", [AdminController::class, "side_detail_update"]);
+    Route::get("/admin/email-settings", [AdminController::class, "email_settings_index"]);
+    Route::post("/admin/email-settings", [AdminController::class, "email_settings_update"]);
+    Route::get("/admin/payment-settings", [AdminController::class, "payment_settings_index"]);
+    Route::post("/admin/payment-settings", [AdminController::class, "payment_settings_update"]);
 
-    
-    
-    
 
+    // ********** SLIDER SECTION ***************//
+    Route::get("/admin/banner-settings", [AdminController::class, "banner_settings_index"]);
+    Route::post("/admin/ajax-add-slider", [AdminAjaxController::class, "ajax_add_slider"]);
+    Route::post("/admin/ajax-get-slider", [AdminAjaxController::class, "ajax_get_slider"]);
+    Route::post("/admin/ajax-delete-slider", [AdminAjaxController::class, "ajax_delete_slider"]);
+    Route::post("/admin/ajax-update-slider", [AdminAjaxController::class, "ajax_update_slider"]);
+    Route::post("/admin/ajax-feature-slider", [AdminAjaxController::class, "ajax_feature_slider"]);
+    
+    
+    
+    
 
 
 

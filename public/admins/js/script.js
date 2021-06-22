@@ -1,11 +1,5 @@
 
 
-
-
-
-
-
-
 // *********** BOTTOM ALERT DANGER ****************//
 function bottom_alert_error(string){
     var bottom = '0px';
@@ -62,6 +56,142 @@ function bottom_alert_success(string){
 
 
 $(document).ready(function(){
+
+// ******************* NOTIFICATION ALERT ************//
+function nav_notification_alert(){
+    var url = $("#admin_notification_alert").attr('data-url')
+
+    if(url.length == 0) return
+
+    csrf_token() //csrf token
+    
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            notification: 'notification',
+        },
+        success: function (response){
+            if(response.data){
+                $(".admin_notification_alert").html(response.data)
+                $("#admin_notification_alert").addClass('noti-icon-badge')
+            }else{
+                $(".admin_notification_alert").html('')
+                $("#admin_notification_alert").removeClass('noti-icon-badge')
+            }
+        }
+    });
+
+
+    setTimeout(function(){
+        nav_notification_alert()
+    }, 10000)
+}
+
+nav_notification_alert()
+
+
+
+
+
+function unseen_nav_notification(){
+    var url = $("#navigation_notification_body").attr('data-url')
+
+    if(url.length == 0) return
+
+    csrf_token() //csrf token
+    
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            notification: 'notification',
+        },
+        success: function (response){
+            $("#navigation_notification_body").html(response)
+        }
+    });
+
+    setTimeout(function(){
+        unseen_nav_notification()
+    }, 10000)
+}
+
+
+unseen_nav_notification()
+
+
+
+
+
+
+
+// *********** LOGOUT DARKSKIN CANCLE ***********//
+$(window).click(function(e){
+    if($(e.target).hasClass('logout-preloader-dark-theme')){
+        $("#logout_preloader_container").hide();
+    }
+})
+
+
+
+
+
+// ************ LOGOUT MODAL OPEN ************//
+$(".logout_modal_open_btn").click(function(e){
+    e.preventDefault();
+    $("#logout_preloader_container").show();
+})
+
+
+
+
+
+
+// *********** LOGOUT MODAL BTN CANCLE ***********//
+$("#logout_user_cancle_btn").click(function(e){
+    e.preventDefault()
+    $("#logout_preloader_container").hide()
+})
+
+
+
+
+
+
+
+// ********** LOGOUT USER *************//
+$("#logout_admin_user_submit").click(function(e){
+    e.preventDefault()
+    var url = $(this).attr('href')
+    $("#logout_preloader_container").hide()
+    $("#access_preloader_container").show()
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            logout: 'logout'
+        },
+        success: function (response){
+            if(response.data){
+                location.assign(response.data)
+            }else{
+                location.reload()
+            }
+        }
+    });
+   
+})
+
+
+
+
+
+
+
 // ********* OPEN DROP DOWN **********//
 $(window).click(function(e){
     $('ul.drop-down-body').hide()
@@ -383,15 +513,54 @@ function table_check(){
 
 
 
+// ********* CLEAR ALL NOTIFICATION MODAL OPEN **************//
+$(".admin-clear-all-notification").click(function(e){
+    e.preventDefault()
+    $("#clear_notification_modal_popup_box").show()
+})
 
 
 
 
 
 
+//********* CLEAR ALL NOTIFICATION **************//
+$("#clear_notification_confirm_submit_btn").click(function(e){
+    e.preventDefault()
 
+    var url = $(this).attr('data-url')
+    var notification_body = $("#notification_body")
+    $("#clear_notification_confirm_submit_btn").html('Please wait...')
 
+    csrf_token() //csrf token
 
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            notifications: 'notifications',
+        },
+        success: function (response){
+            if(response.empty)
+            {
+                bottom_alert_error('Notification is empty!')
+            }else if(response.data){
+                if(notification_body.length > 0){
+                    $(notification_body).html(' <div class="text-center pt-3">There are no notifications yet!</div>')
+                }
+                bottom_alert_success('Notification delete successfully!')
+                $("#navigation_notification_body").html('<div class="text-center pt-3">There are no unseen notifications</div>')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
 
 
 

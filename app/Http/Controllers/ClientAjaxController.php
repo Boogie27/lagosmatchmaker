@@ -579,7 +579,6 @@ class ClientAjaxController extends Controller
      public function initiator_like($user_id)
      {
         $user = $this->user_detail();
-        $display_name = $user->display_name ? $user->display_name : $user->user_name; //get user name
 
         $upadate_like = DB::table('likes')->insert([
                         'initiator_id' => Auth::user('id'),

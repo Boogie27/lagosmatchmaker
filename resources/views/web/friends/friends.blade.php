@@ -80,20 +80,21 @@
         <div class="row">
             <div class="col-xl-12"><!-- profile detail left end-->
                 @foreach($friends as $friend)
-                @php($display_name = $friend->display_name ? ucfirst($friend->display_name) : ucfirst($friend->user_name))
-                @php($image = $friend->gender == 'male' ? 'M' : 'F')
+                @php($user = get_friends(user('id'), $friend))
+                @php($display_name = $user->display_name ? ucfirst($user->display_name) : ucfirst($user->user_name))
+                @php($image = $user->gender == 'male' ? 'M' : 'F')
                 <div class="firends-main-body"><!-- firend start-->
                     <div class="friends-inner-content">
                         <div class="message-img">
-                            <i class="fa fa-circle {{ $friend->is_active ? 'active' : '' }}"></i>   
+                            <i class="fa fa-circle {{ $user->is_active ? 'active' : '' }}"></i>   
                             <h4>{{ $image }}</h4>
                         </div>
                         <ul class="ul-friends">
                             <li>
-                                <a href="{{ url('/profile/'.$friend->id) }}"><h5>{{ $display_name }}</h5></a>
+                                <a href="{{ url('/profile/'.$user->id) }}"><h5>{{ $display_name }}</h5></a>
                             </li>
                            <li class="friends-bottom">
-                               <a href="{{ url('/chat/'.$friend->id) }}" class="f-send-msg">Send message</a>
+                               <a href="{{ url('/chat/'.$user->id) }}" class="f-send-msg">Send message</a>
                                <label for="">matched</label>
                            </li>
                         </ul>

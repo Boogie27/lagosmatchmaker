@@ -137,5 +137,9 @@ $.each($(".gender_checkbox_input"), function(index, current){
 $(gender).click(function(){
     $(".member_gender_input").val($(this).val());
 });
+
+
+
+// end of ready function
 })
 </script>

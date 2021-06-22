@@ -795,6 +795,10 @@ ul.ul-side-nav li a{
     padding: 20px 0px 10px 0px;
     position: relative;
 }
+ul.ul-logout{
+    list-style: none;
+    padding: 0px;
+}
 ul.ul-logout li.logout-btns{
     border-top: 1px solid #ccc;
 }
