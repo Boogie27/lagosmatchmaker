@@ -43,7 +43,11 @@
                         <p>{{ $subscription->description }}</p>
                     </li>
                     @endif
+                    @if($subscription->type == 'basic' && $subscription->amount == 0)
+                    <li style="color: #fff;">.</li>
+                    @else
                     <li><a href="#" id="{{ $subscription->sub_id }}" class="subscrition-btn-open">Subscribe Now</a></li>
+                    @endif
                 </ul>
             </div><!-- subscription start-->
             @endforeach
@@ -56,6 +60,46 @@
     </div>
 </section>
 <!-- SUBSCRIPTION END-->
+
+
+<!-- MANUAL SUBSCRIPTION START-->
+<section class="sub-bottom-section">
+    <div class="title-header text-center">
+        <h4>Manual payment</h4>
+        <p>Make payment manually through bank transfer</p>
+    </div>
+    <div class="manual-sub-body">
+        @if($images)
+        <div class="bank-icons">
+            @foreach($images as $image)
+            <img src="{{ asset($image) }}" alt="">
+            @endforeach
+        </div>
+        @endif
+        @if($descriptions)
+        <ul class="ul-manual-sub-body">
+            @php($x = 1)
+            @foreach($descriptions as $description)
+                <li><span>{{ $x}}.</span> <p>{{ $description }}</p></li>
+                @php($x++)
+            @endforeach
+        </ul>
+        @endif
+    </div>
+</section>
+<!-- MANUAL SUBSCRIPTION END-->
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

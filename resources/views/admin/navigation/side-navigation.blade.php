@@ -136,6 +136,9 @@
                         <li>
                             <a href="{{ url('/admin/user-subscription') }}">User subscriptions</a>
                         </li>
+                        <li>
+                            <a href="{{ url('/admin/manual-subscription') }}">Manual subscriptions</a>
+                        </li>
                     </ul>
                 </li>
                 <li>

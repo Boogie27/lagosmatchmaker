@@ -2016,33 +2016,192 @@ class AdminAjaxController extends Controller
 
 
 
+    public function ajax_edit_subscription_description(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $validator = Validator::make($request->all(), [
+                'description' => 'required|max:500',
+            ]);
 
+            if(!$validator->passes())
+            {
+                return response()->json(['error' => $validator->errors()]);
+            }
 
+            if($validator->passes())
+            {
+                $manuals = DB::table('settings')->where('id', 1)->first();
+                if($manuals)
+                {
+                    $manual_subscription = json_decode($manuals->manual_subscription, true);
+                    if(count($manual_subscription['descriptions']))
+                    {
+                        $descriptions = $manual_subscription['descriptions'];
+                        if(array_key_exists($request->key, $descriptions))
+                        {
+                            $descriptions[$request->key] = $request->description;
+                            $manual_subscription['descriptions'] = $descriptions;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                            $store_items = json_encode($manual_subscription);
+                            DB::table('settings')->where('id', 1)->update([
+                                'manual_subscription' => $store_items
+                            ]);
+                            $data = true;
+                        }
+                    }
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
     
+
+
+
+
+
+
+    public function ajax_delete_subscription_description(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $manuals = DB::table('settings')->where('id', 1)->first();
+                if($manuals)
+                {
+                    $manual_subscription = json_decode($manuals->manual_subscription, true);
+                    if(count($manual_subscription['descriptions']))
+                    {
+                        $descriptions = $manual_subscription['descriptions'];
+                        if(array_key_exists($request->key, $descriptions))
+                        {
+                            unset($descriptions[$request->key]);
+                            $manual_subscription['descriptions'] = $descriptions;
+
+                            $store_items = json_encode($manual_subscription);
+                            DB::table('settings')->where('id', 1)->update([
+                                'manual_subscription' => $store_items
+                            ]);
+                            $data = true;
+                        }
+                    }
+                }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+    
+    // {"image":["web\/images\/icons\/11.jpeg","web\/images\/icons\/12.jpeg","web\/images\/icons\/13.jpeg"],"descriptions":["Make payment to 0108125868","After successful payment, Contact whatsapp number 080345566","Verify prove of payment via whatsapp","Upload proof of payment via whatsapp"]}
+
+
+
+
+    public function ajax_delete_subscription_bank_icon(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $manuals = DB::table('settings')->where('id', 1)->first();
+            if($manuals)
+            {
+                $manual_subscription = json_decode($manuals->manual_subscription, true);
+                if(count($manual_subscription['image']))
+                {
+                    $image = $manual_subscription['image'];
+                    if(array_key_exists($request->key, $image))
+                    {
+                        Image::remove($image[$request->key]);
+                        unset($image[$request->key]);
+                        $manual_subscription['image'] = $image;
+
+                        $store_items = json_encode($manual_subscription);
+                        DB::table('settings')->where('id', 1)->update([
+                            'manual_subscription' => $store_items
+                        ]);
+                        $data = true;
+                    }
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
+
+
+
+
+
+
+
+
+
+
+    public function ajax_add_subscription_bank_icon(Request $request)
+    {
+        if($request->ajax())
+        {
+            if(Image::exists('image'))
+            {
+                $file = Image::files('image');
+                $image = new Image();
+
+                $fileName = Image::name('image', 'bank_icon');
+                $icon = 'web/images/icons/'.$fileName;
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 1000000,'file_destination' => 'web/images/icons/' ]);
+                
+                if(!$image->passed())
+                {
+                    return response()->json(['error' => ['image' => $image->error()]]);
+                }
+
+                if($image->passed())
+                {
+                    $manuals = DB::table('settings')->where('id', 1)->first();
+                    $manual_subscription = json_decode($manuals->manual_subscription, true);
+
+                    array_push($manual_subscription['image'], $icon);
+           
+                    $store_items = json_encode($manual_subscription);
+                    DB::table('settings')->where('id', 1)->update([
+                        'manual_subscription' => $store_items
+                    ]);
+
+                    $images = $this->manual_subscription_icons();
+
+                    return view('admin.common.ajax-bank-icons', compact('images'));
+                }
+            }
+        }
+        return response()->json(['alert_error' => true]);
+    }
+
+    
+
+
+
+
+
+
+    public function manual_subscription_icons()
+    {
+        $images = null;
+        $descriptions = null;
+        $manuals = DB::table('settings')->where('id', 1)->first();
+        if($manuals)
+        {
+            $manual_subscription = json_decode($manuals->manual_subscription, true);
+            if(count($manual_subscription['image']))
+            {
+                $images = $manual_subscription['image'];
+            }
+        }
+        
+        return $images;
+    }
 
 
 

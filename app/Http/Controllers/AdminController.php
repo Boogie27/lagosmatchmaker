@@ -433,8 +433,9 @@ class AdminController extends Controller
         $subscription = DB::table('subscriptions')->where('sub_id', $id)->first();
         if($subscription)
         {
+            $amount = $request->amount ? $request->amount : 0;
             DB::table('subscriptions')->where('sub_id', $id)->update([
-                        'amount' => $request->amount,
+                        'amount' => $amount,
                         'duration' => $request->duration,
                         'sub_is_featured' => $request->featured,
                         'description' => $request->description,
@@ -474,12 +475,71 @@ class AdminController extends Controller
 
 
 
+
     public function subscription_history_index($user_id)
     {
-        $user_subs = DB::table('user_subscriptions')->leftJoin('users', 'user_subscriptions.user_id', 'users.id')->where('user_subscriptions.user_id', $user_id)->paginate(25);
+        $user_subs = DB::table('user_subscriptions')->leftJoin('users', 'user_subscriptions.user_id', 'users.id')->where('user_subscriptions.user_id', $user_id)->orderBy('start_date', 'DESC')->paginate(25);
 
         return view('admin.subscription-history', compact('user_subs'));
     }
+    
+
+
+
+
+    public function manual_subscription_index()
+    {
+        $images = null;
+        $descriptions = null;
+        $manuals = DB::table('settings')->where('id', 1)->first();
+        if($manuals)
+        {
+            $manual_subscription = json_decode($manuals->manual_subscription, true);
+            if(count($manual_subscription['image']))
+            {
+                $images = $manual_subscription['image'];
+            }
+            if(count($manual_subscription['descriptions']))
+            {
+                $descriptions = $manual_subscription['descriptions'];
+            }
+        }
+
+        return view('admin.manual-subscription', compact('images', 'descriptions'));
+    }
+    
+
+
+
+
+
+    public function manual_subscription_store(Request $request)
+    {
+        $request->validate([
+            'description' => 'required|max:500'
+        ]);
+
+        $manuals = DB::table('settings')->where('id', 1)->first();
+        $manual_subscription = json_decode($manuals->manual_subscription, true);
+
+        if($manuals && $manuals->manual_subscription)
+        {
+            array_push($manual_subscription['descriptions'], $request->description);
+           
+            $store_items = json_encode($manual_subscription);
+            DB::table('settings')->where('id', 1)->update([
+                'manual_subscription' => $store_items
+            ]);
+
+            return back()->with('success', 'Description added successfull!');
+        }
+        return back()->with('error', 'Network error, try again later!');
+    }
+
+
+
+
+
     
 
 

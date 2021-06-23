@@ -43,11 +43,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-12">
-                    <div class="form-group text-right">
-                        <a href="{{ url('/admin/forgot-password') }}" class="text-danger">Forgot password?</a>
-                    </div>
-                </div>
                 <div class="col-xl-12 mt-4">
                     <div class="form-group">
                          <button type="submit" id="login_admin_submit" class="btn-fill-block">Submit Now</button>

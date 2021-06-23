@@ -312,7 +312,7 @@
                         </form>
                     </div>
                 </div>
-                @if(is_loggedin() && user_detail()->id != $user->id)
+                @if(is_loggedin() && user_detail()->id != $user->id && $is_friend)
                 <div class="profile-detail-right"> <!-- report start-->
                     <div class="title-header"><h4>Report Members</h4></div>
                     <div class="profile-right-form">

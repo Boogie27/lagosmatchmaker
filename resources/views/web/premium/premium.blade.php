@@ -75,6 +75,9 @@
                         @endif
                     @endforeach
                 </div>
+                @if(count($premiums))
+                <div class="paginate">{{ $premiums->links("pagination::bootstrap-4") }}</div>
+                @endif
                 <div class="join-us-btn top-members-btn">
                     <a href="#" data-modal="#member_search_form_modal" class="mr-2"><i class="fa fa-search"></i> Search</a>
                     <a href="{{ url('/premium') }}" class="show-all">All premium</a>

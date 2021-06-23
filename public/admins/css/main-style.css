@@ -485,7 +485,24 @@ ul.ul-logout li p{
     right: 0px;
     position: absolute;
 }
-
+@media only screen and (max-width: 767px){
+    .paginate{
+        position: static;
+        text-align: left;
+    } 
+    .paginate nav{
+        position: static;
+    }
+    .paginate nav ul.pagination{
+        width: 100%;
+        display: block;
+        position: static;
+        text-align: center;
+    }
+    .paginate nav ul.pagination li{
+        display: inline-block;
+    }
+}
 /* ************ BASIC ************ */
 .avatar{
     width: 50px;
@@ -634,11 +651,21 @@ ul.ul-profile-detail li .body{
 ul.ul-profile-detail li p.detail-about-p{
     font-size: 12px;
 }
+.member-id-card{
+    width: 100%;
+    padding: 20px;
+}
+.member-id-card img{
+    width: 100%;
+}
 @media only screen and (max-width: 1125px){
     .profile-detail-container{
         width: 100%;
         padding: 0px 20px 100px 20px;
 
+    }
+    .container-fluid{
+        padding: 0px;
     }
 }
 @media only screen and (max-width: 567px){
@@ -927,22 +954,113 @@ ul.ul-slide-banner li a.upload-slider-icon{
 }
 
 
+/* *********** FOOTER ************ */
+.footer-items{
+    height: 0px;
+}
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+/* ************ SUBCRIPTION *********** */
+ul.ul-bank-icons{
+    padding: 10px;
+}
+li.bank-icons{
+    width: 80px;
+    height: 80px;
+    margin: 0px 5px;
+    display: inline-block;
+    position: relative;
+    /* border: 1px solid #ccc; */
+}
+li.bank-icons img{
+    top: 0px;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    border-radius: 4px;
+}
+li.bank-icons a{
+    top: 0px;
+    right: 0px;
+    z-index: 10px;
+    position: absolute;
+    padding: 3px 7px;
+    background-color: rgba(51, 51, 51, 0.281);
+}
+li.text-icons a.add-bank-icon{
+    padding: 15px;
+    color: #fff;
+    border-radius: 4px;
+    background-color: rgba(238, 238, 238, 0.788);;
+}
+li.text-icons a.add-bank-icon i{
+    font-size: 50px
+}
+ul.ul-payemt-desc{
+    list-style: none;
+    padding: 10px;
+}
+ul.ul-payemt-desc li.li-payment-desc{
+    display: flex;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+ul.ul-payemt-desc li p{
+    margin: 0px;
+    padding: 0px 10px;
+    width: 100%;
+}
+ul.ul-payemt-desc li .drop-down-body li{
+    display: block;
+}
+.form-desc-add{
+    padding: 10px;
+    border-top: 1px solid rgb(240, 240, 240);
+}
+.form-desc-add form{
+    width: 50%;
+    margin: 0 auto;
+}
+.desc-form-group{
+    display: flex;
+}
+.desc-form-group button{
+    border: none;
+    border-radius: 0px;
+    color: #fff;
+    background-color:  rgb(31, 31, 77);
+}
+.desc-form-group input{
+    border-radius: 0px;
+}
+@media only screen and (max-width: 1125px){
+    .form-desc-add form{
+        width: 80%;
+    }
+}
+@media only screen and (max-width: 992px){
+    .form-desc-add form{
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 567px){
+    li.bank-icons{
+        width: 50px;
+        height: 50px;
+    }
+    li.bank-icons img{
+        width: 50px;
+        height: 50px;
+    }
+    li.text-icons a.add-bank-icon{
+        padding: 10px;
+    }
+    li.text-icons a.add-bank-icon i{
+        font-size: 30px
+    }
+}
 
 
 

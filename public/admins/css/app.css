@@ -71,7 +71,9 @@ body {
   overflow: hidden;
   padding: 0px 12.5px 5px 12.5px;
   min-height: 80vh;
-  margin-top: 72px; }
+  margin-top: 72px; 
+  margin-bottom: 50px;
+}
 
 .left-side-menu {
   width: 250px;

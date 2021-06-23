@@ -50,7 +50,12 @@
                                             @foreach($user_subs as $user_sub)
                                             <tr>
                                                 <td>
-                                                    <div class="genotype-name">{{ ucfirst($user_sub->user_name) }}</div>
+                                                    <div class="genotype-name">
+                                                        @if($user_sub->is_expired == 0)
+                                                        <i class="fa fa-check text-success"></i>
+                                                        @endif
+                                                        {{ ucfirst($user_sub->user_name) }}
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <div class="genotype-name">{{ ucfirst($user_sub->subscription_type) }}</div>

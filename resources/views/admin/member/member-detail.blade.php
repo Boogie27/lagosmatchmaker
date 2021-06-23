@@ -173,6 +173,21 @@
                                         </li>
                                     </ul>
                                 </div>
+                                <div class="profile-detail-left">
+                                    <div class="title-header">
+                                        <h4>Other details</h4>
+                                    </div>
+                                    <ul class="ul-profile-detail" id="ul_looking_for_body">
+                                        <li>
+                                            <div class="title">Member ID CARD  </div>
+                                            @if($user->id_card)
+                                            <div class="body"> <a href="#" data-url="{{ asset( $user->id_card) }}" id="id_card_open_btn" class="mini-btn">View ID card</a></div>
+                                            @else
+                                            <div class="body">: None</div>
+                                            @endif
+                                        </li>
+                                    </ul>
+                                </div>
                             </div> <!-- profile detail left end-->
                         </div>
                     </div>
@@ -187,6 +202,30 @@
 
 
 
+
+
+<!--  DELETE MODAL ALERT START -->
+<section class="modal-alert-popup" id="id_card_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p><b>{{ ucfirst($user->user_name)}} ID CARD</b></p>
+                    <div class="member-id-card">
+                        <img src="{{ asset($user->id_card) }}" alt="">
+                    </div>
+                </div>
+                <div class="confirm-form text-right p-2">
+                    <a href="{{ asset($user->id_card) }}" class="mini-btn" download><i class="fa fa-arrow-down"></i> Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  DELETE MODAL ALERT END -->
 
 
 
@@ -261,6 +300,37 @@ $("#detail_physical_info_btn_open").click(function(e){
     e.preventDefault();
     $("#physical_info_modal_popup").show()
 })
+
+
+
+
+// ************ VIEW ID CARD MODAL *********//
+var state = false;
+$("#id_card_open_btn").click(function(e){
+    e.preventDefault();
+    var id_card = $(this).attr('data-url')
+    
+    if(state == false){
+        state = true;
+        return get_id_card(id_card)
+    }
+
+    $(".member-id-card").children('img').attr('src', id_card)
+    $("#id_card_modal_popup_box").show()
+})
+
+
+
+function get_id_card(id_card){
+    $("#access_preloader_container").show()
+    setTimeout(function(id_card){
+        $("#id_card_modal_popup_box").show()
+        $("#access_preloader_container").hide()
+        $(".member-id-card").children('img').attr('src', id_card)
+    }, 1000)
+}
+
+
 
 
 

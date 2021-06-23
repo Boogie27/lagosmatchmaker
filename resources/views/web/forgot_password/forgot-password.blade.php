@@ -20,7 +20,7 @@
                         @if($errors->first('email'))
                         <div class="alert-form text-danger">{{ $errors->first('email') }}</div>
                         @endif
-                        <input type="email" name="email" class="form-control" value="" placeholder="Email">
+                        <input type="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Email">
                     </div>
                 </div>
                 <div class="col-xl-12 mt-4">

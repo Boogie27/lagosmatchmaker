@@ -34,15 +34,23 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/search", [ClientController::class, "index_search"]);
 
 
+
     // ************ LOGIN SECTION ***************//
     Route::get("/login", [ClientController::class, "login_index"]);
     Route::post("/login", [ClientController::class, "login_store"]);
 
 
+
+
     // ************ FORGOT PASSWORD SECTION ***************//
     Route::get("/forgot-password", [ClientController::class, "forgot_password_index"]);
     Route::post("/forgot-password", [ClientController::class, "forgot_password_store"]);
+    Route::get("/forgot-password-message", [ClientController::class, "forgot_password_message_index"]);
     Route::get("/new-password", [ClientController::class, "new_password_index"]);
+    Route::post("/new-password", [ClientController::class, "new_password_update"]);
+
+    
+
 
     // ************ REGISTER SECTION ***************//
     Route::get("/register", [ClientController::class, "register_index"]);
@@ -387,10 +395,19 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/admin/user-subscription", [AdminController::class, "user_subscription_index"]);
     Route::get("/admin/subscription-history/{id}", [AdminController::class, "subscription_history_index"]);
     Route::post("/admin/ajax-end-subscription", [AdminAjaxController::class, "ajax_end_subscription"]);
+    Route::get("/admin/manual-subscription", [AdminController::class, "manual_subscription_index"]);
+    Route::post("/admin/manual-subscription", [AdminController::class, "manual_subscription_store"]);
+    Route::post("/admin/ajax-edit-subscription-description", [AdminAjaxController::class, "ajax_edit_subscription_description"]);
+    Route::post("/admin/ajax-delete-subscription-description", [AdminAjaxController::class, "ajax_delete_subscription_description"]);
+    Route::post("/admin/ajax-delete-subscription-bank-icon", [AdminAjaxController::class, "ajax_delete_subscription_bank_icon"]);
+    Route::post("/admin/ajax-add-subscription-bank-icon", [AdminAjaxController::class, "ajax_add_subscription_bank_icon"]);
+    
+    
+    
+    
 
 
-
-    // *********** SUBSCRIPTION SECTION *************//
+    // *********** CONTACT SECTION *************//
     Route::get("/admin/contact", [AdminController::class, "contact_index"]);
     Route::get("/admin/contact-detail/{id}", [AdminController::class, "contact_detail_index"]);
     Route::post("/admin/ajax-contact-us-seen", [AdminAjaxController::class, "ajax_contact_us_seen"]);
