@@ -1164,8 +1164,24 @@ class AdminController extends Controller
 
 
 
+    public function incomplete_profile_alert_update(Request $request)
+    {
+        $request->validate([
+            'profile_alert' => 'required|max:500',
+        ]);
 
+        $settings = DB::table('settings')->where('id', 1)->first();
+        if($settings)
+        {
+            DB::table('settings')->where('id', 1)->update([
+                'profile_alert' => $request->profile_alert,
+            ]);
+            return back()->with('success', 'Profile alert updated successfully!');
+        }
 
+        return back()->with('error', 'Network error, try again later');
+    }
+    
 
 
 

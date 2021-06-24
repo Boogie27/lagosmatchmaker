@@ -83,6 +83,22 @@
                     </ul>
                 </div>
             </div><!-- NAVIGATION DESKTOP END -->
+            
+
+            <!-- USER NOTIFICATION BANNER START -->
+            @if(!is_complete() && settings()->profile_alert)
+            <div class="top-banner-start" id="top_banner_alert">
+                <div class="top-banner-inner error" id="top_banner_inner">
+                    <i class="fa fa-times" id="top_banner_cancle_btn"></i>
+                    <div class="containment">
+                        <i class="fa fa-bell"></i>
+                        <span>{{ settings()->profile_alert }}</span>
+                    </div>
+                </div>
+            </div>
+            @endif
+            <!-- USER NOTIFICATION BANNER END -->
+
             <div class="inner-nav-mobile"> <!-- NAVIGATION MOBILE START -->
                 <div class="nav-left-mobile">
                     <img src="{{asset('web/images/icons/logo.png') }}" alt="logo" class="app-logo">
@@ -151,3 +167,6 @@
         </div>
     </div>
 </div>
+
+
+

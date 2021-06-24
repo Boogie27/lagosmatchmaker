@@ -13,6 +13,36 @@ setTimeout(function(){
 
 
 
+// ************* SCROLL TOP BANNER ************//
+function scroll_top_banner(){
+    $(window).scroll(function(){
+        var height = $(this).scrollTop()
+        if(height > 10){
+            $("#top_banner_inner").addClass('top')
+        }else{
+            $("#top_banner_inner").removeClass('top')
+        }
+    })
+
+    if($(window).scrollTop() > 10){
+        $("#top_banner_inner").addClass('top')
+    }
+}
+scroll_top_banner()
+
+
+
+
+
+
+// *********** CLOSE TOP BANNER ALERT *************//
+$("#top_banner_cancle_btn").click(function(){
+    $("#top_banner_alert").hide(200)
+})
+
+
+
+
 
 // ********** SLIDER ***********//
 var n = 1;

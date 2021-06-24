@@ -428,7 +428,7 @@ class ClientController extends Controller
             $was_liked = DB::table('likes')->where('initiator_id', $id)->where('acceptor_id', Auth::user('id'))->first(); // this user liked you
         }
 
-        $is_friend = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('acceptor_id', $id)->orWhere('initiator_id', $id)->where('acceptor_id', Auth::user('id'))->first();
+        $is_friend = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('acceptor_id', $id)->where('is_accept', 1)->orWhere('initiator_id', $id)->where('acceptor_id', Auth::user('id'))->where('is_accept', 1)->first();
 
 
         return view('web.profile', compact('is_friend', 'reports', 'marital_status', 'was_liked', 'you_liked','states', 'user', 'display_name', 'gender', 'smokings', 'drinkings', 'heights', 'weights', 'body_types', 'ethnicities', 'genotypes'));
@@ -681,7 +681,7 @@ class ClientController extends Controller
         $friends_request = DB::table('likes')->where('acceptor_id', Auth::user('id'))->where('is_accept', 0)
                             ->leftJoin('users', 'likes.initiator_id', 'users.id')->get();
 
-        $friends = DB::table('likes')->where('initiator_id', Auth::user('id'))->orWhere('acceptor_id', Auth::user('id'))->where('is_accept', 1)->paginate(25);
+        $friends = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('is_accept', 1)->orWhere('acceptor_id', Auth::user('id'))->where('is_accept', 1)->paginate(25);
 
         return view('web.friends', compact('friends', 'friends_request'));
     }

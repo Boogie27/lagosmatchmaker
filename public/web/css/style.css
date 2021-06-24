@@ -55,6 +55,68 @@ a {
     color: rgb(202, 0, 0);
 }
 
+
+/* ********** TOP BANNER ALERT ************* */
+.top-banner-start{
+    height: 0px;
+    text-align: left;
+    position: relative;
+}
+.top-banner-start .top-banner-inner{
+    right: 5px;
+    top: 70px;
+    width: 400px;
+    height: 100px;
+    z-index: 30;
+    overflow: auto;
+    color:  rgb(196, 142, 44);
+    padding: 10px 20px;
+    position: fixed;
+    border-radius: 4px;
+    font-size: 13px;
+    background-color: #fff;
+    transition: all 0.2s ease;
+    border: 1px solid rgb(196, 142, 44);
+}
+.top-banner-start .top-banner-inner.top{
+    top: 5px;
+}
+.top-banner-start .top-banner-inner i.fa-bell{
+    font-size: 17px;
+    margin-right: 10px;
+}
+.top-banner-start .top-banner-inner.success{
+    color: green;
+    border: 1px solid rgb(68, 247, 68);
+    background-color: rgb(170, 250, 170);
+}
+.top-banner-start .top-banner-inner.error{
+    color: rgb(202, 0, 0);
+    border: 1px solid rgb(240, 55, 55);
+    background-color: rgb(230, 140, 140);
+}
+.top-banner-inner i.fa-times{
+    top: 0px;
+    right: 5px;
+    font-size: 10px;
+    padding: 5px 10px;
+    position: absolute;
+    cursor: pointer;
+}
+@media only screen and (max-width: 992px){
+    .top-banner-start .top-banner-inner{
+        top: 122px;
+        right: 0px;
+    }
+}
+@media only screen and (max-width: 767px){
+    .top-banner-start .top-banner-inner{
+        width: 100%;
+    }
+    .top-banner-start .top-banner-inner.top{
+        top: 0px;
+    }
+}
 /* *********** ERROR PAGE ********* */
 .account-pages{
     height: 100vh;
@@ -3907,8 +3969,6 @@ ul.ul-report li a.active{
         display: inline-block;
     }
 }
-
-
 
 
 

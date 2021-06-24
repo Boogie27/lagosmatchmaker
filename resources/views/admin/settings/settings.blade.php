@@ -227,6 +227,31 @@
                                             </div>
                                         </div>
                                     </div><!-- report end-->
+                                    <div class="col-xl-6"><!-- report start-->
+                                        <div class="profile-detail-left">
+                                            <div class="title-header">
+                                                <h4>Incomplete profile alert</h4> 
+                                            </div>
+                                            <div class="form-body-settings">
+                                                <form action="{{ url('/admin/incomplete-profile-alert') }}" method="POST" enctype="multipart/form-data" class="parsley-examples">
+                                                    <div class="row">
+                                                        <div class="col-xl-12">
+                                                            <div class="form-group">
+                                                                <textarea name="profile_alert" class="form-control" cols="30" rows="5" placeholder="Write Incomplete profile alert message...">{{ $settings->profile_alert ?? old('profile_alert')}}</textarea>
+                                                                <div class="alert-form text-danger">@if($errors->first('profile_alert')) {{ $errors->first('profile_alert') }} @endif</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group text-right mb-3">
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn-mini">Update</button>
+                                                        </div>
+                                                        @csrf
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div><!-- report end-->
                                     
                                     <div class="col-xl-12"><!-- report start-->
                                         <!-- <div class="profile-detail-left">

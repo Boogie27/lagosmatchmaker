@@ -455,6 +455,11 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/email-settings", [AdminController::class, "email_settings_update"]);
     Route::get("/admin/payment-settings", [AdminController::class, "payment_settings_index"]);
     Route::post("/admin/payment-settings", [AdminController::class, "payment_settings_update"]);
+    Route::post("/admin/incomplete-profile-alert", [AdminController::class, "incomplete_profile_alert_update"]);
+    
+
+
+
 
 
     // ********** SLIDER SECTION ***************//

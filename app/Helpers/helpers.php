@@ -254,6 +254,35 @@ function get_like($user_id)
 
 
 
+
+function is_complete()
+{
+    $state = false;
+    if(Auth::user('id'))
+    {
+        $user = User::where('id', Auth::user('id'))->where('email', Auth::user('email'))->first();
+        if($user)
+        {
+            if($user->about && $user->gender && $user->age && $user->location && 
+                $user->marital_status && $user->religion && $user->date_of_birth && 
+                $user->looking_for && $user->looking_for_detail && $user->smoking && 
+                $user->drinking && $user->interest && $user->genotype && $user->language
+                && $user->height && $user->weight && $user->body_type && $user->hair_color
+                && $user->eye_color && $user->ethnicity && $user->HIV && $user->complexion 
+                && $user->education && $user->career)
+            {
+                $state = true;
+            }
+        }
+    }
+    return $state;
+}
+
+
+
+
+
+
 // ***********************************************************************************************************************************************//
 //                    ADMIN HELPER SECTION                                                                                                        //
 // ***********************************************************************************************************************************************//
