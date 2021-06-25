@@ -503,3 +503,23 @@ function get_reported_member($user_id)
 
 
 
+function news_subs($id)
+{
+    $state = false;
+    if(Session::has('newsletter'))
+    {
+        $subs = Session::get('newsletter');
+        foreach($subs as $sub)
+        {
+            if($id == $sub['id'])
+            {
+                $state = true;
+            }
+        }
+    }
+    return $state;
+}
+
+
+
+

@@ -34,6 +34,10 @@ class ClientAjaxController extends Controller
                 'religion' => 'required',
                 'looking_for' => 'required',
                 'marital_status' => 'required',
+                'hiv' => 'required',
+                'complexion' => 'required|max:50',
+                'career' => 'required|max:100',
+                'education' => 'required|max:100',
             ]);
 
             if(!$validator->passes())
@@ -48,6 +52,10 @@ class ClientAjaxController extends Controller
                 if($user)
                 {
                     $user->age = $request->age;
+                    $user->HIV = strtoupper($request->hiv);
+                    $user->complexion = $request->complexion;
+                    $user->career = $request->career;
+                    $user->education = $request->education;
                     $user->location = strtolower($request->location);
                     $user->genotype = $request->genotype;
                     $user->religion = strtolower($request->religion);

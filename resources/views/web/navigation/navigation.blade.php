@@ -86,7 +86,7 @@
             
 
             <!-- USER NOTIFICATION BANNER START -->
-            @if(!is_complete() && settings()->profile_alert)
+            @if(is_loggedin() && !is_complete() && settings()->profile_alert)
             <div class="top-banner-start" id="top_banner_alert">
                 <div class="top-banner-inner error" id="top_banner_inner">
                     <i class="fa fa-times" id="top_banner_cancle_btn"></i>

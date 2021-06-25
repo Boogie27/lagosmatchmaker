@@ -566,6 +566,84 @@ $("#clear_notification_confirm_submit_btn").click(function(e){
 
 
 
+
+
+
+
+
+// ************* ADD USER SUBSCRIPTION *************//
+var user_id = null;
+$(".add-user-subscription-btn").click(function(e){
+    e.preventDefault()
+    user_id = $(this).attr('id')
+    $('.alert_sub_inputs').html('')
+    $("#add_subscription_modal_popup_box").show()
+})
+
+
+
+
+$("#add_user_subscription_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    $('.alert_sub_inputs').html('')
+    var url = $(this).attr('data-url')
+    var type = $("#add_user_type_input").val()
+    var amount = $("#add_suser_sub_amount").val()
+    $(this).html('Please wait...')
+
+    if(!type){
+        $('.alert_sub_inputs').html('*All fields are required')
+        $("#add_user_subscription_confirm_submit_btn").html('Proceed')
+        return
+    }
+    
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            type: type,
+            user_id: user_id,
+            amount: amount
+        },
+        success: function (response){
+            if(response.error){
+                $('.alert_sub_inputs').html(response.error.all)
+            }else if(response.data){
+               location.reload()
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // end
 })
 

@@ -72,6 +72,22 @@
                                             <div class="body">: {{ $user->genotype ?? 'Empty' }}</div>
                                         </li>
                                         <li>
+                                            <div class="title">HIV Status  </div>
+                                            <div class="body">: {{ $user->HIV ?? 'Empty' }}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">Complexion  </div>
+                                            <div class="body">: {{ $user->complexion ?? 'Empty' }}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">Education  </div>
+                                            <div class="body">: {{ $user->education ?? 'Empty' }}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">Career  </div>
+                                            <div class="body">: {{ $user->career ?? 'Empty' }}</div>
+                                        </li>
+                                        <li>
                                             <div class="title">Religion  </div>
                                             <div class="body">: {{ $user->religion ?? 'Empty' }}</div>
                                         </li>

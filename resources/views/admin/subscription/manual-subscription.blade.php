@@ -96,6 +96,50 @@
                                     </div>
                                 </div>
                             </div> <!-- profile detail left end-->
+
+                            <div class="col-xl-12"><!-- profile detail left end-->
+                            <br><br><br>
+                                <div class="profile-detail-left">
+                                    <div class="title-header">
+                                        <h4>Personalized Matching</h4>
+                                    </div>
+                                    <div class="p-3">
+                                        <form action="{{ url('/admin/personalized-matching') }}" method="POST">
+                                            <div class="form-group">
+                                                <label for="">Title</label>
+                                                <input type="text" name="title" class="form-control" value="{{ $personalized['title'] ?? old('title') }}" placeholder="Title">
+                                                @if($errors->first('title'))
+                                                <div class="alert-form text-danger">{{ $errors->first('title') }}</div>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">Head</label>
+                                                <input type="text" name="head" class="form-control" value="{{ $personalized['head'] ?? old('head') }}" placeholder="head">
+                                                @if($errors->first('head'))
+                                                <div class="alert-form text-danger">{{ $errors->first('head') }}</div>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">Description</label>
+                                                <textarea name="descriptions" class="form-control" cols="30" rows="3" placeholder="Write something...">{{ $personalized['descriptions'] ?? old('descriptions') }}</textarea>
+                                                @if($errors->first('descriptions'))
+                                                <div class="alert-form text-danger">{{ $errors->first('descriptions') }}</div>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="checkbox checkbox-success">
+                                                    <input id="feature_personalized_checker" name="feature_personalized" type="checkbox" class="feature_personalized_checkbox_input" value="{{ $personalized['is_feature'] ? 'true' : '' }}" {{ $personalized['is_feature'] ? 'checked' : '' }}>
+                                                    <label for="feature_personalized_checker">Feature</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group text-right">
+                                                <button type="submit" class="btn-mini">Update...</button>
+                                                @csrf
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div> <!-- profile detail left end-->
                         </div>
                     </div>
                 </div>
@@ -240,6 +284,25 @@
 
 <script>
 $(document).ready(function(){
+
+// *********** FEATURE PERSONALIZED ***********//
+$("#feature_personalized_checker").click(function(){
+    $(this).val('')
+    if($(this).prop('checked')){
+       $(this).val(true)
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
 //************* OPEN EDIT MODAL **********//
 var key = null;
 var paragraph = null

@@ -33,7 +33,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-top">
-                                    <div class="page-icon"><i class="fa fa-cubes"></i></div>
+                                    <div class="page-icon"><i class="fa fa-users"></i></div>
                                     <div class="table-search">
                                         <form action="{{ url('/admin/user-subscription') }}" method="GET">
                                             <div class="form-group">

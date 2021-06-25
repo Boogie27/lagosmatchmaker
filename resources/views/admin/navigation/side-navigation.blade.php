@@ -145,7 +145,7 @@
                     <a href="{{ url('/admin/notification') }}">
                         <i class="far fa-bell"></i>
                         <span>Notifications</span>
-                        <span class="bg-danger badge admin_notification_alert" style="color: #fff; font-size: 9px;">1</span>
+                        <span class="bg-danger badge admin_notification_alert" style="color: #fff; font-size: 9px;"></span>
                     </a>
                 </li>
                 <li>

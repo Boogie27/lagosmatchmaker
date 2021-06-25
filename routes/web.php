@@ -401,8 +401,8 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/ajax-delete-subscription-description", [AdminAjaxController::class, "ajax_delete_subscription_description"]);
     Route::post("/admin/ajax-delete-subscription-bank-icon", [AdminAjaxController::class, "ajax_delete_subscription_bank_icon"]);
     Route::post("/admin/ajax-add-subscription-bank-icon", [AdminAjaxController::class, "ajax_add_subscription_bank_icon"]);
-    
-    
+    Route::post("/admin/ajax-add-user-subscription", [AdminAjaxController::class, "ajax_add_user_subscription"]);
+    Route::post("/admin/personalized-matching", [AdminController::class, "personalized_matching_update"]);
     
     
 
@@ -475,10 +475,15 @@ Route::group(['middleware' => 'remember_me'], function(){
     
 
 
+    // ********** NEWSLETTER SECTION ***************//
+    Route::get("/admin/news-letter", [AdminController::class, "news_letter_index"]);
+    Route::post("/admin/ajax-delete-newsletter-subscription", [AdminAjaxController::class, "ajax_delete_newsletter_subscription_store"]);
+    Route::post("/admin/ajax-all-newsletter-id", [AdminAjaxController::class, "ajax_all_newsletter_id"]);
+    Route::post("/admin/ajax-check-newsletter-email-single", [AdminAjaxController::class, "ajax_single_newsletter_email_id"]);
+    Route::post("/admin/ajax-check-newsletter-mass-delete", [AdminAjaxController::class, "ajax_check_newsletter_mass_delete"]);
 
-
-
-
+   
+    
 
 
     

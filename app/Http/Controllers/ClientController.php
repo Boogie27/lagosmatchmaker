@@ -833,10 +833,12 @@ class ClientController extends Controller
 
         $images = null;
         $descriptions = null;
-        $manuals = DB::table('settings')->where('id', 1)->first();
-        if($manuals)
+        $personalized = null;
+
+        $settings = DB::table('settings')->where('id', 1)->first();
+        if($settings)
         {
-            $manual_subscription = json_decode($manuals->manual_subscription, true);
+            $manual_subscription = json_decode($settings->manual_subscription, true);
             if(count($manual_subscription['image']))
             {
                 $images = $manual_subscription['image'];
@@ -847,7 +849,12 @@ class ClientController extends Controller
             }
         }
 
-        return view('web.subscription', compact('subscriptions', 'images', 'descriptions'));
+        if($settings && $settings->personalized_match)
+        {
+            $personalized = json_decode($settings->personalized_match, true);
+        }
+
+        return view('web.subscription', compact('subscriptions', 'images', 'descriptions', 'personalized'));
     }
 
 

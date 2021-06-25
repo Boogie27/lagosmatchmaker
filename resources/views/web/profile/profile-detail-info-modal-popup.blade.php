@@ -61,7 +61,7 @@
                                     <input type="number" min="1" id="edit_age_input" class="form-control" value="{{ $user->age }}" placeholder="Age">
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
                                 <div class="form-group">
                                     <div class="alert-form alert_21 text-danger"></div>
                                     <select id="edit_genotype_input" class="selectpicker form-control">
@@ -74,7 +74,17 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                <div class="form-group">
+                                    <div class="alert-form alert_hiv text-danger"></div>
+                                    <select id="edit_HIV_input" class="selectpicker form-control">
+                                        <option value="">Select HIV status</option>
+                                        <option value="yes" {{  $user->HIV == 'yes' ? 'selected' : '' }}>YES</option>
+                                        <option value="no" {{  $user->HIV == 'no' ? 'selected' : '' }}>NO</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
                                 <div class="form-group">
                                     <div class="alert-form alert_5 text-danger"></div>
                                     <select id="edit_religion_input"class="selectpicker form-control">
@@ -91,6 +101,24 @@
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <div class="alert-form alert_complexion text-danger"></div>
+                                    <input type="text" id="edit_complexion_input" class="form-control" value="{{ $user->complexion }}" placeholder="Complexion">
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <div class="alert-form alert_education text-danger"></div>
+                                    <input type="text" id="edit_education_input" class="form-control" value="{{ $user->education }}" placeholder="Education">
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <div class="alert-form alert_career text-danger"></div>
+                                    <input type="text" id="edit_career_input" class="form-control" value="{{ $user->career }}" placeholder="Career">
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <div class="alert-form alert_7 text-danger"></div>
                                     <select id="edit_location_input" class="selectpicker form-control">
@@ -175,12 +203,16 @@ function edit_detail_info(){
     var date_of_birth = $("#edit_date_of_birth_input").val()
     var location = $("#edit_location_input").val()
     var genotype = $("#edit_genotype_input").val()
+    var hiv = $("#edit_HIV_input").val()
+    var complexion = $("#edit_complexion_input").val()
+    var education = $("#edit_education_input").val()
+    var career = $("#edit_career_input").val()
 
     $("#edit_detail_info_submit_btn").html('Please wait...')
 
     csrf_token() //csrf token
 
-    if(validate_detail_field(genotype, display_name, i_am, looking_for, marital_status, age, religion, date_of_birth, location)){
+    if(validate_detail_field(hiv, complexion, education, career, genotype, display_name, i_am, looking_for, marital_status, age, religion, date_of_birth, location)){
         $("#edit_detail_info_submit_btn").html('Update Detail')
         return;
     }
@@ -191,13 +223,17 @@ function edit_detail_info(){
         data: {
             age: age,
             i_am: i_am,
+            hiv: hiv,
+            career: career,
             genotype: genotype,
             location: location,
             religion: religion,
+            education: education,
+            complexion: complexion,
             looking_for: looking_for,
             display_name: display_name,
             date_of_birth: date_of_birth,
-            marital_status: marital_status,
+            marital_status: marital_status
         },
         success: function (response){
             if(response.error){
@@ -247,16 +283,25 @@ function get_ajax_edit_detail(){
 
 
 
-function validate_detail_field(genotype, display_name, i_am, looking_for, marital_status, age, religion, date_of_birth, location){
+function validate_detail_field(hiv, complexion, education, career, genotype, display_name, i_am, looking_for, marital_status, age, religion, date_of_birth, location){
     var is_state = false;
 
-    if(!genotype || !display_name || !looking_for || !i_am || !marital_status || !age || !religion || !date_of_birth || !location){
+    if(!complexion || !hiv || !education || !career || !genotype || !display_name || !looking_for || !i_am || !marital_status || !age || !religion || !date_of_birth || !location){
         is_state = true;
-        $(".form_alert_0").html('*All fields is required')
+        $(".form_alert_0").html('*All fields are required')
     }else{
         if(display_name.length > 50){
             is_state = true;
             $(".alert_0").html('*Maximum of 50 characters')
+        }
+        if(complexion.length > 50){
+            $(".alert_complexion").html('*Maximum of 50 characters')
+        }
+        if(education.length > 100){
+            $(".alert_education").html('*Maximum of 100 characters')
+        }
+        if(career.length > 100){
+            $(".alert_career").html('*Maximum of 100 characters')
         }
     }
     return is_state;
@@ -276,6 +321,10 @@ function get_detail_error(error){
     $(".alert_6").html(error.date_of_birth)
     $(".alert_7").html(error.location)
     $(".alert_21").html(error.genotype)
+    $(".alert_hiv").html(error.hiv)
+    $(".alert_complexion").html(error.complexion)
+    $(".alert_education").html(error.education)
+    $(".alert_career").html(error.career)
 }
 
 

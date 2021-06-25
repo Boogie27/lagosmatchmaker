@@ -87,6 +87,9 @@
                                                             <li>
                                                                 <a href="{{ url('/admin/subscription-history/'.$basic->id) }}" class="">subscription details</a>
                                                             </li>
+                                                            <li>
+                                                                <a href="#" id="{{ $basic->id }}" class="add-user-subscription-btn">Add subscription</a>
+                                                            </li>
                                                             @if(!$basic->is_approved)
                                                             <li>
                                                                 <a href="#" data-name="{{ $basic->user_name }}" id="{{ $basic->id }}" class="approve-confirm-box-open">Approve</a>

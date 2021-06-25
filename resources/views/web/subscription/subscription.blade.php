@@ -21,45 +21,62 @@
         <div class="main-alert-success text-center mb-3">{{ Session::get('success')}}</div>
     @endif
     </div>
-    <div class="subscription-body">
-        <div class="subscription-content">
-            @if(count($subscriptions))
+    <div class="subscription-content">
+        <div class="row">
+        @if(count($subscriptions))
             @foreach($subscriptions as $subscription)
-            <div class="subscription-banner"><!-- subscription start-->
-                <img src="{{ asset('web/images/banner/sub-2.svg') }}" alt="">
-                <ul class="ul-sub-head">
-                    <li><p>{{ ucfirst($subscription->type) }}</p></li>
-                    @if($subscription->amount == 0)
-                    <li><h3>Free</h3></li>
-                    <li><p>Membership currently free</p></li>
-                    @else
-                    <li><h3><span>₦</span>{{ money($subscription->amount) }}</h3></li>
-                    <li><p>Per Month</p></li>
-                    @endif
-                </ul>
-                <ul class="ul-sub-body">
-                    @if($subscription->description)
-                    <li>
-                        <p>{{ $subscription->description }}</p>
-                    </li>
-                    @endif
-                    @if($subscription->type == 'basic' && $subscription->amount == 0)
-                    <li style="color: #fff;">.</li>
-                    @else
-                    <li><a href="#" id="{{ $subscription->sub_id }}" class="subscrition-btn-open">Subscribe Now</a></li>
-                    @endif
-                </ul>
+            <div class="col-xl-4 col-lg-4 col-md-6"><!-- subscription start-->
+                <div class="subscription-banner">
+                    <img src="{{ asset('web/images/banner/sub-2.svg') }}" alt="">
+                    <ul class="ul-sub-head">
+                        <li><p>{{ ucfirst($subscription->type) }}</p></li>
+                        @if($subscription->amount == 0)
+                        <li><h3>Free</h3></li>
+                        <li><p>Membership currently free</p></li>
+                        @else
+                        <li><h3><span>₦</span>{{ money($subscription->amount) }}</h3></li>
+                        <li><p>Per Month</p></li>
+                        @endif
+                    </ul>
+                    <ul class="ul-sub-body">
+                        @if($subscription->description)
+                        <li>
+                            <p>{{ $subscription->description }}</p>
+                        </li>
+                        @endif
+                        @if($subscription->type == 'basic' && $subscription->amount == 0)
+                        <li style="color: #fff;">.</li>
+                        @else
+                        <li><a href="#" id="{{ $subscription->sub_id }}" class="subscrition-btn-open">Subscribe Now</a></li>
+                        @endif
+                    </ul>
+                </div>
             </div><!-- subscription start-->
             @endforeach
-            @else
-            <div class="empty-page">
-                <p>There are no subscriptions yet!</p>
-            </div>
-            @endif
+        @endif
+        
+        @if($personalized && $personalized['is_feature'])
+            <div class="col-xl-4 col-lg-4 col-md-6"><!-- subscription start-->
+                <div class="subscription-banner">
+                    <img src="{{ asset('web/images/banner/sub-2.svg') }}" alt="">
+                    <ul class="ul-sub-head">
+                        <li><p>{{ $personalized['title'] }}</p></li>
+                        <li><h3><i class="fa fa-phone-alt"></i></h3></li>
+                        <li><p>{{ $personalized['head'] }}</p></li>
+                    </ul>
+                    <ul class="ul-sub-body ul">
+                        <li><p>{!!  $personalized['descriptions'] !!}</p></li>
+                        <li><a href="#" class="whatsapp-subscrition-bn">Contact Us Now</a></li>
+                    </ul>
+                </div>
+            </div><!-- subscription start-->
+        @endif
         </div>
     </div>
 </section>
 <!-- SUBSCRIPTION END-->
+
+
 
 
 <!-- MANUAL SUBSCRIPTION START-->
@@ -433,6 +450,26 @@ function preloader_toggle(){
         $("#access_preloader_container").hide()
     }, 1000)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+// var post_url = encodeURI($(location).attr('href'));
+// var post_title = encodeURI( "Hire a worker form nigeriananny company");
+
+// $(whatsapp).attr('href', `https://api.whatsapp.com/send?text=${post_title} ${post_url}`);
+
+
+
+
 
 
 

@@ -781,7 +781,7 @@ ul.ul-side-nav li a{
 .access-preloader-container{
     top: 0px;
     width: 100%;
-    z-index: 20;
+    z-index: 30;
     height: 100vh;
     position: fixed;
     display: table;
@@ -2423,11 +2423,12 @@ ul.ul-video-call li .call-btn{
     width: 80%;
     margin: 0 auto;
     text-align: center;
-    padding: 70px 0px;
+    padding: 70px 15px;
 }
 .subscription-banner{
     width: 300px;
     color: #333;
+    height: 500px;
     position: relative;
     margin: 0px 7px 50px 7px;
     text-align: center;
@@ -2471,7 +2472,7 @@ ul.ul-sub-head p{
     margin: 0px;
 }
 ul.ul-sub-body{
-    padding: 40px 10px;
+    padding: 10px;
 }
 ul.ul-sub-body li{
     margin-bottom: 30px;
@@ -2570,6 +2571,19 @@ ul.ul-manual-sub-body li p{
     }
     .subscritpion-alert{
         width: 90%;
+    }
+}
+@media only screen and (max-width: 320px){
+    .subscription-banner{
+        width: 240px;
+    }
+    .subscription-content{
+        padding: 0px;
+        margin: 0px;
+    }
+    .subscription-content .row{
+        padding: 0px;
+        margin: 0px;
     }
 }
 
@@ -3387,7 +3401,7 @@ ul.ul-right-chatting li.chat-time{
 .edit-info-main{
     top: 0px;
     width: 100%;
-    z-index: 10;
+    z-index: 30;
     height: 100vh;
     position: fixed;
     display: table;

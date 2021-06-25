@@ -491,10 +491,11 @@ class AdminController extends Controller
     {
         $images = null;
         $descriptions = null;
-        $manuals = DB::table('settings')->where('id', 1)->first();
-        if($manuals)
+        $personalized = null;
+        $settings = DB::table('settings')->where('id', 1)->first();
+        if($settings)
         {
-            $manual_subscription = json_decode($manuals->manual_subscription, true);
+            $manual_subscription = json_decode($settings->manual_subscription, true);
             if(count($manual_subscription['image']))
             {
                 $images = $manual_subscription['image'];
@@ -505,7 +506,12 @@ class AdminController extends Controller
             }
         }
 
-        return view('admin.manual-subscription', compact('images', 'descriptions'));
+        if($settings && $settings->personalized_match)
+        {
+            $personalized = json_decode($settings->personalized_match, true);
+        }
+
+        return view('admin.manual-subscription', compact('images', 'descriptions', 'personalized'));
     }
     
 
@@ -1187,23 +1193,53 @@ class AdminController extends Controller
 
 
 
+    
+
+
+    public function personalized_matching_update(Request $request)
+    {
+        $request->validate([
+            'title' => 'max:30',
+            'head' => 'max:30',
+            'descriptions' => 'max:150'
+        ]);
+
+
+        $is_featured = $request->feature_personalized == 'true' ? 1 : 0;
+        $settings = DB::table('settings')->where('id', 1)->first();
+        if($settings)
+        {
+            $stored['title'] = $request->title; 
+            $stored['head'] = $request->head; 
+            $stored['descriptions'] = $request->descriptions; 
+            $stored['is_feature']   = $is_featured;
+
+            $personalized = json_encode($stored);
+
+            DB::table('settings')->where('id', 1)->update([
+                'personalized_match' => $personalized
+            ]);
+            return back()->with('success', 'Personalized match updated successfully!');
+        }
+
+
+        return back()->with('error', 'Network error, try again later');
+    }
+
+
+
+    
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public function news_letter_index()
+    {
+        $newsletters = DB::table('newsletters')->paginate(25);
+        
+        return view('admin.news-letter', compact('newsletters'));
+    }
+    
 
 
 

@@ -142,6 +142,10 @@ class AdminAjaxController extends Controller
                 'religion' => 'required',
                 'looking_for' => 'required',
                 'marital_status' => 'required',
+                'hiv' => 'required',
+                'complexion' => 'required|max:50',
+                'career' => 'required|max:100',
+                'education' => 'required|max:100',
             ]);
 
             if(!$validator->passes())
@@ -156,6 +160,10 @@ class AdminAjaxController extends Controller
                 if($user)
                 {
                     $user->age = $request->age;
+                    $user->HIV = strtoupper($request->hiv);
+                    $user->complexion = $request->complexion;
+                    $user->career = $request->career;
+                    $user->education = $request->education;
                     $user->location = strtolower($request->location);
                     $user->genotype = $request->genotype;
                     $user->religion = strtolower($request->religion);
@@ -2095,7 +2103,12 @@ class AdminAjaxController extends Controller
     }
 
     
-    // {"image":["web\/images\/icons\/11.jpeg","web\/images\/icons\/12.jpeg","web\/images\/icons\/13.jpeg"],"descriptions":["Make payment to 0108125868","After successful payment, Contact whatsapp number 080345566","Verify prove of payment via whatsapp","Upload proof of payment via whatsapp"]}
+
+
+
+
+
+
 
 
 
@@ -2202,6 +2215,213 @@ class AdminAjaxController extends Controller
         
         return $images;
     }
+
+
+
+
+
+
+
+
+    public function ajax_add_user_subscription(Request $request)
+    {
+        $data = false;
+        if($request->ajax())
+        {
+             $validator = Validator::make($request->all(), [
+                'type' => 'required',
+            ]);
+
+            if(!$validator->passes())
+            {
+                return response()->json(['error' => ['all' => '*All fields are required']]);
+            }
+
+            if($validator->passes())
+            {
+                $subscription = DB::table('subscriptions')->where('type', $request->type)->first();
+                if($subscription)
+                {
+                    $old_sub = DB::table('user_subscriptions')->where('user_id', $request->user_id)->where('is_expired', 0)->first();
+                    if($old_sub)
+                    {
+                        DB::table('user_subscriptions')->where('user_id', $request->user_id)->where('is_expired', 0)->update([
+                                'is_expired' => 1,
+                                'date_ended' => date('Y-m-d H:i:s')
+                        ]);
+                    }
+                    
+                    $reference = uniqid();
+                    $end_date = date('Y-m-d H:i:s', strtotime('+'.$subscription->duration));
+
+                    $create = DB::table('user_subscriptions')->insert([
+                                'reference' => $reference,
+                                'user_id' => $request->user_id,
+                                'subscription_id' => $subscription->sub_id,
+                                'duration' => $subscription->duration,
+                                'amount' => $request->amount,
+                                'subscription_type' => $subscription->type,
+                                'end_date' => $end_date,
+                    ]);
+                    if($create)
+                    {
+                        $data = true;
+                        Session::flash('success', 'Subscription added successfully!');
+                    }
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
+
+
+
+
+
+
+
+
+
+
+    
+    public function ajax_delete_newsletter_subscription_store(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $newsletter = DB::table('newsletters')->where('id', $request->id)->first();
+            if($newsletter)
+            {
+                $delete = DB::table('newsletters')->where('id', $request->id)->delete();
+                if($delete)
+                {
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+
+    
+    public function ajax_all_newsletter_id(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            if($request->state == 'false')
+            {
+                $data = true;
+                Session::forget('all');
+                Session::forget('newsletter');
+            }
+
+            if($request->state == 'true')
+            {
+                $store_id = null;
+                $newsletters = DB::table('newsletters')->get();
+                if($newsletters)
+                {
+                    foreach($newsletters as $newsletter)
+                    {
+                        $store_id[] = ['id' => $newsletter->id, 'email' => $newsletter->email];
+                    }
+                    
+                    Session::put('all', true);
+                    Session::put('newsletter', $store_id);
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+    public function ajax_single_newsletter_email_id(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $is_present = false;
+
+            if($request->state == 'false')
+            {
+                if(Session::has('newsletter'))
+                {
+                    $stored_ids = Session::get('newsletter');
+                    foreach($stored_ids as $key => $stored_id)
+                    {
+                        if($request->id == $stored_id['id'])
+                        {
+                            unset($stored_ids[$key]);
+                        }
+                    }
+                    Session::forget('all');
+                    Session::put('newsletter', $stored_ids);
+                    return response()->json(['removed' => true]);
+                }
+            }
+
+            if($request->state == 'true')
+            {
+                if(Session::has('newsletter'))
+                {
+                    $stored_ids = Session::get('newsletter');
+                    foreach($stored_ids as $key => $stored_id)
+                    {
+                        if($request->id == $stored_id['id'])
+                        {
+                            $is_present = true;
+                        }
+                    }
+                }
+
+                if($is_present == false)
+                {
+                    $stored_ids[] = ['id' => $request->id, 'email' => $request->email];
+                    Session::put('newsletter', $stored_ids);
+                }
+                $data = true;
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
+
+
+
+
+
+
+
+
+    public function ajax_check_newsletter_mass_delete(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            // write mass delete function here
+        }
+        return response()->json(['data' => $data]);
+    }
+    
+
+
+
+
 
 
 

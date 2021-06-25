@@ -11,7 +11,7 @@
     <div class="body">: {{ $user->looking_for ? ucfirst($user->looking_for) : 'Empty' }}</div>
 </li>
 <li>
-    <div class="title">Marital Status </div>
+    <div class="title">Marital Status  </div>
     <div class="body">: {{ $user->marital_status ?? 'Empty' }}</div>
 </li>
 <li>
@@ -21,6 +21,22 @@
 <li>
     <div class="title">Genotype  </div>
     <div class="body">: {{ $user->genotype ?? 'Empty' }}</div>
+</li>
+<li>
+    <div class="title">HIV Status  </div>
+    <div class="body">: {{ $user->HIV ?? 'Empty' }}</div>
+</li>
+<li>
+    <div class="title">Complexion  </div>
+    <div class="body">: {{ $user->complexion ?? 'Empty' }}</div>
+</li>
+<li>
+    <div class="title">Education  </div>
+    <div class="body">: {{ $user->education ?? 'Empty' }}</div>
+</li>
+<li>
+    <div class="title">Career  </div>
+    <div class="body">: {{ $user->career ?? 'Empty' }}</div>
 </li>
 <li>
     <div class="title">Religion  </div>
@@ -36,5 +52,5 @@
 </li>
 <li>
     <div class="title">Membership level  </div>
-    <div class="body">: {{ $user->membership_level }}</div>
+    <div class="body">: {{ $user->membership_level ?? 'Empty' }}</div>
 </li>
