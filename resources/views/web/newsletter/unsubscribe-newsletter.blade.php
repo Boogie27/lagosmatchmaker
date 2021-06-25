@@ -84,6 +84,7 @@ $("#unsub_news_letter_submit_btn").click(function(e){
         }, 
         error: function(){
            bottom_error_danger('Network error, try again later!')
+           $("#unsub_news_letter_submit_btn").html('<i class="far fa-envelope"></i> Unsubscribe Newsletter')
         }
     });
 })

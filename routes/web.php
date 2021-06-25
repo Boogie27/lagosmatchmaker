@@ -149,6 +149,7 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/ajax-newsletter-unsubscription", [ClientAjaxController::class, "ajax_newsletter_unsubscription"]);
 
 
+    
     // ************ CONTACT SECTION ******************//
     Route::get("/contact", [ClientController::class, "contact_index"]);
     Route::post("/contact", [ClientController::class, "contact_store"]);
@@ -476,13 +477,20 @@ Route::group(['middleware' => 'remember_me'], function(){
 
 
     // ********** NEWSLETTER SECTION ***************//
-    Route::get("/admin/news-letter", [AdminController::class, "news_letter_index"]);
-    Route::post("/admin/ajax-delete-newsletter-subscription", [AdminAjaxController::class, "ajax_delete_newsletter_subscription_store"]);
+    Route::get("/admin/newsletter-subscriptions", [AdminController::class, "news_letter_subscriptions_index"]);
+    Route::post("/admin/ajax-delete-newsletter-subscription", [AdminAjaxController::class, "ajax_delete_newsletter_subscription"]);
     Route::post("/admin/ajax-all-newsletter-id", [AdminAjaxController::class, "ajax_all_newsletter_id"]);
     Route::post("/admin/ajax-check-newsletter-email-single", [AdminAjaxController::class, "ajax_single_newsletter_email_id"]);
     Route::post("/admin/ajax-check-newsletter-mass-delete", [AdminAjaxController::class, "ajax_check_newsletter_mass_delete"]);
-
-   
+    
+    Route::get("/admin/news-letter", [AdminController::class, "news_letter_index"]);
+    Route::post("/admin/ajax-delete-news-letter", [AdminAjaxController::class, "ajax_delete_news_letter"]);
+    Route::post("/admin/ajax-newsletter-mass-delete", [AdminAjaxController::class, "ajax_delete_mass_news_letter"]);
+    Route::get("/admin/edit-newsletter/{id}", [AdminController::class, "edit_newsletter_index"]);
+    Route::post("/admin/edit-newsletter/{id}", [AdminController::class, "edit_newsletter_update"]);
+    Route::get("/admin/compose-newsletter", [AdminController::class, "compose_newsletter"]);
+    Route::post("/admin/compose-newsletter", [AdminController::class, "compose_newsletter_store"]);
+    
     
 
 

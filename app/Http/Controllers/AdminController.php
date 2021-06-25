@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Image;
+use App\Models\Newsletter;
 use App\Models\ContactUs;
 
 use Session;
@@ -1233,11 +1234,11 @@ class AdminController extends Controller
 
 
 
-    public function news_letter_index()
+    public function news_letter_subscriptions_index()
     {
-        $newsletters = DB::table('newsletters')->paginate(25);
+        $newsletters = DB::table('newsletter_subscriptions')->paginate(25);
         
-        return view('admin.news-letter', compact('newsletters'));
+        return view('admin.newsletter-subscriptions', compact('newsletters'));
     }
     
 
@@ -1247,6 +1248,90 @@ class AdminController extends Controller
 
 
 
+    public function compose_newsletter()
+    {
+        return view('admin.compose-newsletter');
+    }
+    
+
+
+
+
+
+    public function compose_newsletter_store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|max:50',
+            'newsletter' => 'required|max:10000',
+        ]);
+
+        $newsletter = Newsletter::create([
+                'title' => $request->title,
+                'newsletter' => $request->newsletter,
+        ]);
+        
+        if($newsletter)
+        {
+            return redirect('admin/news-letter')->with('success', 'Newsletter added successfully!');
+        }
+
+        return back()->with('error', 'Network error, try again later');
+    }
+    
+
+
+
+
+
+
+    public function news_letter_index()
+    {
+        $newsletters = Newsletter::where('is_save', 0)->paginate(25);
+
+        return view('admin.news-letter', compact('newsletters'));
+    }
+
+    
+
+
+
+
+
+    public function edit_newsletter_index($id)
+    {
+        $newsletter = Newsletter::where('id', $id)->first();
+
+        return view('admin.edit-newsletter', compact('newsletter'));
+    }
+
+
+
+
+
+
+    public function edit_newsletter_update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|max:50',
+            'newsletter' => 'required|max:10000',
+        ]);
+        $newsletter = Newsletter::where('id', $id)->first();
+        $newsletter->title = $request->title;
+        $newsletter->newsletter = $request->newsletter;
+        if($newsletter->save())
+        {
+            return back()->with('success', 'Newsletter updated successfully!');
+        }
+
+        return back()->with('error', 'Network error, try again later');
+    }
+
+
+
+
+
+
+    
 
 
 

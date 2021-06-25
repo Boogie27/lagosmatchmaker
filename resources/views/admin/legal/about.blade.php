@@ -40,7 +40,7 @@
                                             </div>
                                             <div class="col-xl-12">
                                                 <div class="form-group">
-                                                    <label for="emailAddress">Terms & Condition<span class="text-danger">*</span></label>
+                                                    <label for="emailAddress">About us<span class="text-danger">*</span></label>
                                                     <div id="summernote-editor">
                                                         {!! $about_us->about_us !!} 
                                                     </div> <!-- end summernote-editor-->
@@ -51,7 +51,7 @@
                                             <div class="col-xl-12">
                                                 <div class="form-group text-right mb-3">
                                                     <div class="form-group">
-                                                        <button type="submit" id="admin_update_submit" class="btn-fill-block">Update profile</button>
+                                                        <button type="submit" id="admin_update_submit" class="btn-fill-block">Submit</button>
                                                     </div>
                                                     @csrf
                                                 </div>

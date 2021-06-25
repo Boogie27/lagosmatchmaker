@@ -64,7 +64,7 @@
                 <div class="col-xl-12 mt-4">
                     <div class="form-group">
                         <input type="hidden" name="gender" id="member_gender_input" value="{{ old('gender') }}">
-                         <button type="submit" class="btn-fill-block">Get Started Now</button>
+                         <button type="submit" id="register_form_submit" class="btn-fill-block">Get Started Now</button>
                     </div>
                     @csrf
                 </div>
@@ -109,6 +109,31 @@ get_gender()
 
 
 
+
+
+
+
+
+// *********** LOGIN BUTTON *********//
+$("#register_form_submit").click(function(e){
+    $(this).html('Please wait...')
+})
+
+
+
+
+
+
 // end
 })
 </script>
+
+
+
+
+
+
+
+
+
+

@@ -15,9 +15,11 @@ class CreateNewslettersTable extends Migration
     {
         Schema::create('newsletters', function (Blueprint $table) {
             $table->id('id');
-            $table->string('email');
-            $table->tinyInteger('is_featured')->default('1');
-            $table->timestamp('date');
+            $table->string('title')->nullable();
+            $table->text('newsletter')->nullable();
+            $table->tinyInteger('is_save')->default('0');
+            $table->tinyInteger('is_sent')->default('0');
+            $table->date('date')->default(date('Y-m-d H:i:s'));
             $table->timestamps();
         });
     }

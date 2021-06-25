@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-xl-12 mt-4">
                     <div class="form-group">
-                         <button type="submit" class="btn-fill-block">Submit Now</button>
+                         <button type="submit" id="login_form_submit" class="btn-fill-block">Submit Now</button>
                     </div>
                     @csrf
                 </div>
@@ -52,3 +52,34 @@
     </div>
 </section>
 <!-- LOGIN END-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+$(document).ready(function(){
+// *********** LOGIN BUTTON *********//
+$("#login_form_submit").click(function(e){
+    $(this).html('Please wait...')
+})
+
+
+})
+</script>

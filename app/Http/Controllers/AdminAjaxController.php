@@ -2285,15 +2285,15 @@ class AdminAjaxController extends Controller
 
 
     
-    public function ajax_delete_newsletter_subscription_store(Request $request)
+    public function ajax_delete_newsletter_subscription(Request $request)
     {
         if($request->ajax())
         {
             $data = false;
-            $newsletter = DB::table('newsletters')->where('id', $request->id)->first();
+            $newsletter = DB::table('newsletter_subscriptions')->where('id', $request->id)->first();
             if($newsletter)
             {
-                $delete = DB::table('newsletters')->where('id', $request->id)->delete();
+                $delete = DB::table('newsletter_subscriptions')->where('id', $request->id)->delete();
                 if($delete)
                 {
                     $data = true;
@@ -2328,7 +2328,7 @@ class AdminAjaxController extends Controller
             if($request->state == 'true')
             {
                 $store_id = null;
-                $newsletters = DB::table('newsletters')->get();
+                $newsletters = DB::table('newsletter_subscriptions')->get();
                 if($newsletters)
                 {
                     foreach($newsletters as $newsletter)
@@ -2412,12 +2412,149 @@ class AdminAjaxController extends Controller
     {
         if($request->ajax())
         {
+           
+            if(Session::has('newsletter'))
+            {
+                $stored_ids = Session::get('newsletter');
+                foreach($stored_ids as $key => $stored_id)
+                {
+                    DB::table('newsletter_subscriptions')->where('id', $stored_id['id'])->delete();
+                    unset($stored_ids[$key]);
+                }
+
+                Session::put('newsletter', $stored_ids);
+                if(count($stored_ids) == 0)
+                {
+                    Session::forget('all');
+                    Session::forget('newsletter');
+                }
+
+                $newsletters = DB::table('newsletter_subscriptions')->paginate(25);
+
+                return view('admin.common.ajax-newsletter', compact('newsletters'));
+            }
+            
+        }
+        return response()->json(['error' => true]);
+    }
+    
+
+
+    
+
+
+
+
+    public function ajax_delete_news_letter(Request $request)
+    {
+        if($request->ajax())
+        {
             $data = false;
-            // write mass delete function here
+            $newsletter = Newsletter::where('id', $request->id)->first();
+            if($newsletter)
+            {
+                $delete = Newsletter::where('id', $request->id)->delete();
+                if($delete)
+                {
+                    $data = true;
+                    if($request->edit)
+                    {
+                        $data = url('/admin/news-letter');
+                        Session::flash('success', 'Newsletter deleted successfully!');
+                    }
+                }
+            }
         }
         return response()->json(['data' => $data]);
     }
     
+
+
+
+
+
+
+
+
+
+    
+    public function ajax_delete_mass_news_letter(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $news_letters = $request->stored_id;
+            if(count($news_letters))
+            {
+                foreach($news_letters as $news_letter)
+                {
+                    Newsletter::where('id', $news_letter)->delete();
+                }
+                $newsletters = Newsletter::where('is_save', 0)->paginate(25);
+            
+                return view('admin.common.ajax-get-newsletters', compact('newsletters'));
+            }
+            
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

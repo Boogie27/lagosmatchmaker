@@ -1,9 +1,12 @@
 
 
 // *********** BOTTOM ALERT DANGER ****************//
+var time;
 function bottom_alert_error(string){
     var bottom = '0px';
     var alert =  $("#bottom_alert_danger").children('.bottom-alert-danger')
+
+    
 
     if($(window).width() > 767){
         bottom = '5px'
@@ -11,12 +14,20 @@ function bottom_alert_error(string){
 
     $(alert).html(string)
     $(alert).css({ bottom: bottom })
-
-    setTimeout(function(){
+    var newBottom = parseInt($(alert).css('bottom'));
+    
+    if(newBottom >= 0){
         $(alert).css({
             bottom: '-100px'
         })
-    }, 4000)
+        return clearTimeout(time)
+    }
+
+    time = setTimeout(function(){
+            $(alert).css({
+                bottom: '-100px'
+            })
+        }, 4000)
 }
 
 
@@ -37,8 +48,16 @@ function bottom_alert_success(string){
 
     $(alert).html(string)
     $(alert).css({ bottom: bottom })
+    var newBottom = parseInt($(alert).css('bottom'));
+    
+    if(newBottom >= 0){
+        $(alert).css({
+            bottom: '-100px'
+        })
+        return clearTimeout(time)
+    }
 
-    setTimeout(function(){
+    time = setTimeout(function(){
         $(alert).css({
             bottom: '-100px'
         })

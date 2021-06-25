@@ -194,7 +194,10 @@
                             <a href="{{ url('/admin/news-letter') }}">News letters</a>
                         </li>
                         <li>
-                            <a href="#">Compose letter</a>
+                            <a href="{{ url('/admin/newsletter-subscriptions') }}">Newsletters Subscriptions</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/compose-newsletter') }}">Compose letter</a>
                         </li>
                     </ul>
                 </li>

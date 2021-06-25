@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\Auth;
 use App\Models\Image;
 use App\Models\Chat;
-use App\Models\Newsletter;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
@@ -938,38 +937,13 @@ class ClientAjaxController extends Controller
 
 
 
-
-    // public function ajax_get_profile_banners(Request $request)
-    // {
-    //     if($request->ajax())
-    //     {
-    //         $user = $this->user_detail();
-    //         $banners = DB::table('banners')->where('is_featured', 1)->get(); //get all banners
-            
-    //         return view('web.common.ajax-profile-banner', compact('user', 'banners'));
-    //     }
-    //     return response()->json(['error' => true]);
-    // }
-   
-
-
-
-
-
-
-
-
-
-
-
-
     public function ajax_newsletter_subscription(Request $request)
     {
         if($request->ajax())
         {
             $data = false;
             $validator = Validator::make($request->all(), [
-                'email' => 'required|email|unique:newsletters',
+                'email' => 'required|email|unique:newsletter_subscriptions',
             ]);
 
             if(!$validator->passes())
@@ -979,7 +953,7 @@ class ClientAjaxController extends Controller
             
             if($validator->passes())
             {
-                $create = Newsletter::create([
+                $create = DB::table('newsletter_subscriptions')->insert([
                     'email' => $request->email
                 ]);
                 if($create)
@@ -1017,16 +991,15 @@ class ClientAjaxController extends Controller
 
             if($validator->passes())
             {
-                $check = Newsletter::where('email', $request->email)->first();
+                $check = DB::table('newsletter_subscriptions')->where('email', $request->email)->first();
                 if(!$check)
                 {
                     return response()->json(['error' => ['email' => '*Email does not exists']]);
                 }
                 
-
                 if($check)
                 {
-                    $check->delete();
+                    DB::table('newsletter_subscriptions')->where('id', $check->id)->delete();
                     $data = true;            
                 }
             }

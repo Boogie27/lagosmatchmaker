@@ -1064,8 +1064,10 @@ ul.ul-payemt-desc li .drop-down-body li{
 
 
 
-
-
+/* ******* SUMMER NOTES EDITOR */
+.note-toolbar.card-header{
+    z-index: 10;
+}
 
 
 
