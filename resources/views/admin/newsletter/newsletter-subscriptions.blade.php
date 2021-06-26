@@ -81,6 +81,7 @@
                                         @endif
                                     </div>
                                 </div>
+                               <div class="text-center"> <a href="{{ url('/admin/news-letter') }}" class="btn-default">Send Newsletter</a></div>
                             </div> <!-- end card body-->
                         </div> <!-- end card -->
                     </div><!-- end col-->

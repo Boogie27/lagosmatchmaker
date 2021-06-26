@@ -31,7 +31,7 @@
                                     @endif
                                     <form action="{{ url('/admin/about-us') }}" method="POST" class="parsley-examples">
                                         <div class="row">
-                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                            <div class="col-xl-12">
                                                 <div class="form-group">
                                                     <label for="userName">Header<span class="text-danger">*</span></label>
                                                     <input type="text" name="title" parsley-trigger="change" placeholder="Enter title" class="form-control" value="{{ $about_us->about_us_title ?? old('title') }}">

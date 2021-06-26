@@ -1286,9 +1286,14 @@ class AdminController extends Controller
 
     public function news_letter_index()
     {
-        $newsletters = Newsletter::where('is_save', 0)->paginate(25);
-
-        return view('admin.news-letter', compact('newsletters'));
+        $subscribers = 0;
+        $newsletters = Newsletter::where('is_save', 0)->where('is_sent', 0)->paginate(25);
+        if(Session::has('newsletter'))
+        {
+            $subscribers = Session::get('newsletter');
+            $subscribers = count($subscribers);
+        }
+        return view('admin.news-letter', compact('newsletters', 'subscribers'));
     }
 
     
@@ -1331,9 +1336,53 @@ class AdminController extends Controller
 
 
 
+
+    
+    public function sent_letter_index()
+    {
+        $subscribers = 0;
+        $newsletters = Newsletter::where('is_sent', 1)->paginate(25);
+        if(Session::has('newsletter'))
+        {
+            $subscribers = Session::get('newsletter');
+            $subscribers = count($subscribers);
+        }
+        
+        return view('admin.sent-newsletters', compact('newsletters', 'subscribers'));
+    }
+
     
 
 
+
+
+
+    public function saved_letter_index()
+    {
+        $subscribers = 0;
+        $newsletters = Newsletter::where('is_save', 1)->paginate(25);
+        if(Session::has('newsletter'))
+        {
+            $subscribers = Session::get('newsletter');
+            $subscribers = count($subscribers);
+        }
+
+        return view('admin.saved-newsletters', compact('newsletters', 'subscribers'));
+    }
+    
+
+
+
+
+
+    public function newsletter_preview_index($id)
+    {
+        $newsletter = Newsletter::where('id', $id)->first();
+        $app = DB::table('settings')->where('id', 1)->first();
+
+        return view('admin.newsletter.newsletter-preview', compact('newsletter', 'app'));
+    }
+    
 
 
     // end

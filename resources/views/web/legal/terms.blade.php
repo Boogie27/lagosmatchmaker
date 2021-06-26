@@ -2,7 +2,7 @@
 <section class="message-section">
     <div class="message-container">
         <div class="title-header">
-            <h4>Lagosmatchmaker Terms</h4>
+            <h4>Terms & Condition</h4>
             <p> <a href="{{ url('/') }}">Home</a> - Terms</p>
         </div>
     </div>

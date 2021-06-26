@@ -658,6 +658,28 @@ $("#add_user_subscription_confirm_submit_btn").click(function(e){
 
 
 
+// ********** SEND NEWSLETTER MODAL OPEN ************//
+
+var newsletter_id;
+$("#parent_table_container").on('click', '.send-newsletter-modal-open', function(e){
+    e.preventDefault()
+    newsletter_id = $(this).attr('id')
+    $("#send_newesletter_modal_popup_box").show()
+    $("#send_newsletter_confirm_submit_btn").html('Proceed')
+})
+
+
+
+
+
+
+// ************* SEND NEWSLETTER *********** //
+$("#send_newsletter_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    $(this).html("Please wait...")
+    console.log(newsletter_id)
+})
+
 
 
 

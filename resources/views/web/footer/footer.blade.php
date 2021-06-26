@@ -61,10 +61,10 @@
                     <ul class="ul-footer-links">
                         <li class="footer-link-h"><h4>Contact Links</h4></li>
                         @if(settings() && settings()->phone)
-                        <li><a href="#"><i class="fa fa-phone"></i> Phone: {{ settings()->phone }}</a></li>
+                        <li><a href="tel:{{ settings()->phone }}"><i class="fa fa-phone"></i> Phone: {{ settings()->phone }}</a></li>
                         @endif
                         @if(settings() && settings()->email)
-                        <li><a href="#"><i class="far fa-envelope"></i> Email: settings()->email</a></li>
+                        <li><a href="mailto:{{ settings()->email }}"><i class="far fa-envelope"></i> Email: {{ settings()->email }}</a></li>
                         @endif
                         @if(settings() && settings()->address)
                         <li><a href="#"><i class="fa fa-map-marker-alt"></i> {{ settings()->address }}</a></li>

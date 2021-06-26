@@ -46,11 +46,12 @@
                                                 <tr>
                                                     <th class="check-all-emails">
                                                     @if(count($newsletters))
-                                                            <input type="checkbox" class="check-box-all" {{ Session::has('all') ? 'checked' : '' }}>
+                                                            <input type="checkbox" class="check-box-all">
                                                     @endif
                                                     </th>
                                                     <th>Title</th>
-                                                    <th>Sent</th>
+                                                    <th>Newsletter</th>
+                                                    <th></th>
                                                     <th>Date</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -62,8 +63,9 @@
                                                     <td><input type="checkbox" id="{{ $newsletter->id }}" class="news-letter-check-box"></td>
                                                     <td>{{ $newsletter->title }}</td>
                                                     <td>
-                                                        <div class="suspend {{ $newsletter->is_sent ? 'bg-success' : ''}}"></div>
+                                                        {!! substr( $newsletter->newsletter, 0, 30) !!}
                                                     </td>
+                                                    <td><a href="#" data-url="{{ url('/admin/send-newsletter') }}" id="{{ $newsletter->id }}" class="send-newsletter-modal-open mini-btn">Send</a></td>
                                                     <td>{{ date('d M Y', strtotime($newsletter->date)) }}</td>
                                                     <td>
                                                         <div class="drop-down">
@@ -73,7 +75,10 @@
                                                                     <a href="{{ url('/admin/edit-newsletter/'.$newsletter->id) }}">Edit</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a href="{{ url('/admin/preview-newsletter/'.$newsletter->id) }}">Preview</a>
+                                                                    <a href="#" id="{{ $newsletter->id }}" class="save-news-letter-btn">Save</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="{{ url('/admin/newsletter-preview/'.$newsletter->id) }}">Preview</a>
                                                                 </li>
                                                                 <li>
                                                                     <a href="#" id="{{ $newsletter->id }}" class="delete-news-letter-modal-open">Delete</a>
@@ -96,6 +101,12 @@
                                         @endif
                                     </div>
                                 </div>
+                                @if(count($newsletters))
+                                <div class="table-bottom">
+                                    <span>Total: {{ count($newsletters) }}</span>
+                                    <span class="pl-3">Subscribers selected: {{ $subscribers }}</span>
+                                </div>
+                                @endif
                             </div> <!-- end card body-->
                         </div> <!-- end card -->
                     </div><!-- end col-->
@@ -160,8 +171,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--  DELETE MODAL ALERT START -->
-<section class="modal-alert-popup" id="delete_newesletters_modal_popup_box">
+<section class="modal-alert-popup" id="send_newesletter_modal_popup_box">
     <div class="sub-confirm-container">
         <div class="sub-confirm-dark-theme">
             <div class="sub-inner-content">
@@ -169,11 +208,11 @@
                     <button class="confirm-box-close"><i class="fa fa-times"></i></button>
                 </div>
                 <div class="confirm-header">
-                    <p>Do you wish to delete these newsletters?</p>
+                    <p>Do you wish to send this newsletter?</p>
                 </div>
                 <div class="confirm-form">
                     <form action="" method="POST">
-                        <button type="button"  id="delete_newsletters_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        <button type="button"  id="send_newsletter_confirm_submit_btn" class="confirm-btn">Proceed</button>
                         @csrf
                     </form>
                 </div>
@@ -192,23 +231,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
 $(document).ready(function(){
+//*****IMPORTANT NOTE********** */
+// 'send newsletter' function is in the script file 
+
+
 
 // ******* EMPTY TABLE MESSAGE **************//
 function table_check(){
@@ -237,6 +265,10 @@ $("#parent_table_container").on('click', '.delete-news-letter-modal-open', funct
     $("#delete_newesletter_modal_popup_box").show()
     $("#delete_newsletter_confirm_submit_btn").html('Proceed')
 })
+
+
+
+
 
 
 
@@ -358,7 +390,8 @@ $("#delete_newsletters_confirm_submit_btn").click(function(e){
         url: "{{ url('/admin/ajax-newsletter-mass-delete') }}",
         method: "post",
         data: {
-            stored_id: stored_id
+            stored_id: stored_id,
+            newsletter: true
         },
         success: function (response){
             if(response.error){
@@ -418,6 +451,54 @@ function check_all(data)
 
 
 
+
+
+// ************  SAVE NEWSLETTER ****************//
+$("#parent_table_container").on('click', '.save-news-letter-btn', function(e){
+    e.preventDefault()
+    var id = $(this).attr('id')
+    $("#access_preloader_container").show()
+    self_parent = $(this).parent().parent().parent().parent().parent()
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/admin/ajax-save-newsletter') }}",
+        method: "post",
+        data: {
+            id: id
+        },
+        success: function (response){
+            if(response.error){
+                bottom_alert_error('Network error, try again later!')
+            }else{
+                $(self_parent).remove()
+                table_check()
+                bottom_alert_success('Newsletter saved successfully!')
+            }
+            $("#access_preloader_container").hide()
+        }, 
+        error: function(){
+            $("#access_preloader_container").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 'send newsletter' function is in the script file 
+
 // end
 })
 </script>
@@ -430,32 +511,3 @@ function check_all(data)
 
 
 
-
-<!-- 500s is reproduced below 
-for those interested. Sections 1.10.32 
-and 1.10.33 from "de 500s is reproduced below for
- those interested. Sections 1.10.32 and 1.10.33 from
-  "de 500s is reproduced below for those interested. Sections 
-  1.10.32 and 1.10.33 from "de 500s is reproduced below for those 
-  interested. Sections 1.10.32 and 1.10.33 from "de 500s is 
-  reproduced below for those interested. Sections 1.10.32 and 
-  1.10.33 from "de 500s is reproduced below for those intereste
-  d. Sections 1.10.32 and 1.10.33 from "de 500s is reproduced b
-  elow for those interested. Sections 1.10.32 and 1.10.33 from 
-  "de 500s is reproduced below for those interested. Sections 1
-  .10.32 and 1.10.33 from "de 500s is reproduced below for thos
-  e interested. Sections 1.10.32 and 1.10.33 whats up brother h
-  ow are you doing there500s is reproduced below for those inte
-  rested. Sections 1.10.32 and 1.10.33 from "de 500s is reprodu
-  ced below for those interested. Sections 1.10.32 and 1.10.33 
-  from "de 500s is reproduced below for those interested. Secti
-  ons 1.10.32 and 1.10.33 from "de 500s is reproduced below for
-   those interested. Sections 1.10.32 and 1.10.33 from "de 500s
-    is reproduced below for those interested. Sections 1.10.32 
-    and 1.10.33 from "de 500s is reproduced below for those int
-    erested. Sections 1.10.32 and 1.10.33 from "de 500s is repr
-    oduced below for those interested. Sections 1.10.32 and 1.1
-    0.33 from "de 500s is reproduced below for those interested
-    . Sections 1.10.32 and 1.10.33 from "de 500s is reproduced 
-    below for those interested. 
-Sections 1.10.32 and 1.10.33 whats up brother how are you doing there  -->

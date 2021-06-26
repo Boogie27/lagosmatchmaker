@@ -191,13 +191,19 @@
 
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
+                            <a href="{{ url('/admin/sent-newsletters') }}">Sent</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/admin/saved-newsletters') }}">Saved</a>
+                        </li>
+                        <li>
                             <a href="{{ url('/admin/news-letter') }}">News letters</a>
                         </li>
                         <li>
-                            <a href="{{ url('/admin/newsletter-subscriptions') }}">Newsletters Subscriptions</a>
+                            <a href="{{ url('/admin/compose-newsletter') }}">Compose letter</a>
                         </li>
                         <li>
-                            <a href="{{ url('/admin/compose-newsletter') }}">Compose letter</a>
+                            <a href="{{ url('/admin/newsletter-subscriptions') }}">Newsletters Subscriptions</a>
                         </li>
                     </ul>
                 </li>

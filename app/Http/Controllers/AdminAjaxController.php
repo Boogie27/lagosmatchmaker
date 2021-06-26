@@ -2483,6 +2483,7 @@ class AdminAjaxController extends Controller
         if($request->ajax())
         {
             $data = false;
+            $is_save = false;
             $news_letters = $request->stored_id;
             if(count($news_letters))
             {
@@ -2490,9 +2491,23 @@ class AdminAjaxController extends Controller
                 {
                     Newsletter::where('id', $news_letter)->delete();
                 }
-                $newsletters = Newsletter::where('is_save', 0)->paginate(25);
+               
+                if($request->newsletter)
+                {
+                    $is_save = true;
+                    $newsletters = Newsletter::where('is_save', 0)->where('is_sent', 0)->paginate(25);
+                }
+                if($request->save)
+                {
+                    $newsletters = Newsletter::where('is_save', 1)->paginate(25);
+                }
+                
+                if($request->sent)
+                {
+                    $newsletters = Newsletter::where('is_sent', 1)->paginate(25);
+                }
             
-                return view('admin.common.ajax-get-newsletters', compact('newsletters'));
+                return view('admin.common.ajax-get-newsletters', compact('newsletters', 'is_save'));
             }
             
         }
@@ -2508,9 +2523,28 @@ class AdminAjaxController extends Controller
 
 
 
-
-
-
+    public function ajax_save_newsletter(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $newsletter = Newsletter::where('id', $request->id)->first();
+            if($newsletter)
+            {
+                $is_save = $newsletter->is_save ? 0 : 1;
+                $update = Newsletter::where('id', $request->id)->update([
+                        'is_save' => $is_save
+                    ]);
+                if($update)
+                {
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
+    
 
 
 

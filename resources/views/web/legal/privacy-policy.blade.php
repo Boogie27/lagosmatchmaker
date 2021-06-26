@@ -2,7 +2,7 @@
 <section class="message-section">
     <div class="message-container">
         <div class="title-header">
-            <h4>Lagosmatchmaker Privacy Policy</h4>
+            <h4>Privacy Policy</h4>
             <p> <a href="{{ url('/') }}">Home</a> - Privacy Policy</p>
         </div>
     </div>

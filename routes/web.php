@@ -482,8 +482,15 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/ajax-all-newsletter-id", [AdminAjaxController::class, "ajax_all_newsletter_id"]);
     Route::post("/admin/ajax-check-newsletter-email-single", [AdminAjaxController::class, "ajax_single_newsletter_email_id"]);
     Route::post("/admin/ajax-check-newsletter-mass-delete", [AdminAjaxController::class, "ajax_check_newsletter_mass_delete"]);
+    Route::get("/admin/newsletter-preview/{id}", [AdminController::class, "newsletter_preview_index"]);
+    
     
     Route::get("/admin/news-letter", [AdminController::class, "news_letter_index"]);
+    Route::get("/admin/sent-newsletters", [AdminController::class, "sent_letter_index"]);
+    Route::get("/admin/saved-newsletters", [AdminController::class, "saved_letter_index"]);
+    Route::post("/admin/ajax-save-newsletter", [AdminAjaxController::class, "ajax_save_newsletter"]);
+
+    
     Route::post("/admin/ajax-delete-news-letter", [AdminAjaxController::class, "ajax_delete_news_letter"]);
     Route::post("/admin/ajax-newsletter-mass-delete", [AdminAjaxController::class, "ajax_delete_mass_news_letter"]);
     Route::get("/admin/edit-newsletter/{id}", [AdminController::class, "edit_newsletter_index"]);

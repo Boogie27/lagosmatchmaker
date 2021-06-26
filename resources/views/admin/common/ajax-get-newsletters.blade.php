@@ -8,7 +8,8 @@
                 @endif
                 </th>
                 <th>Title</th>
-                <th>Sent</th>
+                <th>Newsletter</th>
+                <th></th>
                 <th>Date</th>
                 <th>Action</th>
             </tr>
@@ -20,18 +21,24 @@
                 <td><input type="checkbox" id="{{ $newsletter->id }}" class="news-letter-check-box"></td>
                 <td>{{ $newsletter->title }}</td>
                 <td>
-                    <div class="suspend {{ $newsletter->is_sent ? 'bg-success' : ''}}"></div>
+                    {!! substr( $newsletter->newsletter, 0, 30) !!}
                 </td>
+                <td><a href="#" id="{{ $newsletter->id }}" class="send-newsletter-modal-open mini-btn">Send</a></td>
                 <td>{{ date('d M Y', strtotime($newsletter->date)) }}</td>
                 <td>
                     <div class="drop-down">
                         <i class="fa fa-ellipsis-h drop-down-open"></i>
                         <ul class="drop-down-body">
                             <li>
-                                <a href="#">Edit</a>
+                                <a href="{{ url('/admin/edit-newsletter/'.$newsletter->id) }}">Edit</a>
                             </li>
+                            @if($is_save)
                             <li>
-                                <a href="#">Preview</a>
+                                <a href="#" id="{{ $newsletter->id }}" class="save-news-letter-btn">Save</a>
+                            </li>
+                            @endif
+                            <li>
+                                <a href="{{ url('/admin/newsletter-preview/'.$newsletter->id) }}">Preview</a>
                             </li>
                             <li>
                                 <a href="#" id="{{ $newsletter->id }}" class="delete-news-letter-modal-open">Delete</a>

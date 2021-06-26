@@ -27,7 +27,7 @@
                                         <ul class="drop-down-body">
                                             <li class="text-left">
                                                 <a href="#" class="">Send</a>
-                                                <a href="#" class="">Preview</a>
+                                                <a href="{{ url('/admin/newsletter-preview/'.$newsletter->id) }}" class="">Preview</a>
                                                 <a href="#" id="{{ $newsletter->id }}" class="delete_newsletter_modal_open" class="">Delete</a>
                                             </li>
                                         </ul>
@@ -42,7 +42,7 @@
                                     @endif
                                     <form action="{{ url('/admin/edit-newsletter/'.$newsletter->id) }}" method="POST" class="parsley-examples">
                                         <div class="row">
-                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                            <div class="col-xl-12">
                                                 <div class="form-group">
                                                     <label for="userName">Title<span class="text-danger">*</span></label>
                                                     <input type="text" name="title" parsley-trigger="change" placeholder="Enter title" class="form-control" value="{{ $newsletter->title ?? old('title') }}">
