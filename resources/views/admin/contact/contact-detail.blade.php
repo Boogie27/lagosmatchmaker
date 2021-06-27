@@ -38,7 +38,7 @@
                                                 <i class="fa fa-ellipsis-h drop-down-open"></i>
                                                 <ul class="drop-down-body">
                                                     <li class="text-left">
-                                                        <a href="#">Reply</a>
+                                                        <a href="mailto:{{ $contact->email }}">Reply</a>
                                                     </li>
                                                     <li class="text-left">
                                                         <a href="#" data-name="{{ $contact->full_name }}" id="{{ $contact->id }}" class="delete-confirm-box-open">Delete</a>
@@ -62,7 +62,7 @@
                                     </ul>
                                 </div>
                                 <div class="profile-detail-left">
-                                    <div class="title-header"><h4>Message from simily email</h4></div>
+                                    <div class="title-header"><h4>Message from similar email</h4></div>
                                     <ul class="ul-profile-detail ul-report">
                                         <li>
                                             <p class="detail-about-p">

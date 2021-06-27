@@ -427,10 +427,10 @@ $("#approve_confirm_submit_btn").click(function(e){
             }else{
                 bottom_alert_error('Network error, try again later!')
             }
-            $("#approve_user_modal_popup_box").hide()
+            $(".modal-alert-popup").hide()
         }, 
         error: function(){
-            $("#approve_user_modal_popup_box").hide()
+            $(".modal-alert-popup").hide()
             bottom_alert_error('Network error, try again later!')
         }
     });

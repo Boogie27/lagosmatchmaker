@@ -33,7 +33,12 @@
                             <ul class="drop-down-body">
                                 <li class="text-left">
                                     <a href="{{ url('/admin/friends/'.$user->id) }}" class="">Friends</a>
+                                    <a href="mailto:{{ $user->email }}" class="">Send mail</a>
+                                    @if(!$user->is_approved)
+                                    <a href="#" data-name="{{ $user->user_name }}" id="{{ $user->id }}" class="deatil-approve-confirm-box-open">Approve</a>
+                                    @endif
                                     <a href="{{ url('/admin/subscription-history/'.$user->id) }}" class="">subscription details</a>
+                                   
                                 </li>
                             </ul>
                         </div>
@@ -250,6 +255,38 @@
 
 
 
+
+
+<!--  DELETE MODAL ALERT START -->
+<section class="modal-alert-popup" id="member_approve_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to approve <b>{{ $user->user_name }}</b>?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button"  id="member_approve_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  DELETE MODAL ALERT END -->
+
+
+
+
+
+
+
+
 @include('admin.member.member-detail-modal-popup')
 @include('admin.member.profile-about-modal-popup')
 @include('admin.member.profile-looking-for-modal-popup')
@@ -261,7 +298,31 @@
 
 
 
-<!-- web/images/ID_card/ID_CARD_60b0ebfe4e531.jpg -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -346,6 +407,68 @@ function get_id_card(id_card){
     }, 1000)
 }
 
+
+
+
+
+
+
+
+// *********** APPROVE USER MODAL OPEN **************//
+var user_id
+var self
+$(".deatil-approve-confirm-box-open").click(function(e){
+    e.preventDefault()
+    self = $(this)
+    user_id = $(this).attr('id')
+    name = $(this).attr('data-name')
+
+    $("#member_approve_modal_popup_box").show()
+})
+
+
+
+// ********** APPOVE USER ***************//
+$("#member_approve_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/ajax-approve-member') }}",
+        method: "post",
+        data: {
+            user_id: user_id,
+        },
+        success: function (response){
+            if(response.data){
+                $(self).remove()
+                bottom_alert_success('User has been approved!')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+
+})
+
+
+
+
+
+// ********* CSRF PAGE TOKEN ***********//
+function csrf_token(){
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $("meta[name='csrf_token']").attr("content")
+        }
+    });
+}
 
 
 

@@ -8,8 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 
-
-class UserMail extends Mailable
+class UserResetPaswordMailer extends Mailable
 {
     use Queueable, SerializesModels;
 

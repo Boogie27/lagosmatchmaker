@@ -69,7 +69,7 @@
                 </div>
             </li>
 
-            <li class="dropdown d-none d-lg-block" data-toggle="tooltip" data-placement="left" title="Change language">
+            <li class="dropdown d-none d-lg-block" data-toggle="tooltip" data-placement="left" title="Change settings">
                 <a class="nav-link dropdown-toggle mr-0" data-toggle="dropdown" href="#" role="button"
                     aria-haspopup="false" aria-expanded="false">
                     <i data-feather="settings"></i>
@@ -77,7 +77,7 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     <a href="{{ url('/admin/settings') }}" class="dropdown-item notify-item">General settings</a>
                     <a href="{{ url('/admin/email-settings') }}" class="dropdown-item notify-item">Email settings</a>
-                    <a href="{{ url('/admin/payemtn-settings') }}" class="dropdown-item notify-item">Payment settings</a>
+                    <a href="{{ url('/admin/payment-settings') }}" class="dropdown-item notify-item">Payment settings</a>
                     <a href="{{ url('/admin/banner-settings') }}" class="dropdown-item notify-item">Banner settings</a>
                 </div>
             </li>

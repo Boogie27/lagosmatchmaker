@@ -20,19 +20,14 @@
                     <span>Profile</span>
                 </a>
 
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                <a href="{{ url('/admin/change-password') }}" class="dropdown-item notify-item">
+                    <i data-feather="lock" class="icon-dual icon-xs mr-2"></i>
+                    <span>Password</span>
+                </a>
+
+                <a href="{{ url('/admin/settings') }}" class="dropdown-item notify-item">
                     <i data-feather="settings" class="icon-dual icon-xs mr-2"></i>
                     <span>Settings</span>
-                </a>
-
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <i data-feather="help-circle" class="icon-dual icon-xs mr-2"></i>
-                    <span>Support</span>
-                </a>
-
-                <a href="pages-lock-screen.html" class="dropdown-item notify-item">
-                    <i data-feather="lock" class="icon-dual icon-xs mr-2"></i>
-                    <span>Lock Screen</span>
                 </a>
 
                 <div class="dropdown-divider"></div>
@@ -223,19 +218,6 @@
                         </li>
                         <li>
                             <a href="{{ url('/admin/terms') }}">Terms & Condition</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);">
-                        <i class="fa fa-folder"></i>
-                        <span> Other</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li>
-                            <a href="{{ url('/admin/how-it-works') }}">How it works</a>
                         </li>
                     </ul>
                 </li>

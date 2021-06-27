@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-xl-12 mt-4">
                     <div class="form-group">
-                         <button type="submit" class="btn-fill-block">Receive Password</button>
+                         <button type="submit" id="form_access_btn_submit" class="btn-fill-block">Receive Password</button>
                     </div>
                     @csrf
                 </div>
@@ -34,3 +34,36 @@
     </div>
 </section>
 <!-- FORGOT PASSWORD END-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+$(document).ready(function(){
+// *********** LOGIN BUTTON *********//
+$("#form_access_btn_submit").click(function(e){
+    $(this).html('Please wait...')
+})
+
+
+})
+</script>

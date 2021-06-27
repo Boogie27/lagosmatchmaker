@@ -54,7 +54,7 @@
                             </div>
                             <div class="col-xl-12 mt-4">
                                 <div class="form-group">
-                                    <input type="hidden" id="user_id_input" value="{{ $user->id }}">
+                                    <input type="hidden" id="lifestyle_user_id_input" value="{{ $user->id }}">
                                     <button type="button" id="edit_life_style_submit_btn" class="btn-fill-block">Update Detail</button>
                                     <div class="form-error-alert form_alert_0 text-danger"></div>
                                 </div>
@@ -119,7 +119,7 @@ $("#edit_life_style_submit_btn").click(function(e){
 function life_style(){
     $(".form_alert_0").html('')
     $(".alert-form").html('')
-    var user_id = $("#user_id_input").val()
+    var user_id = $("#lifestyle_user_id_input").val()
     var interest = $("#edit_interest_input").val()
     var drinking = $("#edit_drinking_input").val()
     var smoking = $("#edit_smoking_input").val()

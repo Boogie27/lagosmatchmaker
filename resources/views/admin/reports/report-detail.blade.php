@@ -40,7 +40,7 @@
                                                         <i class="fa fa-ellipsis-h drop-down-open"></i>
                                                         <ul class="drop-down-body">
                                                             <li class="text-left">
-                                                                <a href="#">Send message</a>
+                                                                <a href="mailto:{{ $reporter->email }}">Send message</a>
                                                             </li>
                                                             <li class="text-left">
                                                                 <a href="#" data-name="{{ $reporter->user_name }}" id="{{ $reporter->report_id }}" class="delete-confirm-box-open">Delete report</a>
@@ -65,7 +65,7 @@
                                                         <i class="fa fa-ellipsis-h drop-down-open"></i>
                                                         <ul class="drop-down-body">
                                                             <li class="text-left">
-                                                                <a href="#">Send message</a>
+                                                                <a href="mailto:{{ $reported->email }}">Send message</a>
                                                             </li>
                                                             <li class="text-left">
                                                                 <a href="#" data-name="{{ $reporter->user_name }}" id="{{ $reporter->report_id }}" class="delete-confirm-box-open">Delete report</a>

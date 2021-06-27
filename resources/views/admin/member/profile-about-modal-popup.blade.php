@@ -22,7 +22,7 @@
                             </div>
                             <div class="col-xl-12 mt-4">
                                 <div class="form-group">
-                                    <input type="hidden" id="user_id_input" value="{{ $user->id }}">
+                                    <input type="hidden" id="about_user_id_input" value="{{ $user->id }}">
                                     <button type="button"  id="edit_about_submit_btn" class="btn-fill-block">Update Detail</button>
                                     <div class="form-error-alert form_alert_0 text-danger"></div>
                                 </div>
@@ -88,7 +88,7 @@ $("#edit_about_me_input").on('keypress', function(e){
 function edit_about_me(){
     $(".form_alert_0").html('')
     $(".alert-form").html('')
-    var user_id = $("#user_id_input").val()
+    var user_id = $("#about_user_id_input").val()
     var about = $("#edit_about_me_input").val()
 
     $("#edit_about_submit_btn").html('Please wait...')

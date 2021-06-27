@@ -17,8 +17,9 @@ use Session;
 use Cookie;
 use Mail;
 
-use App\Mail\UserMail;
 
+use App\Jobs\SendEmailJob;
+use App\Mail\UserResetPaswordMailer;
 
 
 
@@ -105,12 +106,12 @@ class ClientController extends Controller
         
         if($request->membership_level == 'basic')
         {
-            $basics  = $members->get();
+            $basics  = $members->paginate(25);
             return view('web.basic', compact('basics', 'genotypes', 'marital_status', 'states'));
         }
         if($request->membership_level == 'premium')
         {
-            $premiums  = $members->get();
+            $premiums  = $members->paginate(25);
             return view('web.premium', compact('premiums', 'genotypes', 'marital_status', 'states'));
         }
         
@@ -227,14 +228,29 @@ class ClientController extends Controller
         if($create)
         {
             $url = url('/new-password?token='.$token);
-            Mail::to($request->email)->send(new UserMail($url));
+            // Mail::to($request->email)->send(new UserMail($url));
+            SendEmailJob::dispatch($request->email, $url)->delay(now()->addSeconds(5));
         }
+
+      
         
         return back()->with('success', 'Password reset token has been sent to your email.');
     }
     
     
 
+
+
+
+    // public function forgot_password_store(Request $request)
+    // {
+    //     $token = password_hash(uniqid(), PASSWORD_DEFAULT);
+    //     $url = url('/new-password?token='.$token);
+
+    //     SendEmailJob::dispatch($request->email, $url)->delay(now()->addSeconds(5));
+
+    //     return back()->with('success', 'Password reset token has been sent to your email.');
+    // }
 
 
 
@@ -916,11 +932,14 @@ class ClientController extends Controller
                         'subscription_type' => $sub->type,  
                         'end_date' => $expiry,  
                     ]);
+        
         if($create)
         {
             $this_user = User::where('id', Auth::user('id'))->first();
             $this_user->membership_level = $sub->type;
             $this_user->save();
+
+            $this->subscription_notification($sub); //send a notification to the admin
 
             Session::forget('subscription');
 
@@ -935,6 +954,21 @@ class ClientController extends Controller
         return view('web.success', compact('display_name', 'back_link'));
     }
     
+
+
+
+
+
+    public function subscription_notification($sub)
+    {
+        DB::table('notifications')->insert([
+            'notification_from' => Auth::user('id'),
+            'notification_to' => 'admin',
+            'title' => Auth::user('user_name'),
+            'description' => Auth::user('user_name').' has subscribed to '.ucfirst($sub->type).' plan',
+            'link' => 'admin/subscription-history/'.Auth::user('id')      
+        ]);
+    }
 
 
 

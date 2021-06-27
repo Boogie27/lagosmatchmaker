@@ -1,4 +1,8 @@
 
+
+
+
+
 <!-- BASIC MEMBERS START-->
 <section>
     <div class="content-page">
@@ -12,10 +16,10 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Home</a></li>
                                 <li class="breadcrumb-item"><a href="javascript: void()">Members</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Unapproved</li>
+                                <li class="breadcrumb-item active" aria-current="page">Deactivated</li>
                             </ol>
                         </nav>
-                        <h4 class="mb-1 mt-0">Unapproved members</h4>
+                        <h4 class="mb-1 mt-0">Deactivated members</h4>
                         @if(Session::has('error'))
                         <div class="main-alert-danger text-center mt-3">{{ Session::get('error')}}</div>
                         @endif
@@ -32,7 +36,7 @@
                                <div class="table-top">
                                     <div class="page-icon"><i class="fa fa-users"></i></div>
                                     <div class="table-search">
-                                        <form action="{{ url('/admin/deactivated') }}" method="GET">
+                                        <form action="{{ url('/admin/unapproved') }}" method="GET">
                                             <div class="form-group">
                                                 <input type="text" name="search" class="form-control" placeholder="Search...">
                                             </div>
@@ -50,11 +54,11 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="parent_table">
+                                        <tbody>
                                             @if(count($unapproved))
                                             @foreach($unapproved as $unapprove)
                                             @php($avatar = $unapprove->gender == 'male' ? 'M' : 'F')
-                                            <tr>
+                                            <tbody id="parent_table">
                                                 <td class="avatar-parent">
                                                     <a href="{{ url('/admin/member-detail/'.$unapprove->id) }}" class="avatar-link">
                                                         <div class="avatar {{ $unapprove->is_active ? 'active' : ''}}">
@@ -109,50 +113,3 @@
     </div>
 </section>
 <!-- BASIC MEMBERS END-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

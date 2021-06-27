@@ -22,7 +22,7 @@
                             </div>
                             <div class="col-xl-12 mt-4">
                                 <div class="form-group">
-                                    <input type="hidden" id="user_id_input" value="{{ $user->id }}">
+                                    <input type="hidden" id="looking_user_id_input" value="{{ $user->id }}">
                                     <button type="button" id="edit_looking_for_submit_btn" class="btn-fill-block">Update Detail</button>
                                     <div class="form-error-alert form_alert_0 text-danger"></div>
                                 </div>
@@ -82,7 +82,7 @@ $("#edit_looking_for_detail_input").on('keypress', function(e){
 function looking_for(){
     $(".form_alert_0").html('')
     $(".alert-form").html('')
-    var user_id = $("#user_id_input").val()
+    var user_id = $("#looking_user_id_input").val()
     var looking_for = $("#edit_looking_for_detail_input").val()
 
     $("#edit_looking_for_submit_btn").html('Please wait...')

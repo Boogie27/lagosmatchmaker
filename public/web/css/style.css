@@ -1514,7 +1514,7 @@ ul.ul-footer-links li a i{
     height: 100vh;
     display: table;
     padding: 150px 0px 100px 0px;
-    background-color: rgb(15, 15, 15);
+    background-color: rgb(22, 22, 22);
 }
 .form-container{
     display: table-cell;
@@ -1525,7 +1525,7 @@ ul.ul-footer-links li a i{
     color: rgb(143, 143, 143);
     margin: 0 auto;
     padding: 40px 20px;
-    background-color: rgb(31, 31, 31);
+    background-color: rgb(41, 41, 41);
     /* box-shadow: 2px 2px 6px 2px rgb(8, 8, 8); */
 }
 .form-container form input{
