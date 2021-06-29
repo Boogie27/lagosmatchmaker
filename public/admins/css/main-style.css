@@ -806,7 +806,10 @@ ul.ul-report li.other-reports{
 
 /* ************* PROFILE PAGE ************* */
 .img-loader-container{
+    height: 100%;
     display: none;
+    border: 1px solid #ccc;
+    background-color: rgba(3, 3, 3, 0.233);
 }
 .profile-img-container{
     padding: 20px 0px;
@@ -826,7 +829,7 @@ ul.ul-report li.other-reports{
     margin: 0 auto;
     border-radius: 50%;
     position: relative;
-    border: 3px solid rgb(66, 66, 163);
+    border: 3px solid rgb(110, 110, 250);
     border-right: 3px solid transparent;
     -webkit-animation: access-spin 0.4s linear infinite; 
     animation: access-spin 0.4s linear infinite;
@@ -1083,6 +1086,23 @@ ul.ul-payemt-desc li .drop-down-body li{
 }
 
 
+/* *************** DASHBOARD *********** */
+ul.ul-cantact-body{
+    list-style: none;
+    padding: 0px;
+    margin: 10px 0px;
+    border-top: 1px solid rgb(228, 228, 228);
+}
+ul.ul-cantact-body li{
+   font-size: 12px;
+   margin: 5px 0px;
+}
+.logo-lg img, .logo-sm img{
+    width: 120px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    background-color: #555;
+}
 
 
 

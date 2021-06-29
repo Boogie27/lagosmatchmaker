@@ -681,17 +681,36 @@ class ClientAjaxController extends Controller
         if($request->ajax())
         {
             $data = false;
-            $my_sub = DB::table('user_subscriptions')->where('user_id', Auth::user('id'))->where('is_expired', 0)->first();
-            $initiator_sub = DB::table('user_subscriptions')->where('user_id', $request->user_id)->where('is_expired', 0)->first();
+            $user = User::where('id', $request->user_id)->first(); //get user detail
+            $subscription = DB::table('subscriptions')->where('type', 'basic')->first();
+            $my_sub = DB::table('user_subscriptions')->where('user_id', Auth::user('id'))->where('is_expired', 0)->first();           
 
-            if($my_sub->subscription_type == 'basic' && $initiator_sub->subscription_type == 'premium')
+            if($subscription && $subscription->amount != 0)
             {
-                return response()->json(['subscribe_to_premium' => true]);
+                if(Auth::user('membership_level') == 'basic' && $user->membership_level == 'premium')
+                {
+                    return response()->json(['subscribe_to_premium' => true]);
+                }
+
+                if(!$my_sub)
+                {
+                    return response()->json(['subscribe' => true]);
+                }
             }
+
+            if($subscription && $subscription->amount == 0)
+            {
+                if(Auth::user('membership_level') == 'basic' && $user->membership_level == 'premium')
+                {
+                    return response()->json(['subscribe_to_premium' => true]);
+                }
+            }
+            
               
             $accept = DB::table('likes')->where('initiator_id', $request->user_id)->where('acceptor_id', Auth::user('id'))->update([
                 'is_accept' => 1
             ]);
+
             if($accept)
             {
                 return response()->json(['matched' => true]);

@@ -20,7 +20,7 @@ class AdminAuth
     {
         if(!Admin::is_loggedin())
         {
-            Session::put('old_url', current_url());
+            Session::put('admin_old_url', current_url());
             return redirect('/admin/login');
         }
         return $next($request);

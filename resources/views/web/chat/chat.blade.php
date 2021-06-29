@@ -394,7 +394,7 @@ function get_chat()
 }
 
 
-get_chat() // get user chats
+// get_chat() // get user chats
 
 
 
@@ -404,14 +404,14 @@ get_chat() // get user chats
 $("#chating_input_box").keypress(function(e){
     if(e.which == 13){
         e.preventDefault();
-        send_chat()
+        // send_chat()
     }
 })
 
 // *************** SEND CHAT THROUGHT BUTTN ***************//
 $("#chatting_button_submit").click(function(e){
     e.preventDefault();
-    send_chat()
+    // send_chat()
 })
 
 
@@ -437,6 +437,58 @@ function send_chat(){
         }
     });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ************ CONNECT TO SERVER *************//
+// let ip_address = '127.0.0.1';
+// let server_port = '3000';
+// let socket = io(ip_address+ ':' + server_port)
+
+// socket.on('connection')
+
+
+
+
+
+// $("#chatting_button_submit").click(function(e){
+//     e.preventDefault();
+//     var chat = $("#chating_input_box")
+    
+//     socket.emit('sendChat', chat.val())
+
+//     $(chat).val('')
+//     return 
+// })
+
+
+
+
+var conn = new WebSocket('ws://127.0.0.1:8000');
+conn.onopen = function(e) {
+    console.log("Connection established!");
+};
+
+conn.onmessage = function(e) {
+    console.log(e.data);
+};
+
 
 
 

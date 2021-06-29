@@ -62,7 +62,9 @@
     <div class="message-container">
         <div class="title-header">
             <h4>Your friends</h4>
-            <p> <a href="{{ url('/') }}">Home</a> - friends</p>
+            @if(count($friends))
+            <p> You currently have {{ count($friends) }} friends</p>
+            @endif
         </div>
     </div>
 </section>
@@ -105,7 +107,7 @@
         </div>
         @else
         <div class="empty-page">
-            <p>There are no members yet!</p>
+            <p>You have no friends yet!</p>
         </div>
         @endif
     </div><br><br><br>
@@ -173,7 +175,16 @@ $(".accept-user-like-request-friends").click(function(e){
             user_id: user_id,
         },
         success: function (response){
-            location.reload()
+            // location.reload()
+            if(response.subscribe){
+                apend_message('<p>Subscribe to like this member</p>')
+                $("#user_confirm_sub_modal_popup").show()
+                $("#access_preloader_container").hide()
+            }else if(response.subscribe_to_premium){
+                apend_message('<p>Subscribe to premium to like this member </p>')
+                $("#user_confirm_sub_modal_popup").show()
+                $("#access_preloader_container").hide()
+            }
         }, 
         error: function(){
            $("#access_preloader_container").hide()
@@ -221,6 +232,14 @@ function csrf_token(){
     });
 }
 
+
+
+
+
+
+function apend_message(message){
+    $("#user_confirm_sub_modal_popup").find('.confirm-header').html(message)
+}
 
 
 })

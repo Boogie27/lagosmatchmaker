@@ -48,7 +48,8 @@ class Auth extends Model
                 $login_user['user_name'] = $user->user_name;
                 $login_user['display_name'] = $user->display_name;
                 $login_user['image'] = $user->image;   
-                $login_user['avatar'] = $user->avatar; 
+                $login_user['avatar'] = $user->avatar;
+                $login_user['membership_level'] = $user->membership_level;   
                 $login_user['date_registered'] = $user->date_registered;  
 
                 

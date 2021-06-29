@@ -30,8 +30,8 @@
                                     <div class="main-alert-success text-center mb-3">{{ Session::get('success')}}</div>
                                     @endif
                                     <div class="profile-img-container">
-                                        @php($image = admin_image(admin('image'), admin('gender')))
-                                       <div class="inner-image" style="background-image: url('{{ asset($image) }}')">
+                                        @php($image = admin_image($admin->image, $admin->gender))
+                                       <div class="inner-image" id="admin_profile_image" style="background-image: url('{{ asset($image) }}')">
                                             <div class="img-loader-container" id="img_preloader">
                                                 <div class="img-loader"></div>
                                             </div>
@@ -197,6 +197,10 @@ $("#admin_update_submit").click(function(e){
 
 
 
+
+
+
+
 // ********** GENDER INPUT ************//
 var gender = $(".gender_checkbox_input");
 $.each($(".gender_checkbox_input"), function(index, current){
@@ -249,6 +253,12 @@ $(".profile-image-icon").click(function(e){
 var image = $("#cropper_sample_img")
 $("#profile_image_input").change(function(e){
     var file = e.target.files
+    var extension = file[0].type;
+    
+    if(extension != 'image/jpeg'){
+        $("#profile_image_input").val('')
+        return bottom_alert_error('Image type must be jpg, jpeg, png!')
+    }
    
     var done = function(url){
         $(image).attr('src', '');
@@ -266,12 +276,12 @@ $("#profile_image_input").change(function(e){
 })
 
 
-function get_preloader(){
-    $("#access_preloader_container").show()
-    setTimeout(function(){
-        $("#access_preloader_container").hide()
-    }, 2000)
-}
+
+
+
+
+
+
 
 
 
@@ -289,15 +299,76 @@ image_cropper(); //crop image
 
 
 
+// CROP IMAGE
+$("#cropper_confirm_submit_btn").click(function(e){
+    e.preventDefault();
+    var url = $(this).attr('href');
+
+    canvas = cropper.getCroppedCanvas({
+            width: 200,
+            height: 200
+        });
+
+    canvas.toBlob(function(blob){
+        var image_url = URL.createObjectURL(blob);
+        var reader = new FileReader();
+        reader.readAsDataURL(blob);
+
+        reader.onloadend = function(){
+            var base64data = reader.result;
+            upload_image(url, base64data);
+        }
+    });
+});
 
 
 
 
 
 
+// UPLOAD CROPPED IMAGE
+function upload_image(url, base64data){
+    $(".modal-alert-popup").hide()
+    $("#img_preloader").show()
+
+    csrf_token()   // gets page csrf token
+
+    $.ajax({
+        url: "{{ url('/admin/ajax-profile-upload-image') }}",
+        method: "post",
+        data: {
+            image: base64data
+        },
+        success: function (response){
+            if(response.data){
+                $(".admin-profile-image").attr('src', response.data)
+                $("#admin_profile_image").css({ backgroundImage: 'url('+response.data+')' })
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $("#img_preloader").hide()
+            $("#profile_image_input").val('')
+        }, 
+        error: function(){
+            $("#img_preloader").hide()
+            $("#profile_image_input").val('')
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+}
 
 
 
+
+
+// ********* CSRF PAGE TOKEN ***********//
+function csrf_token(){
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $("meta[name='csrf_token']").attr("content")
+        }
+    });
+}
 
 
 // end of ready function

@@ -431,6 +431,7 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/profile", [AdminController::class, "profile_update"]);
     Route::get("/admin/change-password", [AdminController::class, "change_password_index"]);
     Route::post("/admin/change-password", [AdminController::class, "change_password_update"]);
+    Route::post("/admin/ajax-profile-upload-image", [AdminAjaxController::class, "ajax_profile_upload_image"]);
 
     
 

@@ -21,7 +21,30 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        $total_members = User::all(); //get total members
+
+        $basic = User::where('membership_level', 'basic')->get(); //ge all basic members
+
+        $premium = User::where('membership_level', 'premium')->get(); //ge all premium members
+
+        $unapproved = User::where('is_approved', '0')->get(); //ge all unapproved members
+
+        $suspended = User::where('is_suspend', '1')->get(); //ge all suspened members
+
+        $deactivated = User::where('is_deactivated', '1')->get(); //ge all deactivated members
+
+        $report_count = DB::table('user_reports')->get(); //get all member reports
+
+        $user_subscriptions = User::leftJoin('user_subscriptions', 'users.id', '=', 'user_subscriptions.user_id')->where('user_subscriptions.is_expired', 0)->orderBy('id', 'DESC')->limit(5)->get();
+
+        $reports = DB::table('user_reports')->leftJoin('users', 'user_reports.reporter_id', 'users.id')->orderBy('id', 'DESC')->limit(5)->get();
+
+        $contacts = ContactUs::orderBy('id', 'DESC')->limit(5)->get(); //get conatcts
+
+
+        $members = User::orderBy('id', 'DESC')->limit(5)->get(); //get new members
+
+        return view('admin.index', compact('members', 'contacts', 'reports', 'user_subscriptions', 'report_count', 'total_members', 'basic', 'premium', 'unapproved', 'suspended', 'deactivated'));
     }
 
     
@@ -71,11 +94,11 @@ class AdminController extends Controller
 
         if(Admin::login($request->email))
         {
-            if(Session::has('old_url'))
+            if(Session::has('admin_old_url'))
             {
-                $old_url = Session::get('old_url');
-                Session::forget('old_url');
-                return redirect($old_url);
+                $admin_old_url = Session::get('admin_old_url');
+                Session::forget('admin_old_url');
+                return redirect($admin_old_url);
             }
             return redirect('/admin');
         }

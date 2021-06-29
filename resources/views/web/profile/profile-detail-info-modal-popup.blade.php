@@ -79,8 +79,8 @@
                                     <div class="alert-form alert_hiv text-danger"></div>
                                     <select id="edit_HIV_input" class="selectpicker form-control">
                                         <option value="">Select HIV status</option>
-                                        <option value="yes" {{  $user->HIV == 'yes' ? 'selected' : '' }}>YES</option>
-                                        <option value="no" {{  $user->HIV == 'no' ? 'selected' : '' }}>NO</option>
+                                        <option value="yes" {{  $user->HIV == 'YES' ? 'selected' : '' }}>YES</option>
+                                        <option value="no" {{  $user->HIV == 'NO' ? 'selected' : '' }}>NO</option>
                                     </select>
                                 </div>
                             </div>

@@ -2554,9 +2554,47 @@ class AdminAjaxController extends Controller
 
 
 
+    public function ajax_profile_upload_image(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            if($request->image)
+            {
+                $encode_1 = explode(';', $request->image);
+                $encode_2 = explode(',', $encode_1[1]);
 
+                $image = base64_decode($encode_2[1]);
+                $image_name = 'admins/images/profile_image/profile_image_'.time().'.png';
+                
+                if(file_put_contents($image_name, $image))
+                {
+                    $profile = Admin::where('id', Admin::admin('id'))->first();
+                    if($profile && $profile->image)
+                    {
+                        Image::remove($profile->image);
+                    }
 
+                    if(!$profile)
+                    {
+                        Image::remove($image_name);
+                    }else{
+                        $profile->image = $image_name;
+                        $profile->save();
+                        
+                        $sessionImage = Session::get('admin');
+                        $sessionImage['image'] = $image_name;
+                        Session::put('admin', $sessionImage);
 
+                        $data = asset($image_name);
+                    }
+                }
+            } 
+        }
+        return response()->json(['data' => $data]);
+    }
+
+    
 
 
 

@@ -2,8 +2,8 @@
  <div class="left-side-menu">
     <div class="media user-profile mt-2 mb-2">
         @php($image = admin_image(admin('image'), admin('gender')))
-        <img src="{{ asset($image) }}" class="avatar-sm rounded-circle mr-2" alt="{{ admin('first_name') }}" />
-        <img src="{{ asset($image) }}" class="avatar-xs rounded-circle mr-2" alt="{{ admin('first_name') }}" />
+        <img src="{{ asset($image) }}" class="avatar-sm rounded-circle mr-2 admin-profile-image" alt="{{ admin('first_name') }}" />
+        <img src="{{ asset($image) }}" class="avatar-xs rounded-circle mr-2 admin-profile-image" alt="{{ admin('first_name') }}" />
         <!-- admins/images/users/avatar-7.jpg -->
         <div class="media-body">
             <h6 class="pro-user-name mt-0 mb-0">{{ ucfirst(admin('first_name')) }}</h6>
