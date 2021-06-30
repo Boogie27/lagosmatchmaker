@@ -11,7 +11,7 @@
 <meta name="csrf_token" content="{{ csrf_token() }}">
 
 <!-- App favicon -->
-<link rel="shortcut icon" href="{{ asset('admins/images/favicon.ico') }}">
+<link rel="shortcut icon" href="{{ asset('web/images/icons/icon.ico') }}">
 
 <!-- plugins -->
 <link href="{{ asset('admins/libs/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css" />

@@ -140,7 +140,7 @@
 
 
 <!--  DELETE MODAL ALERT START -->
-<section class="modal-alert-popup" id="delete_newesletter_modal_popup_box">
+<section class="modal-alert-popup" id="delete_newesletter_page_popup_box">
     <div class="sub-confirm-container">
         <div class="sub-confirm-dark-theme">
             <div class="sub-inner-content">
@@ -152,7 +152,7 @@
                 </div>
                 <div class="confirm-form">
                     <form action="" method="POST">
-                        <button type="button"  id="delete_newsletter_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        <button type="button"  id="delete_newsletters_btn_submit" class="confirm-btn">Proceed</button>
                         @csrf
                     </form>
                 </div>
@@ -250,14 +250,14 @@ $("#parent_table_container").on('click', '.delete-news-letter-modal-open', funct
     id =  $(this).attr('id')
    
     self_parent = $(this).parent().parent().parent().parent().parent()
-    $("#delete_newesletter_modal_popup_box").show()
-    $("#delete_newsletter_confirm_submit_btn").html('Proceed')
+    $("#delete_newesletter_page_popup_box").show()
+    $("#delete_newsletters_btn_submit").html('Proceed')
 })
 
 
 
 // ************ DELETE NEWSLETTER ***************//
-$("#delete_newsletter_confirm_submit_btn").click(function(e){
+$("#delete_newsletters_btn_submit").click(function(e){
     e.preventDefault()
     $(this).html("Please wait...")
     

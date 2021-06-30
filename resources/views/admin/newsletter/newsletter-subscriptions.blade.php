@@ -147,7 +147,7 @@
 
 
 <!--  DELETE MODAL ALERT START -->
-<section class="modal-alert-popup" id="delete_newesletters_modal_popup_box">
+<section class="modal-alert-popup" id="delete_newesletters_page_popup_box">
     <div class="sub-confirm-container">
         <div class="sub-confirm-dark-theme">
             <div class="sub-inner-content">
@@ -159,7 +159,7 @@
                 </div>
                 <div class="confirm-form">
                     <form action="" method="POST">
-                        <button type="button"  id="delete_newsletters_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        <button type="button"  id="delete_newsletters_btn_submit" class="confirm-btn">Proceed</button>
                         @csrf
                     </form>
                 </div>
@@ -375,8 +375,8 @@ $("#delete_newsletter_subs_btn").click(function(e){
     var is_checked = $('.news-letter-check-box')
     if($(is_checked).is(':checked'))
     {
-        $("#delete_newesletters_modal_popup_box").show()
-        $("#delete_newsletters_confirm_submit_btn").html('Proceed')
+        $("#delete_newesletters_page_popup_box").show()
+        $("#delete_newsletters_btn_submit").html('Proceed')
     }else{
         bottom_alert_error('No row was selected for this action')
     }
@@ -387,7 +387,7 @@ $("#delete_newsletter_subs_btn").click(function(e){
 
 
 // ************* DELETE CHECKED EMAILS ***********//
-$("#delete_newsletters_confirm_submit_btn").click(function(e){
+$("#delete_newsletters_btn_submit").click(function(e){
     e.preventDefault()
     $(this).html("Please wait...")
 

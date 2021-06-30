@@ -676,8 +676,33 @@ $("#parent_table_container").on('click', '.send-newsletter-modal-open', function
 // ************* SEND NEWSLETTER *********** //
 $("#send_newsletter_confirm_submit_btn").click(function(e){
     e.preventDefault()
+    var url = $(this).attr('data-url')
     $(this).html("Please wait...")
-    console.log(newsletter_id)
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            newsletter_id: newsletter_id
+        },
+        success: function (response){
+            if(response.error){
+                bottom_alert_error(response.error)
+            }else if(response.data){
+                bottom_alert_success('Newsletter sent successfully!')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+            console.log(response)
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
 })
 
 
@@ -687,4 +712,18 @@ $("#send_newsletter_confirm_submit_btn").click(function(e){
 
 // end
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

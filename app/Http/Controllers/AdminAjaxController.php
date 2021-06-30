@@ -13,6 +13,12 @@ use App\Models\Newsletter;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
+
+
+use App\Mail\NewsletterMailer;
+use App\Jobs\SendNewsletterJob;
+
+use Mail;
 use Session;
 use Cookie;
 use Validator;
@@ -2602,8 +2608,39 @@ class AdminAjaxController extends Controller
 
 
 
+    
+    public function ajax_send_news_letter(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            if(!Session::has('newsletter'))
+            {
+                return response()->json(['error' => '*There are no subscribers selected']);
+            }
 
+            $subscribers = Session::get('newsletter');
+            $newsletter = Newsletter::where('id', $request->newsletter_id)->first();
+            if(!$newsletter)
+            {
+                return response()->json(['error' => '*Newsletter does not exist']);
+            }
 
+            if($newsletter)
+            {
+                foreach($subscribers as $subscriber)
+                {
+                    SendNewsletterJob::dispatch($newsletter, $subscriber['email'])
+                                    ->delay(now()->addSeconds(5));
+                }
+    
+                $data = true;
+                Session::forget('all');
+                Session::forget('newsletter');
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
 

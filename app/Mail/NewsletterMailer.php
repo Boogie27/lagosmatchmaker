@@ -8,22 +8,24 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 
-class UserResetPaswordMailer extends Mailable
+class NewsletterMailer extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $url;
-    public $app;
-    public $logo;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($url)
+
+    public $app;
+    public $logo;
+    public $newsletter;
+
+
+    public function __construct($newsletter)
     {
-        $this->url = $url;
+        $this->newsletter = $newsletter;
         $this->app = DB::table('settings')->where('id', 1)->first();
         $this->logo = asset($this->app->logo);
     }
@@ -35,8 +37,8 @@ class UserResetPaswordMailer extends Mailable
      */
     public function build()
     {
-        return $this->subject('Reset Forgotten Password')
+        return $this->subject($this->newsletter->title)
                     ->from($this->app->from_email)
-                    ->view('web.forgot_password.forgot-password-message');
+                    ->view('admin.newsletter.template');
     }
 }

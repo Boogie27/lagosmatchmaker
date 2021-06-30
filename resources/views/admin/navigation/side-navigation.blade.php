@@ -198,7 +198,7 @@
                             <a href="{{ url('/admin/compose-newsletter') }}">Compose letter</a>
                         </li>
                         <li>
-                            <a href="{{ url('/admin/newsletter-subscriptions') }}">Newsletters Subscriptions</a>
+                            <a href="{{ url('/admin/newsletter-subscriptions') }}">Subscribers</a>
                         </li>
                     </ul>
                 </li>

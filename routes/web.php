@@ -498,9 +498,10 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/edit-newsletter/{id}", [AdminController::class, "edit_newsletter_update"]);
     Route::get("/admin/compose-newsletter", [AdminController::class, "compose_newsletter"]);
     Route::post("/admin/compose-newsletter", [AdminController::class, "compose_newsletter_store"]);
+    Route::post("/admin/ajax-send-newsletter", [AdminAjaxController::class, "ajax_send_news_letter"]);
     
     
-
+    
 
     
 }); //end of admin authenication middleware

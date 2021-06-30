@@ -3,6 +3,9 @@
 <meta name="csrf_token" content="{{ csrf_token() }}">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>{{ title() }}</title>
+
+<link rel="shortcut icon" href="{{ asset('web/images/icons/icon.ico') }}">
+
 <link rel="stylesheet" href="{{ asset('web/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('web/font-awesome/all.min.css') }}">
 <link rel="stylesheet" href="{{ asset('web/css/bootstrap-select.min.css') }}">
