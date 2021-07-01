@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Chat;
 use App\Models\Image;
 use App\Models\Newsletter;
 use App\Models\ContactUs;
@@ -1179,6 +1180,35 @@ class AdminController extends Controller
     }
 
     
+    
+
+
+
+    public function read_chats_index(Request $request)
+    {
+        $chats = [];
+        $chat_token1 = 'chat_'.$request->user.'_'.$request->friend;
+        $chat_token2 = 'chat_'.$request->friend.'_'.$request->user;
+
+        $user = User::where('id', $request->user)->first();
+        $friend = User::where('id', $request->friend)->first();
+        if(!$friend)
+        {
+            return redirect('/admin/friends/'.$request->user)->with('error', 'Friend does not exist');
+        }
+
+        $check = Chat::where('chat_token', $chat_token1)->orWhere('chat_token', $chat_token2)->first();
+        if($check)
+        {
+            $chats = Chat::where('chat_token', $check->chat_token)->limit(15)->get();
+        }
+
+        
+
+        
+        return view('admin.read-chats', compact('chats', 'user', 'friend'));
+    }
+
     
 
 

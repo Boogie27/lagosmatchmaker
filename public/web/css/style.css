@@ -78,6 +78,9 @@ a {
     transition: all 0.2s ease;
     border: 1px solid rgb(196, 142, 44);
 }
+.flex{
+    display: flex;
+}
 .top-banner-start .top-banner-inner.top{
     top: 5px;
 }
@@ -95,6 +98,11 @@ a {
     border: 1px solid rgb(240, 55, 55);
     background-color: rgb(230, 140, 140);
 }
+.top-banner-start .top-banner-inner.warning{
+    color: rgb(189, 132, 26);
+    border: 1px solid rgb(196, 142, 44);
+    background-color: rgb(250, 226, 175);
+}
 .top-banner-inner i.fa-times{
     top: 0px;
     right: 5px;
@@ -103,6 +111,12 @@ a {
     position: absolute;
     cursor: pointer;
 }
+.top-banner-inner.warning a{
+    color: rgb(153, 103, 11);
+}
+
+
+
 @media only screen and (max-width: 992px){
     .top-banner-start .top-banner-inner{
         top: 122px;
@@ -3113,7 +3127,11 @@ ul.ul-chat-files li a{
     font-size: 20px;
     color:rgb(173, 172, 172);
 }
-
+@media only screen and (max-width: 398px){
+    .chat-right-form form .chat-input input:focus{
+        width: 100%;
+    }
+}
 /* *********** CHATTING BODY ************* */
 .chating-body{
     padding: 0px 20px;
@@ -3124,206 +3142,123 @@ ul.ul-chat-files li a{
     overflow-y: auto;
     /* border: 1px solid #ccc; */
 }
-.inner-chat-body{
-    padding-top: 10px;
-    overflow: auto;
-    /* border: 1px solid #ccc; */
-}
+
 .right-chattig::-webkit-scrollbar{
     width: 0px;
 }
-ul.ul-left-chatting{
-    width: 45%;
-    margin-bottom: 30px;
-}
-ul.ul-left-chatting li.chatting-p{
-    color: #fff;
-    z-index: 10;
-    padding: 5px;
-    font-size: 12px;
-    position: relative;
-    border-radius: 10px 10px 10px 0px;
-    display: inline-block;
-    background-color:  rgb(196, 142, 44);
-}
-ul.ul-left-chatting li.chatting-p p{
-    margin: 0px;
-    padding: 5px;
-}
-ul.ul-left-chatting li.chatting-p span{
-    float: right;
-}
 
-ul.ul-left-chatting .chat-option-p{
+ul.ul-chat-content{
     width: 100%;
-    height: 0px;
+    margin: 10px 0px;
+}
+ul.ul-chat-content li.li-chat-content{
+    width: 45%;
+    text-align: left;
+}
+li.li-chat-content .inner-chat-content{
+    color: #fff;
+    padding: 5px;
+    display: inline-block;
+    border-radius: 7px 7px 7px 0px;
+    background-color: rgb(196, 142, 44);
+}
+ul.ul-chat-content li.li-chat-content p{
+    margin: 0px;
+    min-height: 30px;
+    overflow: auto;
+    font-size: 12px;
+    min-width: 100px;
+    padding-right: 15px;
+}
+ul.ul-chat-content li.li-chat-content .time{
+    font-size: 10px;
     text-align: right;
 }
-ul.ul-left-chatting .chat-option-p i{
-    top: -5px;
-    right: -20px;
+ul.ul-chat-content li.li-chat-content.active{
+    margin-left: 53%;
+    text-align: right;
+}
+ul.ul-chat-content li.li-chat-content.active .inner-chat-content{
+    text-align: right;
+    border-radius: 7px 7px 0px 7px;
+    background-color: rgb(75, 75, 75);
+}
+ul.ul-chat-content li.li-chat-content.active p{
+    text-align: left
+}
+/* chat dropdown box */
+.chat-content-option{
+    height: 0px;
+    text-align: right;
+    position: relative;
+}
+.chat-content-option i{
+    padding: 5px 8px;
     cursor: pointer;
-    padding: 10px;
-    z-index: 10;
-    position: absolute;
+    right: -7px;
+    position: relative;
+    color: #fff;
 }
-ul.ul-left-chatting .chat-option-p ul.ul-option-body{
-    top: 5px;
-    right: -120px;
-    width: 120px;
-    padding: 10px;
+.chat-content-option ul.ul-option-body{
+    top: 0px;
+    right: -155px;
+    width: 150px;
     display: none;
-    text-align: left;
-    border-radius: 4px;
     position: absolute;
-    background-color:  rgb(128, 128, 128);
+    border-radius: 3px;
+    text-align: left;
+    padding: 0px 5px;
+    background-color: rgb(56, 56, 56);
 }
-.chat-option-p ul.ul-option-body li{
+.chat-content-option ul.ul-option-body.active{
+    right: 0px;
+}
+.chat-content-option ul.ul-option-body a{
+    color: #fff;
+    font-size: 11px;
     margin: 5px 0px;
-}
-.chat-option-p ul li a{
-    font-size: 12px;
     text-decoration: none;
-    color: rgb(216, 216, 216);
-}
-.chat-option-p ul li a:hover{
-    color: #fff;
-}
-ul.ul-left-chatting li.chatting-p-img .chat-pic{
-    width: 200px;
-    height: 250px;
-    overflow: hidden;
-    position: relative;
-    display: inline-block;
-}
-ul.ul-left-chatting li.chatting-p-img{
-    color: #fff;
-    padding: 5px;
-    font-size: 12px;
-    position: relative;
-    border-radius: 3px;
-    display: inline-block;
-}
-ul.ul-left-chatting li.chatting-p-img .chat-pic img{
-    width: 200px;
-    height: auto;
-    cursor: pointer;
-}
-ul.ul-left-chatting span{
-    color: rgb(231, 231, 231);
-    font-size: 8px;
-}
-ul.ul-left-chatting li.chatting-p-img i{
-    top: -3px;
-    right: -15px;
-    z-index: 10;
-    cursor: pointer;
-    padding: 10px;
-    position: absolute;
-} 
-ul.ul-left-chatting li.chat-time{
-    top: -10px;
-    margin: 0px;
-    padding: 0px;
-    position: relative;
-    text-align: left;
-}
-ul.ul-left-chatting li.chat-time span{
-    left: 15px;
-    font-size: 8px;
-    position: relative;
-    color: rgb(190, 190, 190);
-}
-ul.ul-right-chatting {
-    width: 100%;
-    margin-bottom: 30px;
-    text-align: right;
 }
 
-ul.ul-right-chatting .parent{
-    width: 45%;
-    display: inline-block;
+/* ********** CHAT IMAGE ********** */
+ul.ul-chat-content{
+    margin: 20px 0px;
 }
-ul.ul-right-chatting li.chatting-p{
+ul.ul-chat-content li.li-chat-img-content{
+    width: 30%;
     color: #fff;
-    z-index: 10;
     padding: 5px;
-    font-size: 12px;
-    position: relative;
-    border-radius: 10px 10px 0px 10px;
-    display: inline-block;
-    background-color:  rgb(75, 74, 74);
+    border-radius: 7px 7px 7px 0px;
 }
-ul.ul-right-chatting .chat-option-p{
+li.li-chat-img-content .chat-img{
     width: 100%;
-    height: 0px;
-    text-align: left;
+    border-radius: 5px;
 }
-ul.ul-right-chatting li.chatting-p .chat-option-p i{
-    top: -8px;
-    left: -20px;
-    cursor: pointer;
-    padding: 10px;
-    position: absolute;
-} 
-ul.ul-right-chatting .chat-option-p ul.ul-option-body{
-    top: 5px;
-    left: -120px;
-    width: 120px;
-    padding: 10px;
-    display: none;
-    text-align: left;
-    border-radius: 4px;
-    position: absolute;
-    background-color:  rgb(128, 128, 128);
+li.li-chat-img-content .chat-img img{
+    width: 100%;
+    border-radius: 5px;
 }
-ul.ul-right-chatting li.chatting-p p{
-    margin: 0px;
-    padding: 5px;
-    text-align: left;
-} 
-ul.ul-right-chatting li.chatting-p-img .chat-pic{
-    width: 200px;
-    height: 250px;
-    overflow: hidden;
-    position: relative;
-    display: inline-block;
-}
-ul.ul-right-chatting li.chatting-p-img{
-    color: #fff;
-    font-size: 12px;
-    position: relative;
-    border-radius: 3px;
-    display: inline-block;
-}
-ul.ul-right-chatting li.chatting-p-img .chat-pic img{
-    width: 200px;
-    height: auto;
-    cursor: pointer;
-}
-ul.ul-right-chatting li.chatting-p-img i{
-    top: -8px;
-    left: -20px;
-    z-index: 10;
-    cursor: pointer;
-    padding: 10px;
-    position: absolute;
-} 
-ul .chat-option-p i{
-    color: rgb(134, 134, 134);
-}
-ul.ul-right-chatting span{
-    font-size: 8px;
-    color: rgb(190, 190, 190);
-}
-ul.ul-right-chatting li.chat-time{
-    top: -10px;
-    margin: 0px;
-    padding: 0px;
-    position: relative;
+li.li-chat-img-content .time{
+    font-size: 10px;
     text-align: right;
+}
+ul.ul-chat-content li.li-chat-img-content.active{
+    margin-left: 68%;
+    border-radius: 7px 7px 0px 7px;
 }
 @media only screen and (max-width: 992px){
+    ul.ul-chat-content li.li-chat-img-content{
+        width: 40%;
+    }
+    ul.ul-chat-content li.li-chat-img-content.active{
+        margin-left: 58%;
+    }
+    ul.ul-chat-content li.li-chat-content{
+        width: 70%;
+    }
+    ul.ul-chat-content li.li-chat-content.active{
+        margin-left: 28%;
+    }
     .chat-right-form form{
         width: 80%;
     }
@@ -3338,57 +3273,33 @@ ul.ul-right-chatting li.chat-time{
     }
 }
 @media only screen and (max-width: 767px){
-    ul.ul-left-chatting{
-        width: 60%;
+    ul.ul-chat-content li.li-chat-img-content{
+        width: 40%;
     }
-    ul.ul-right-chatting .parent{
-        width: 60%;
+    ul.ul-chat-content li.li-chat-img-content.active{
+        margin-left: 58%;
     }
-    ul.ul-right-chatting .chat-option-p ul.ul-option-body{
-        left: -10px;
-        z-index: 20;
+    ul.ul-chat-content li.li-chat-content{
+        width: 80%;
     }
-    ul.ul-left-chatting .chat-option-p ul.ul-option-body{
-        right: -6px;
-        z-index: 20;
-        display: none;
+    ul.ul-chat-content li.li-chat-content.active{
+        margin-left: 18%;
     }
-    ul.ul-left-chatting li.chatting-p p, ul.ul-right-chatting li.chatting-p p{
-        font-size: 12px;
-    } 
 }
 @media only screen and (max-width: 567px){
     .chat-container{
         width: 100%;
+        overflow: hidden;
     }
-    .chat-container .row{
-        padding: 0px;
-        margin: 0px;
+    .chating-body{
+        padding: 0px 5px;
     }
-    .chat-container .col-xl-8{
-        padding: 0px;
-        margin: 0px;
+    ul.ul-chat-content li.li-chat-img-content{
+        width: 250px;
     }
-    .chat-right-form{
-        padding: 5px;
-    }
-}
-
-@media only screen and (max-width: 398px){
-    ul.ul-left-chatting, ul.ul-right-chatting .parent{
-        width: 75%;
-    }
-    .chat-right-form form .chat-input input:focus{
-        width: 100%;
-    }
-    .chat-right-form form .chat-input input{
-        margin: 0px;
-        border-radius: 3px 0px 0px 3px;
-    }
-    .chat-right-form form .chat-input button{
-        margin: 0px;
-        font-size: 14px;
-        border-radius: 0px 3px 3px 0px;
+    ul.ul-chat-content li.li-chat-img-content.active{
+        margin-left: auto;
+        padding: 0px 10px;
     }
     ul.ul-chat-files{
         width: 20%;
@@ -3398,10 +3309,15 @@ ul.ul-right-chatting li.chat-time{
         font-size: 16px;
     }
 }
-
-
-
-
+@media only screen and (max-width: 398px){
+    ul.ul-chat-content li.li-chat-img-content{
+        width: 100%;
+    }
+    ul.ul-chat-content li.li-chat-img-content.active{
+        margin: 0;
+        padding: 0px;
+    }
+}
 /* *********** PROFILE MATCH SECTION ********* */
 .modal-form-section{
     display: none;

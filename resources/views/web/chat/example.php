@@ -20,8 +20,8 @@
                             <div class="chat-message-content">
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/6.jpg') }}" alt="" class="">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -31,8 +31,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/29.png') }}" alt="" class="active">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -42,8 +42,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/11.jpg') }}" alt="" class="active">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -53,8 +53,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/21.jpeg') }}" alt="" class="">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -64,8 +64,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/16.jpg') }}" alt="" class="active">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -75,8 +75,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/13.jpg') }}" alt="" class="active">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -86,8 +86,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/21.jpeg') }}" alt="" class="">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -97,8 +97,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/21.jpeg') }}" alt="" class="">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -108,8 +108,8 @@
                                 </a> <!-- chat message end -->
                                 <a href="#"> <!-- chat message start -->
                                     <ul class="ul-chat-message">
-                                        <li>
-                                            <img src="{{ asset('web/images/avatar/14.jpg') }}" alt="" class="active">
+                                        <li class="chat-profile-img">
+                                           <h4>M</h4>
                                         </li>
                                         <li class="chat-msg">
                                             <h5>James alfred <span class="float-right">02:30</span></h5>
@@ -121,8 +121,9 @@
                             <br>
                             <div class="chat-profile-img">
                                 <ul class="ul-chat-profile-img">
-                                    <li>
-                                       <a href="#"><img src="{{ asset('web/images/avatar/15.jpg') }}" alt=""></a>
+                                    <li class="profile-img-img">
+                                        <h4>M</h4>
+                                       <!-- <a href="#"><img src="{{ asset('web/images/avatar/15.jpg') }}" alt=""></a> -->
                                     </li>
                                     <li class="chat-profile-right">
                                        <a href="#">
@@ -142,108 +143,104 @@
                         <div class="chat-head-left">
                             <ul>
                                 <li><a href="{{ url('/messages') }}"><i class="fa fa-arrow-left"></i></a></li>
-                                <li>
-                                    <a href="#"><img src="{{ asset('web/images/avatar/28.png') }}" alt=""></a>
+                                <li class="chat-profile-img {{ $receiver->is_active ? 'active' : '' }}">
+                                    <h4>{{ $profile_image }}</h4>
                                 </li>
-                                <li><h5>Emeka Onochie</h5></li>
+                                <li><h5>{{ ucfirst($display_name) }}</h5></li>
                             </ul>
                         </div>
                         <div class="chat-head-right">
                             <ul>
                                 <li><a href="#" id="video_call_open_btn"><i class="fa fa-video"></i></a></li>
-                                <li><a href="{{ url('/profile') }}"><i class="fa fa-info"></i></a></li>
+                                <li><a href="{{ url('/profile/'.$receiver->id) }}"><i class="fa fa-info"></i></a></li>
                             </ul>
                         </div>
                     </div><!-- chat right header end -->
                     <div class="chating-body"><!-- chat body start -->
-                        <div class="right-chattig">
-                            <ul class="ul-left-chatting"><!-- chat content start -->
-                                <li class="chatting-p">
-                                    <div class="chat-option-p">
-                                        <i class="fa fa-ellipsis-v"></i>
-                                        <ul class="ul-option-body">
-                                            <li><a href="#">Delete</a></li>
-                                        </ul>
-                                    </div>
-                                    <p>hello jessica how are you doing? hello jessica 
-                                        how are you doing? hello jessica how are you doing?
-                                    </p>
-                                    <span><i class="fa fa-clock"></i> 2:30</span>
-                                </li>
-                            </ul><!-- chat content end -->
-                            <ul class="ul-left-chatting"><!-- chat left image content start -->
-                                <li class="chatting-p-img">
-                                    <div class="chat-option-p">
-                                        <i class="fa fa-ellipsis-v"></i>
-                                        <ul class="ul-option-body chat-img-option">
-                                            <li><a href="#">Download</a></li>
-                                            <li><a href="#">Delete</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="chat-pic">
-                                        <img src="{{ asset('web/images/picture/1.jpg') }}" alt="">
-                                    </div>
-                                </li>
-                                <li class="chat-time"><span><i class="fa fa-clock"></i> 2:30</span></li>
-                            </ul><!-- chat left image content left -->
-                            <ul class="ul-left-chatting"><!-- chat content start -->
-                                <li class="chatting-p">
-                                    <div class="chat-option-p">
-                                        <i class="fa fa-ellipsis-v"></i>
-                                        <ul class="ul-option-body">
-                                            <li><a href="#">Delete</a></li>
-                                        </ul>
-                                    </div>
-                                    <p>hello jessica how  
-                                        how are you doing? jessica how are 
-                                        how are you doing? jessica how are 
-                                    </p>
-                                   <span><i class="fa fa-clock"></i> 2:30</span>
-                                </li>
-                            </ul><!-- chat content end -->
-                            
-                            <ul class="ul-right-chatting">
-                               <div class="parent">
-                                    <li class="chatting-p">
-                                        <div class="chat-option-p">
-                                            <i class="fa fa-ellipsis-v"></i>
-                                            <ul class="ul-option-body">
-                                                <li><a href="#">Delete</a></li>
-                                            </ul>
+                        <div class="right-chattig" id="right_chattig_window">
+                        <div class="inner-chat-body">
+                        @if(count($chats))
+                            @foreach($chats as $chat)
+                                @if(user('id') != $chat->sender_id)
+                                    @if($chat->type == 'text' && user('id') == $chat->receiver_id && !$chat->receiver_delete || user('id') == $chat->sender_id && !$chat->sender_delete)
+                                        <ul class="ul-left-chatting"><!-- chat content start -->
+                                            <li class="chatting-p">
+                                                <div class="chat-option-p">
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                                    <ul class="ul-option-body">
+                                                        <li><a href="#">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                                <p>{{ $chat->chat }}</p>
+                                                <span><i class="fa fa-clock"></i> 2:30</span>
+                                            </li>
+                                        </ul><!-- chat content end -->
+                                    @endif
+                                    @if($chat->type == 'image' && !$chat->receiver_delete)
+                                    <ul class="ul-left-chatting"><!-- chat left image content start -->
+                                        <li class="chatting-p-img">
+                                            <div class="chat-option-p">
+                                                <i class="fa fa-ellipsis-v"></i>
+                                                <ul class="ul-option-body chat-img-option">
+                                                    <li><a href="{{ url($chat->chat) }}" download>Download</a></li>
+                                                    <li><a href="#">Delete</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="chat-pic">
+                                                <img src="{{ asset($chat->chat) }}" alt="">
+                                            </div>
+                                        </li>
+                                        <li class="chat-time"><span><i class="fa fa-clock"></i> 2:30</span></li>
+                                    </ul><!-- chat left image content left -->
+                                    @endif
+                                @else
+                                    @if($chat->type == 'text' && user('id') == $chat->sender_id && !$chat->sender_delete || user('id') == $chat->receiver_id && !$chat->receiver_delete)
+                                    <ul class="ul-right-chatting">
+                                        <div class="parent">
+                                            <li class="chatting-p">
+                                                <div class="chat-option-p">
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                                    <ul class="ul-option-body">
+                                                        <li><a href="#">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                                <p>{{ $chat->chat }}</p>
+                                                <span><i class="fa fa-clock"></i> 2:30</span>
+                                            </li>
                                         </div>
-                                        <p>hello jessica how are you doing? hello jessica 
-                                            how are you doing? hello jessica how are you doing?
-                                        </p>
-                                       <span><i class="fa fa-clock"></i> 2:30</span>
-                                    </li>
-                               </div>
-                            </ul>
-
-                             <ul class="ul-right-chatting">
-                               <div class="parent">
-                                    <li class="chatting-p-img">
-                                        <div class="chat-option-p">
-                                            <i class="fa fa-ellipsis-v"></i>
-                                            <ul class="ul-option-body">
-                                                <li><a href="#">Download</a></li>
-                                                <li><a href="#">Delete</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="chat-pic">
-                                            <img src="{{ asset('web/images/picture/2.jpg') }}" alt="">
-                                        </div>
-                                    </li>
-                                    <li class="chat-time"><span><i class="fa fa-clock"></i> 2:30</span></li>
-                               </div>
-                            </ul>
-
+                                    </ul> 
+                                    @endif
+                                    @if($chat->type == 'image' && user('id') == $chat->sender_id && !$chat->sender_delete || user('id') == $chat->receiver_id && !$chat->receiver_delete)
+                                        <ul class="ul-right-chatting">
+                                            <div class="parent">
+                                                <li class="chatting-p-img">
+                                                    <div class="chat-option-p">
+                                                        <i class="fa fa-ellipsis-v"></i>
+                                                        <ul class="ul-option-body">
+                                                            <li><a href="{{ url($chat->chat) }}" download>Download</a></li>
+                                                            <li><a href="#">Delete</a></li>
+                
+                                                        </ul>
+                                                    </div>
+                                                    <div class="chat-pic">
+                                                        <img src="{{ asset($chat->chat) }}" alt="">
+                                                    </div>
+                                                </li>
+                                                <li class="chat-time"><span><i class="fa fa-clock"></i> 2:30</span></li>
+                                            </div>
+                                        </ul>
+                                    @endif
+                                @endif
+                            @endforeach
+                        @endif
+                        </div>
                         </div>
                     </div><!-- chat body end -->
                     <div class="chat-right-form">
                         <form action="" method="POST">
                             <div class="chat-input">
-                                <input type="text" class="form-control" placeholder="Enter Message...">
-                                <button type="button"><i class="fa fa-paper-plane"></i></button>
+                                <input type="text" id="chating_input_box" class="form-control" placeholder="Enter Message...">
+                                <button type="button" id="chatting_button_submit"><i class="fa fa-paper-plane"></i></button>
                             </div>
                         </form>
                         <ul class="ul-chat-files">
@@ -308,7 +305,7 @@
 
 <!--**********************AJAX  USER DETAIL ******************-->
 <a href="{{ current_url() }}" id="current_url_input" style="display: none;"></a>
-<a href="#" data-id="{{ $user->id }}" data-email="{{ $user->email }}" id="user_id_input_box" style="display: none;"></a>
+<a href="#" data-id="{{ $receiver->id }}" data-email="{{ $receiver->email }}" id="user_id_input_box" style="display: none;"></a>
 
 
 
@@ -348,6 +345,13 @@ $(window).click(function(e){
     }
 })
 
+
+
+
+
+// ************* KEEP CHAT AT THE BOTTOM ***********//
+var innerItems = $(".inner-chat-body").height()
+$("#right_chattig_window").scrollTop(innerItems)
 
 
 
@@ -396,6 +400,96 @@ function get_chat()
 
 
 
+// *************** SEND CHAT THROUGHT INPUT***************//
+$("#chating_input_box").keypress(function(e){
+    if(e.which == 13){
+        e.preventDefault();
+        // send_chat()
+    }
+})
+
+// *************** SEND CHAT THROUGHT BUTTN ***************//
+$("#chatting_button_submit").click(function(e){
+    e.preventDefault();
+    // send_chat()
+})
+
+
+function send_chat(){
+    var chat = $("#chating_input_box").val();
+    var receiver_id = $("#user_id_input_box").attr('data-id')
+   
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/ajax-send-user-text-chats') }}",
+        method: "post",
+        data: {
+            chat: chat,
+            receiver_id: receiver_id
+        },
+        success: function (response){
+        //    console.log(response)
+        location.reload()
+        }, 
+        error: function(){
+            console.log('something went wrong')
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ************ CONNECT TO SERVER *************//
+// let ip_address = '127.0.0.1';
+// let server_port = '3000';
+// let socket = io(ip_address+ ':' + server_port)
+
+// socket.on('connection')
+
+
+
+
+
+// $("#chatting_button_submit").click(function(e){
+//     e.preventDefault();
+//     var chat = $("#chating_input_box")
+    
+//     socket.emit('sendChat', chat.val())
+
+//     $(chat).val('')
+//     return 
+// })
+
+
+
+
+var conn = new WebSocket('ws://127.0.0.1:8000');
+conn.onopen = function(e) {
+    console.log("Connection established!");
+};
+
+conn.onmessage = function(e) {
+    console.log(e.data);
+};
+
+
 
 
 
@@ -403,3 +497,85 @@ function get_chat()
 })
 </script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="right-chattig" id="right_chattig_window">
+    <div class="inner-chat-body">
+        <ul class="ul-chat-content"><!-- chat content start -->
+            <li class="li-chat-content">
+                <div class="chat-content-option">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <ul class="ul-option-body">
+                        <li><a href="#">Delete</a></li>
+                        <li><a href="#">Download</a></li>
+                    </ul>
+                </div>
+                <p>hello how are you doing hello how are you doinghello how are you doing</p>
+                <div class="time"><i class="fa fa-clock"></i> 2:30</div>
+            </li>
+        </ul><!-- chat content end -->
+        <ul class="ul-chat-content"><!-- chat content start -->
+            <li class="li-chat-content active">
+                <div class="chat-content-option">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <ul class="ul-option-body">
+                        <li><a href="#">Delete</a></li>
+                        <li><a href="#">Download</a></li>
+                    </ul>
+                </div>
+                <p>hello how ahow are you doing</p>
+                <div class="time"><i class="fa fa-clock"></i> 2:30</div>
+            </li>
+        </ul><!-- chat content end -->
+
+        <ul class="ul-chat-content"><!-- chat content start -->
+            <li class="li-chat-img-content">
+                <div class="chat-content-option">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <ul class="ul-option-body">
+                        <li><a href="#">Delete</a></li>
+                        <li><a href="#">Download</a></li>
+                    </ul>
+                </div>
+                <div class="chat-img">
+                    <img src="{{ asset('web/images/picture/1.jpg') }}" alt="">
+                </div>
+                <div class="time"><i class="fa fa-clock"></i> 2:30</div>
+            </li>
+        </ul><!-- chat content end -->
+
+        <ul class="ul-chat-content"><!-- chat content start -->
+            <li class="li-chat-img-content active">
+                <div class="chat-content-option">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <ul class="ul-option-body">
+                        <li><a href="#">Delete</a></li>
+                        <li><a href="#">Download</a></li>
+                    </ul>
+                </div>
+                <div class="chat-img">
+                    <img src="{{ asset('web/images/picture/2.jpg') }}" alt="">
+                </div>
+                <div class="time"><i class="fa fa-clock"></i> 2:30</div>
+            </li>
+        </ul><!-- chat content end -->
+    </div>
+</div>

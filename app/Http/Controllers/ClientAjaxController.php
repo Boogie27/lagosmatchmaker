@@ -956,6 +956,47 @@ class ClientAjaxController extends Controller
 
 
 
+   public function ajax_delete_user_text_chats(Request $request)
+   {
+        if($request->ajax())
+        {
+            $data = false;
+
+            $chat = Chat::where('chat_id', $request->chat_id)->first();
+            if($chat && $chat->sender_id == Auth::user('id'))
+            {
+                $data = true;
+                DB::table('chats')->where('chat_id', $request->chat_id)->update([
+                    'sender_delete' => 1
+                ]);
+            }
+
+            if($chat && $chat->receiver_id == Auth::user('id'))
+            {
+                $data = true;
+                DB::table('chats')->where('chat_id', $request->chat_id)->update([
+                    'receiver_delete' => 1
+                ]);
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function ajax_newsletter_subscription(Request $request)
     {
         if($request->ajax())
@@ -1124,10 +1165,26 @@ class ClientAjaxController extends Controller
 
 
 
+    public function ajax_remove_subscription_notification(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $notification = DB::table('notifications')->where('not_id', $request->id)->first();
+            if($notification)
+            {
+                $delete = DB::table('notifications')->where('not_id', $request->id)->delete();
+                if($delete)
+                {
+                    $data =  'notification deleted';
+                }
+            } 
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
-
-
+    
 
 
 

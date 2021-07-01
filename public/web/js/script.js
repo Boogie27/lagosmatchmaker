@@ -38,6 +38,22 @@ scroll_top_banner()
 // *********** CLOSE TOP BANNER ALERT *************//
 $("#top_banner_cancle_btn").click(function(){
     $("#top_banner_alert").hide(200)
+    var url = $(this).attr('data-url')
+    var id = $(this).attr('data-id')
+
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            id: id
+        },
+        success: function (response){
+            console.log(response)
+        }
+    });
 })
 
 

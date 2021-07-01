@@ -101,6 +101,11 @@
                                     <div class="paginate">{{ $user_subs->links("pagination::bootstrap-4") }}</div>
                                     @endif
                                 </div>
+                                @if(count($user_subs))
+                                <div class="table-bottom">
+                                    <span>Total: {{ count($user_subs) }}</span>
+                                </div>
+                                @endif
                             </div> <!-- end card body-->
                         </div> <!-- end card -->
                     </div><!-- end col-->

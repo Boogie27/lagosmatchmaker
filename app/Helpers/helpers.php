@@ -33,38 +33,6 @@ function number_count($string)
 
 
 
-// function image($image, $avatar, $gender, $toggle)
-// {
-//     if($image && $avatar)
-//     {
-//         return $toggle == 1 ? $image : $avatar;
-//     }
-
-//     if($image && !$avatar)
-//     {
-//         return $image;
-//     }
-
-//     if(!$image && $avatar)
-//     {
-//         return $avatar;
-//     }
-
-//     if($gender == 'male' && !$image && !$avatar)
-//     {
-//         return 'web/images/avartar/male.png';
-//     }
-
-//     if($gender == 'female' && !$image && !$avatar)
-//     {
-//         return 'web/images/avartar/female.jpg';
-//     }
-
-//     return false;
-// }
-
-
-
 
 
 
@@ -285,6 +253,90 @@ function is_complete()
     }
     return $state;
 }
+
+
+
+
+
+
+function end_subscription_notification()
+{
+    if(Session::has('user'))
+    {
+        $notification = DB::table('notifications')->where('notification_from', 'admin')->where('notification_to', Auth::user('id'))
+                                 ->where('type', 'expired_subscription')->where('is_seen', 0)->first();
+        if($notification)
+        {
+            return $notification;
+        }                      
+        return false;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

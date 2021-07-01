@@ -575,13 +575,24 @@ class ClientController extends Controller
 
         $user_ids = [];
         $messages = [];
+
         $chats = Chat::Where('receiver_id', Auth::user('id'))->where('receiver_delete', 0)->get();
-         // get ID of users who sent message to you
+        
+        $charts_2 = Chat::Where('sender_id', Auth::user('id'))->where('receiver_delete', 0)->get();
+        
+        // get ID of users who sent message to you
         foreach($chats as $chat)
         {
             if(!in_array($chat->sender_id, $user_ids))
             {
                 $user_ids[] = $chat->sender_id;
+            }
+        }
+        foreach($charts_2 as $chat)
+        {
+            if(!in_array($chat->receiver_id, $user_ids))
+            {
+                $user_ids[] = $chat->receiver_id;
             }
         }
 
@@ -618,27 +629,18 @@ class ClientController extends Controller
     {
         if(!Auth::is_loggedin())
         {
-            return redirect('/login');
+            return redirect('/');
         }
+        
+        $messages = $this->get_users_message(); //get users that you sharing chats with
 
-        // $basic_sub = DB::table('subscriptions')->where('type', 'basic')->first();
-        // if($basic_sub->amount == 0)
-        // {
-        //     $receiver = User::where('id', $receiver_id)->where('is_deactivated', 0)->where('is_suspend', 0)->where('is_approved', 1)->first();//get user detail;
-        // }
-
-        // if($basic_sub->amount > 0)
-        // {
-        //     $receiver = DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('users.id', $receiver_id)->where('user_subscriptions.subscription_type', 'basic')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1)->first();//get user chats when its not free  
-        // }
-
-        // if(!$receiver)
-        // {
-        //     return redirect('/');
-        // }
         $receiver = User::where('id', $receiver_id)->first();//get user detail;
 
-        $chats = null;
+        $state = $this->check_for_friendship($receiver);
+        if($state)
+        {
+            return redirect('/');
+        }
 
         $display_name = $receiver->display_name ? $receiver->display_name : $receiver->user_name; //user name
 
@@ -656,15 +658,82 @@ class ClientController extends Controller
             }
         }
 
+        $chats = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->where('sender_delete', 0)
+                        ->orWhere(function($query) use ($receiver_id){
+                        $query->where('receiver_id', Auth::user('id'))->where('sender_id', $receiver_id)->where('receiver_delete', 0);
+                     })->get();
         
-        $chat_token_1 = 'chat_'.Auth::user('id').'_'.$receiver_id;
-        $chat_token_2 = 'chat_'.$receiver_id.'_'.Auth::user('id');
 
-        $chats = Chat::where('chat_token', $chat_token_1)->orWhere('chat_token', $chat_token_2)->get();
 
-        return view('web.chat', compact('receiver', 'display_name', 'profile_image', 'chats'));
+
+
+        return view('web.chat', compact('receiver', 'display_name', 'profile_image', 'chats', 'messages'));
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public function check_for_friendship($receiver)
+    {
+        $is_friend = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('acceptor_id', $receiver->id)
+                        ->where('is_accept', 1)->orWhere('initiator_id', $receiver->id)->where('acceptor_id', Auth::user('id'))->where('is_accept', 1)->first();
+        if(!$is_friend)
+        {
+            return true;
+        }    
+        return false;
     }
     
+
+
+
+
+
+
+
+    public function get_users_message()
+    {
+        $user_ids = [];
+        $messages = [];
+
+        $chats = Chat::Where('receiver_id', Auth::user('id'))->where('receiver_delete', 0)->get();
+        
+        $charts_2 = Chat::Where('sender_id', Auth::user('id'))->where('receiver_delete', 0)->get();
+        
+        // get ID of users who sent message to you
+        foreach($chats as $chat)
+        {
+            if(!in_array($chat->sender_id, $user_ids))
+            {
+                $user_ids[] = $chat->sender_id;
+            }
+        }
+        foreach($charts_2 as $chat)
+        {
+            if(!in_array($chat->receiver_id, $user_ids))
+            {
+                $user_ids[] = $chat->receiver_id;
+            }
+        }
+
+        // get all users who sent message to you
+        if(count($user_ids))
+        {
+            foreach($user_ids as $user_id)
+            {
+                $messages[] = User::where('id', $user_id)->first();
+            }
+        }
+
+        return $messages;
+    }
 
 
 

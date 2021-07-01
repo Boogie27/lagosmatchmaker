@@ -95,8 +95,9 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/chat/{user_id}", [ClientController::class, "chat_index"]);
     Route::post("/ajax-get-user-chats", [ClientAjaxController::class, "ajax_get_user_chats"]);
     Route::post("/ajax-send-user-text-chats", [ClientAjaxController::class, "ajax_send_user_text_chats"]);
+    Route::post("/ajax-delete-user-text-chat", [ClientAjaxController::class, "ajax_delete_user_text_chats"]);
 
-
+    
 
     // ************ SUBCRIPTION SECTION ***************//
     Route::get("/subscription", [ClientController::class, "subscription_index"]);
@@ -177,6 +178,11 @@ Route::group(['middleware' => 'remember_me'], function(){
 
 
 
+    // ********** NOTIFICATION *******************//
+    Route::post("/ajax-remove-subscription-notification", [ClientAjaxController::class, "ajax_remove_subscription_notification"]);
+
+
+    
 
 
 
@@ -250,7 +256,7 @@ Route::group(['middleware' => 'remember_me'], function(){
 
 
 
-    Route::group(['middleware' => 'admin_authentication'], function(){
+    Route::group(['middleware' => ['admin_authentication', 'end_subscription']], function(){
 
 
     // ********* DASHBOARD SECTION **************//
@@ -281,6 +287,8 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/admin/basic", [AdminController::class, "basic_index"]);
     Route::get("/admin/premium", [AdminController::class, "premium_index"]);
     Route::get("/admin/friends/{id}", [AdminController::class, "friends_index"]);
+    Route::get("/admin/read-chats", [AdminController::class, "read_chats_index"]);
+    
     Route::get("/admin/deactivated", [AdminController::class, "deactivated_index"]);
     Route::get("/admin/unapproved", [AdminController::class, "unapproved_index"]);
     Route::get("/admin/member-detail/{id}", [AdminController::class, "member_detail_index"]);

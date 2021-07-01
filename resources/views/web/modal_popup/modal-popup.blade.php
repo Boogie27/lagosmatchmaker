@@ -243,16 +243,15 @@
 
 
  <!-- NOTIFICATION BANNER START -->
-            <!-- <div class="top-banner-start" id="top_banner_alert">
-                <div class="top-banner-inner success" id="top_banner_inner">
-                    <i class="fa fa-times" id="top_banner_cancle_btn"></i>
-                    <div class="containment">
-                        <i class="fa fa-bell"></i>
-                        <span>
-                            complete your profile details to be approved 
-                            by lagosmatchmaker
-                        </span>
-                    </div>
-                </div>
-            </div> -->
+@if($not = end_subscription_notification())
+    <div class="top-banner-start" id="top_banner_alert">
+        <div class="top-banner-inner warning" id="top_banner_inner">
+            <i class="fa fa-times" data-id="{{ $not->not_id}}" data-url="{{ url('/ajax-remove-subscription-notification') }}" id="top_banner_cancle_btn"></i>
+            <div class="containment flex">
+                <i class="fa fa-bell"></i>
+                <span>{{ $not->description }} <a href="{{ url($not->link) }}">Subscribe</a></span>
+            </div>
+        </div>
+    </div>
+@endif
 <!-- NOTIFICATION BANNER END -->

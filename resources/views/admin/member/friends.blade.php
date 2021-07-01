@@ -86,6 +86,9 @@
                                                                 <a href="{{ url('/admin/member-detail/'.$user->id) }}">Detail</a>
                                                             </li>
                                                             <li>
+                                                                <a href="{{ url('/admin/read-chats?user='.$id.'&friend='.$user->id) }}">Read chats</a>
+                                                            </li>
+                                                            <li>
                                                                 <a href="{{ url('/admin/subscription-history/'.$user->id) }}" class="">subscription details</a>
                                                             </li>
                                                             @if(!$user->is_approved)

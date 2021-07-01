@@ -49,28 +49,6 @@
                                 </a>
                             </div>
                         </li>
-                        <li>
-                            <div class="notification-drop-down">
-                                <i class="far fa-bell drop-down-btn notification-icon">
-                                    <span class="badge bg-danger">0</span>
-                                </i>
-                                <ul class="drop-down-body ul-notification-body">
-                                    <h4 class="drop-down-header">Notification</h4>
-                                    <li>
-                                        <a href="#">
-                                            <h5>charles recently likes you</h5>
-                                            <p>click to like charles back</p>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <h5>charles recently likes you</h5>
-                                            <p>click to like charles back</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
                         @endif
                         <li>
                             @if(is_loggedin())
@@ -133,28 +111,6 @@
                                         @endif
                                     </i>
                                 </a>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="notification-drop-down">
-                                <i class="far fa-bell drop-down-btn notification-icon note-bell">
-                                    <span class="badge bg-danger">0</span>
-                                </i>
-                                <ul class="drop-down-body ul-notification-body">
-                                    <h4 class="drop-down-header">Notification</h4>
-                                    <li>
-                                        <a href="#">
-                                            <h5>charles recently likes you</h5>
-                                            <p>click to like charles back</p>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <h5>charles recently likes you</h5>
-                                            <p>click to like charles back</p>
-                                        </a>
-                                    </li>
-                                </ul>
                             </div>
                         </li>
                         <li><a href="#" class="side-navigation-open-button"><i class="fa fa-bars"></i></a></li>
