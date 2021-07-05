@@ -559,7 +559,7 @@ class ClientController extends Controller
 
 
 
-    public function message_index()
+    public function message_index(Request $request)
     {
         if(!Auth::is_loggedin())
         {
@@ -573,50 +573,36 @@ class ClientController extends Controller
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
 
+        $users = [];
         $user_ids = [];
-        $messages = [];
-
-        $chats = Chat::Where('receiver_id', Auth::user('id'))->where('receiver_delete', 0)->get();
-        
-        $charts_2 = Chat::Where('sender_id', Auth::user('id'))->where('receiver_delete', 0)->get();
-        
-        // get ID of users who sent message to you
+        $chats = Chat::where('sender_id', Auth::user('id'))->where('sender_delete', 0)->orWhere('receiver_id', Auth::user('id'))->where('receiver_delete', 0)->get();
         foreach($chats as $chat)
         {
-            if(!in_array($chat->sender_id, $user_ids))
+            if($chat->sender_id !== Auth::user('id'))
             {
-                $user_ids[] = $chat->sender_id;
+                if(!in_array($chat->sender_id, $user_ids))
+                {
+                    $user_ids[] = $chat->sender_id;
+                }
             }
-        }
-        foreach($charts_2 as $chat)
-        {
-            if(!in_array($chat->receiver_id, $user_ids))
+            if($chat->receiver_id !== Auth::user('id'))
             {
-                $user_ids[] = $chat->receiver_id;
+                if(!in_array($chat->receiver_id, $user_ids))
+                {
+                    $user_ids[] = $chat->receiver_id;
+                }
             }
         }
 
-        // get all users who sent message to you
         if(count($user_ids))
         {
             foreach($user_ids as $user_id)
             {
-                $messages[] = User::where('id', $user_id)->first();
+                $users[] =  User::where('id', $user_id)->first();
             }
         }
 
-
-
-        // $basic_sub = DB::table('subscriptions')->where('type', 'basic')->first();
-        // if($basic_sub && $basic_sub->amount == 0)
-        // {
-        //     $may_likes = User::where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->inRandomOrder()->limit(8)->get();
-        // }else{
-        //     $may_likes = DB::table('user_subscriptions')->leftJoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('users.is_suspend', 0)->where('users.is_deactivated', 0)->where('users.is_approved', 1)->inRandomOrder()->limit(8)->get();
-        // }
-        
-
-        return view('web.message', compact('messages','marital_status', 'genotypes', 'states'));
+        return view('web.message', compact('users','marital_status', 'genotypes', 'states'));
     }
 
 
@@ -639,7 +625,7 @@ class ClientController extends Controller
         $state = $this->check_for_friendship($receiver);
         if($state)
         {
-            return redirect('/');
+            return back()->with('warning', 'You and '.$receiver->user_name.' are not matched');
         }
 
         $display_name = $receiver->display_name ? $receiver->display_name : $receiver->user_name; //user name
@@ -658,16 +644,37 @@ class ClientController extends Controller
             }
         }
 
-        $chats = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->where('sender_delete', 0)
-                        ->orWhere(function($query) use ($receiver_id){
-                        $query->where('receiver_id', Auth::user('id'))->where('sender_id', $receiver_id)->where('receiver_delete', 0);
-                     })->get();
+        $chats = [];
+        $chat_token = null;
+    
+        $check = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->orWhere('sender_id', $receiver_id)->where('receiver_id', Auth::user('id'))->first();
+        if($check)
+        {
+            $chat_token = $check->chat_token;
+           
+
+            $chat = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->where('sender_delete', 0)
+                            ->orWhere(function($query) use ($receiver_id){
+                            $query->where('receiver_id', Auth::user('id'))->where('sender_id', $receiver_id)->where('receiver_delete', 0);
+                         });
+            $count = count($chat->get());
+
+            if($count > 0 && $count < 25)
+            {
+                $chats = $chat->limit($count)->get();
+            }else{
+                $take = 25;
+                $skip = $count - $take;
+                $chats = $chat->skip($skip)->take($take)->get();
+            }
+
+            // dd($chats);
+
+            // dd($count);
+        }
         
 
-
-
-
-        return view('web.chat', compact('receiver', 'display_name', 'profile_image', 'chats', 'messages'));
+        return view('web.chat', compact('chat_token', 'receiver', 'display_name', 'profile_image', 'chats', 'messages'));
     }
 
 

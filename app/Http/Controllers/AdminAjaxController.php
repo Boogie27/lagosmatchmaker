@@ -2650,6 +2650,28 @@ class AdminAjaxController extends Controller
 
 
 
+    public function ajax_delete_user_chat(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $chat = Chat::where('chat_id', $request->chat_id)->first();
+            if($chat)
+            {
+                if($chat->type == 'image')
+                {
+                    Image::remove($chat->chat);
+                }
+
+                $delete = Chat::where('chat_id', $request->chat_id)->delete();
+                if($delete)
+                {
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
 
@@ -2657,18 +2679,82 @@ class AdminAjaxController extends Controller
 
 
 
+    
+
+    public function ajax_get_infinit_user_chat(Request $request)
+    {
+        if($request->ajax())
+        {
+            $take = 25;
+            $data = false;
+            $remender = 0;
+            $count = count(Chat::where('chat_token', $request->chat_token)->get());
+            $chat = Chat::where('chat_token', $request->chat_token);
+            if($count)
+            {
+                if($count > $request->take)
+                {
+                    $skip = $count - $request->take;
+                    $remender = $skip;
+                    $chats = $chat->skip($skip)->take($take)->get();
+                }
+                if($count <= $request->take)
+                {
+                    $chats = $chat->limit($request->remender)->get();
+                }
+            }
+            $data  = $this->get_user_chat($chats, $request->user_id);
+        }
+        return response()->json(['data' => $data, 'remender' => $remender]);
+    }
 
 
 
-
-
-
-
-
-
-
-
-
+public function get_user_chat($chats, $user_id)
+{
+    $value = '';
+    if(count($chats))
+    {
+        foreach($chats as $chat)
+        {
+            $active = $chat->sender_id == $user_id ? 'active' : '';
+            if($chat->type == 'text')
+            {
+                $value .='<ul class="ul-chat-body">
+                            <li class="li-chat-body '.$active.' ">
+                                <div class="chat-chat-body">
+                                    <div class="icon text-right">
+                                        <a href="#" id="'.$chat->chat_id.'" class="delete-chat-btn"> <i class="fa fa-times"></i></a>
+                                    </div>
+                                    <p class="chat-paragraph">'.$chat->chat.'</p>
+                                    <div class="time"><span>'.chat_time($chat->time).'</span></div>
+                                </div>
+                            </li>
+                        </ul>';
+            }
+            if($chat->type == 'image')
+            {
+                $value .= '<ul class="ul-chat-body">
+                            <li class="li-chat-body image '.$active.' ">
+                                <div class="chat-chat-body chat-image-body">
+                                    <div class="icon text-right">
+                                        <a href="#" id="'.$chat->chat_id.'" class="delete-chat-btn"> <i class="fa fa-times"></i></a>
+                                    </div>
+                                    <div class="chat-image">
+                                        <img src="'.asset($chat->chat).'" alt="">
+                                        <div class="inner-icon">
+                                            <a href="'.url($chat->chat).'" download>Download <i class="fa fa-arrow-down"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="time"><span>'.chat_time($chat->time).'</span></div>
+                                </div>
+                            </li>
+                        </ul>';
+            }
+        }
+    }
+    return $value;
+}
 
 
 

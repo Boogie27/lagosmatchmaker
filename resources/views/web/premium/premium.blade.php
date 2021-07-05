@@ -57,15 +57,21 @@
                                         </div>
                                         <div class="member-info-container">
                                             <ul class="ul-member-body">
-                                                <li>Marital status: <span>{{ $premium->marital_status ?? '' }}</span></li>
+                                                <li>Membership level: <span style="color:  rgb(196, 142, 44);">{{ ucfirst($premium->membership_level) }}</span></li>
+                                                <li>Age: <span>{{ $premium->age ? date('d M Y', strtotime($premium->age)) : '' }}</span></li>
                                                 <li>Genotype: <span>{{ $premium->genotype ?? '' }}</span></li>
+                                                <li>HIV status: 
+                                                @if($premium->HIV == 'YES')<span>Positive</span>@endif
+                                                @if($premium->HIV == 'NO')<span>Negative</span>@endif
+                                                </li>
+                                                <li>Religion: <span>{{ $premium->religion ?? '' }}</span></li>
                                                 <li>Height: <span>{{ $premium->height ?? '' }}</span></li>
                                                 <li>Weight: <span>{{ $premium->weight ?? '' }}</span></li>
-                                                <li>Religion: <span>{{ $premium->religion ?? '' }}</span></li>
-                                                <li>Language: <span>{{ $premium->language ?? '' }}</span></li>
+                                                <li>Complexion: <span>{{ $premium->complexion ?? '' }}</span></li>
                                                 <li>Location: <span>{{ $premium->location ?? '' }}</span></li>
-                                                <li>Membership level: <span style="color:  rgb(196, 142, 44);">{{ ucfirst($premium->membership_level) }}</span></li>
-                                                <li>Interest: <span>{{ $premium->interest ?? '' }}</span></li>
+                                                <li>University: <span></span></li>
+                                                <li>Career: <span>{{ $premium->career ?? '' }}</span></li>
+                                                <li>Marital status: <span>{{ $premium->marital_status ?? '' }}</span></li>
                                                 <li>About: <span>{{ $premium->about ?? '' }}</span></li>
                                             </ul>
                                         </div>

@@ -1,3 +1,75 @@
+
+
+// *********** BOTTOM ALERT DANGER ****************//
+var time;
+function bottom_alert_error(string){
+    var bottom = '0px';
+    var alert =  $("#bottom_alert_danger").children('.bottom-alert-danger')
+
+    
+
+    if($(window).width() > 767){
+        bottom = '5px'
+    }
+
+    $(alert).html(string)
+    $(alert).css({ bottom: bottom })
+    var newBottom = parseInt($(alert).css('bottom'));
+    
+    if(newBottom >= 0){
+        $(alert).css({
+            bottom: '-100px'
+        })
+        return clearTimeout(time)
+    }
+
+    time = setTimeout(function(){
+            $(alert).css({
+                bottom: '-100px'
+            })
+        }, 4000)
+}
+
+
+
+
+
+
+
+
+// *********** BOTTOM ALERT SUCCESS ****************//
+function bottom_alert_success(string){
+    var bottom = '0px';
+    var alert =  $("#bottom_alert_success").children('.bottom-alert-success')
+
+    if($(window).width() > 767){
+        bottom = '5px'
+    }
+
+    $(alert).html(string)
+    $(alert).css({ bottom: bottom })
+    var newBottom = parseInt($(alert).css('bottom'));
+    
+    if(newBottom >= 0){
+        $(alert).css({
+            bottom: '-100px'
+        })
+        return clearTimeout(time)
+    }
+
+    time = setTimeout(function(){
+        $(alert).css({
+            bottom: '-100px'
+        })
+    }, 4000)
+}
+
+
+
+
+
+
+
 $(document).ready(function(){
 
 // ********** REMOVE MAIN PAGE PRELOADER **********//
@@ -65,6 +137,8 @@ var n = 1;
 var page_slider_container = $(".slider-container");
 
 function page_slider(){
+    if(page_slider_container.length <= 0) return;
+    
     sliders = $(page_slider_container).children() 
     var total_slide = sliders.length; 
     var duration = $(page_slider_container).attr('data-duration')

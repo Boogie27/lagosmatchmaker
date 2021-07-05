@@ -16,3 +16,11 @@
 
 <!-- real time chat socket.io CDN -->
 <script src="https://cdn.socket.io/4.1.2/socket.io.min.js" integrity="sha384-toS6mmwu70G0fw54EGlWWeA4z3dyJ+dlXBtSURSKN4vyRFOcxd3Bzjj/AoOwY+Rg" crossorigin="anonymous"></script>
+
+
+
+<link href="{{ asset('cropper/cropper.min.css') }}" rel="stylesheet" type="text/css" /> <!-- cropper css-->
+<script src="{{ asset('cropper/cropper.min.js') }}" type="text/javascript"></script> <!-- cropper js-->
+
+
+<script src="https://cdn.agora.io/sdk/release/AgoraRTCSDK-3.3.1.js"></script> <!-- Agora call --> 

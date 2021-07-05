@@ -93,6 +93,10 @@ function user_detail()
 
 
 
+
+
+
+
 function user($string){
     if(Session::has('user'))
         {

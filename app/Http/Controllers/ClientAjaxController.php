@@ -894,19 +894,16 @@ class ClientAjaxController extends Controller
         if($request->ajax())
         {
             $data = false;
-            $chats = null;
             $receiver_id = $request->receiver_id;
-            
-            $chat_exists = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->orWhere(function($query) use ($receiver_id){
-                $query->where('sender_id', $receiver_id)->where('receiver_id', Auth::user('id'));
-            })->first();
-            
-            if($chat_exists)
-            {
-                $chats = Chat::where('chat_token', $chat_exists->chat_token)->get();
-            }
+
+            $chats = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->where('sender_delete', 0)
+                        ->orWhere(function($query) use ($receiver_id){
+                        $query->where('receiver_id', Auth::user('id'))->where('sender_id', $receiver_id)->where('receiver_delete', 0);
+                    })->get();
+    
+            return view('web.chat.ajax-get-chat', compact('chats'));
         }
-        return response()->json(['data' => $data]);
+        return response()->json(['error' => $data]);
     }
      
 
@@ -956,7 +953,86 @@ class ClientAjaxController extends Controller
 
 
 
-   public function ajax_delete_user_text_chats(Request $request)
+
+   public function ajax_upload_chat_image(Request $request)
+   {
+       if($request->ajax())
+       {
+           if(Image::exists('image'))
+           {
+               $file = Image::files('image');
+               $image = new Image();
+
+               $fileName = Image::name('image', 'picture');
+               $chat_image = 'web/images/picture/'.$fileName;
+               $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 1000000,'file_destination' => 'web/images/picture/' ]);
+               
+               if(!$image->passed())
+               {
+                   return response()->json(['error' => ['image' => $image->error()]]);
+               }
+             
+               if($image->passed())
+               {
+               
+                    $receiver_id = $request->input('receiver_id');
+                    $chat_token_1 = 'chat_'.Auth::user('id').'_'.$receiver_id;
+                    $chat_token_2 = 'chat_'.$receiver_id.'_'.Auth::user('id');
+
+                    $chat_exists = Chat::where('chat_token', $chat_token_1)->orWhere('chat_token', $chat_token_2)->first();
+                    
+                    $chat_token = $chat_token_1;
+                    if($chat_exists)
+                    {
+                        $chat_token = $chat_exists->chat_token;
+                    }
+
+                    $create = Chat::create([
+                       'chat_token' => $chat_token,
+                       'sender_id' => Auth::user('id'),
+                       'receiver_id' => $receiver_id,
+                       'chat' => $chat_image,
+                       'type' => 'image'
+                    ]);
+
+                    if($create)
+                    {
+                       $chats = $this->get_chat($receiver_id);
+                       return view('web.chat.ajax-get-chat', compact('chats'));
+                    }
+               }
+           }
+       }
+       return response()->json(['data_error' => true]);
+   }
+
+
+
+
+
+
+
+   public function get_chat($receiver_id)
+   {
+        if($receiver_id)
+        {
+            $chats = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->where('sender_delete', 0)
+                        ->orWhere(function($query) use ($receiver_id){
+                        $query->where('receiver_id', Auth::user('id'))->where('sender_id', $receiver_id)->where('receiver_delete', 0);
+                    })->get();
+        } 
+        return $chats;
+   }
+
+
+
+
+
+
+
+
+
+   public function ajax_delete_user_chats(Request $request)
    {
         if($request->ajax())
         {
@@ -1185,6 +1261,184 @@ class ClientAjaxController extends Controller
 
 
     
+
+
+
+
+
+    public function ajax_mark_seen_user_chat(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = true;
+            
+            $chats = Chat::where('chat_token', $request->chat_token)->where('receiver_id', Auth::user('id'))->where('is_seen', 0)->get();
+            if(count($chats))
+            {
+                foreach($chats as $chat)
+                {
+                    $chat = DB::table('chats')->where('chat_id', $chat->chat_id)->update([
+                        'is_seen' => 1
+                    ]);
+                }
+                $data = true;
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
+
+
+
+
+
+
+
+
+    public function ajax_max_users_message_delete(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = true;
+            $user_id = $request->user_id;
+            $chats = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $user_id)->where('sender_delete', 0)->orWhere(function($query) use ($user_id){
+                               $query->where('sender_id', $user_id)->where('receiver_id', Auth::user('id'))->where('receiver_delete', 0);
+                        })->get();
+            
+           
+            if(count($chats))
+            {
+                foreach($chats as $chat)
+                {
+                    if($chat->sender_id == Auth::user('id'))
+                    {
+                        DB::table('chats')->where('chat_id', $chat->chat_id)->update([
+                            'sender_delete' => 1
+                        ]);
+                    }
+                    if($chat->receiver_id == Auth::user('id'))
+                    {
+                        DB::table('chats')->where('chat_id', $chat->chat_id)->update([
+                            'receiver_delete' => 1
+                        ]);
+                    }
+                }
+                $data = true;
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
+
+
+
+
+
+
+
+
+
+    public function ajax_get_infinit_user_chat(Request $request)
+    {
+        if($request->ajax())
+        {
+            $take = 25;
+            $data = false;
+            $remender = 0;
+            $receiver_id = $request->user_id;
+            $chat = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->where('sender_delete', 0)
+                        ->orWhere(function($query) use ($receiver_id){
+                        $query->where('receiver_id', Auth::user('id'))->where('sender_id', $receiver_id)->where('receiver_delete', 0);
+                    });
+
+            $count = count($chat->get());
+            
+            if($count)
+            {
+                if($count > $request->take)
+                {
+                    $skip = $count - $request->take;
+                    $remender = $skip;
+                    $chats = $chat->skip($skip)->take($take)->get();
+                }
+                if($count <= $request->take)
+                {
+                    $chats = $chat->limit($request->remender)->get();
+                }
+            }
+            $data  = $this->get_user_chat($chats);
+        }
+        return response()->json(['data' => $data, 'remender' => $remender]);
+    }
+
+
+
+
+
+
+
+
+
+public function get_user_chat($chats)
+{
+    $value = '';
+    if(count($chats))
+    {
+        foreach($chats as $chat)
+        {
+            $active = $chat->sender_id == Auth::user('id') ? 'active' : '';
+            if($chat->type == 'text')
+            {
+                $value .='<ul class="ul-chat-content">
+                            <li class="li-chat-content '.$active.'">
+                                <div class="inner-chat-content">
+                                    <div class="chat-content-option">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                        <ul class="ul-option-body '.$active.'">
+                                            <li><a href="#" id="'.$chat->chat_id.'" class="delete-chat-btn">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                    <p>'.$chat->chat.'</p>
+                                    <div class="time"><i class="fa fa-clock"></i>'.chat_time($chat->time).'</div>
+                                </div>
+                            </li>
+                        </ul>';
+
+                        
+            }
+            if($chat->type == 'image')
+            {
+                $value .='<ul class="ul-chat-content">
+                            <li class="li-chat-img-content '.$active.'">
+                                <div>
+                                    <div class="chat-content-option">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                        <ul class="ul-option-body '.$active.'">
+                                            <li><a href="#" id="'.$chat->chat_id.'" class="delete-chat-btn">Delete</a></li>
+                                            <li><a href="'.url($chat->chat).'" download>Download</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="chat-img">
+                                        <img src="'.asset($chat->chat).'" alt="">
+                                    </div>
+                                    <div class="time"><i class="fa fa-clock"></i>'.chat_time($chat->time).'</div>
+                                </div>
+                            </li>
+                        </ul>';
+            }
+        }
+    }
+    return $value;
+}
+
+
+
+
+
+
+
+
+
 
 
 

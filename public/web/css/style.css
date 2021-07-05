@@ -2115,20 +2115,6 @@ ul.ul-member-body li span{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* ********* MESSAGE PAGE ************ */
 .message-section{
     padding: 10px;
@@ -2155,10 +2141,10 @@ ul.ul-member-body li span{
     text-decoration: none;
 }
 .message-content{
-    padding: 20px 0px;
+    /* padding: 20px 0px;
     margin-bottom: 30px;
     border-radius: 6px;
-    background-color: rgb(37, 37, 37);
+    background-color: rgb(37, 37, 37); */
 }
 .message-form {
    width: 50%;
@@ -2188,10 +2174,11 @@ ul.ul-member-body li span{
 .message-inner-content{
     display: flex;
     color: #fff;
-    padding: 0px 10px;
+    padding: 10px;
     border-radius: 4px;
     margin-bottom: 20px;
     text-decoration: none;
+    background-color: rgb(37, 37, 37);
     transition: background-color 0.2s ease;
 }
 
@@ -2226,7 +2213,6 @@ ul.ul-message{
     top: 7px;
     margin-left: 10px;
     position: relative;
-    border-bottom: 1px solid rgb(61, 61, 61);
 }
 ul.ul-message h5{
     position: relative;
@@ -2284,6 +2270,10 @@ ul.ul-message ul.ul-notification-body{
 ul.ul-message ul.ul-notification-body li{
     border: none;
 }
+#chat_loading_container{
+    font-size: 11px;
+    color: rgb(196, 142, 44);
+}
 @media only screen and (max-width: 1125px){
     .message-form {
         width: 60%;
@@ -2323,6 +2313,7 @@ ul.ul-message ul.ul-notification-body li{
     .message-img{
         width: 50px;
         height: 50px; 
+        border-radius: 5px;
     }
     .message-content{
         padding: 30px 10px;
@@ -2347,8 +2338,10 @@ ul.ul-message ul.ul-notification-body li{
         width: 100%;
         padding: 0px 20px;
     }
+    .message-section-chart{
+        padding: 0px;
+    }
 }
-
 
 /* *********** VIDEO CALL ********* */
 #video_call_section{
@@ -3144,7 +3137,7 @@ ul.ul-chat-files li a{
 }
 
 .right-chattig::-webkit-scrollbar{
-    width: 0px;
+    width: 1px;
 }
 
 ul.ul-chat-content{
@@ -3195,9 +3188,9 @@ ul.ul-chat-content li.li-chat-content.active p{
 .chat-content-option i{
     padding: 5px 8px;
     cursor: pointer;
-    right: -7px;
+    right: -19px;
     position: relative;
-    color: #fff;
+    color: #ccc;
 }
 .chat-content-option ul.ul-option-body{
     top: 0px;
@@ -3921,7 +3914,24 @@ ul.ul-report li a.active{
 
 
 
-
+/* *********** CROPPER ***************** */
+.cropper-form{
+    width: 440px;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+.cropper-form img{
+    width: 100%;
+    height: 100%;
+}
+@media only screen and (max-width: 567px){
+    .cropper-form{
+        width: 100%;
+    }
+    .sub-inner-content.cropper{
+        padding: 5px;
+    }
+}
 
 
 

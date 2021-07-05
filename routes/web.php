@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientAjaxController;
-
+use App\Http\Controllers\AgoraVideoController;
 
 
 
@@ -95,8 +95,13 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/chat/{user_id}", [ClientController::class, "chat_index"]);
     Route::post("/ajax-get-user-chats", [ClientAjaxController::class, "ajax_get_user_chats"]);
     Route::post("/ajax-send-user-text-chats", [ClientAjaxController::class, "ajax_send_user_text_chats"]);
-    Route::post("/ajax-delete-user-text-chat", [ClientAjaxController::class, "ajax_delete_user_text_chats"]);
-
+    Route::post("/ajax-delete-user-chat", [ClientAjaxController::class, "ajax_delete_user_chats"]);
+    Route::post("/ajax-upload-chat-image", [ClientAjaxController::class, "ajax_upload_chat_image"]);
+    Route::post("/ajax-mark-seen-user-chat", [ClientAjaxController::class, "ajax_mark_seen_user_chat"]);
+    Route::post("/ajax-max-users-message-delete", [ClientAjaxController::class, "ajax_max_users_message_delete"]);
+    Route::post("/ajax-get-infinit-user-chat", [ClientAjaxController::class, "ajax_get_infinit_user_chat"]);
+    
+   
     
 
     // ************ SUBCRIPTION SECTION ***************//
@@ -184,8 +189,10 @@ Route::group(['middleware' => 'remember_me'], function(){
 
     
 
-
-
+    // ********* AGORA VIDEO CALL **************//
+    Route::get('/agora-chat', [AgoraVideoController::class, "index"]);
+    Route::post('/agora/token', [AgoraVideoController::class, 'token']);
+    Route::post('/agora/call-user', [AgoraVideoController::class,'callUser']);
 
 
 }); //end of remember_me middleware
@@ -288,6 +295,10 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/admin/premium", [AdminController::class, "premium_index"]);
     Route::get("/admin/friends/{id}", [AdminController::class, "friends_index"]);
     Route::get("/admin/read-chats", [AdminController::class, "read_chats_index"]);
+    Route::post("/admin/ajax-delete-user-chat", [AdminAjaxController::class, "ajax_delete_user_chat"]);
+    Route::post("/admin/ajax-get-infinit-user-chat", [AdminAjaxController::class, "ajax_get_infinit_user_chat"]);
+
+    
     
     Route::get("/admin/deactivated", [AdminController::class, "deactivated_index"]);
     Route::get("/admin/unapproved", [AdminController::class, "unapproved_index"]);

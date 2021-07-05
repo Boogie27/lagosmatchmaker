@@ -1187,6 +1187,7 @@ class AdminController extends Controller
     public function read_chats_index(Request $request)
     {
         $chats = [];
+        $chat_token = null;
         $chat_token1 = 'chat_'.$request->user.'_'.$request->friend;
         $chat_token2 = 'chat_'.$request->friend.'_'.$request->user;
 
@@ -1200,15 +1201,31 @@ class AdminController extends Controller
         $check = Chat::where('chat_token', $chat_token1)->orWhere('chat_token', $chat_token2)->first();
         if($check)
         {
-            $chats = Chat::where('chat_token', $check->chat_token)->limit(15)->get();
+            $chat_token = $check->chat_token;
+            $count = count(Chat::where('chat_token', $check->chat_token)->get());
+            $chat = Chat::where('chat_token', $check->chat_token);
+            if($count > 0 && $count < 25)
+            {
+                $chats = $chat->limit($count)->get();
+            }else{
+                $take = 25;
+                $skip = $count - $take;
+                $chats = $chat->skip($skip)->take($take)->get();
+            }
         }
+       
 
-        
-
-        
-        return view('admin.read-chats', compact('chats', 'user', 'friend'));
+        return view('admin.read-chats', compact('chats', 'user', 'friend', 'chat_token'));
     }
 
+
+
+
+
+
+
+
+    
     
 
 

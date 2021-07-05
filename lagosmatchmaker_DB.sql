@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2021 at 11:01 PM
+-- Generation Time: Jul 05, 2021 at 10:22 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -53,7 +53,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `type`, `first_name`, `last_name`, `email`, `password`, `image`, `gender`, `about`, `city`, `state`, `country`, `is_active`, `in_control`, `last_login`, `date`, `created_at`, `updated_at`) VALUES
-(1, 'super admin', 'charles', 'anonye', 'admin@gmail.com', '$2y$10$.Je8wM9en/s13RN2JZU9NOKbUfkhXB1/T9vYO7fsrDxpCazHlOV66', 'admins/images/profile_image/1.png', 'male', 'i love to code a lot, coding make me very happy especially when i do it to help people accomplish a task', 'ikeja', 'lagos', 'nigeria', '1', 1, '2021-06-26 21:09:02', '2021-06-13 19:18:44', NULL, '2021-06-27 18:12:06'),
+(1, 'super admin', 'charles', 'anonye', 'admin@gmail.com', '$2y$10$.Je8wM9en/s13RN2JZU9NOKbUfkhXB1/T9vYO7fsrDxpCazHlOV66', 'admins/images/profile_image/profile_image_1624911882.png', 'male', 'i love to code a lot, coding make me very happy especially when i do it to help people accomplish a task', 'ikeja', 'lagos', 'nigeria', '1', 1, '2021-06-26 21:09:02', '2021-06-13 19:18:44', NULL, '2021-06-28 19:24:42'),
 (2, 'admin', 'damilare', 'okorie', 'damilare@gmail.com', '111111', NULL, 'male', NULL, 'ikeja', 'lagos', 'nigeria', NULL, 0, NULL, '2021-06-18 08:17:14', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -130,17 +130,25 @@ CREATE TABLE `chats` (
 --
 
 INSERT INTO `chats` (`chat_id`, `chat_token`, `sender_id`, `receiver_id`, `chat`, `type`, `sender_delete`, `receiver_delete`, `is_seen`, `time`, `created_at`, `updated_at`) VALUES
-(1, 'chat_2918_1', 2918, 1, 'hello how are you doing', 'text', 0, 0, 0, '2021-06-07 20:28:33', NULL, NULL),
-(2, 'chat_2918_1', 1, 2918, 'hi, im doing great and you', 'text', 0, 0, 1, '2021-06-07 21:01:17', NULL, '2021-06-07 20:01:17'),
-(3, 'chat_2918_1', 2918, 1, 'so i have been thinking of tallking to you', 'text', 0, 0, 0, '2021-06-07 20:52:40', NULL, NULL),
-(4, 'chat_2918_1', 1, 2918, 'yes, im all ears', 'text', 0, 0, 1, '2021-06-07 21:01:17', NULL, '2021-06-07 20:01:17'),
-(5, 'chat_2918_1', 2918, 1, 'web/images/picture/1.jpg', 'image', 0, 0, 0, '2021-06-07 20:28:48', NULL, NULL),
-(6, 'chat_2918_1', 2918, 1, 'so i was thinking we should hang out', 'text', 0, 0, 0, '2021-06-07 21:00:31', '2021-06-07 01:39:58', '2021-06-07 01:39:58'),
-(17, 'chat_2918_3', 2918, 3, 'hello kemi', 'text', 0, 0, 0, '2021-06-08 07:34:13', '2021-06-07 18:06:50', '2021-06-08 06:32:58'),
-(18, 'chat_2918_3', 3, 2918, 'whats up charles', 'text', 0, 0, 1, '2021-06-08 23:31:23', NULL, '2021-06-08 22:31:23'),
-(19, 'chat_2918_1', 2918, 1, 'hi dear', 'text', 0, 0, 0, '2021-06-07 21:09:13', '2021-06-07 20:09:13', '2021-06-07 20:09:13'),
-(21, 'chat_2918_1', 2918, 1, 'whats up bro', 'text', 0, 0, 0, '2021-06-19 01:15:12', '2021-06-19 00:15:12', '2021-06-19 00:15:12'),
-(22, 'chat_2918_1', 2918, 1, 'whats up bro', 'text', 0, 0, 0, '2021-06-21 20:10:05', '2021-06-21 19:10:05', '2021-06-21 19:10:05');
+(1, 'chat_2918_1', 2918, 1, 'hello how are you doing', 'text', 0, 0, 1, '2021-07-04 21:00:01', NULL, '2021-06-30 19:15:23'),
+(2, 'chat_2918_1', 1, 2918, 'hi, im doing great and you', 'text', 0, 0, 1, '2021-07-04 20:59:58', NULL, '2021-06-07 20:01:17'),
+(3, 'chat_2918_1', 2918, 1, 'so i have been thinking of tallking to you', 'text', 0, 0, 1, '2021-07-04 20:59:20', NULL, '2021-06-30 19:15:23'),
+(4, 'chat_2918_1', 1, 2918, 'yes, im all ears', 'text', 0, 1, 1, '2021-07-01 01:02:48', NULL, '2021-06-07 20:01:17'),
+(5, 'chat_2918_1', 2918, 1, 'web/images/picture/1.jpg', 'image', 0, 0, 1, '2021-07-04 20:59:23', NULL, '2021-06-30 19:15:23'),
+(6, 'chat_2918_1', 2918, 1, 'so i was thinking we should hang out', 'text', 0, 0, 1, '2021-07-04 20:59:25', '2021-06-07 01:39:58', '2021-06-30 19:15:23'),
+(17, 'chat_2918_3', 2918, 3, 'hello kemi', 'text', 0, 0, 1, '2021-07-04 20:59:28', '2021-06-07 18:06:50', '2021-06-30 19:15:23'),
+(18, 'chat_2918_3', 3, 2918, 'whats up charles', 'text', 0, 0, 1, '2021-07-04 20:59:55', NULL, '2021-06-08 22:31:23'),
+(26, 'chat_2918_2', 2918, 2, 'dfghjksdrtyuisdfgtyui', 'text', 0, 0, 1, '2021-07-04 20:59:30', '2021-06-29 10:55:23', '2021-06-30 19:15:24'),
+(32, 'chat_2918_1', 2918, 1, 'whats up bro', 'text', 0, 0, 0, '2021-07-04 20:59:32', '2021-07-02 14:31:38', '2021-07-02 14:31:38'),
+(34, 'chat_2918_1', 2918, 1, 'web/images/picture/picture_60df71d3a1fb8.jpg', 'image', 0, 0, 0, '2021-07-04 20:59:36', '2021-07-02 19:06:43', '2021-07-02 19:06:43'),
+(36, 'chat_2918_1', 1, 2918, 'sdfgbhnjmk,l', 'text', 0, 0, 1, '2021-07-04 20:59:52', NULL, NULL),
+(37, 'chat_2918_1', 2918, 1, 'dcfvgbhn', 'text', 0, 0, 0, '2021-07-04 20:59:38', NULL, NULL),
+(38, 'chat_2918_1', 1, 2918, 'sdfgbhnjmk,l', 'text', 0, 0, 1, '2021-07-04 20:59:50', NULL, NULL),
+(39, 'chat_2918_1', 1, 2918, 'dcfvgbhn', 'text', 0, 0, 1, '2021-07-04 20:59:48', NULL, NULL),
+(40, 'chat_2918_1', 2918, 1, 'dfghj', 'text', 0, 0, 0, '2021-07-04 20:59:41', NULL, NULL),
+(41, 'chat_2918_1', 2918, 1, 'dfghjfghj', 'text', 1, 0, 0, '2021-07-05 01:35:32', NULL, NULL),
+(42, 'chat_2918_1', 1, 2918, 'dfgbhnjmk,l.', 'text', 0, 0, 1, '2021-07-04 20:59:45', NULL, NULL),
+(43, 'chat_2918_1', 2918, 1, 'heello whats up', 'text', 1, 0, 0, '2021-07-05 11:43:53', '2021-07-05 10:43:44', '2021-07-05 10:43:44');
 
 -- --------------------------------------------------------
 
@@ -438,7 +446,9 @@ CREATE TABLE `newsletter_subscriptions` (
 INSERT INTO `newsletter_subscriptions` (`id`, `email`, `is_featured`, `date`, `created_at`, `updated_at`) VALUES
 (29, 'anonye@gmail.com', 1, '2021-06-25 18:17:26', NULL, NULL),
 (30, 'joshep@gmail.com', 1, '2021-06-25 18:18:00', NULL, NULL),
-(31, 'james@gmail.com', 1, '2021-06-25 18:18:00', NULL, NULL);
+(31, 'james@gmail.com', 1, '2021-06-25 18:18:00', NULL, NULL),
+(34, 'anonyecharles@gmail.com', 1, '2021-06-30 01:29:40', NULL, NULL),
+(35, 'anonyecharles@gmail.com', 1, '2021-06-30 01:29:40', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -450,13 +460,20 @@ CREATE TABLE `notifications` (
   `not_id` int(11) NOT NULL,
   `notification_from` varchar(60) DEFAULT NULL,
   `notification_to` varchar(60) DEFAULT NULL,
-  `title` varchar(255) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `link` text DEFAULT NULL,
   `is_seen` tinyint(4) NOT NULL DEFAULT 0,
   `date_sent` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`not_id`, `notification_from`, `notification_to`, `title`, `type`, `description`, `link`, `is_seen`, `date_sent`) VALUES
+(16, '2918', '2921', 'boommer recently liked you', 'like', 'Click to like boommer back', '/profile/boommer', 0, '2021-06-28 21:37:53');
 
 -- --------------------------------------------------------
 
@@ -615,7 +632,7 @@ CREATE TABLE `subscriptions` (
 --
 
 INSERT INTO `subscriptions` (`sub_id`, `type`, `amount`, `duration`, `description`, `sub_is_featured`, `sub_date_added`, `subscribed_date`) VALUES
-(1, 'basic', 0, '1month', 'By subscribing to our mailing list you will always be updated with the lastest news from us.', 1, '2021-05-31 15:47:50', '2021-06-03 02:06:34'),
+(1, 'basic', 2500, '1month', 'By subscribing to our mailing list you will always be updated with the lastest news from us.', 1, '2021-05-31 15:47:50', '2021-06-03 02:06:34'),
 (2, 'premium', 25000, '1month', 'By subscribing to our mailing list you will always be updated with the lastest news from us.', 1, '2021-05-27 21:16:26', '2021-06-03 02:06:34');
 
 -- --------------------------------------------------------
@@ -675,7 +692,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_name`, `password`, `email`, `display_name`, `membership_level`, `about`, `gender`, `age`, `location`, `marital_status`, `religion`, `date_of_birth`, `looking_for`, `looking_for_detail`, `smoking`, `drinking`, `interest`, `genotype`, `language`, `height`, `weight`, `body_type`, `hair_color`, `eye_color`, `ethnicity`, `HIV`, `complexion`, `education`, `career`, `id_card`, `is_active`, `last_login`, `remember_me`, `is_approved`, `date_approved`, `is_suspend`, `suspend_duration`, `is_deactivated`, `date_deactivated`, `date_registered`, `updated_at`, `created_at`) VALUES
-(1, 'Mannie', '$2y$10$bRxOkuJwXHZKvsEYwbdsrODhWtvoFzhs8GglJ8jTTdzawIi5HukUG', 'okoriedamilare@gmail.com', 'okorie damilare', 'basic', 'You have successfully installed XAMPP on this system! Now you can start using Apache, MariaDB, PHP and other components. You can find more info in the FAQs section or check the HOW-TO Guides for getting started with PHP applications. XAMPP is meant only for development purposes. It has certain configuration settings that make it easy to develop locally but that are insecure if you want to have your installation accessible to others. If you want have your XAMPP accessible from the internet, make sure you understand the implications and you checked the FAQs to learn how to protect your site. Alternatively you can use WAMP, MAMP or LAMP which are similar packages which are more suitable for production. Start the XAMPP Control Panel to check the server status.', 'male', 29, 'ogun', 'singles', 'christian', '2021-05-12 00:00:00', 'woman', 'Im looking for a God fearing lady', 'no', 'occasionally', 'cat, dogs, games', 'AA', 'yoruba, englis', '5\'8 fit', '190kg', 'Built for comfort', 'black', 'brown', 'african', 'NO', 'black', 'National deploma', 'software developer', NULL, 0, '2021-06-07 02:07:53', NULL, 1, NULL, 1, '2021-06-16 00:08:26', 0, NULL, '2020-07-12 22:28:08', '2021-06-24 09:59:00', '2021-05-26 09:06:56'),
+(1, 'Mannie', '$2y$10$bRxOkuJwXHZKvsEYwbdsrODhWtvoFzhs8GglJ8jTTdzawIi5HukUG', 'okoriedamilare@gmail.com', 'okorie damilare', 'basic', 'You have successfully installed XAMPP on this system! Now you can start using Apache, MariaDB, PHP and other components. You can find more info in the FAQs section or check the HOW-TO Guides for getting started with PHP applications. XAMPP is meant only for development purposes. It has certain configuration settings that make it easy to develop locally but that are insecure if you want to have your installation accessible to others. If you want have your XAMPP accessible from the internet, make sure you understand the implications and you checked the FAQs to learn how to protect your site. Alternatively you can use WAMP, MAMP or LAMP which are similar packages which are more suitable for production. Start the XAMPP Control Panel to check the server status.', 'male', 29, 'ogun', 'singles', 'christian', '2021-05-12 00:00:00', 'woman', 'Im looking for a God fearing lady', 'no', 'occasionally', 'cat, dogs, games', 'AA', 'yoruba, englis', '5\'8 fit', '190kg', 'Built for comfort', 'black', 'brown', 'african', 'NO', 'black', 'National deploma', 'software developer', NULL, 1, '2021-06-07 02:07:53', NULL, 1, NULL, 0, NULL, 0, NULL, '2020-07-12 22:28:08', '2021-06-30 20:15:12', '2021-05-26 09:06:56'),
 (2, 'Yemiglow', '$P$B21WsGg7dt64wRudASVHV/zQcPBm.D1', 'titibanks95@gmail.com', 'yemiglow', 'premium', 'wertyuierftgyhuji ertyujikl; wertyujikl;', 'female', 25, 'benin', 'single', 'christian', '2021-06-17 00:00:00', 'man', 'qwertgyhjkl erftgyhjukil;\'', 'occasionally', 'some little more', 'coking, eating, playing game', 'BO', 'English, igbo, hausa', '5\'7ft', '105kg', 'built for comfort', 'black', 'black', 'african', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, NULL, 0, NULL, 1, '2021-06-21 18:28:20', '2020-07-16 19:01:51', '2021-06-21 18:28:20', '2021-05-26 09:06:56'),
 (3, 'kemi', '$P$BGGLP0A7MLdZ5G0Hf24a2pm.y2PJRQ/', 'kemiabey150@gmail.com', 'kemi', 'basic', NULL, 'female', 32, 'kano', 'widowed', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'BO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, '2020-07-17 15:19:55', '2021-06-16 07:43:04', '2021-05-26 09:06:56'),
 (4, 'Stephie97', '$P$B1Wf6UVkhhTAgF9B9jegdj0rMpJtoZ/', 'williamsstep2@gmail.com', 'stephie97', 'premium', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, '2020-07-17 17:43:13', '2021-05-26 09:06:56', '2021-05-26 09:06:56'),
@@ -3491,10 +3508,10 @@ INSERT INTO `users` (`id`, `user_name`, `password`, `email`, `display_name`, `me
 (2909, 'Bolaji', '$P$BPBzGgZohfHAiuxw5ZowDBwdmysKL3.', 'bolajialubankudi@gmail.com', 'Bolaji', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, '2021-05-20 18:16:36', '2021-05-26 09:06:56', '2021-05-26 09:06:56'),
 (2910, 'Zipporah', '$P$BP7wvEiJBhhr7Grf7mjDFjR3o5aOzC1', 'Chinyere1922@gmail.com', 'Zizi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, '2021-05-20 18:32:38', '2021-05-26 09:06:56', '2021-05-26 09:06:56'),
 (2911, 'Vivian E.', '$P$BkoxOsPtrlwrLD.JSjIBu7shiciNl70', 'Vivian.ejuka@hotmail.com', 'Vivian', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, '2021-05-20 19:39:03', '2021-05-26 09:06:56', '2021-05-26 09:06:56'),
-(2918, 'boommer', '$2y$10$jqSZoe.kTJBKn9WI9an7cOj8tykxMC6uBrbdpY.Ch2KPN0LqZi4rK', 'anonyecharles@gmail.com', 'boogiee', 'premium', 'i love to code all most all the time except for the time that  i rest or play games. i prefer call of duty game to mortal kombat though growing up, Mortal kombat was my number one game. i love coding the most these days....', 'male', 30, 'lagos', NULL, NULL, '2021-05-05 00:00:00', 'woman', 'Looking for a god fearing woman and tall too.', 'never', 'never', 'coking, eating, playing game', 'AA', 'English, igbo, hausa', '5\'7ft', '100kg', 'fat', 'black', 'black', 'asia', 'NO', 'black', 'National deploma', 'software developer', 'web/images/ID_card/ID_CARD_60b0ebfe4e531.jpg', 1, '2021-06-27 19:09:22', '60c2c9bfcc380', 1, NULL, 0, NULL, 0, NULL, '2021-05-26 21:22:11', '2021-06-27 19:11:14', '2021-05-26 20:22:11'),
+(2918, 'boommer', '$2y$10$jqSZoe.kTJBKn9WI9an7cOj8tykxMC6uBrbdpY.Ch2KPN0LqZi4rK', 'anonyecharles@gmail.com', 'boogiee', 'premium', 'i love to code all most all the time except for the time that  i rest or play games. i prefer call of duty game to mortal kombat though growing up, Mortal kombat was my number one game. i love coding the most these days....', 'male', 30, 'lagos', 'singles', 'christian', '2021-05-05 00:00:00', 'woman', 'Looking for a god fearing woman and tall too.', 'never', 'never', 'coking, eating, playing game', 'AA', 'English, igbo, hausa', '5\'7ft', '100kg', 'fat', 'black', 'black', 'asia', 'NO', 'black', 'National deploma', 'software developer', 'web/images/ID_card/ID_CARD_60b0ebfe4e531.jpg', 1, '2021-07-02 20:54:47', '60c2c9bfcc380', 1, NULL, 0, NULL, 0, NULL, '2021-05-26 21:22:11', '2021-07-02 20:55:01', '2021-05-26 20:22:11'),
 (2919, 'example', NULL, 'example@gmail.com', NULL, 'premium', NULL, 'male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, '2021-06-16 01:48:51', '2021-06-16 00:48:51', '2021-06-16 00:48:51'),
 (2920, 'charles$', '$2y$10$wdBPqzyhOS8X2TDTzO3VqOcXAoxOHhDS/FnTJBazKo7ATkIVvguh2', 'charles@gmail.com', NULL, 'basic', NULL, 'male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2021-06-20 15:34:42', NULL, 0, NULL, 0, NULL, 0, NULL, '2021-06-20 16:33:43', '2021-06-20 15:34:42', '2021-06-20 15:33:43'),
-(2921, 'confy$', '$2y$10$2oiV4Eq7jg/MaxGm1qhifex8ue4LduckuSqTAENJuWiaNMWVhlbo2', 'confy@gmail.com', NULL, 'basic', NULL, 'female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2021-06-21 01:59:29', NULL, 0, NULL, 0, NULL, 0, NULL, '2021-06-20 16:35:04', '2021-06-21 01:59:29', '2021-06-20 15:35:04');
+(2921, 'confy$', '$2y$10$jqSZoe.kTJBKn9WI9an7cOj8tykxMC6uBrbdpY.Ch2KPN0LqZi4rK', 'confy@gmail.com', NULL, 'basic', NULL, 'female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2021-06-28 21:30:10', NULL, 0, NULL, 0, NULL, 0, NULL, '2021-06-20 16:35:04', '2021-06-30 14:03:54', '2021-06-20 15:35:04');
 
 -- --------------------------------------------------------
 
@@ -3545,9 +3562,9 @@ CREATE TABLE `user_subscriptions` (
 --
 
 INSERT INTO `user_subscriptions` (`user_sub_id`, `reference`, `user_id`, `subscription_id`, `duration`, `amount`, `subscription_type`, `is_expired`, `start_date`, `end_date`, `date_ended`) VALUES
-(1, '123456789', 1, 1, '1month', 2500, 'basic', 1, '2021-05-31 19:19:05', '2021-07-17 03:02:49', NULL),
+(1, '123456789', 1, 1, '1month', 2500, 'basic', 1, '2021-05-31 19:19:05', '2021-06-17 03:02:49', '2021-07-01 18:23:55'),
 (2, '54321123456', 2, 2, '1month', 25000, 'premium', 0, '2021-06-03 01:58:23', '2021-07-17 03:02:49', NULL),
-(10, 'o858ght7v3', 2918, 2, '1month', 2500, 'basic', 1, '2021-06-03 02:49:54', '2021-07-17 03:02:49', NULL),
+(10, 'o858ght7v3', 2918, 2, '1month', 2500, 'basic', 1, '2021-06-03 02:49:54', '2021-06-17 03:02:49', '2021-07-01 19:16:32'),
 (12, 'ipxwjn5e64', 2918, 1, '1month', 25000, 'premium', 1, '2021-06-03 03:18:09', '2021-07-17 03:02:49', '2021-06-27 20:02:35'),
 (13, '60d4a279d670f', 1, 1, '1month', 0, 'basic', 0, '2021-06-24 16:19:21', '2021-07-24 15:19:21', NULL),
 (14, '60d4a2ee6e938', 9, 2, '1month', 25000, 'premium', 1, '2021-06-24 16:21:18', '2021-07-24 15:21:18', '2021-06-24 15:24:31'),
@@ -3780,7 +3797,7 @@ ALTER TABLE `body_type`
 -- AUTO_INCREMENT for table `chats`
 --
 ALTER TABLE `chats`
-  MODIFY `chat_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `chat_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `contact_us`
@@ -3822,13 +3839,13 @@ ALTER TABLE `height`
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
 
 --
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `like_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `like_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `marital_status`
@@ -3852,13 +3869,13 @@ ALTER TABLE `newsletters`
 -- AUTO_INCREMENT for table `newsletter_subscriptions`
 --
 ALTER TABLE `newsletter_subscriptions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `not_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `not_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `password_resets`

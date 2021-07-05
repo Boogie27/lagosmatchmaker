@@ -103,7 +103,15 @@
                         </li>
                         <li>
                             <div class="title">HIV Status  </div>
-                            <div class="body">: {{ $user->HIV ?? 'Empty' }}</div>
+                            @if($user->HIV == 'YES')
+                            <div class="body">: Positive</div>
+                            @endif
+                            @if($user->HIV == 'NO')
+                            <div class="body">: Negative</div>
+                            @endif
+                            @if(!$user->HIV)
+                            <div class="body">: Empty</div>
+                            @endif
                         </li>
                         <li>
                             <div class="title">Complexion  </div>

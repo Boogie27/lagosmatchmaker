@@ -247,7 +247,7 @@ $(".profile-image-icon").click(function(e){
 
 
 
-// cropper-sample-img
+
 
 // *********** UPLOAD IMAGE TO CROPPER ***********//
 var image = $("#cropper_sample_img")

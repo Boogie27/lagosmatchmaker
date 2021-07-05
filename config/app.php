@@ -171,7 +171,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class, //i uncommented this in order to make video call
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
