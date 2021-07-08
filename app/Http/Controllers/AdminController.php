@@ -1455,5 +1455,31 @@ class AdminController extends Controller
     
 
 
+
+
+
+
+    public function how_it_works_index()
+    {
+        $how_it_works = DB::table('how_it_works')->get(); //get all how it works
+
+        return view('admin.how-it-works', compact('how_it_works'));   
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // end
 }

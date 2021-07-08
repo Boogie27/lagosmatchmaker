@@ -24,7 +24,15 @@
 </li>
 <li>
     <div class="title">HIV Status  </div>
-    <div class="body">: {{ $user->HIV ?? 'Empty' }}</div>
+    @if($user->HIV == 'YES')
+    <div class="body">: Positive</div>
+    @endif
+    @if($user->HIV == 'NO')
+    <div class="body">: Negative</div>
+    @endif
+    @if(!$user->HIV)
+    <div class="body">: Empty</div>
+    @endif
 </li>
 <li>
     <div class="title">Complexion  </div>
@@ -41,10 +49,6 @@
 <li>
     <div class="title">Religion  </div>
     <div class="body">: {{ $user->religion ?? 'Empty' }}</div>
-</li>
-<li>
-    <div class="title">Date of Birth  </div>
-    <div class="body">: {{ $user->date_of_birth ? date('d M Y', strtotime($user->date_of_birth)) : 'Empty'}}</div>
 </li>
 <li>
     <div class="title">Location  </div>

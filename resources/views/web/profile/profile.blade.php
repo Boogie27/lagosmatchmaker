@@ -22,7 +22,7 @@
                         @endif
                         @if(!is_loggedin())
                             <li><a href="#" class="login_confirm_modal_popup"><i class="far fa-comment"></i> Message</a></li>
-                            <li><a href="#" class="login_confirm_modal_popup"><i class="fa fa-video"></i></a></li>
+                            <!-- <li><a href="#" class="login_confirm_modal_popup"><i class="fa fa-video"></i></a></li> -->
                             <li><a href="#" class="login_confirm_modal_popup"><i class="fa fa-heart"></i> Like</a></li>
                         @endif
                          
@@ -30,7 +30,7 @@
                             @if($was_liked && $was_liked->is_accept || $you_liked && $you_liked->is_accept)
                             <li><a href="{{ url('/chat/'.$user->id) }}"><i class="far fa-comment"></i> Message</a></li>
                             @endif
-                            <li><a href="#" id="user_video_call_modal_popup"><i class="fa fa-video"></i></a></li>
+                            <!-- <li><a href="#" id="user_video_call_modal_popup"><i class="fa fa-video"></i></a></li> -->
                             @if($was_liked && $was_liked->is_accept || $you_liked && $you_liked->is_accept)
                             <li><a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart"></i> Unlike</a></li>
                             @endif
@@ -130,10 +130,6 @@
                             <div class="body">: {{ $user->religion ?? 'Empty' }}</div>
                         </li>
                         <li>
-                            <div class="title">Date of Birth  </div>
-                            <div class="body">: {{ $user->date_of_birth ? date('d M Y', strtotime($user->date_of_birth)) : 'Empty'}}</div>
-                        </li>
-                        <li>
                             <div class="title">Location  </div>
                             <div class="body">: {{ $user->location ? ucfirst($user->location) : 'Empty' }}</div>
                         </li>
@@ -156,23 +152,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="profile-detail-left">
-                    <div class="title-header">
-                        <h4>Looking for</h4>
-                        @if(is_loggedin() && user('id') == $user->id)
-                        <a href="#" id="looking_for_btn_open"><i class="fa fa-pen"></i></a>
-                        @endif
-                    </div>
-                    <ul class="ul-profile-detail" id="ul_looking_for_body">
-                        <li>
-                            @if($user->looking_for_detail)
-                            <p class="detail-about-p"> {{ $user->looking_for_detail }}</p>
-                            @else
-                            <p class="detail-about-p">Describe the type of a person you are looking for</p>
-                            @endif
-                        </li>
-                    </ul>
-                </div>
+               
                 <div class="profile-detail-left">
                     <div class="title-header">
                         <h4>Lifestyle</h4>
@@ -199,46 +179,12 @@
                         </li>
                     </ul>
                 </div>
-                <div class="profile-detail-left">
-                    <div class="title-header">
-                        <h4>Physical info</h4>
-                        @if(is_loggedin() && user('id') == $user->id)
-                        <a href="#" id="detail_physical_info_btn_open"><i class="fa fa-pen"></i></a>
-                        @endif
-                    </div>
-                    <ul class="ul-profile-detail" id="ul_phisical_info_body">
-                        <li>
-                            <div class="title">Height  </div>
-                            <div class="body">: {{ $user->height  ?? 'Empty' }}</div>
-                        </li>
-                        <li>
-                            <div class="title">Weight  </div>
-                            <div class="body">: {{ $user->weight ?? 'Empty' }}</div>
-                        </li>
-                        <li>
-                            <div class="title">Hair color  </div>
-                            <div class="body">: {{ $user->hair_color ?? 'Empty' }}</div>
-                        </li>
-                        <li>
-                            <div class="title">Eye color  </div>
-                            <div class="body">: {{ $user->eye_color ?? 'Empty' }}</div>
-                        </li>
-                        <li>
-                            <div class="title">Body type  </div>
-                            <div class="body">: {{ $user->body_type ?? 'Empty' }}</div>
-                        </li>
-                        <li>
-                            <div class="title">Ethnicity  </div>
-                            <div class="body">: {{ $user->ethnicity ?? 'Empty' }}</div>
-                        </li>
-                    </ul>
-                </div>
             </div> <!-- profile detail left end-->
             <div class="col-xl-4 col-lg-4"> <!-- profile detail right start-->
                 <div class="profile-detail-right">
                     <div class="title-header"><h4>Filter Search Members</h4></div>
                     <div class="profile-right-form">
-                        <p>Serious dating with Lagos match maker Yourperfect match is just a click away</p>
+                        <!-- <p>Serious dating with Lagos match maker Yourperfect match is just a click away</p> -->
                         <form action="{{ url('/search') }}" method="GET">
                             <div class="form-group">
                                 <div class="alert-form text-danger"></div>
@@ -330,7 +276,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn-fill-block">Filter Your Partner</button>
+                                <button type="submit" class="btn-fill-block">Filter a match</button>
                             </div>
                             @csrf
                         </form>
@@ -375,7 +321,7 @@
     @include('web.profile.profile-about-modal-popup')
     @include('web.profile.profile-looking-for-modal-popup')
     @include('web.profile.profile-lifestyle-modal-popup')
-    @include('web.profile.profile-physical-info-modal-popup')
+    <!-- include('web.profile.profile-lifestyle-modal-popup') -->
 @endif
 <!-- PROFILE MODAL POPUPS START-->
 

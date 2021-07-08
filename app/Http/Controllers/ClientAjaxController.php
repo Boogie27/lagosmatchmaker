@@ -29,7 +29,6 @@ class ClientAjaxController extends Controller
                 'i_am' => 'required',
                 'display_name' => 'required|max:50',
                 'location' => 'required',
-                'date_of_birth' => 'required',
                 'religion' => 'required',
                 'looking_for' => 'required',
                 'marital_status' => 'required',
@@ -59,7 +58,6 @@ class ClientAjaxController extends Controller
                     $user->genotype = $request->genotype;
                     $user->religion = strtolower($request->religion);
                     $user->looking_for = $request->looking_for;
-                    $user->date_of_birth = $request->date_of_birth;
                     $user->marital_status = strtolower($request->marital_status);
                     $user->display_name = strtolower($request->display_name);
                     if($user->save())
@@ -944,8 +942,6 @@ class ClientAjaxController extends Controller
        return response()->json(['data' => $data]);
    }
     
-
-
 
 
 

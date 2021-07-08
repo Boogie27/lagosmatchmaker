@@ -24,7 +24,7 @@
                                             @if(!is_loggedin())
                                             <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-envelope"></i></a></li>
                                             <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-heart"></i></a></li>
-                                            <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="fa fa-video"></i></a></li>
+                                            <li><a href="{{ url('/profile/'.$premium->id) }}" data-name="{{ $name }}" class=""><i class="fa fa-info"></i></a></li>
                                             @else
                                                 @if(!get_like($premium->id))
                                                 <li><a href="{{ url('/ajax-like-user') }}" data-links="{{ url('/ajax-get-member-links') }}" data-url="{{ current_url() }}" data-name="{{ $name }}" class="like-a-member-btn" id="{{ $premium->id }}"><i class="far fa-heart"></i></a></li>
@@ -32,7 +32,7 @@
                                                 @if(get_like($premium->id) && get_like($premium->id)->is_accept)
                                                 <li><a href="{{ url('/chat/'.$premium->id) }}" data-name="{{ $name }}" id="{{ $premium->id }}"><i class="far fa-envelope"></i></a></li>
                                                 <li><a href="#" data-name="{{ $name }}" class="unlike-a-member-btn" id="{{ $premium->id }}"><i class="far fa-heart text-success"></i></a></li>
-                                                <li><a href="#" data-name="{{ $name }}" class="video_call_open_btn" id="{{ $premium->id }}"><i class="fa fa-video"></i></a></li>
+                                                <li><a href="{{ url('/profile/'.$premium->id) }}" data-name="{{ $name }}" class=""><i class="fa fa-info"></i></a></li>
                                                 @endif
                                                 @if(get_like($premium->id) && user('id') == get_like($premium->id)->acceptor_id && !get_like($premium->id)->is_accept)
                                                 <li><a href="#" data-name="{{ $name }}" id="{{ $premium->id }}" class="cancle-user-like-request cancle-btn">Cancle</a></li>
@@ -58,18 +58,11 @@
                                         <div class="member-info-container">
                                             <ul class="ul-member-body">
                                                 <li>Membership level: <span style="color:  rgb(196, 142, 44);">{{ ucfirst($premium->membership_level) }}</span></li>
-                                                <li>Age: <span>{{ $premium->age ? date('d M Y', strtotime($premium->age)) : '' }}</span></li>
+                                                <li>Age: <span>{{ $premium->age ?? '' }}</span></li>
                                                 <li>Genotype: <span>{{ $premium->genotype ?? '' }}</span></li>
-                                                <li>HIV status: 
-                                                @if($premium->HIV == 'YES')<span>Positive</span>@endif
-                                                @if($premium->HIV == 'NO')<span>Negative</span>@endif
-                                                </li>
                                                 <li>Religion: <span>{{ $premium->religion ?? '' }}</span></li>
-                                                <li>Height: <span>{{ $premium->height ?? '' }}</span></li>
-                                                <li>Weight: <span>{{ $premium->weight ?? '' }}</span></li>
-                                                <li>Complexion: <span>{{ $premium->complexion ?? '' }}</span></li>
                                                 <li>Location: <span>{{ $premium->location ?? '' }}</span></li>
-                                                <li>University: <span></span></li>
+                                                <li>Education: <span>{{ $premium->education ?? '' }}</span></li>
                                                 <li>Career: <span>{{ $premium->career ?? '' }}</span></li>
                                                 <li>Marital status: <span>{{ $premium->marital_status ?? '' }}</span></li>
                                                 <li>About: <span>{{ $premium->about ?? '' }}</span></li>

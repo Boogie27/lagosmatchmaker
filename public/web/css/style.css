@@ -443,7 +443,8 @@ ul.ul-notification-body li p{
         color: #333;
         padding: 10px 0px;
         text-align: center;
-        background-color: rgb(196, 142, 44);
+        /* background-color: rgb(196, 142, 44); */
+        background-color: rgb(39, 39, 39);
     }
     .nav-left-mobile h4{
         color: #333;
@@ -514,7 +515,7 @@ ul.ul-drop-down li a:hover{
 .slider-container{
     width: 100%;
     height: 600px;
-    background-color: #fff;
+    background-color: rgb(37, 37, 37);
 }
 .slider-content{
     top: 0px;
@@ -541,6 +542,34 @@ ul.ul-drop-down li a:hover{
 .home-empty-content{
     height: 100px;
 }
+/* ********* INDEX PAGE ********** */
+.search-bar-container{
+    padding: 5px;
+    background-color: rgb(31, 30, 30);
+}
+.inner-search-form{
+    border-radius: 4px;
+    margin: 100px 0px;
+    background-color: rgba(228, 154, 17, 0.178);
+    border: 1px solid rgb(228, 154, 17);
+}
+.inner-search-form label{
+    color: #fff;
+    width: 50%;
+}
+.inner-search-form input{
+    background-color: transparent;
+    border-color: rgb(228, 154, 17);
+}
+.inner-search-form input:focus{
+    color: #fff;
+    box-shadow: none;
+    background-color: transparent;
+    border-color: rgb(228, 154, 17);
+}
+.inner-search-form input::placeholder{
+    color: #fff;
+}
 /* ********* SLIDER FORM *********** */
 .inner-slider-form{
     top: 150px;
@@ -550,6 +579,7 @@ ul.ul-drop-down li a:hover{
     position: absolute;
     background-color: rgba(228, 154, 17, 0.178);
 }
+
 .slider-form-header{
     padding: 20px 20px;
 }
@@ -576,7 +606,7 @@ ul.ul-drop-down li a:hover{
     border-color: rgb(228, 154, 17);
 }
 .slider-form-container input::placeholder{
-    color:rgba(255, 255, 255, 0.733);
+    color: #fff;
 }
 .slider-form-container label{
     color: #fff;
@@ -2900,7 +2930,7 @@ ul.profile-two-content{
     font-size: 16px;
 }
 .chat-message-content{
-    height: 358px;
+    height: 440px;
     padding-top: 20px;
     overflow-y: auto;
 }
@@ -3583,6 +3613,44 @@ ul.ul-friends li label{
 
 /* **************** HOW IT WORKS *************** */
 .how-section{
+    padding: 70px 0px;
+    background-color: rgb(19, 19, 19);
+}
+.how-it-wrks-container{
+    padding: 0px 20px;
+    width: 80%;
+    margin: 0 auto;
+}
+.how-it-wrks-container .title-header{
+    padding: 60px 0px;
+}
+.how-it-work-content {
+    width: 80%;
+    margin: 0 auto;
+    padding: 30px 0px;
+}
+.how-it-work-content img{
+    width: 100%;
+    border-radius: 6px;
+    border: 3px solid rgb(196, 142, 44);
+}
+@media only screen and (max-width: 992px){
+    .how-it-wrks-container{
+        width: 95%;
+    }
+}
+@media only screen and (max-width: 567px){
+    .how-it-wrks-container{
+        width: 100%;
+    }
+    .how-it-work-content {
+        width: 100%;
+    }
+    .how-it-wrks-container .title-header h3{
+        font-size: 19px;
+    }
+}
+/* .how-section{
     background-color: rgb(19, 19, 19);
 }
 .how-it-wrks-container{
@@ -3658,7 +3726,7 @@ ul.ul-how-it-work li.hiw-button a:hover{
         width: 150px;
         height: 150px;
     }
-}
+} */
 
 
 

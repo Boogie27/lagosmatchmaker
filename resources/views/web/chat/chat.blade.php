@@ -9,12 +9,12 @@
                 <div class="chat-left-container">
                     <div class="title-header"><h4>Chats</h4></div>
                     <div class="chat-search">
-                        <form action="" method="GET">
+                        <!-- <form action="" method="GET">
                             <div class="chat-search-body">
                                 <button type="button"><i class="fa fa-search"></i></button>
                                 <input type="text" name="seach" class="form-control search-input" value="" placeholder="Search users">
                             </div>
-                        </form>
+                        </form> -->
                         <div class="chat-message-body">
                             <div class="title-header"><h4>Messages</h4></div>
                             <div class="chat-message-content">
@@ -75,7 +75,7 @@
                         </div>
                         <div class="chat-head-right">
                             <ul>
-                                <li><a href="#" id="video_call_open_btn"><i class="fa fa-video"></i></a></li>
+                                <!-- <li><a href="#" id="video_call_open_btn"><i class="fa fa-video"></i></a></li> -->
                                 <li><a href="{{ url('/profile/'.$receiver->id) }}"><i class="fa fa-info"></i></a></li>
                             </ul>
                         </div>
@@ -137,7 +137,7 @@
                             </div>
                         </form>
                         <ul class="ul-chat-files">
-                            <li><a href="#"><i class="fa fa-smile"></i></a></li>
+                            <!-- <li><a href="#"><i class="fa fa-smile"></i></a></li> -->
                             <li><a href="#" id="upload_chat_image_btn"><i class="fa fa-image"></i></a></li>
                         </ul>
                     </div>
@@ -321,7 +321,16 @@ function get_chat()
 
 
 
-// *************** SEND CHAT THROUGHT BUTTN ***************//
+// *************** SEND CHAT THROUGHT ENTER BUTTON ***************//
+$("#chating_input_box").keypress(function(e){
+    if(e.which == 13)
+    {
+        e.preventDefault();
+        send_chat()
+    }
+})
+
+// *************** SEND CHAT THROUGHT BUTTON ***************//
 $("#chatting_button_submit").click(function(e){
     e.preventDefault();
     send_chat()
@@ -400,7 +409,9 @@ $("#upload_chat_image_input").change(function(e){
         contentType: false,
         processData: false,
         success: function (response){
-            if(!response.data_error){
+            if(response.error){
+                bottom_alert_error(response.error.image)
+            }else if(!response.data_error){
                 $("#right_chattig_window").html(response)
                chat_to_bottom()
             }

@@ -24,7 +24,7 @@
                                             @if(!is_loggedin())
                                             <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-envelope"></i></a></li>
                                             <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-heart"></i></a></li>
-                                            <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="fa fa-video"></i></a></li>
+                                            <li><a href="{{ url('/profile/'.$basic->id) }}" data-name="{{ $name }}" class=""><i class="fa fa-info"></i></a></li>
                                             @else
                                                 @if(!get_like($basic->id))
                                                 <li><a href="{{ url('/ajax-like-user') }}" data-links="{{ url('/ajax-get-member-links') }}" data-url="{{ current_url() }}" data-name="{{ $name }}" class="like-a-member-btn" id="{{ $basic->id }}"><i class="far fa-heart"></i></a></li>
@@ -32,7 +32,7 @@
                                                 @if(get_like($basic->id) && get_like($basic->id)->is_accept)
                                                 <li><a href="{{ url('/chat/'.$basic->id) }}" data-name="{{ $name }}" id="{{ $basic->id }}"><i class="far fa-envelope"></i></a></li>
                                                 <li><a href="#" data-name="{{ $name }}" class="unlike-a-member-btn" id="{{ $basic->id }}"><i class="far fa-heart text-success"></i></a></li>
-                                                <li><a href="#" data-name="{{ $name }}" class="video_call_open_btn" id="{{ $basic->id }}"><i class="fa fa-video"></i></a></li>
+                                                <li><a href="{{ url('/profile/'.$basic->id) }}" data-name="{{ $name }}" class=""><i class="fa fa-info"></i></a></li>
                                                 @endif
                                                 @if(get_like($basic->id) && user('id') == get_like($basic->id)->acceptor_id && !get_like($basic->id)->is_accept)
                                                 <li><a href="#" data-name="{{ $name }}" id="{{ $basic->id }}" class="cancle-user-like-request cancle-btn">Cancle</a></li>
@@ -58,18 +58,11 @@
                                         <div class="member-info-container">
                                             <ul class="ul-member-body">
                                                 <li>Membership level: <span style="color:  rgb(196, 142, 44);">{{ ucfirst($basic->membership_level) }}</span></li>
-                                                <li>Age: <span>{{ $basic->age ? date('d M Y', strtotime($basic->age)) : '' }}</span></li>
+                                                <li>Age: <span>{{ $basic->age ?? '' }}</span></li>
                                                 <li>Genotype: <span>{{ $basic->genotype ?? '' }}</span></li>
-                                                <li>HIV status: 
-                                                @if($basic->HIV == 'YES')<span>Positive</span>@endif
-                                                @if($basic->HIV == 'NO')<span>Negative</span>@endif
-                                                </li>
                                                 <li>Religion: <span>{{ $basic->religion ?? '' }}</span></li>
-                                                <li>Height: <span>{{ $basic->height ?? '' }}</span></li>
-                                                <li>Weight: <span>{{ $basic->weight ?? '' }}</span></li>
-                                                <li>Complexion: <span>{{ $basic->complexion ?? '' }}</span></li>
                                                 <li>Location: <span>{{ $basic->location ?? '' }}</span></li>
-                                                <li>University: <span></span></li>
+                                                <li>Education: <span>{{ $basic->education ?? '' }}</span></li>
                                                 <li>Career: <span>{{ $basic->career ?? '' }}</span></li>
                                                 <li>Marital status: <span>{{ $basic->marital_status ?? '' }}</span></li>
                                                 <li>About: <span>{{ $basic->about ?? '' }}</span></li>

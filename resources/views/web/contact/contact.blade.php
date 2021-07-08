@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-xl-6">
                     <div class="form-group">
-                        <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+                        <input type="email" name="email" class="form-control" placeholder="Enter email">
                         @if($errors->first('email'))
                         <div class="alert-form text-danger">{{ $errors->first('email') }}</div>
                         @endif
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <button type="submit" class="news-letter-btn"><i class="far fa-envelope"></i> Contact us</button>
+                <button type="submit" id="contact_submit_btn" class="news-letter-btn"><i class="far fa-envelope"></i> Contact us</button>
                 @csrf
             </div>
         </form>
@@ -61,3 +61,25 @@
 </section>
 
 <!-- CONTACT US START-->
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+$(document).ready(function(){
+// *********** LOGIN BUTTON *********//
+$("#contact_submit_btn").click(function(e){
+    $(this).html('Please wait...')
+})
+
+
+})
+</script>

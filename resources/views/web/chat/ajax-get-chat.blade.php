@@ -32,7 +32,7 @@
                         <div class="chat-img">
                             <img src="{{ asset($chat->chat) }}" alt="">
                         </div>
-                        <div class="time"><i class="fa fa-clock"></i>{{ chat_time($chat->time) }}</div>
+                        <div class="time"><i class="fa fa-clock"></i> {{ chat_time($chat->time) }}</div>
                     </div>
                 </li>
             </ul><!-- chat content end -->

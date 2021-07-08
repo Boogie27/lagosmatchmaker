@@ -1,10 +1,8 @@
 <div class="slider-container" data-duration="15000">
-    @if(count($banners))
+    @if(!count($banners))
        @foreach($banners as $banner)
        <div class="slider-content" style="background-image: url({{ asset($banner->banner) }})"></div>
        @endforeach
-    @else
-    <div class="slider-content" style="background-image: url({{ asset('web/images/banner/demo.jpg') }})"></div>
     @endif
 </div>
 
@@ -161,7 +159,7 @@
                 </div>
                 <div class="col-lg-12">
                     <div class="form-group flex">
-                        <button type="submit" class="btn-fill btn-block">Find you partner</button>
+                        <button type="submit" class="btn-fill btn-block">Find a match</button>
                         @csrf
                     </div>
                 </div> 

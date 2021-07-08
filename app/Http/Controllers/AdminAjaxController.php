@@ -144,7 +144,6 @@ class AdminAjaxController extends Controller
                 'i_am' => 'required',
                 'display_name' => 'required|max:50',
                 'location' => 'required',
-                'date_of_birth' => 'required',
                 'religion' => 'required',
                 'looking_for' => 'required',
                 'marital_status' => 'required',
@@ -174,7 +173,6 @@ class AdminAjaxController extends Controller
                     $user->genotype = $request->genotype;
                     $user->religion = strtolower($request->religion);
                     $user->looking_for = $request->looking_for;
-                    $user->date_of_birth = $request->date_of_birth;
                     $user->marital_status = strtolower($request->marital_status);
                     $user->display_name = strtolower($request->display_name);
                     if($user->save())
@@ -2267,10 +2265,16 @@ class AdminAjaxController extends Controller
                                 'duration' => $subscription->duration,
                                 'amount' => $request->amount,
                                 'subscription_type' => $subscription->type,
+                                'start_date' => date('Y-m-d H:i:s'),
                                 'end_date' => $end_date,
-                    ]);
+                            ]);
+                    
                     if($create)
                     {
+                        $user = User::where('id', $request->user_id)->first();
+                        $user->membership_level = $subscription->type;
+                        $user->save();
+
                         $data = true;
                         Session::flash('success', 'Subscription added successfully!');
                     }
@@ -2755,6 +2759,231 @@ public function get_user_chat($chats, $user_id)
     }
     return $value;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public function ajax_send_users_newsletter(Request $request)
+{
+    if($request->ajax())
+    {
+        $data = false;
+        $newsletter = Newsletter::where('id', $request->newsletter_id)->first();
+        if(!$newsletter)
+        {
+            return response()->json(['error' => '*Newsletter does not exist']);
+        }
+        if($newsletter)
+        {
+            if($request->name == 'basic')
+            {
+                $members = User::where('membership_level', 'basic')->where('is_deactivated', 0)->get();
+            }
+            if($request->name == 'premium')
+            {
+                $members = User::where('membership_level', 'premium')->where('is_deactivated', 0)->get();
+            }
+            foreach($members as $member)
+            {
+                SendNewsletterJob::dispatch($newsletter, $member->email)
+                                ->delay(now()->addSeconds(5));
+            }
+        }
+    }
+    return response()->json(['data' => $data]);
+}
+
+
+
+
+
+
+
+
+
+
+
+public function ajax_add_how_it_works(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            if(Image::exists('image'))
+            {
+                $file = Image::files('image');
+                $image = new Image();
+
+                $fileName = Image::name('image', 'slider');
+                $how_it_work = 'web/images/icons/'.$fileName;
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 1000000,'file_destination' => 'web/images/icons/' ]);
+                
+                if(!$image->passed())
+                {
+                    return response()->json(['error' => ['image' => $image->error()]]);
+                }
+                if($image->passed())
+                {
+                    $create = DB::table('how_it_works')->insert([
+                        'image' => $how_it_work
+                    ]);
+                    if($create)
+                    {
+                        $data = true;
+                    }
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
+
+
+
+
+
+    
+    public function ajax_get_how_it_works(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $how_it_works = DB::table('how_it_works')->get(); //get all how it works
+            if($how_it_works)
+            {
+                return view('admin.common.ajax-get-how-it-works', compact('how_it_works'));
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public function ajax_delete_how_it_works(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = true;
+            $image = DB::table('how_it_works')->where('id', $request->image_id)->first(); //get how it works
+            if($image)
+            {
+                $image_img = $image->image;
+                $delete = DB::table('how_it_works')->where('id', $request->image_id)->delete();
+                if($delete)
+                {
+                    Image::remove($image_img);
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+
+    public function ajax_update_how_it_works(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $image_image = DB::table('how_it_works')->where('id', $request->id)->first(); //get image
+            if(!$image_image)
+            {
+                return response()->json(['data' => $data]);
+            }
+
+            if(Image::exists('image'))
+            {
+                $file = Image::files('image');
+                $image = new Image();
+
+                $fileName = Image::name('image', 'slider');
+                $how_it_works_image = 'web/images/icons/'.$fileName;
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 1000000,'file_destination' => 'web/images/icons/' ]);
+                
+                if(!$image->passed())
+                {
+                    return response()->json(['error' => ['image' => $image->error()]]);
+                }
+                if($image->passed())
+                {
+                    $how_it_works = $image_image->image;
+                    $update = DB::table('how_it_works')->where('id', $request->id)->update([
+                        'image' => $how_it_works_image
+                    ]);
+                    if($update)
+                    {
+                        Image::remove($how_it_works);
+                        $data = asset($how_it_works_image);
+                    }
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+    
+
+
+
+
+
+
+
+
+
+    public function ajax_feature_how_it_works(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $how_it_work = DB::table('how_it_works')->where('id', $request->id)->first(); //get how it works
+            if($how_it_work)
+            {
+                $is_featured = $how_it_work->is_featured ? 0 : 1;
+                $update = DB::table('how_it_works')->where('id', $request->id)->update([
+                        'is_featured' => $is_featured
+                ]);
+                if($update)
+                {
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
 
 
 

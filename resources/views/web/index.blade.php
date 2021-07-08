@@ -6,7 +6,7 @@
     @include("web.preloader.preloader")
     @include("web.navigation.navigation")
     @include("web.navigation.side-navigation")
-    @include("web.navigation.slider")
+     <!-- slider page is here -->
 @endsection
 
 

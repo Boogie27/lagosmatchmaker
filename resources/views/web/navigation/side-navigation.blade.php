@@ -6,11 +6,11 @@
         </div>
         <ul class="ul-side-nav">
             <li><a href="{{ url('/') }}">Home</a></li>
-            <li><a href="{{ url('/basic') }}">Basic</a></li>
-            <li><a href="{{ url('/premium') }}">Premium</a></li>
+            <!-- <li><a href="{{ url('/basic') }}">Basic</a></li>
+            <li><a href="{{ url('/premium') }}">Premium</a></li> -->
             <li><a href="{{ url('/messages') }}">Message</a></li>
             <li><a href="{{ url('/friends') }}">Friends</a></li>
-            <li><a href="{{ url('/subscription') }}">Subscription</a></li>
+            <li><a href="{{ url('/') }}">Subscription</a></li>
             <li><a href="{{ url('/how-it-works') }}">How it works</a></li>
             @if(is_loggedin())
             <li><a href="{{ url('/profile/'.user('id')) }}">Profile</a></li>

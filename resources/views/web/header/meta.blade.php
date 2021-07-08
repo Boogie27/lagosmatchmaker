@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf_token" content="{{ csrf_token() }}">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>{{ title() }}</title>
+<title>Lagosmatchmaker</title>
 
 <link rel="shortcut icon" href="{{ asset('web/images/icons/icon.ico') }}">
 
@@ -23,4 +23,11 @@
 <script src="{{ asset('cropper/cropper.min.js') }}" type="text/javascript"></script> <!-- cropper js-->
 
 
-<script src="https://cdn.agora.io/sdk/release/AgoraRTCSDK-3.3.1.js"></script> <!-- Agora call --> 
+
+
+
+
+
+
+
+    <!-- https://docs.agora.io/en/Video/start_call_web -->

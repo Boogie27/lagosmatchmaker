@@ -3,12 +3,12 @@
         <div class="nav-content">
             <div class="nav-inner"><!-- NAVIGATION DESKTOP START -->
                 <div class="nav-left">
-                    <img src="{{asset('web/images/icons/logo.png') }}" alt="logo" class="app-logo">
+                    <img src="{{asset(settings()->logo) }}" alt="logo" class="app-logo">
                 </div>
                 <div class="nav-right">
                     <ul class="ul-nav-right">
                         <li><a href="{{ url('/') }}">HOME</a></li>
-                        <li>
+                        <!-- <li>
                             <div class="drop-down">
                                 <a href="#" class="drop-down-btn">MEMBERS</a>
                                 <ul class="drop-down-body ul-drop-down">
@@ -16,8 +16,8 @@
                                     <li><a href="{{ url('/premium') }}">Premium</a></li>
                                 </ul>
                             </div>
-                        </li>
-                        <li><a href="{{ url('/subscription') }}">SUBSCRIPTION</a></li>
+                        </li> -->
+                        <!-- <li><a href="{{ url('/subscription') }}">SUBSCRIPTION</a></li> -->
                         <li><a href="{{ url('/how-it-works') }}">HOW IT WORKS</a></li>
                         @if(is_loggedin())
                         <li>
@@ -79,7 +79,7 @@
 
             <div class="inner-nav-mobile"> <!-- NAVIGATION MOBILE START -->
                 <div class="nav-left-mobile">
-                    <img src="{{asset('web/images/icons/logo.png') }}" alt="logo" class="app-logo">
+                    <img src="{{asset(settings()->logo) }}" alt="logo" class="app-logo">
                 </div>
                 <div class="nav-right-mobile">
                     <ul class="nav-right-small">

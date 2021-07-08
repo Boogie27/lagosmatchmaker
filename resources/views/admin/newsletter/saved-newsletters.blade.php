@@ -79,6 +79,12 @@
                                                                     <a href="{{ url('/admin/newsletter-preview/'.$newsletter->id) }}">Preview</a>
                                                                 </li>
                                                                 <li>
+                                                                    <a href="{{ url('/admin/send-newsletter/to-basic') }}" id="{{ $newsletter->id }}" data-name="basic" class="send-users-newsletter-modal-open">Send to basic</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="{{ url('/admin/send-newsletter/to-premium') }}" id="{{ $newsletter->id }}" data-name="premium" class="send-users-newsletter-modal-open">Send to premium</a>
+                                                                </li>
+                                                                <li>
                                                                     <a href="#" id="{{ $newsletter->id }}" class="delete-news-letter-modal-open">Delete</a>
                                                                 </li>
                                                             </ul>

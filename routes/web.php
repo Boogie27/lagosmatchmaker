@@ -518,8 +518,17 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/admin/compose-newsletter", [AdminController::class, "compose_newsletter"]);
     Route::post("/admin/compose-newsletter", [AdminController::class, "compose_newsletter_store"]);
     Route::post("/admin/ajax-send-newsletter", [AdminAjaxController::class, "ajax_send_news_letter"]);
+    Route::post("/admin/ajax-send-users-newsletter", [AdminAjaxController::class, "ajax_send_users_newsletter"]);
     
     
+
+    // ************HOW IT WORKS ***********//
+    Route::get("/admin/how-it-works", [AdminController::class, "how_it_works_index"]);
+    Route::post("/admin/ajax-add-how-it-works", [AdminAjaxController::class, "ajax_add_how_it_works"]);
+    Route::post("/admin/ajax-get-how-it-works", [AdminAjaxController::class, "ajax_get_how_it_works"]);
+    Route::post("admin/ajax-delete-how-it-works", [AdminAjaxController::class, "ajax_delete_how_it_works"]);
+    Route::post("/admin/ajax-update-how-it-works", [AdminAjaxController::class, "ajax_update_how_it_works"]);
+    Route::post("/admin/ajax-feature-how-it-works", [AdminAjaxController::class, "ajax_feature_how_it_works"]);
     
 
     

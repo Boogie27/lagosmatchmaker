@@ -39,8 +39,36 @@ class ClientController extends Controller
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
         $banners = DB::table('banners')->where('is_featured', 1)->get(); //get slider banners
-       return view('web.index', compact('banners', 'states', 'genotypes', 'marital_status'));
+       
+        $subscriptions = DB::table('subscriptions')->where('sub_is_featured', 1)->get(); //get all subscriptions options
+       
+        $images = null;
+        $personalized = null;
+        $descriptions = null;
+
+        $settings = DB::table('settings')->where('id', 1)->first();
+        if($settings && $settings->personalized_match)
+        {
+            $personalized = json_decode($settings->personalized_match, true);
+        }
+        if($settings)
+        {
+            $manual_subscription = json_decode($settings->manual_subscription, true);
+            if(count($manual_subscription['image']))
+            {
+                $images = $manual_subscription['image'];
+            }
+            if(count($manual_subscription['descriptions']))
+            {
+                $descriptions = $manual_subscription['descriptions'];
+            }
+        }
+       
+        return view('web.index', compact('images', 'descriptions', 'personalized', 'subscriptions', 'banners', 'states', 'genotypes', 'marital_status'));
     }
+
+
+
 
 
 
@@ -625,7 +653,7 @@ class ClientController extends Controller
         $state = $this->check_for_friendship($receiver);
         if($state)
         {
-            return back()->with('warning', 'You and '.$receiver->user_name.' are not matched');
+            return redirect('/')->with('warning', 'You and '.$receiver->user_name.' are not matched, Match with '.$receiver->user_name.' to be able to chat!');
         }
 
         $display_name = $receiver->display_name ? $receiver->display_name : $receiver->user_name; //user name
@@ -756,7 +784,9 @@ class ClientController extends Controller
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
-        return view('web.how-it-works', compact('marital_status', 'genotypes', 'states'));
+        $how_it_works = DB::table('how_it_works')->get(); //get all how it works
+
+        return view('web.how-it-works', compact('how_it_works', 'marital_status', 'genotypes', 'states'));
     }
 
 
@@ -1006,6 +1036,7 @@ class ClientController extends Controller
                         'duration' => $sub->duration,  
                         'amount' => $sub->amount,  
                         'subscription_type' => $sub->type,  
+                        'start_date' => date('Y-m-d H:i:s'),
                         'end_date' => $expiry,  
                     ]);
         

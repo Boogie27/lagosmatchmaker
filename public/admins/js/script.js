@@ -98,13 +98,13 @@ function nav_notification_alert(){
                 $(".admin_notification_alert").html('')
                 $("#admin_notification_alert").removeClass('noti-icon-badge')
             }
+
+            setTimeout(function(){
+                nav_notification_alert()
+            }, 10000)
         }
     });
 
-
-    setTimeout(function(){
-        nav_notification_alert()
-    }, 10000)
 }
 
 nav_notification_alert()
@@ -128,12 +128,11 @@ function unseen_nav_notification(){
         },
         success: function (response){
             $("#navigation_notification_body").html(response)
+            setTimeout(function(){
+                unseen_nav_notification()
+            }, 10000)
         }
     });
-
-    setTimeout(function(){
-        unseen_nav_notification()
-    }, 10000)
 }
 
 
@@ -704,6 +703,85 @@ $("#send_newsletter_confirm_submit_btn").click(function(e){
         }
     });
 })
+
+
+
+
+
+
+
+
+
+
+
+
+// ************** OPEN SEND NEWSLETTER TO MEMBERS MODAL************//
+var name
+$(".send-users-newsletter-modal-open").click(function(e){
+    e.preventDefault()
+    name = $(this).attr('data-name')
+    newsletter_id = $(this).attr('id')
+    $("#send_users_newesletter_modal_popup_box").show()
+    $("#send_users_newsletter_confirm_submit_btn").html('Proceed')
+})
+
+
+
+
+
+
+
+
+// ************* SEND NEWSLETTER TO MEMBERS*********** //
+$("#send_users_newsletter_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    var url = $(this).attr('data-url')
+    $(this).html("Please wait...")
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            name: name,
+            newsletter_id: newsletter_id
+        },
+        success: function (response){
+            if(response.error){
+                bottom_alert_error(response.error)
+            }else if(response.data){
+                bottom_alert_success('Newsletter sent successfully!')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+            console.log(response)
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

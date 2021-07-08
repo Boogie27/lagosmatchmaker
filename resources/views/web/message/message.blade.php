@@ -5,12 +5,6 @@
             <h4>Your messages</h4>
             <p> <a href="{{ url('/') }}">Home</a> - messages</p>
         </div>
-        <div class="message-form">
-            <form action="{{ url('/messages') }}" method="GET">
-                <input type="text" name="search" class="form-control" placeholder="Search messages">
-                <button><i class="fa fa-search"></i></button>
-            </form>
-        </div>
     </div>
 </section>
 <!-- MESSAGES HEADER START-->

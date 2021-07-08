@@ -203,6 +203,12 @@
                     </ul>
                 </li>
                 <li>
+                    <a href="{{ url('/admin/how-it-works') }}">
+                        <i class="fa fa-file"></i>
+                        <span> How it works</span>
+                    </a>
+                </li>
+                <li>
                     <a href="javascript: void(0);">
                         <i class="fa fa-key"></i>
                         <span> Legal</span>
@@ -230,7 +236,7 @@
 
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
-                            <a href="{{ url('/admin/settings') }}">Genetal settings</a>
+                            <a href="{{ url('/admin/settings') }}">General settings</a>
                         </li>
                         <li>
                             <a href="{{ url('/admin/email-settings') }}">Email settings</a>
