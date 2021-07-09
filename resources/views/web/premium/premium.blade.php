@@ -22,8 +22,8 @@
                                         </div>
                                         <ul class="ul-member-anchor" id="ul_member_anchor">
                                             @if(!is_loggedin())
-                                            <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-envelope"></i></a></li>
-                                            <li><a href="{{ current_url() }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-heart"></i></a></li>
+                                            <li><a href="{{ url('/manual-payment') }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-envelope"></i></a></li>
+                                            <li><a href="{{ url('/manual-payment') }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-heart"></i></a></li>
                                             <li><a href="{{ url('/profile/'.$premium->id) }}" data-name="{{ $name }}" class=""><i class="fa fa-info"></i></a></li>
                                             @else
                                                 @if(!get_like($premium->id))

@@ -179,6 +179,41 @@
                         </li>
                     </ul>
                 </div>
+                <div class="profile-detail-left">
+                    <div class="title-header">
+                        <h4>Physical info</h4>
+                        @if(is_loggedin() && user('id') == $user->id)
+                        <a href="#" id="detail_physical_info_btn_open"><i class="fa fa-pen"></i></a>
+                        @endif
+                    </div>
+                    <ul class="ul-profile-detail" id="ul_phisical_info_body">
+                        <li>
+                            <div class="title">Height  </div>
+                            <div class="body">: {{ $user->height  ?? 'Empty' }}</div>
+                        </li>
+                        <li>
+                            <div class="title">Weight  </div>
+                            <div class="body">: {{ $user->weight ?? 'Empty' }}</div>
+                        </li>
+                        <!-- <li>
+                            <div class="title">Hair color  </div>
+                            <div class="body">: {{ $user->hair_color ?? 'Empty' }}</div>
+                        </li>
+                        <li>
+                            <div class="title">Eye color  </div>
+                            <div class="body">: {{ $user->eye_color ?? 'Empty' }}</div>
+                        </li> -->
+                        <li>
+                            <div class="title">Body type  </div>
+                            <div class="body">: {{ $user->body_type ?? 'Empty' }}</div>
+                        </li>
+                        <li>
+                            <div class="title">Ethnicity  </div>
+                            <div class="body">: {{ $user->ethnicity ?? 'Empty' }}</div>
+                        </li>
+                    </ul>
+                </div> <!-- profile detail left end-->
+
             </div> <!-- profile detail left end-->
             <div class="col-xl-4 col-lg-4"> <!-- profile detail right start-->
                 <div class="profile-detail-right">
@@ -321,7 +356,7 @@
     @include('web.profile.profile-about-modal-popup')
     @include('web.profile.profile-looking-for-modal-popup')
     @include('web.profile.profile-lifestyle-modal-popup')
-    <!-- include('web.profile.profile-lifestyle-modal-popup') -->
+    @include('web.profile.profile-physical-info-modal-popup')
 @endif
 <!-- PROFILE MODAL POPUPS START-->
 

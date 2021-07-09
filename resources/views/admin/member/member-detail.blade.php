@@ -150,7 +150,32 @@
                                         </li>
                                     </ul>
                                 </div>
-                                
+                                <!-- ADMIN MEMBER DETAIL PHYSICAL-->
+                                <div class="profile-detail-left">
+                                    <div class="title-header">
+                                        <h4>Physical info</h4>
+                                        
+                                        <a href="#" id="detail_physical_info_btn_open"><i class="fa fa-pen"></i></a>
+                                    </div>
+                                    <ul class="ul-profile-detail" id="ul_phisical_info_body">
+                                        <li>
+                                            <div class="title">Height  </div>
+                                            <div class="body">: {{ $user->height  ?? 'Empty' }}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">Weight  </div>
+                                            <div class="body">: {{ $user->weight ?? 'Empty' }}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">Body type  </div>
+                                            <div class="body">: {{ $user->body_type ?? 'Empty' }}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">Ethnicity  </div>
+                                            <div class="body">: {{ $user->ethnicity ?? 'Empty' }}</div>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <div class="profile-detail-left">
                                     <div class="title-header">
                                         <h4>Other details</h4>
@@ -248,7 +273,7 @@
 @include('admin.member.profile-about-modal-popup')
 @include('admin.member.profile-looking-for-modal-popup')
 @include('admin.member.profile-lifestyle-modal-popup')
-<!-- include('admin.member.profile-physical-info-modal-popup') -->
+@include('admin.member.profile-physical-info-modal-popup')
 
 
 

@@ -96,7 +96,7 @@
                     <p>Subscribe to premium to be able to call <br><b>simbi</b></p>
                 </div>
                 <div class="confirm-form">
-                    <form action="{{ url('/subscription') }}" method="GET">
+                    <form action="{{ url('/manual-payment') }}" method="GET">
                         <button type="submit"  id="@subscribe_to_plan_submit_btn" class="confirm-btn">Subscribe Now</button>
                         @csrf
                     </form>

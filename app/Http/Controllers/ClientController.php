@@ -78,12 +78,26 @@ class ClientController extends Controller
 
     public function index_search(Request $request)
     {   
-        $basic_sub = DB::table('subscriptions')->where('type', 'basic')->first();
-        if($basic_sub && $basic_sub->amount == 0)
+
+        $states = DB::table('states')->where('is_featured', 1)->get(); // aget all states
+
+        $genotypes = DB::table('genotypes')->where('is_featured', 1)->get(); //get all genotypes options
+
+        $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
+
+       
+
+         $basic_sub = DB::table('subscriptions')->where('type', 'basic')->first();
+        if($basic_sub && $basic_sub->amount == 0 && $request->membership_level == 'basic')
         {
-            $members = User::where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1);
-        }else{
-            $members = DB::table('user_subscriptions')->leftJoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('users.is_suspend', 0)->where('users.is_deactivated', 0)->where('users.is_approved', 1);
+            $members = User::where('membership_level', 'basic')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1);
+        }
+
+        if($basic_sub && $basic_sub->amount > 0 || $request->membership_level == 'premium')
+        {
+            $members = DB::table('user_subscriptions')->leftJoin('users', 'user_subscriptions.user_id', '=', 'users.id')
+                        ->where('user_subscriptions.subscription_type', $request->membership_level)->where('user_subscriptions.is_expired', 0)->where('users.is_suspend', 0)->where('users.is_deactivated', 0)
+                        ->where('users.is_approved', 1);
         }
 
 
@@ -107,10 +121,6 @@ class ClientController extends Controller
         {
             $members->where('users.marital_status', $request->marital_status);
         }
-        if($request->membership_level)
-        {
-            $members->where('users.membership_level', $request->membership_level);
-        }
         if($request->religion)
         {
             $members->where('users.religion', $request->religion);
@@ -125,18 +135,12 @@ class ClientController extends Controller
         }
 
 
-        $states = DB::table('states')->where('is_featured', 1)->get(); // aget all states
-
-        $genotypes = DB::table('genotypes')->where('is_featured', 1)->get(); //get all genotypes options
-
-        $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
-
-        
         if($request->membership_level == 'basic')
         {
             $basics  = $members->paginate(25);
             return view('web.basic', compact('basics', 'genotypes', 'marital_status', 'states'));
         }
+        
         if($request->membership_level == 'premium')
         {
             $premiums  = $members->paginate(25);
@@ -148,6 +152,10 @@ class ClientController extends Controller
 
 
 
+
+
+
+    
 
 
     public function error_index()
@@ -984,7 +992,8 @@ class ClientController extends Controller
 
 
 
-    public function subscription_store(Request $request){
+    public function subscription_store(Request $request)
+    {
         if(!Session::has('subscription'))
         {
             Session::forget('user');
@@ -1092,7 +1101,8 @@ class ClientController extends Controller
 
 
 
-    public function unsubescribe_newsletter(){
+    public function unsubescribe_newsletter()
+    {
        return view('web.unsubscribe-newsletter');
     }
     
@@ -1105,7 +1115,8 @@ class ClientController extends Controller
     
 
 
-    public function contact_store(Request $request){
+    public function contact_store(Request $request)
+    {
         $request->validate([
             'full_name' => 'required|min:3|max:100',
             'email' => 'required|email',
@@ -1142,7 +1153,8 @@ class ClientController extends Controller
 
 
 
-    public function update_username_update(Request $request){
+    public function update_username_update(Request $request)
+    {
         $request->validate([
             'username' => 'required|min:3|max:100',
         ]);
@@ -1175,7 +1187,8 @@ class ClientController extends Controller
 
 
 
-    public function change_password_update(Request $request){
+    public function change_password_update(Request $request)
+    {
         $request->validate([
             'old_password' => 'required|min:6|max:12',
             'new_password' => 'required|min:6|max:12|same:confirm_password',
@@ -1204,13 +1217,23 @@ class ClientController extends Controller
 
 
 
-    public function report_index(){
+
+
+
+
+    public function report_index()
+    {
         return view('web.report');
     }
     
 
 
-    public function about_us_index(){
+
+
+
+
+    public function about_us_index()
+    {
         $about_us = DB::table('settings')->where('id', 1)->first();
 
         return view('web.about-us', compact('about_us'));
@@ -1221,7 +1244,8 @@ class ClientController extends Controller
 
 
 
-    public function terms_index(){
+    public function terms_index()
+    {
         $terms = DB::table('settings')->where('id', 1)->first();
 
         return view('web.terms', compact('terms'));
@@ -1232,7 +1256,8 @@ class ClientController extends Controller
 
 
 
-    public function privacy_policy_index(){
+    public function privacy_policy_index()
+    {
         $privacy = DB::table('settings')->where('id', 1)->first();
 
         return view('web.privacy-policy', compact('privacy'));
@@ -1243,8 +1268,34 @@ class ClientController extends Controller
 
 
 
+    public function manual_index()
+    {
+        $images = null;
+        $descriptions = null;
+        $personalized = null;
 
+        $settings = DB::table('settings')->where('id', 1)->first();
+        if($settings)
+        {
+            $manual_subscription = json_decode($settings->manual_subscription, true);
+            if(count($manual_subscription['image']))
+            {
+                $images = $manual_subscription['image'];
+            }
+            if(count($manual_subscription['descriptions']))
+            {
+                $descriptions = $manual_subscription['descriptions'];
+            }
+        }
 
+        if($settings && $settings->personalized_match)
+        {
+            $personalized = json_decode($settings->personalized_match, true);
+        }
+
+        return view('web.manual-payment', compact('personalized', 'descriptions', 'images'));
+    }
+    
 
     
     // end

@@ -140,7 +140,7 @@ class AdminController extends Controller
             }
         }
 
-        $basics = $basic->paginate(25);
+        $basics = $basic->paginate(50);
         
         
         return view('admin.basic', compact('basics'));
@@ -165,7 +165,7 @@ class AdminController extends Controller
             }
         }
 
-        $premiums = $premium->paginate(25);
+        $premiums = $premium->paginate(50);
 
         return view('admin.premium', compact('premiums'));
     }
@@ -186,7 +186,7 @@ class AdminController extends Controller
             }
         }
 
-        $deactivates = $deactivate->paginate(25);
+        $deactivates = $deactivate->paginate(50);
 
         return view('admin.deactivated', compact('deactivates'));
     }
@@ -219,7 +219,7 @@ class AdminController extends Controller
             }
         }
 
-        $unapproved = $unapprove->paginate(25);
+        $unapproved = $unapprove->paginate(50);
 
         return view('admin.unapproved', compact('unapproved'));
     }
@@ -1470,6 +1470,27 @@ class AdminController extends Controller
 
 
 
+
+    public function all_members_index(Request $request)
+    {
+      
+        if($request->search)
+        {
+            if(preg_match('/@/', $request->search))
+            {
+               $all_members = User::where('email', 'LIKE', "%{$request->search}%")->paginate(50);
+            }else{
+               $all_members = User::where('user_name', 'LIKE', "%{$request->search}%")->paginate(50);
+            }
+        }else{
+           $all_members = User::paginate(50);
+        }
+        
+        // Session::forget('checked_members');
+        // dd(Session::get('checked_members'));
+        
+        return view('admin.all-members', compact('all_members')); 
+    }
 
 
 

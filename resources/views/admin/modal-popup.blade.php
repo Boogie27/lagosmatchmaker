@@ -213,7 +213,7 @@
 
 
 
-<!--  DEACTIVATEE USER ALERT START -->
+<!--  USER SUBSCRIPTION START -->
 <section class="modal-alert-popup" id="add_subscription_modal_popup_box">
     <div class="sub-confirm-container">
         <div class="sub-confirm-dark-theme">
@@ -252,7 +252,7 @@
         </div>
     </div>
 </section>
-<!--  DEACTIVATEE USER ALERT END -->
+<!--  USER SUBSCRIPTION END -->
 
 
 
@@ -382,6 +382,46 @@
 
 
 
+<!--  MASS USER SUBSCRIPTION START -->
+<section class="modal-alert-popup" id="mass_add_subscription_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p><b>Add User Subscription</b></p>
+                    <div class="alert-form alert_sub_inputs text-danger"></div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group text-left">
+                        <label for="">Type<span class="text-danger">*</span></label>
+                        <select id="mass_add_user_type_input"  class="selectpicker form-control">
+                            <option value="">Subscription Type</option>
+                            <option value="basic">Basic</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group text-left">
+                        <label for="">Amount<span class="text-danger">*</span></label>
+                        <input type="number" min="0" id="mass_add_suser_sub_amount" class="form-control" placeholder="Amount">
+                    </div>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button"  data-url="{{ url('/admin/ajax-add-mass-user-subscription') }}" id="mass_add_user_subscription_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  MASS USER SUBSCRIPTION END -->
 
 
 

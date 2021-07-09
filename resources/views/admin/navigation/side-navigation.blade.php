@@ -67,6 +67,9 @@
 
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
+                            <a href="{{ url('/admin/all-members') }}">All</a>
+                        </li>
+                        <li>
                             <a href="{{ url('/admin/basic') }}">Basic</a>
                         </li>
                         <li>

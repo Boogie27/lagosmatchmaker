@@ -282,10 +282,8 @@ class ClientAjaxController extends Controller
             $validator = Validator::make($request->all(), [
                 'height' => 'required',
                 'weight' => 'required',
-                'body_type' => 'required',
                 'ethnicity' => 'required',
-                'hair_color' => 'required|max:150',
-                'eye_color' => 'required|max:150',
+                'body_type' => 'required',
             ]);
 
             if(!$validator->passes())
@@ -303,8 +301,6 @@ class ClientAjaxController extends Controller
                     $user->weight = $request->weight;
                     $user->body_type = $request->body_type;
                     $user->ethnicity = $request->ethnicity;
-                    $user->hair_color = $request->hair_color;
-                    $user->eye_color = $request->eye_color;
 
                     if($user->save())
                     {
@@ -606,7 +602,7 @@ class ClientAjaxController extends Controller
         {
             $data = false;
             Session::put('profile_url', $request->current_url);
-            $data = url('/subscription');
+            $data = url('/manual-payment');
         }
         return response()->json(['data' => $data]);
     }

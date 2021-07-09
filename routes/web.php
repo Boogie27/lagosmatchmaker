@@ -106,6 +106,7 @@ Route::group(['middleware' => 'remember_me'], function(){
 
     // ************ SUBCRIPTION SECTION ***************//
     Route::get("/subscription", [ClientController::class, "subscription_index"]);
+    Route::get("/manual-payment", [ClientController::class, "manual_index"]);
     Route::post("/upload-ID-card", [ClientAjaxController::class, "ajax_upload_id_card"]);
     Route::post("/ajax-subscribe-now", [ClientAjaxController::class, "ajax_subscribe_now"]);
     Route::post("/subscription", [ClientController::class, "subscription_store"]);
@@ -285,6 +286,16 @@ Route::group(['middleware' => 'remember_me'], function(){
     // ********* LOGOUT ***********//
     Route::get("/admin/logout", [AdminController::class, "logout_admin"]);
     Route::post("/admin/ajax-logout", [AdminAjaxController::class, "ajax_logout_admin"]);
+    
+
+
+    // ************* ALL MEMBERS ************//
+    Route::get("/admin/all-members", [AdminController::class, "all_members_index"]);
+    // Route::post("/admin/ajax-check-single-member", [AdminAjaxController::class, "ajax_check_single_member"]);
+    Route::post("/admin/ajax-check-all-members", [AdminAjaxController::class, "ajax_check_all_members"]);
+    Route::post("/admin/ajax-add-mass-user-subscription", [AdminAjaxController::class, "ajax_add_mass_user_subscription"]);
+
+   
     
 
 

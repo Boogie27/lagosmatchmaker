@@ -80,6 +80,7 @@
                             </div>
                             <div class="col-xl-12 mt-4">
                                 <div class="form-group">
+                                    <input type="hidden" id="physical_user_id_input" value="{{ $user->id }}">
                                     <button type="button" id="edit_physical_info_submit_btn" class="btn-fill-block">Update Detail</button>
                                     <div class="form-error-alert form_alert_0 text-danger"></div>
                                 </div>
@@ -92,30 +93,6 @@
     <div>
 </section>
 <!-- ABOUT ME END-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -155,6 +132,7 @@ $("#edit_physical_info_submit_btn").click(function(e){
 function life_style(){
     $(".form_alert_0").html('')
     $(".alert-form").html('')
+    var user_id = $("#physical_user_id_input").val()
     var height = $("#edit_height_input").val()
     var weight = $("#edit_weight_input").val()
     // var hair_color = $("#edit_hair_color_input").val()
@@ -173,9 +151,10 @@ function life_style(){
 
 
     $.ajax({
-        url: "{{ url('/edit-physical-info') }}",
+        url: "{{ url('/admin/edit-physical-info') }}",
         method: "post",
         data: {
+            user_id: user_id,
             height: height,
             weight: weight,
             body_type: body_type,
@@ -186,13 +165,12 @@ function life_style(){
                 get_physical_error(response.error)
                 $("#edit_physical_info_submit_btn").html('Update Detail')
            }else if(response.data){
-                get_physical_info()
+                get_physical_info(user_id)
                 $(".modal-btn-close").click()
                 $("#access_preloader_container").show()
             }else{
                 $(".form_alert_0").html('Network error, try again later!')
             }
-            console.log(response)
         },
         error: function(){
             $(".form_alert_0").html('Network error, try again later!')
@@ -247,15 +225,15 @@ function validate_physical_info_field(height, weight, body_type, ethnicity){
 
 
 // GET LIFE STYLE
-function get_physical_info(){
+function get_physical_info(user_id){
 
     csrf_token() //csrf token
 
     $.ajax({
-        url: "{{ url('/ajax-get-physical-info') }}",
+        url: "{{ url('/admin/ajax-get-physical-info') }}",
         method: "post",
         data: {
-            get_physical_info: 'get_physical_info'
+            user_id: user_id
         },
         success: function (response){
             if(response.data){
@@ -275,6 +253,7 @@ function preloader_toggle(){
     $("#access_preloader_container").show()
     setTimeout(function(){
         $("#access_preloader_container").hide()
+        bottom_alert_success('Profile updated successfully!')
     }, 1000)
 }
 

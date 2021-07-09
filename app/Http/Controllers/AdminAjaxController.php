@@ -360,8 +360,6 @@ class AdminAjaxController extends Controller
                 'weight' => 'required',
                 'body_type' => 'required',
                 'ethnicity' => 'required',
-                'hair_color' => 'required|max:150',
-                'eye_color' => 'required|max:150',
             ]);
 
             if(!$validator->passes())
@@ -379,8 +377,6 @@ class AdminAjaxController extends Controller
                     $user->weight = $request->weight;
                     $user->body_type = $request->body_type;
                     $user->ethnicity = $request->ethnicity;
-                    $user->hair_color = $request->hair_color;
-                    $user->eye_color = $request->eye_color;
 
                     if($user->save())
                     {
@@ -2976,6 +2972,226 @@ public function ajax_add_how_it_works(Request $request)
         }
         return response()->json(['data' => $data]);
     }
+
+
+
+
+
+
+
+
+
+    // public function ajax_check_single_member(Request $request)
+    // {
+    //     if($request->ajax())
+    //     {
+    //         $data = false;
+    //         $is_present = false;
+
+    //         if($request->state == 'false')
+    //         {
+    //             if(Session::has('checked_members'))
+    //             {
+    //                 $stored_ids = Session::get('checked_members');
+    //                 foreach($stored_ids as $key => $stored_id)
+    //                 {
+    //                     if($request->id == $stored_id['id'])
+    //                     {
+    //                         unset($stored_ids[$key]);
+    //                     }
+    //                 }
+    //                 Session::forget('all_members');
+    //                 Session::put('checked_members', $stored_ids);
+    //                 return response()->json(['removed' => true]);
+    //             }
+    //         }
+
+    //         if($request->state == 'true')
+    //         {
+    //             if(Session::has('checked_members'))
+    //             {
+    //                 $stored_ids = Session::get('checked_members');
+    //                 foreach($stored_ids as $key => $stored_id)
+    //                 {
+    //                     if($request->id == $stored_id['id'])
+    //                     {
+    //                         $is_present = true;
+    //                     }
+    //                 }
+    //             }
+
+    //             if($is_present == false)
+    //             {
+    //                 $stored_ids[] = ['id' => $request->id];
+    //                 Session::put('checked_members', $stored_ids);
+    //             }
+    //             $data = true;
+    //         }
+    //     }
+    //     return response()->json(['data' => $data]);
+    // }
+
+
+
+
+
+
+
+    public function ajax_check_all_members(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $users_id = [];
+            if($request->state == 'true')
+            {
+                $users = User::all();
+                if(count($users))
+                {
+                    foreach($users as $user)
+                    {
+                        $users_id[] = $user->id;
+                    }
+                }
+            }
+            if(count($users_id))
+            {
+                $data = $users_id;
+            }
+           
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+    
+    
+
+
+
+
+    public function ajax_add_mass_user_subscription(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $validator = Validator::make($request->all(), [
+                'type' => 'required',
+            ]);
+
+            if(!$validator->passes())
+            {
+                return response()->json(['error' => ['all' => '*All fields are required']]);
+            }
+
+            if(!$request->stored_id)
+            {
+                return response()->json(['empty' => '*No member was selected!']);
+            }
+
+            if($validator->passes())
+            {
+                $subscription = DB::table('subscriptions')->where('type', $request->type)->first();
+                if($subscription)
+                {
+                    $state = false;
+                    foreach($request->stored_id as $id)
+                    {
+                        $subscribe = $this->mass_add_subcription($id, $request->amount, $subscription);
+                        if(!$subscribe)
+                        {
+                            $state = true;
+                            break;
+                        }
+                    }
+                }
+                if($state)
+                {
+                    return response()->json(['failed' => $data]);
+                }
+                $data = true;
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
+
+
+
+
+
+
+
+
+
+    public function mass_add_subcription($id, $amount, $subscription)
+    {
+        $state = false;
+        $old_sub = DB::table('user_subscriptions')->where('user_id', $id)->where('is_expired', 0)->first();
+        if($old_sub)
+        {
+            DB::table('user_subscriptions')->where('user_id', $id)->where('is_expired', 0)->update([
+                    'is_expired' => 1,
+                    'date_ended' => date('Y-m-d H:i:s')
+            ]);
+        }
+        
+        $reference = uniqid();
+        $end_date = date('Y-m-d H:i:s', strtotime('+'.$subscription->duration));
+
+        $create = DB::table('user_subscriptions')->insert([
+                    'reference' => $reference,
+                    'user_id' => $id,
+                    'subscription_id' => $subscription->sub_id,
+                    'duration' => $subscription->duration,
+                    'amount' => $amount,
+                    'subscription_type' => $subscription->type,
+                    'start_date' => date('Y-m-d H:i:s'),
+                    'end_date' => $end_date,
+                ]);
+        
+        if($create)
+        {
+            $user = User::where('id', $id)->first();
+            $user->membership_level = $subscription->type;
+            $user->save();
+
+          $state = true;
+        }
+        return $state;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

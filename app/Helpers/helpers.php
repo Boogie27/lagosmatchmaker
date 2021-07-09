@@ -604,3 +604,31 @@ function news_subs($id)
 
 
 
+
+
+
+
+
+
+
+
+function checked_member($id)
+{
+    $state = false;
+    if(Session::has('checked_members'))
+    {
+        $members = Session::get('checked_members');
+        foreach($members as $member)
+        {
+            if($id == $member['id'])
+            {
+                $state = true;
+            }
+        }
+    }
+    return $state;
+}
+
+
+
+

@@ -627,7 +627,8 @@ $("#add_user_subscription_confirm_submit_btn").click(function(e){
         },
         success: function (response){
             if(response.error){
-                $('.alert_sub_inputs').html(response.error.all)
+                $("#add_user_subscription_confirm_submit_btn").html('Proceed')
+                return $('.alert_sub_inputs').html(response.error.all)
             }else if(response.data){
                location.reload()
             }else{
@@ -764,6 +765,224 @@ $("#send_users_newsletter_confirm_submit_btn").click(function(e){
         }
     });
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ************* CHECK/UNCHECK SINGLE MEMBERS ***********//
+// $("#members_parent_table_container").on('click', '.check-box-members-input-btn', function(){
+//     id = $(this).attr('id')
+//     url = $(this).attr('data-url')
+
+//     if($(this).prop('checked'))
+//     {
+//         check_single(url, true)
+//     }else{
+//         check_single(url, false)
+//     }
+//     $("#mass_member_check_box_input").prop('checked', false)
+//     $("#mass_member_check_box_input").prop('checked', false)
+// })
+
+
+
+
+// ************* CHECK/UNCHECK SINGLE MEMBERS ***********//
+$("#members_parent_table_container").on('click', '.check-box-members-input-btn', function(){
+    id = $(this).attr('id')
+
+    if($(this).prop('checked'))
+    {
+        check_single_member(id, true)
+    }else{
+        check_single_member(id, false)
+    }
+    $("#mass_member_check_box_input").prop('checked', false)
+})
+
+
+
+
+var stored_id = []
+function check_single_member(id, data)
+{
+    if(stored_id.includes(id))
+    {
+        for(var i = 0; i < stored_id.length; i++){
+            if(data == false && stored_id[i] == id){
+                stored_id.splice(i, 1)
+            }
+        }
+    }else{
+        stored_id.push(id)
+    }
+    console.log(stored_id)
+}
+
+
+
+
+
+
+
+
+
+
+
+// *********** CHECK ALL MEMBERS ************//
+$("#members_parent_table_container").on('click', '#mass_member_check_box_input', function(){
+    var url = $(this).attr('data-url')
+    if($(this).prop('checked'))
+    {
+        check_all_members(url, true)
+        $(".check-box-members-input-btn").prop('checked', true)
+    }else{
+        check_all_members(url, false)
+        $(".check-box-members-input-btn").prop('checked', false)
+    }
+})
+
+
+
+
+function check_all_members(url, state)
+{
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            state: state
+        },
+        success: function (response){
+            if(response.data){
+                stored_id = Object.keys(response.data)
+            }else{
+                stored_id = []
+            }
+        }, 
+        error: function(){
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+}
+
+
+
+
+
+
+// *********** OPEN MASS SUBCRIPTION MODAL ************//
+$("#open_mass_subscription_modal_btn").click(function(e){
+    e.preventDefault()
+    if(stored_id.length == 0)
+    {
+        return bottom_alert_error('No member was selected!')
+    }
+    $("#mass_add_subscription_modal_popup_box").show()
+    $("#mass_add_user_subscription_confirm_submit_btn").html('Proceed')
+})
+
+
+
+
+
+// ********** ASSIGN MEMBER TO SUBSCRIPTION **********//
+$("#mass_add_user_subscription_confirm_submit_btn").click(function(e){
+    var url = $(this).attr('data-url')
+    var type = $("#mass_add_user_type_input").val()
+    var amount = $("#mass_add_suser_sub_amount").val()
+    $(this).html('Please wait...')
+
+    if(!type){
+        $('.alert_sub_inputs').html('*All fields are required')
+        $(this).html('Proceed')
+        return
+    }
+    
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            type: type,
+            stored_id: stored_id,
+            amount: amount
+        },
+        success: function (response){
+            if(response.error){
+                $("#mass_add_user_subscription_confirm_submit_btn").html('Proceed')
+               return  $('.alert_sub_inputs').html(response.error.all)
+            }else if(response.empty){
+                bottom_alert_error(response.empty)
+            }else if(response.data){
+                stored_id = []
+                $("#mass_member_check_box_input").prop('checked', false)
+                $(".check-box-members-input-btn").prop('checked', false)
+                bottom_alert_success('Subscription added successfully!')
+            }else if(response.failed){
+                bottom_alert_error('Something went wrong, trye again later!')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+            console.log(response)
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+// function check_single(url, state){
+
+//     csrf_token() //csrf token
+
+//     $.ajax({
+//         url: url,
+//         method: "post",
+//         data: {
+//             id: id,
+//             state: state
+//         },
+//         success: function (response){
+//         console.log(response)
+//         }, 
+//         error: function(){
+//             bottom_alert_error('Network error, try again later!')
+//         }
+//     });
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

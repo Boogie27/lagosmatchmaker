@@ -218,6 +218,19 @@ button.btn-fill-block:hover{
     color: #fff;
     background-color:  rgb(235, 164, 33);
 }
+a.btn-fill{
+    padding: 10px 30px;
+    color: #fff;
+    border-radius: 3px;
+    text-decoration: none;
+    transition:  background-color 0.2s ease;
+    background-color: rgba(248, 179, 50, 1);
+    border: 1px solid  rgb(246, 193, 95);
+}
+a.btn-fill:hover{
+    color: #fff;
+    background-color:  rgb(235, 164, 33);
+}
 /* ******** SELECT PICKER ******** */
 .dropdown-item.active{
     color: #fff;
@@ -545,11 +558,10 @@ ul.ul-drop-down li a:hover{
 /* ********* INDEX PAGE ********** */
 .search-bar-container{
     padding: 5px;
-    background-color: rgb(31, 30, 30);
+    /* background-color: rgb(31, 30, 30); */
 }
 .inner-search-form{
     border-radius: 4px;
-    margin: 100px 0px;
     background-color: rgba(228, 154, 17, 0.178);
     border: 1px solid rgb(228, 154, 17);
 }
@@ -1613,7 +1625,7 @@ ul.ul-footer-links li a i{
 @media only screen and (max-width: 767px){
     .form-container form{
         width: 80%;
-        box-shadow: 2px 2px 6px 2px rgb(8, 8, 8);
+        /* box-shadow: 2px 2px 6px 2px rgb(8, 8, 8); */
     }
 }
 @media only screen and (max-width: 567px){
@@ -2449,7 +2461,7 @@ ul.ul-video-call li .call-btn{
 
 
 /* ************* SUBSCRIPTION ************ */
-.header-container{
+/* .header-container{
     padding: 150px 0px 0px 0px;
     background-color:  rgb(24, 24, 24);
 }
@@ -2546,7 +2558,96 @@ ul.ul-sub-body li a:hover{
     color: #fff;
     padding: 50px 0px;
     background-color:  rgb(39, 39, 39);
+} */
+.index-subscription-section{
+    padding: 150px 0px;
+    background-color:  rgb(29, 29, 29);
 }
+.index-subscription-content{
+    padding: 0px 20px;
+}
+.main-subscription-body{
+    display: flex;
+    justify-content: space-between;
+}
+.index-subscription-banner{
+    width: 270px;
+    border-radius: 5px;
+    position: relative;
+    background-color: #fff;
+}
+.sub-banner{
+    position: relative;
+}
+.index-subscription-banner img{
+    width: 100%;
+    border-radius: 5px 5px 0px 0px;
+}
+ul.ul-index-sub-head{
+    top: 60px;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    position: absolute;
+}
+ul.ul-index-sub-head li{
+    position: relative;
+}
+ul.ul-index-sub-head li h3{
+    font-size: 40px;
+    font-weight: 600;
+}
+ul.ul-index-sub-head li span{
+    top: -10px;
+    font-size: 13px;
+    position: relative;
+}
+ul.ul-index-sub-head li p{
+    font-size: 13px;
+}
+ul.ul-index-sub-body{
+    height: 200px;
+    padding: 20px 10px;
+}
+ul.ul-index-sub-body li{
+    font-size: 13px;
+    color: rgba(248, 179, 50, 1);
+}
+@media only screen and (max-width: 1125px){
+    .index-subscription-banner{
+        width: 300px;
+    }
+    .search-bar-container{
+        margin-top: 100px;
+    }
+}
+@media only screen and (max-width: 992px){
+    .index-subscription-section{
+        padding-top: 200px;
+    }
+    .index-subscription-banner{
+        width: 33%;
+        margin: 0px 10px;
+    }
+}
+@media only screen and (max-width: 767px){
+    .main-subscription-body{
+        display: block;
+    }
+    .index-subscription-banner{
+        width: 300px;
+        margin: 0 auto;
+        margin-bottom: 30px;
+    }
+}
+@media only screen and (max-width: 398px){
+    .index-subscription-banner{
+        width: 100%;
+    }
+}
+
+
+/* ******** MANUAL SUBSCRIPTION ********* */
 .manual-sub-body{
     width: 50%;
     margin: 0 auto;
@@ -2763,11 +2864,6 @@ ul.ul-profile-match li.profile-one{
     display: flex;
     justify-content: center;
 }
-/* ul.ul-profile-match li.match-heart-icon{
-    top: 10px;
-    padding: 5px 0px;
-    position: relative;
-} */
 ul.ul-profile-match li.profile-one img{
     width: 100px;
     height: 100px;
