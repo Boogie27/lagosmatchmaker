@@ -1,4 +1,5 @@
-
+@php($user_detail = user_detail())
+@php($settings = settings())
 
 
 
@@ -264,18 +265,39 @@
 
 
 <!-- USER NOTIFICATION BANNER START -->
-@if(is_loggedin() && !user_detail()->is_complete && !is_complete() && settings()->profile_alert)
+@if(is_loggedin() && !$user_detail->is_complete && !is_complete() && $settings->profile_alert)
 <div class="top-banner-start top-banner-alert">
     <div class="top-banner-inner error">
         <i class="fa fa-times" id="top_banner_cancle_btn"></i>
         <div class="containment text-center">
             <i class="fa fa-bell"></i>
-            <span>{{ settings()->profile_alert }}</span>
+            <span>{{ $settings->profile_alert }}</span>
         </div>
     </div>
 </div>
 @endif
 <!-- USER NOTIFICATION BANNER END -->
+
+
+
+
+
+
+
+ <!-- NOTIFICATION WARNING BANNER START -->
+ @if(is_loggedin() && !$user_detail->is_approved && $user_detail->is_complete)
+    <div class="top-banner-start top-banner-alert">
+        <div class="top-banner-inner warning">
+            <i class="fa fa-times top-banner-cancle-btn"></i>
+            <div class="containment">
+                <i class="fa fa-bell"></i>
+                <span>Your account is awaiting approval, this might take up to 48hours please bear with us, thank you.</span>
+            </div>
+        </div>
+    </div>
+@endif
+<!-- NOTIFICATION WARNING BANNER END -->
+
 
 
 

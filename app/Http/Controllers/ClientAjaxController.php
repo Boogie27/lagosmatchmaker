@@ -942,7 +942,7 @@ class ClientAjaxController extends Controller
 
                $fileName = Image::name('image', 'picture');
                $chat_image = 'web/images/picture/'.$fileName;
-               $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 1000000,'file_destination' => 'web/images/picture/' ]);
+               $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/picture/' ]);
                
                if(!$image->passed())
                {
