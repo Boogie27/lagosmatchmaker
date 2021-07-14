@@ -230,6 +230,34 @@ class AdminController extends Controller
 
 
 
+    public function unapproved_completed_index(Request $request)
+    {
+        $unapprove = User::where('is_approved', 0)->where('is_complete', 1);
+        if($request->search)
+        {
+            if(preg_match('/@/', $request->search))
+            {
+                $unapprove->where('email', 'LIKE', "%{$request->search}%");
+            }else{
+                $unapprove->where('user_name', 'LIKE', "%{$request->search}%");
+            }
+        }
+
+        $unapproved = $unapprove->paginate(50);
+
+        return view('admin.unapproved', compact('unapproved'));
+    }
+
+
+
+
+
+
+
+
+
+    
+
 
 
 
@@ -1006,7 +1034,7 @@ class AdminController extends Controller
     public function app_contact_update(Request $request)
     {
         $request->validate([
-            'phone' => 'required|min:11|max:11',
+            'phone' => 'required|min:14|max:14',
             'email' => 'required',
             'address' => 'max:255',
         ]);

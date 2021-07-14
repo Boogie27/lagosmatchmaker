@@ -82,49 +82,9 @@
                     </div><!-- chat right header end -->
                     <div class="chating-body"><!-- chat body start -->
                         <div class="right-chattig" id="right_chattig_window">
-                        <div id="chat_loading_container" class="text-center mt-2" style="display: none;"><b>Loading...</b></div>
+                            <div id="chat_loading_container" class="text-center mt-2" style="display: none;"><b>Loading...</b></div>
                             <div class="inner-chat-body">
-                                @if(count($chats))
-                                    @foreach($chats as $chat)
-                                        @php($active = $chat->sender_id == user('id') ? 'active' : '')
-                                        @if($chat->type == 'text')
-                                        <ul class="ul-chat-content"><!-- chat content start -->
-                                            <li class="li-chat-content {{ $active }}">
-                                                <div class="inner-chat-content">
-                                                    <div class="chat-content-option">
-                                                        <i class="fa fa-ellipsis-v"></i>
-                                                        <ul class="ul-option-body {{ $active }}">
-                                                            <li><a href="#" id="{{ $chat->chat_id }}" class="delete-chat-btn">Delete</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <p>{{ $chat->chat }}</p>
-                                                    <div class="time"><i class="fa fa-clock"></i> {{ chat_time($chat->time) }}</div>
-                                                </div>
-                                            </li>
-                                        </ul><!-- chat content end -->
-                                        @endif
-                                        @if($chat->type == 'image')
-                                        <ul class="ul-chat-content"><!-- chat content start -->
-                                            <li class="li-chat-img-content {{ $active }}">
-                                                <div>
-                                                    <div class="chat-content-option">
-                                                        <i class="fa fa-ellipsis-v"></i>
-                                                        <ul class="ul-option-body {{ $active }}">
-                                                            <li><a href="#" id="{{ $chat->chat_id }}" class="delete-chat-btn">Delete</a></li>
-                                                            <li><a href="{{ asset($chat->chat) }}" download>Download</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="chat-img">
-                                                        <img src="{{ asset($chat->chat) }}" alt="">
-                                                    </div>
-                                                    <div class="time"><i class="fa fa-clock"></i>{{ chat_time($chat->time) }}</div>
-                                                </div>
-                                            </li>
-                                        </ul><!-- chat content end -->
-                                        @endif
-                                   
-                                    @endforeach
-                                @endif
+                                <!-- ajax chat goes in here -->
                             </div>
                         </div>
                     </div><!-- chat body end -->
@@ -230,6 +190,17 @@
 
 <script>
 $(document).ready(function(){
+
+
+var skip = 8
+var take = 8;
+var max = false;
+var remender = 0;
+var active = false
+var user_id = "{{ $receiver->id }}"
+var chat_token = "{{ $chat_token }}"
+
+
 // ********* OPEN VIDEO CALL **********//
 $("#video_call_open_btn").click(function(e){
     e.preventDefault()
@@ -262,14 +233,20 @@ $(window).click(function(e){
 
 // ************* KEEP CHAT AT THE BOTTOM ***********//
 function chat_to_bottom(){
-    var innerItems = $(".inner-chat-body").height()
-    $("#right_chattig_window").animate({
-        scrollTop: 1000
+    var innerItems = $(".inner-chat-body")
+    $("#right_chattig_window").scrollTop({
+        scrollTop: 0
     })
 }
-chat_to_bottom()
+// chat_to_bottom()
 
 
+$("#right_chattig_window").scroll(function(e){
+    var innerItems = $(".inner-chat-body")
+    var scroll = $(this).scrollTop()
+    console.log($(this).height())
+})
+// 825.609
 
 
 
@@ -294,6 +271,8 @@ function csrf_token(){
 // **************** GET CHAT *********************//
 function get_chat()
 {
+    take = 8
+    skip = 8
     var receiver_id = $("#user_id_input_box").attr('data-id')
 
     csrf_token() //csrf token
@@ -302,19 +281,29 @@ function get_chat()
         url: "{{ url('/ajax-get-user-chats') }}",
         method: "post",
         data: {
+            take: take,
             receiver_id: "{{ $receiver->id }}"
         },
         success: function (response){
-           if(!response.error){
-               $("#right_chattig_window").html(response)
-               chat_to_bottom()
+            if(response.error){
+                bottom_alert_error('Network error, try again later!')
+            }else{
+                skip += take
+                max = false;
+                active = false
+                remender = response.remender;
+                $(".inner-chat-body").html(response.data)
            }
+           console.log(response, skip)
         }, 
         error: function(){
-            console.log('something went wrong')
+            bottom_alert_error('Network error, try again later!')
         }
     });
 }
+
+
+
 
 
 
@@ -338,6 +327,7 @@ $("#chatting_button_submit").click(function(e){
 
 
 function send_chat(){
+
     var chat = $("#chating_input_box").val();
    
     csrf_token() //csrf token
@@ -354,7 +344,7 @@ function send_chat(){
             $("#chating_input_box").val('')
         }, 
         error: function(){
-            console.log('something went wrong')
+            bottom_alert_error('Network error, try again later!')
         }
     });
 }
@@ -412,8 +402,7 @@ $("#upload_chat_image_input").change(function(e){
             if(response.error){
                 bottom_alert_error(response.error.image)
             }else if(!response.data_error){
-                $("#right_chattig_window").html(response)
-               chat_to_bottom()
+                get_chat()
             }
            $("#access_preloader_container").hide()
 		},
@@ -423,6 +412,9 @@ $("#upload_chat_image_input").change(function(e){
 		}
     });
 })
+
+
+
 
 
 
@@ -439,19 +431,6 @@ function validate_image(e){
     }
     return state;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -500,11 +479,13 @@ $("#right_chattig_window").on('click', '.delete-chat-btn', function(e){
 
 
 
-var active = false
+// ********** INFINIT SCROLL EFFECT *********//
+
 var parentContainer = $("#right_chattig_window");
 $(parentContainer).scroll(function(e){
     frameScroll = $(this).scrollTop();
-    if(!active && frameScroll <= 0 ){
+    var container = $(".right-chattig").height()
+    if(!active && frameScroll == 0 ){
         active = true;
         get_infinte_chat()
     }
@@ -518,17 +499,12 @@ $(parentContainer).scroll(function(e){
 
 
 
+
+
 // ********** GET CHATS FOR INFINIT SCROLL *************//
-var take = 50;
-var remender = 0;
-var reachedMax = false;
-var user_id = "{{ $receiver->id }}"
-var chat_token = "{{ $chat_token }}"
-
 function get_infinte_chat(){
-
     
-    if(!chat_token || reachedMax) return
+    if(!chat_token || max) return
 
     $("#chat_loading_container").show()
 
@@ -538,25 +514,28 @@ function get_infinte_chat(){
         url: "{{ url('/ajax-get-infinit-user-chat') }}",
         method: "post",
         data: {
+            skip: skip,
             take: take,
-            user_id: user_id,
             remender: remender,
+            user_id: user_id,
             chat_token: chat_token
         },
         success: function (response){
-            take += 25;
-            active = false;
-            $(".inner-chat-body").prepend(response.data)
-           if(response.remender)
-            {
+            if(response.max){
+                max = true;
+                active = true;
                 remender = response.remender
+                $(".inner-chat-body").prepend(response.data)
+            }else if(response.data){
+                skip += take
+                active = false;
+                remender = response.remender
+                $(".inner-chat-body").prepend(response.data)
             }else{
-                reachedMax = true; 
-                $("#chat_loading_container").html('No more messages')
-                return $("#chat_loading_container").show()
+                bottom_alert_error('Network error, try again later!')
             }
-            console.log(response.data)
             $("#chat_loading_container").hide()
+            console.log(response, skip)
         }, 
         error: function(){
             $("#chat_loading_container").hide()
@@ -566,7 +545,7 @@ function get_infinte_chat(){
 }
 
 
-
+get_infinte_chat()
 
 
 

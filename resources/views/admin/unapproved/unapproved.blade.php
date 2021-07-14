@@ -31,6 +31,7 @@
                                 <!-- <h4 class="header-title mt-0 mb-1">Buttons example</h4> -->
                                <div class="table-top">
                                     <div class="page-icon"><i class="fa fa-users"></i></div>
+                                    <div class="completed"><a href="{{ url('/admin/unapproved/completed') }}" class="badge badge-soft-success">Completed</a></div>
                                     <div class="table-search">
                                         <form action="{{ url('/admin/deactivated') }}" method="GET">
                                             <div class="form-group">
@@ -46,6 +47,7 @@
                                                 <th>Avatar</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
+                                                <th>Status</th>
                                                 <th>Date</th>
                                                 <th>Action</th>
                                             </tr>
@@ -66,6 +68,13 @@
                                                     <a href="{{ url('/admin/member-detail/'.$unapprove->id) }}" class="member-name">{{ ucfirst($unapprove->user_name) }} </a>
                                                 </td>
                                                 <td>{{ $unapprove->email }}</td>
+                                                <td>
+                                                    @if($unapprove->is_complete)
+                                                    <span class="badge badge-soft-success py-1">Completed</span>
+                                                    @else
+                                                    <span class="badge badge-soft-warning py-1">Pending</span>
+                                                    @endif
+                                                </td>
                                                 <td>{{ date('d M Y', strtotime($unapprove->date_deactivated)) }}</td>
                                                 <td>
                                                     <div class="drop-down">

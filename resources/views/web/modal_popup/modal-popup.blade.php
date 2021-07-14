@@ -244,10 +244,10 @@
 
  <!-- NOTIFICATION BANNER START -->
 @if($not = end_subscription_notification())
-    <div class="top-banner-start" id="top_banner_alert">
-        <div class="top-banner-inner warning" id="top_banner_inner">
+    <div class="top-banner-start top-banner-alert">
+        <div class="top-banner-inner warning">
             <i class="fa fa-times" data-id="{{ $not->not_id}}" data-url="{{ url('/ajax-remove-subscription-notification') }}" id="top_banner_cancle_btn"></i>
-            <div class="containment flex">
+            <div class="containment">
                 <i class="fa fa-bell"></i>
                 <span>{{ $not->description }} <a href="{{ url($not->link) }}">Subscribe</a></span>
             </div>
@@ -261,12 +261,34 @@
 
 
 
+
+
+<!-- USER NOTIFICATION BANNER START -->
+@if(is_loggedin() && !user_detail()->is_complete && !is_complete() && settings()->profile_alert)
+<div class="top-banner-start top-banner-alert">
+    <div class="top-banner-inner error">
+        <i class="fa fa-times" id="top_banner_cancle_btn"></i>
+        <div class="containment text-center">
+            <i class="fa fa-bell"></i>
+            <span>{{ settings()->profile_alert }}</span>
+        </div>
+    </div>
+</div>
+@endif
+<!-- USER NOTIFICATION BANNER END -->
+
+
+
+
+
+
+
  <!-- NOTIFICATION WARNING BANNER START -->
  @if(Session::has('warning'))
-    <div class="top-banner-start" id="top_banner_alert">
-        <div class="top-banner-inner warning" id="top_banner_inner">
+    <div class="top-banner-start top-banner-alert">
+        <div class="top-banner-inner warning">
             <i class="fa fa-times"  id="top_banner_cancle_btn"></i>
-            <div class="containment flex">
+            <div class="containment">
                 <i class="fa fa-bell"></i>
                 <span>{{ Session::get('warning') }}</span>
             </div>
@@ -274,3 +296,38 @@
     </div>
 @endif
 <!-- NOTIFICATION WARNING BANNER END -->
+
+
+
+
+
+
+
+
+
+ <!-- NOTIFICATION WARNING BANNER START -->
+ @if(Session::has('manual_payment'))
+    <div class="top-banner-start top-banner-alert">
+        <div class="top-banner-inner warning">
+            <i class="fa fa-times top-banner-cancle-btn"></i>
+            <div class="containment">
+                <i class="fa fa-bell"></i>
+                <span>
+                    Premium members must upload Government issued or valid ID card before payment, 1MB max
+                </span>
+            </div>
+        </div>
+    </div>
+@endif
+<!-- NOTIFICATION WARNING BANNER END -->
+
+
+
+
+
+
+
+
+
+
+

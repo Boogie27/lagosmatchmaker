@@ -240,18 +240,19 @@ function is_complete()
     $state = false;
     if(Auth::user('id'))
     {
-        $user = User::where('id', Auth::user('id'))->where('email', Auth::user('email'))->first();
+        $user = User::where('id', Auth::user('id'))->where('email', Auth::user('email'))->where('is_complete', 0)->first();
         if($user)
         {
             if($user->about && $user->gender && $user->age && $user->location && 
                 $user->marital_status && $user->religion && $user->date_of_birth && 
-                $user->looking_for && $user->looking_for_detail && $user->smoking && 
-                $user->drinking && $user->interest && $user->genotype && $user->language
-                && $user->height && $user->weight && $user->body_type && $user->hair_color
-                && $user->eye_color && $user->ethnicity && $user->HIV && $user->complexion 
-                && $user->education && $user->career)
+                $user->looking_for && $user->smoking && $user->drinking && $user->interest 
+                && $user->genotype && $user->language && $user->height && $user->weight 
+                && $user->body_type && $user->ethnicity && $user->HIV && $user->complexion 
+                && $user->education && $user->career && !$user->is_complete)
             {
                 $state = true;
+                $user->is_complete = 1;
+                $user->save();
             }
         }
     }
@@ -629,6 +630,24 @@ function checked_member($id)
     return $state;
 }
 
+
+
+
+
+
+
+
+
+function detail_is_complete()
+{
+    $state = false;
+    $users = User::where('is_complete', 1)->get();
+    if(count($users))
+    {
+        $state = count($users);
+    }
+    return $state;
+}
 
 
 

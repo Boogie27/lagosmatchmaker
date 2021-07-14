@@ -883,22 +883,6 @@ class ClientAjaxController extends Controller
 
 
 
-    public function ajax_get_user_chats(Request $request)
-    {
-        if($request->ajax())
-        {
-            $data = false;
-            $receiver_id = $request->receiver_id;
-
-            $chats = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->where('sender_delete', 0)
-                        ->orWhere(function($query) use ($receiver_id){
-                        $query->where('receiver_id', Auth::user('id'))->where('sender_id', $receiver_id)->where('receiver_delete', 0);
-                    })->get();
-    
-            return view('web.chat.ajax-get-chat', compact('chats'));
-        }
-        return response()->json(['error' => $data]);
-    }
      
 
 
@@ -950,6 +934,7 @@ class ClientAjaxController extends Controller
    {
        if($request->ajax())
        {
+            $data = false;
            if(Image::exists('image'))
            {
                $file = Image::files('image');
@@ -989,13 +974,14 @@ class ClientAjaxController extends Controller
 
                     if($create)
                     {
-                       $chats = $this->get_chat($receiver_id);
-                       return view('web.chat.ajax-get-chat', compact('chats'));
+                    //    $chats = $this->get_chat($receiver_id);
+                    //    return view('web.chat.ajax-get-chat', compact('chats'));
+                        $data = true;
                     }
                }
            }
        }
-       return response()->json(['data_error' => true]);
+       return response()->json(['data' => $data]);
    }
 
 
@@ -1008,10 +994,12 @@ class ClientAjaxController extends Controller
    {
         if($receiver_id)
         {
-            $chats = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->where('sender_delete', 0)
+            $chat = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->where('sender_delete', 0)
                         ->orWhere(function($query) use ($receiver_id){
                         $query->where('receiver_id', Auth::user('id'))->where('sender_id', $receiver_id)->where('receiver_delete', 0);
-                    })->get();
+                    });
+
+            $chats = $chat->skip(0)->take(8)->orderBy('chat_id', 'DESC')->get();
         } 
         return $chats;
    }
@@ -1334,8 +1322,8 @@ class ClientAjaxController extends Controller
     {
         if($request->ajax())
         {
-            $take = 25;
             $data = false;
+            $max = false;
             $remender = 0;
             $receiver_id = $request->user_id;
             $chat = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->where('sender_delete', 0)
@@ -1345,23 +1333,27 @@ class ClientAjaxController extends Controller
 
             $count = count($chat->get());
             
-            if($count)
+
+            if($request->remender && $request->remender < $request->take)
             {
-                if($count > $request->take)
+                $max = true;
+                $chats = $chat->limit($request->remender)->get();
+                $data  = $this->get_user_chat($chats);
+            }else{
+                $skip = $count - $request->skip;
+                $chats = $chat->skip($skip)->take($request->take)->get();
+                if($count <= $request->skip)
                 {
-                    $skip = $count - $request->take;
-                    $remender = $skip;
-                    $chats = $chat->skip($skip)->take($take)->get();
+                    $max = true;
                 }
-                if($count <= $request->take)
-                {
-                    $chats = $chat->limit($request->remender)->get();
-                }
+                $remender = $skip;
+                $data  = $this->get_user_chat($chats);
             }
-            $data  = $this->get_user_chat($chats);
         }
-        return response()->json(['data' => $data, 'remender' => $remender]);
+        return response()->json(['data' => $data, 'remender' => $remender, 'max' => $max]);
     }
+
+
 
 
 
@@ -1391,7 +1383,7 @@ public function get_user_chat($chats)
                                         </ul>
                                     </div>
                                     <p>'.$chat->chat.'</p>
-                                    <div class="time"><i class="fa fa-clock"></i>'.chat_time($chat->time).'</div>
+                                    <div class="time"><i class="fa fa-clock"></i> '.chat_time($chat->time).'</div>
                                 </div>
                             </li>
                         </ul>';
@@ -1413,7 +1405,7 @@ public function get_user_chat($chats)
                                     <div class="chat-img">
                                         <img src="'.asset($chat->chat).'" alt="">
                                     </div>
-                                    <div class="time"><i class="fa fa-clock"></i>'.chat_time($chat->time).'</div>
+                                    <div class="time"><i class="fa fa-clock"></i> '.chat_time($chat->time).'</div>
                                 </div>
                             </li>
                         </ul>';
@@ -1422,6 +1414,176 @@ public function get_user_chat($chats)
     }
     return $value;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+public function ajax_get_user_chats(Request $request)
+{
+    if($request->ajax())
+    {
+        $data = false;
+        $receiver_id = $request->receiver_id;
+
+        $chat = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->where('sender_delete', 0)
+                    ->orWhere(function($query) use ($receiver_id){
+                    $query->where('receiver_id', Auth::user('id'))->where('sender_id', $receiver_id)->where('receiver_delete', 0);
+                });
+
+        $count = count($chat->get());
+        if($count)
+        {
+            $skip = $count - $request->take;
+            $remender = $skip;
+            $chats = $chat->skip($skip)->take($request->take)->get();
+            
+            $data  = $this->get_user_chat($chats);
+        }
+    }
+    return response()->json(['data' => $data, 'remender' => $remender]);
+}
+
+
+
+
+
+
+
+
+public function ajax_check_member_detail(Request $request)
+{
+    if($request->ajax())
+    {
+        $data = false;
+        $payment_page = url('/manual-payment');
+        if(!Auth::is_loggedin())
+        {
+            $login = url('/login');
+            return response()->json(['login' => $login]);
+        }
+
+        $user = user_detail();
+        $subscription = DB::table('subscriptions')->where('sub_id', $request->sub_id)->first();
+        if($user->membership_level == 'basic' && $subscription->type == 'premium')
+        {
+            if(empty($user->id_card))
+            {
+                return response()->json(['upload_id' => true]);
+            }else{
+                return response()->json(['payment_page' => $payment_page]);
+            }
+        }
+
+        if($user->membership_level == 'premium' && $subscription->type == 'premium')
+        {
+            if(empty($user->id_card))
+            {
+                return response()->json(['upload_id' => true]);
+            }else{
+                return response()->json(['payment_page' => $payment_page]);
+            }
+        }
+
+        if($user->membership_level == 'basic' && $subscription->type == 'basic')
+        {
+            return response()->json(['payment_page' => $payment_page]);
+        }
+    }
+    return response()->json(['data' => $data]);
+}
+
+
+
+
+
+
+
+
+    public function upload_ID_card_index(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+
+            if(Image::exists('image'))
+            {
+                $image = new Image();
+                $file = Image::files('image');
+
+                $file_name = Image::name('image', 'ID_CARD');
+                $image->upload_image($file, ['name' => $file_name, 'size_allowed' => 1000000,'file_destination' => 'web/images/ID_card/']);
+                    
+                $image_name = 'web/images/ID_card/'.$file_name;
+
+                if(!$image->passed())
+                {
+                    return response()->json(['error' => ['image' => $image->error()]]);
+                }
+
+                if($image->passed())
+                {
+                    $data = true;
+                    $user = User::where('id', Auth::user('id'))->first(); //get user detail
+                    if($user->id_card){
+                        Image::remove($user->id_card);
+                    }
+                    $user->id_card = $image_name;
+                    $user->save();
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -63,12 +63,12 @@ a {
     position: relative;
 }
 .top-banner-start .top-banner-inner{
-    right: 5px;
+    right: 0px;
     top: 70px;
-    width: 400px;
-    height: 100px;
+    width: 100%;
     z-index: 30;
     overflow: auto;
+    text-align: center;
     color:  rgb(196, 142, 44);
     padding: 10px 20px;
     position: fixed;
@@ -2461,6 +2461,10 @@ ul.ul-video-call li .call-btn{
 
 
 /* ************* SUBSCRIPTION ************ */
+.sub-bottom-section{
+    padding: 100px 0px;
+    background-color:  rgb(17, 17, 17);
+}
 /* .header-container{
     padding: 150px 0px 0px 0px;
     background-color:  rgb(24, 24, 24);

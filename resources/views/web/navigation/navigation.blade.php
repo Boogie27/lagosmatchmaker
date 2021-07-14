@@ -3,7 +3,9 @@
         <div class="nav-content">
             <div class="nav-inner"><!-- NAVIGATION DESKTOP START -->
                 <div class="nav-left">
-                    <img src="{{asset(settings()->logo) }}" alt="logo" class="app-logo">
+                   <a href="{{ url('/') }}">
+                        <img src="{{asset(settings()->logo) }}" alt="logo" class="app-logo">
+                    </a>
                 </div>
                 <div class="nav-right">
                     <ul class="ul-nav-right">
@@ -17,7 +19,9 @@
                                 </ul>
                             </div>
                         </li> -->
-                        <!-- <li><a href="{{ url('/subscription') }}">SUBSCRIPTION</a></li> -->
+                        @if(is_loggedin())
+                        <li><a href="{{ url('/manual-payment') }}">SUBSCRIPTION</a></li>
+                        @endif
                         <li><a href="{{ url('/how-it-works') }}">HOW IT WORKS</a></li>
                         @if(is_loggedin())
                         <li>
@@ -61,25 +65,12 @@
                     </ul>
                 </div>
             </div><!-- NAVIGATION DESKTOP END -->
-            
-
-            <!-- USER NOTIFICATION BANNER START -->
-            @if(is_loggedin() && !is_complete() && settings()->profile_alert)
-            <div class="top-banner-start" id="top_banner_alert">
-                <div class="top-banner-inner error" id="top_banner_inner">
-                    <i class="fa fa-times" id="top_banner_cancle_btn"></i>
-                    <div class="containment">
-                        <i class="fa fa-bell"></i>
-                        <span>{{ settings()->profile_alert }}</span>
-                    </div>
-                </div>
-            </div>
-            @endif
-            <!-- USER NOTIFICATION BANNER END -->
 
             <div class="inner-nav-mobile"> <!-- NAVIGATION MOBILE START -->
                 <div class="nav-left-mobile">
-                    <img src="{{asset(settings()->logo) }}" alt="logo" class="app-logo">
+                    <a href="{{ url('/') }}">
+                        <img src="{{asset(settings()->logo) }}" alt="logo" class="app-logo">
+                    </a>
                 </div>
                 <div class="nav-right-mobile">
                     <ul class="nav-right-small">

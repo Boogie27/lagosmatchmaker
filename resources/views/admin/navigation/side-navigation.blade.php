@@ -76,7 +76,9 @@
                             <a href="{{ url('/admin/premium') }}">Premium</a>
                         </li>
                         <li>
-                            <a href="{{ url('/admin/unapproved') }}">Unapproved</a>
+                            <a href="{{ url('/admin/unapproved') }}">Unapproved 
+                                <span class="bg-danger badge" style="color: #fff; font-size: 9px;">{{ detail_is_complete() }}</span>
+                            </a>
                         </li>
                         <li>
                             <a href="{{ url('/admin/deactivated') }}">Deactivated</a>

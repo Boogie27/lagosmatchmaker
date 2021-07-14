@@ -3171,11 +3171,110 @@ public function ajax_add_how_it_works(Request $request)
 
 
 
+    public function ajax_upload_id_card_edit(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+
+            $user = User::where('id', $request->user_id)->first(); //get user detail
+            if(Image::exists('image'))
+            {
+                $image = new Image();
+                $file = Image::files('image');
+
+                $file_name = Image::name('image', 'ID_CARD');
+                $image->upload_image($file, ['name' => $file_name, 'size_allowed' => 1000000,'file_destination' => 'web/images/ID_card/']);
+                    
+                $image_name = 'web/images/ID_card/'.$file_name;
+
+                if(!$image->passed())
+                {
+                    return response()->json(['error' => ['image' => $image->error()]]);
+                }
+
+                if($image->passed())
+                {
+                    if($user->id_card){
+                        Image::remove($user->id_card);
+                    }
+                    $user->id_card = $image_name;
+                    $user->save();
+                    $id_card = asset($image_name);
+                    $content = $this->id_card_content($image_name);
+
+                    return response()->json(['id_upload' => $id_card, 'content' => $content]);
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
 
 
 
+
+
+
+
+    public function id_card_content($image_name){
+        $content = '';
+        if($image_name)
+        {
+            $content .= '<div class="title-header">
+                            <h4>Other details</h4>
+                            <a href="#" id="edit_id_card_btn_open"><i class="fa fa-pen"></i></a>
+                            <a href="#" class="text-danger delete-id-card-btn-open"><i class="fa fa-trash"></i></a>
+                        </div>
+                        <ul class="ul-profile-detail" id="ul_id_card_body">
+                            <li>
+                                <div class="title">Member ID CARD  </div>
+                                <div class="body"> <a href="#" data-url="'.asset($image_name).'" id="id_card_open_btn" class="mini-btn">View ID card</a></div>
+                            </li>
+                        </ul>';
+        }
+
+        return $content;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function ajax_delete_id_card(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $user = User::where("id", $request->user_id)->first();
+            if(!$user)
+            {
+                return response()->json(['not_exist' => true]);
+            }
+
+            if($user->id_card)
+            {
+                if(Image::remove($user->id_card))
+                {
+                    $user->id_card = null;
+                    $user->save();
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
 

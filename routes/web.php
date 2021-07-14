@@ -32,7 +32,11 @@ Route::group(['middleware' => 'remember_me'], function(){
     // ************ HOME SECTION ***************//
     Route::get("/", [ClientController::class, "index"]);
     Route::get("/search", [ClientController::class, "index_search"]);
+    Route::post("/upload-ID-card-index", [ClientAjaxController::class, "upload_ID_card_index"]);
+    Route::post("/ajax-check-member-detail", [ClientAjaxController::class, "ajax_check_member_detail"]);
 
+
+  
 
 
     // ************ LOGIN SECTION ***************//
@@ -106,10 +110,12 @@ Route::group(['middleware' => 'remember_me'], function(){
 
     // ************ SUBCRIPTION SECTION ***************//
     Route::get("/subscription", [ClientController::class, "subscription_index"]);
-    Route::get("/manual-payment", [ClientController::class, "manual_index"]);
+    Route::get("/manual-payment", [ClientController::class, "manual_payment_index"]);
     Route::post("/upload-ID-card", [ClientAjaxController::class, "ajax_upload_id_card"]);
     Route::post("/ajax-subscribe-now", [ClientAjaxController::class, "ajax_subscribe_now"]);
     Route::post("/subscription", [ClientController::class, "subscription_store"]);
+
+    
 
 
     // ********** HOW IT WORKS SECTION ***************//
@@ -253,6 +259,50 @@ Route::group(['middleware' => 'remember_me'], function(){
 
 
 
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // *********************************************************************************************************************************//
 //                                        ADMIN ROUTE SECTION                                                                    *//
 // ********************************************************************************************************************************//
@@ -308,11 +358,12 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/admin/read-chats", [AdminController::class, "read_chats_index"]);
     Route::post("/admin/ajax-delete-user-chat", [AdminAjaxController::class, "ajax_delete_user_chat"]);
     Route::post("/admin/ajax-get-infinit-user-chat", [AdminAjaxController::class, "ajax_get_infinit_user_chat"]);
-
+   
     
     
     Route::get("/admin/deactivated", [AdminController::class, "deactivated_index"]);
     Route::get("/admin/unapproved", [AdminController::class, "unapproved_index"]);
+    Route::get("/admin/unapproved/completed", [AdminController::class, "unapproved_completed_index"]);
     Route::get("/admin/member-detail/{id}", [AdminController::class, "member_detail_index"]);
     Route::post("/ajax-suspend-member", [AdminAjaxController::class, "ajax_suspend_member"]);
     Route::post("/ajax-approve-member", [AdminAjaxController::class, "ajax_approve_member"]);
@@ -325,8 +376,11 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/ajax-get-lifestyle", [AdminAjaxController::class, "ajax_get_life_style"]);
     Route::post("/admin/edit-physical-info", [AdminAjaxController::class, "ajax_edit_physical_info"]);
     Route::post("/admin/ajax-get-physical-info", [AdminAjaxController::class, "ajax_get_physical_info"]);
+    Route::post("/admin/ajax-delete-id-card", [AdminAjaxController::class, "ajax_delete_id_card"]);
+    Route::post("/admin/upload-id-card-edit", [AdminAjaxController::class, "ajax_upload_id_card_edit"]);
     
-
+    
+    
 
 
     // ********* ERROR SECTION ************//

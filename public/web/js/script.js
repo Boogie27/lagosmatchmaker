@@ -90,14 +90,14 @@ function scroll_top_banner(){
     $(window).scroll(function(){
         var height = $(this).scrollTop()
         if(height > 10){
-            $("#top_banner_inner").addClass('top')
+            $(".top-banner-inner").addClass('top')
         }else{
-            $("#top_banner_inner").removeClass('top')
+            $(".top-banner-inner").removeClass('top')
         }
     })
 
     if($(window).scrollTop() > 10){
-        $("#top_banner_inner").addClass('top')
+        $(".top-banner-inner").addClass('top')
     }
 }
 scroll_top_banner()
@@ -108,8 +108,8 @@ scroll_top_banner()
 
 
 // *********** CLOSE TOP BANNER ALERT *************//
-$("#top_banner_cancle_btn").click(function(){
-    $("#top_banner_alert").hide(200)
+$(".top-banner-cancle-btn").click(function(){
+    $(".top-banner-alert").hide(200)
     var url = $(this).attr('data-url')
     var id = $(this).attr('data-id')
 
@@ -821,8 +821,6 @@ $("#add_match_members_profile").on('click', '.member_match_close_btn', function(
     e.preventDefault()
     $(".member-match-form-container").hide()
 })
-
-
 
 
 

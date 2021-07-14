@@ -19,6 +19,7 @@ use Mail;
 
 
 use App\Jobs\SendEmailJob;
+use App\Mail\UserMail;
 use App\Mail\UserResetPaswordMailer;
 
 
@@ -63,8 +64,11 @@ class ClientController extends Controller
                 $descriptions = $manual_subscription['descriptions'];
             }
         }
+
+        $user = user_detail();
+
        
-        return view('web.index', compact('images', 'descriptions', 'personalized', 'subscriptions', 'banners', 'states', 'genotypes', 'marital_status'));
+        return view('web.index', compact('user', 'images', 'descriptions', 'personalized', 'subscriptions', 'banners', 'states', 'genotypes', 'marital_status'));
     }
 
 
@@ -264,8 +268,8 @@ class ClientController extends Controller
         if($create)
         {
             $url = url('/new-password?token='.$token);
-            // Mail::to($request->email)->send(new UserMail($url));
-            SendEmailJob::dispatch($request->email, $url)->delay(now()->addSeconds(5));
+            Mail::to($request->email)->send(new UserMail($url));
+            // SendEmailJob::dispatch($request->email, $url)->delay(now()->addSeconds(5));
         }
 
       
@@ -687,30 +691,10 @@ class ClientController extends Controller
         if($check)
         {
             $chat_token = $check->chat_token;
-           
-
-            $chat = Chat::where('sender_id', Auth::user('id'))->where('receiver_id', $receiver_id)->where('sender_delete', 0)
-                            ->orWhere(function($query) use ($receiver_id){
-                            $query->where('receiver_id', Auth::user('id'))->where('sender_id', $receiver_id)->where('receiver_delete', 0);
-                         });
-            $count = count($chat->get());
-
-            if($count > 0 && $count < 25)
-            {
-                $chats = $chat->limit($count)->get();
-            }else{
-                $take = 25;
-                $skip = $count - $take;
-                $chats = $chat->skip($skip)->take($take)->get();
-            }
-
-            // dd($chats);
-
-            // dd($count);
         }
         
 
-        return view('web.chat', compact('chat_token', 'receiver', 'display_name', 'profile_image', 'chats', 'messages'));
+        return view('web.chat', compact('chat_token', 'receiver', 'display_name', 'profile_image', 'messages'));
     }
 
 
@@ -1268,11 +1252,16 @@ class ClientController extends Controller
 
 
 
-    public function manual_index()
+    public function manual_payment_index()
     {
         $images = null;
         $descriptions = null;
         $personalized = null;
+        
+        if(!Auth::is_loggedin())
+        {
+            return redirect('/login');
+        }
 
         $settings = DB::table('settings')->where('id', 1)->first();
         if($settings)
@@ -1293,7 +1282,15 @@ class ClientController extends Controller
             $personalized = json_decode($settings->personalized_match, true);
         }
 
-        return view('web.manual-payment', compact('personalized', 'descriptions', 'images'));
+        $user = User::where('id', Auth::user('id'))->first();
+        if($user->membership_level == 'premium' && !$user->id_card)
+        {
+            Session::flash('manual_payment', true);
+        }
+
+        $premium = DB::table('subscriptions')->where('type', 'premium')->first();
+
+        return view('web.manual-payment', compact('premium', 'personalized', 'descriptions', 'images'));
     }
     
 

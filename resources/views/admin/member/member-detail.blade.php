@@ -176,15 +176,19 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="profile-detail-left">
+                                <div class="profile-detail-left" id="profile_id_card_content">
                                     <div class="title-header">
                                         <h4>Other details</h4>
+                                        <a href="#" id="edit_id_card_btn_open"><i class="fa fa-pen"></i></a>
+                                        @if($user->id_card)
+                                        <a href="#" class="text-danger delete-id-card-btn-open"><i class="fa fa-trash"></i></a>
+                                        @endif
                                     </div>
-                                    <ul class="ul-profile-detail" id="ul_looking_for_body">
+                                    <ul class="ul-profile-detail" id="ul_id_card_body">
                                         <li>
                                             <div class="title">Member ID CARD  </div>
                                             @if($user->id_card)
-                                            <div class="body"> <a href="#" data-url="{{ asset( $user->id_card) }}" id="id_card_open_btn" class="mini-btn">View ID card</a></div>
+                                            <div class="body"> <a href="#" data-url="{{ asset($user->id_card) }}" id="id_card_open_btn" class="mini-btn">View ID card</a></div>
                                             @else
                                             <div class="body">: None</div>
                                             @endif
@@ -215,14 +219,17 @@
                 <div class="text-right p-2">
                     <button class="confirm-box-close"><i class="fa fa-times"></i></button>
                 </div>
-                <div class="confirm-header">
-                    <p><b>{{ ucfirst($user->user_name)}} ID CARD</b></p>
-                    <div class="member-id-card">
-                        <img src="{{ asset($user->id_card) }}" alt="">
+                <div class="id-card-main-container">
+                    <div class="confirm-header">
+                        <p><b>{{ ucfirst($user->user_name)}} ID CARD</b></p>
+                        <div class="member-id-card" id="member_id_card">
+                            <img src="" alt="">
+                        </div>
                     </div>
                 </div>
                 <div class="confirm-form text-right p-2">
-                    <a href="{{ asset($user->id_card) }}" class="mini-btn" download><i class="fa fa-arrow-down"></i> Download</a>
+                    <a href="#" class="text-danger delete-id-card-btn-open-modal">delete</a>
+                    <a href="{{ asset($user->id_card) }}" class="download-id-card-btn mini-btn" download><i class="fa fa-arrow-down"></i> Download</a>
                 </div>
             </div>
         </div>
@@ -231,6 +238,39 @@
 <!--  DELETE MODAL ALERT END -->
 
 
+
+
+
+
+
+
+
+<!-- ID CAR MODAL START -->
+<section class="modal-alert-popup" id="ID_card_modal_popup">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <h4 style="color: #555;">Upload ID Card</h4>
+                    <p>Upload Government issued or valid ID card, 1MB max</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <input type="file" id="id_card_input" style="display: none;">
+                        <div class="alert-form alert_0 text-danger"></div>
+                        <div class="form-group">
+                            <button type="button" id="ID_card_input_open_btn" class="confirm-btn">Upload Now</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ID CAR MODAL END -->
 
 
 
@@ -261,6 +301,41 @@
     </div>
 </section>
 <!--  DELETE MODAL ALERT END -->
+
+
+
+
+
+
+
+
+
+<!--  DELETE MODAL ALERT START -->
+<section class="modal-alert-popup" id="delete_id_card_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to delete {{ $user->user_name }} <b>ID card</b>?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button"  id="delete_id_card_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  DELETE MODAL ALERT END -->
+
+
+
+
 
 
 
@@ -365,27 +440,30 @@ $("#detail_physical_info_btn_open").click(function(e){
 
 // ************ VIEW ID CARD MODAL *********//
 var state = false;
-$("#id_card_open_btn").click(function(e){
+var id_card
+$("#profile_id_card_content").on('click', '#id_card_open_btn', function(e){
     e.preventDefault();
-    var id_card = $(this).attr('data-url')
-    
+    id_card = $(this).attr('data-url')
+
     if(state == false){
         state = true;
-        return get_id_card(id_card)
+        return get_id_card()
     }
 
+    $('.download-id-card-btn').attr('href', id_card)
     $(".member-id-card").children('img').attr('src', id_card)
     $("#id_card_modal_popup_box").show()
 })
 
 
 
-function get_id_card(id_card){
+function get_id_card(){
     $("#access_preloader_container").show()
-    setTimeout(function(id_card){
-        $("#id_card_modal_popup_box").show()
+    setTimeout(function(){
         $("#access_preloader_container").hide()
+        $('.download-id-card-btn').attr('href', id_card)
         $(".member-id-card").children('img').attr('src', id_card)
+        $("#id_card_modal_popup_box").show()
     }, 1000)
 }
 
@@ -438,6 +516,142 @@ $("#member_approve_confirm_submit_btn").click(function(e){
     });
 
 })
+
+
+
+
+
+
+
+// ********* OPEN ID CARD MODAL POPUP *********//
+$("#profile_id_card_content").on('click', '#edit_id_card_btn_open', function(e){
+    e.preventDefault()
+    $("#ID_card_modal_popup").show()
+})
+
+
+
+// ********* ID CARD INPUT OPEN *********//
+$("#ID_card_input_open_btn").click(function(e){
+    e.preventDefault()
+    $("#id_card_input").val('')
+    $("#id_card_input").click()
+})
+
+
+
+
+
+
+// ********* UPLOAD ID CARD *********//
+$("#id_card_input").on('change', function(e){
+    var user_id = "{{ $user->id }}"
+    var image = e.target.files
+    var extension = image[0].type;
+    $("#ID_card_input_open_btn").html('Please wait...')
+    
+    if(extension != 'image/jpeg'){
+        $("#ID_card_modal_popup").hide()
+        return bottom_alert_error('Image type must be jpg, jpeg, png!')
+    }
+
+
+    var data = new FormData();
+    var image = $(image)[0];
+
+    data.append('image', image);
+    data.append('user_id', user_id);
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/admin/upload-id-card-edit') }}",
+        method: "post",
+        data: data,
+        contentType: false,
+        processData: false,
+        success: function (response){
+            if(response.error){
+                $("#ID_card_input_open_btn").html('Upload Now')
+                return $(".alert_0").html(response.error.image)
+            }else if(response.id_upload){
+                $('.download-id-card-btn').attr('href', response.id_upload)
+                $("#profile_id_card_content").html(response.content)
+                bottom_alert_success('ID card uploaded successfully!')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $("#id_card_input").val('')
+            $("#ID_card_modal_popup").hide()
+            $("#ID_card_input_open_btn").html('Upload Now')
+        },
+        error: function(){
+            $(".modal-alert-popup").hide()
+            $("#ID_card_input_open_btn").html('Upload Now')
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+// ******** DELETE ID CARD MODAL OPEN ************//
+$("#profile_id_card_content").on('click', '.delete-id-card-btn-open', function(e){
+    e.preventDefault()
+    $("#delete_id_card_modal_popup_box").show()
+})
+
+$(".delete-id-card-btn-open-modal").click(function(e){
+    e.preventDefault()
+    $("#delete_id_card_modal_popup_box").show()
+})
+
+
+
+
+
+
+// ******** DELETE ID CARD ************//
+$("#delete_id_card_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    $(this).html('Please wait...')
+
+     csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/admin/ajax-delete-id-card') }}",
+        method: "post",
+        data: {
+            user_id: "{{ $user->id }}",
+        },
+        success: function (response){
+            if(response.not_exist){
+                bottom_alert_error('User does not exist!')
+            }else if(response.data){
+                $("#member_id_card img").attr('src', response.data)
+                $(".delete-id-card-btn-open").hide()
+                bottom_alert_success('ID card deleted successfully!')
+               $("#ul_id_card_body").html("<li><div class='title'>Member ID CARD  </div><div class='body'>: None</div></li>")
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
 
 
 

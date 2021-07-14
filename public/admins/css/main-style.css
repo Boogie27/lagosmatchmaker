@@ -671,6 +671,13 @@ ul.ul-profile-detail li p.detail-about-p{
 .member-id-card img{
     width: 100%;
 }
+.id-card-main-container{
+    height: 500px;
+    overflow: auto;
+}
+.id-card-main-container::-webkit-scrollbar{
+    width: 0px;
+}
 @media only screen and (max-width: 1125px){
     .profile-detail-container{
         width: 100%;
@@ -687,6 +694,10 @@ ul.ul-profile-detail li p.detail-about-p{
     }
     .profile-detail-section{
         padding: 50px 4px;
+    }
+    .id-card-main-container{
+        height: 100%;
+        overflow: none;
     }
 }
 
