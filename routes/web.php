@@ -141,6 +141,12 @@ Route::group(['middleware' => 'remember_me'], function(){
 
 
 
+    // ********** NOTIFICATION *****************//
+    Route::post("/delete-approved-notification", [ClientAjaxController::class, "delete_approved_notification"]);
+    
+    
+
+
     // ************* SUCCESS SECTION ********************//
     Route::get("/success", [ClientController::class, "success_index"]);
 
@@ -341,7 +347,6 @@ Route::group(['middleware' => 'remember_me'], function(){
 
     // ************* ALL MEMBERS ************//
     Route::get("/admin/all-members", [AdminController::class, "all_members_index"]);
-    // Route::post("/admin/ajax-check-single-member", [AdminAjaxController::class, "ajax_check_single_member"]);
     Route::post("/admin/ajax-check-all-members", [AdminAjaxController::class, "ajax_check_all_members"]);
     Route::post("/admin/ajax-add-mass-user-subscription", [AdminAjaxController::class, "ajax_add_mass_user_subscription"]);
 
@@ -378,6 +383,7 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/ajax-get-physical-info", [AdminAjaxController::class, "ajax_get_physical_info"]);
     Route::post("/admin/ajax-delete-id-card", [AdminAjaxController::class, "ajax_delete_id_card"]);
     Route::post("/admin/upload-id-card-edit", [AdminAjaxController::class, "ajax_upload_id_card_edit"]);
+    Route::post("/admin/ajax-send-members-newsletter", [AdminAjaxController::class, "ajax_send_members_newsletter"]);
     
     
     
@@ -541,7 +547,7 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/email-settings", [AdminController::class, "email_settings_update"]);
     Route::get("/admin/payment-settings", [AdminController::class, "payment_settings_index"]);
     Route::post("/admin/payment-settings", [AdminController::class, "payment_settings_update"]);
-    Route::post("/admin/incomplete-profile-alert", [AdminController::class, "incomplete_profile_alert_update"]);
+    Route::post("/admin/profile-alert-message", [AdminController::class, "profile_alert_message_update"]);
     
 
 
@@ -583,7 +589,7 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/admin/compose-newsletter", [AdminController::class, "compose_newsletter"]);
     Route::post("/admin/compose-newsletter", [AdminController::class, "compose_newsletter_store"]);
     Route::post("/admin/ajax-send-newsletter", [AdminAjaxController::class, "ajax_send_news_letter"]);
-    Route::post("/admin/ajax-send-users-newsletter", [AdminAjaxController::class, "ajax_send_users_newsletter"]);
+    // Route::post("/admin/ajax-send-users-newsletter", [AdminAjaxController::class, "ajax_send_users_newsletter"]);
     
     
 

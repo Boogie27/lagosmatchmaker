@@ -63,6 +63,7 @@ class ClientAjaxController extends Controller
                     if($user->save())
                     {
                         $data = true;
+                        $this->complete_detail();
                     }
                 }
             }
@@ -70,6 +71,29 @@ class ClientAjaxController extends Controller
         return response()->json(['data' => $data]);
     }
 
+
+
+
+
+
+    public function complete_detail()
+    {
+        $state = false;
+        $user = User::where('id', Auth::user('id'))->first(); //get user detail
+
+        if($user->about && $user->age && $user->location && 
+            $user->marital_status && $user->religion && $user->looking_for && 
+            $user->smoking && $user->drinking && $user->interest 
+            && $user->genotype && $user->language && $user->height && $user->weight 
+            && $user->body_type && $user->ethnicity && $user->HIV && $user->complexion 
+            && $user->education && $user->career && !$user->is_complete)
+            {
+                $state = true;
+                $user->is_complete = 1;
+                $user->save();
+        }
+        return $state;
+    }
 
 
 
@@ -122,6 +146,7 @@ class ClientAjaxController extends Controller
                     if($user->save())
                     {
                         $data = true;
+                        $this->complete_detail();
                     }
                 }
             }
@@ -177,6 +202,7 @@ class ClientAjaxController extends Controller
                     if($user->save())
                     {
                         $data = true;
+                        $this->complete_detail();
                     }
                 }
             }
@@ -244,6 +270,7 @@ class ClientAjaxController extends Controller
                     if($user->save())
                     {
                         $data = true;
+                        $this->complete_detail();
                     }
                 }
             }
@@ -305,6 +332,7 @@ class ClientAjaxController extends Controller
                     if($user->save())
                     {
                         $data = true;
+                        $this->complete_detail();
                     }
                 }
             }
@@ -924,7 +952,7 @@ class ClientAjaxController extends Controller
     
 
 
-
+  
 
 
 
@@ -1552,6 +1580,22 @@ public function ajax_check_member_detail(Request $request)
 
 
 
+
+    public function delete_approved_notification(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $notification = DB::table('notifications')->where('not_id', $request->not_id)->first();
+            if($notification)
+            {
+                $data = true;
+                DB::table('notifications')->where('not_id', $request->not_id)->delete();
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
 
 
 

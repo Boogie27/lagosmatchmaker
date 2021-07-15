@@ -110,22 +110,6 @@ scroll_top_banner()
 // *********** CLOSE TOP BANNER ALERT *************//
 $(".top-banner-cancle-btn").click(function(){
     $(".top-banner-alert").hide(200)
-    var url = $(this).attr('data-url')
-    var id = $(this).attr('data-id')
-
-
-    csrf_token() //csrf token
-
-    $.ajax({
-        url: url,
-        method: "post",
-        data: {
-            id: id
-        },
-        success: function (response){
-            console.log(response)
-        }
-    });
 })
 
 
@@ -830,7 +814,25 @@ $("#add_match_members_profile").on('click', '.member_match_close_btn', function(
 
 
 
+// ************* DELETE APPORVED NOTIFICATION *********//
+$("#delete_approved_notification").click(function(e){
+    var url = $(this).attr('data-url')
+    var not_id = $(this).attr('data-id')
 
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            not_id: not_id
+        },
+        success: function (response){
+            console.log(response)
+        }
+    });
+})
 
 
 

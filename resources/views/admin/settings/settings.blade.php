@@ -230,14 +230,22 @@
                                     <div class="col-xl-6"><!-- report start-->
                                         <div class="profile-detail-left">
                                             <div class="title-header">
-                                                <h4>Incomplete profile alert</h4> 
+                                                <h4>Profile alert</h4> 
                                             </div>
                                             <div class="form-body-settings">
-                                                <form action="{{ url('/admin/incomplete-profile-alert') }}" method="POST" enctype="multipart/form-data" class="parsley-examples">
+                                                <form action="{{ url('/admin/profile-alert-message') }}" method="POST" enctype="multipart/form-data" class="parsley-examples">
                                                     <div class="row">
                                                         <div class="col-xl-12">
                                                             <div class="form-group">
-                                                                <textarea name="profile_alert" class="form-control" cols="30" rows="5" placeholder="Write Incomplete profile alert message...">{{ $settings->profile_alert ?? old('profile_alert')}}</textarea>
+                                                                <label for="">Complete profile alert</label>
+                                                                <textarea name="complete_profile_alert" class="form-control" cols="30" rows="3" placeholder="Write Complete profile alert message...">{{ $settings->complete_profile_alert ?? old('complete_profile_alert')}}</textarea>
+                                                                <div class="alert-form text-danger">@if($errors->first('complete_profile_alert')) {{ $errors->first('complete_profile_alert') }} @endif</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-12">
+                                                            <div class="form-group">
+                                                                <label for="">Incomplete profile alert</label>
+                                                                <textarea name="profile_alert" class="form-control" cols="30" rows="3" placeholder="Write Incomplete profile alert message...">{{ $settings->profile_alert ?? old('profile_alert')}}</textarea>
                                                                 <div class="alert-form text-danger">@if($errors->first('profile_alert')) {{ $errors->first('profile_alert') }} @endif</div>
                                                             </div>
                                                         </div>

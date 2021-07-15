@@ -1129,10 +1129,7 @@ class AdminController extends Controller
         $request->validate([
             'from_name' => 'required|max:50',
             'from_email' => 'required',
-            'smtp_host' => 'required|max:50',
-            'smtp_password' => 'required|max:100',
-            'smtp_port' => 'required|max:50',
-            'smtp_host' => 'required|max:50',
+            'approved_profile_mail' => 'required|max:500',
         ]);
 
         $settings = DB::table('settings')->where('id', 1)->first();
@@ -1141,10 +1138,7 @@ class AdminController extends Controller
             DB::table('settings')->where('id', 1)->update([
                 'from_name' => $request->from_name,
                 'from_email' => $request->from_email,
-                'smtp_host' => $request->smtp_host,
-                'smtp_password' => $request->smtp_password,
-                'smtp_port' => $request->smtp_port,
-                'smtp_host' => $request->smtp_host,
+                'approved_profile_mail' => $request->approved_profile_mail,
             ]);
             return back()->with('success', 'Email settings updated successfully!');
         }
@@ -1269,10 +1263,11 @@ class AdminController extends Controller
 
 
 
-    public function incomplete_profile_alert_update(Request $request)
+    public function profile_alert_message_update(Request $request)
     {
         $request->validate([
             'profile_alert' => 'required|max:500',
+            'complete_profile_alert' => 'required|max:500',
         ]);
 
         $settings = DB::table('settings')->where('id', 1)->first();
@@ -1280,6 +1275,7 @@ class AdminController extends Controller
         {
             DB::table('settings')->where('id', 1)->update([
                 'profile_alert' => $request->profile_alert,
+                'complete_profile_alert' => $request->complete_profile_alert,
             ]);
             return back()->with('success', 'Profile alert updated successfully!');
         }

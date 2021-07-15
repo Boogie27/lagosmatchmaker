@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Chat;
 use App\Models\Auth;
 use App\Models\Admin;
+use App\Models\Newsletter;
 use App\Models\ContactUs;
 
 
@@ -243,9 +244,9 @@ function is_complete()
         $user = User::where('id', Auth::user('id'))->where('email', Auth::user('email'))->where('is_complete', 0)->first();
         if($user)
         {
-            if($user->about && $user->gender && $user->age && $user->location && 
-                $user->marital_status && $user->religion && $user->date_of_birth && 
-                $user->looking_for && $user->smoking && $user->drinking && $user->interest 
+            if($user->about && $user->age && $user->location && 
+                $user->marital_status && $user->religion && $user->looking_for && 
+                $user->smoking && $user->drinking && $user->interest 
                 && $user->genotype && $user->language && $user->height && $user->weight 
                 && $user->body_type && $user->ethnicity && $user->HIV && $user->complexion 
                 && $user->education && $user->career && !$user->is_complete)
@@ -283,6 +284,19 @@ function end_subscription_notification()
 
 
 
+
+
+
+function approved_notification()
+{
+    $notification = DB::table('notifications')->where('notification_from', 'admin')
+                    ->where('notification_to', Auth::user('id'))->where('type', 'approved')->first();
+    if($notification)
+    {
+        return $notification;
+    }
+    return false;
+}
 
 
 
@@ -650,4 +664,12 @@ function detail_is_complete()
 }
 
 
+
+
+
+
+function newsletters()
+{
+    return Newsletter::all();
+}
 

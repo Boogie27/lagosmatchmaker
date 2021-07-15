@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 
 
+use App\Mail\ApproveUserMail;
 use App\Mail\NewsletterMailer;
 use App\Jobs\SendNewsletterJob;
 
@@ -84,16 +85,41 @@ class AdminAjaxController extends Controller
         if($request->ajax())
         {
             $user = User::where('id', $request->user_id)->first();
+            $user_detail = $user;
             if($user)
             {
+                $data = true;
+                $this->send_approved_notification($user);
                 $user->is_approved = 1;
                 $user->save();
-                $data = true;
+              
+                if(settings()->approved_profile_mail)
+                {
+                    Mail::to($user_detail->email)->send(new ApproveUserMail());
+                }
             }
         }
         return response()->json(['data' => $data]);
     }
     
+
+
+
+    public function send_approved_notification($user)
+    {
+        if($user)
+        {
+            $settings = DB::table('settings')->where('id', 1)->first();
+
+            DB::table('notifications')->insert([
+                'notification_from' => 'admin',
+                'notification_to' => $user->id,
+                'title' => $user->user_name,
+                'type' => 'approved',
+                'description' => $settings->complete_profile_alert
+            ]);
+        }
+    }
 
 
 
@@ -2630,10 +2656,8 @@ class AdminAjaxController extends Controller
             {
                 foreach($subscribers as $subscriber)
                 {
-                    SendNewsletterJob::dispatch($newsletter, $subscriber['email'])
-                                    ->delay(now()->addSeconds(5));
+                    Mail::to($subscriber['email'])->send(new NewsletterMailer($newsletter));;
                 }
-    
                 $data = true;
                 Session::forget('all');
                 Session::forget('newsletter');
@@ -2769,35 +2793,34 @@ public function get_user_chat($chats, $user_id)
 
 
 
-public function ajax_send_users_newsletter(Request $request)
-{
-    if($request->ajax())
-    {
-        $data = false;
-        $newsletter = Newsletter::where('id', $request->newsletter_id)->first();
-        if(!$newsletter)
-        {
-            return response()->json(['error' => '*Newsletter does not exist']);
-        }
-        if($newsletter)
-        {
-            if($request->name == 'basic')
-            {
-                $members = User::where('membership_level', 'basic')->where('is_deactivated', 0)->get();
-            }
-            if($request->name == 'premium')
-            {
-                $members = User::where('membership_level', 'premium')->where('is_deactivated', 0)->get();
-            }
-            foreach($members as $member)
-            {
-                SendNewsletterJob::dispatch($newsletter, $member->email)
-                                ->delay(now()->addSeconds(5));
-            }
-        }
-    }
-    return response()->json(['data' => $data]);
-}
+// public function ajax_send_users_newsletter(Request $request)
+// {
+//     if($request->ajax())
+//     {
+//         $data = false;
+//         $newsletter = Newsletter::where('id', $request->newsletter_id)->first();
+//         if(!$newsletter)
+//         {
+//             return response()->json(['error' => '*Newsletter does not exist']);
+//         }
+//         if($newsletter)
+//         {
+//             if($request->name == 'basic')
+//             {
+//                 $members = User::where('membership_level', 'basic')->where('is_deactivated', 0)->get();
+//             }
+//             if($request->name == 'premium')
+//             {
+//                 $members = User::where('membership_level', 'premium')->where('is_deactivated', 0)->get();
+//             }
+//             foreach($members as $member)
+//             {
+//                 Mail::to($member->email)->send(new NewsletterMailer($newsletter));
+//             }
+//         }
+//     }
+//     return response()->json(['data' => $data]);
+// }
 
 
 
@@ -2979,57 +3002,6 @@ public function ajax_add_how_it_works(Request $request)
 
 
 
-
-
-    // public function ajax_check_single_member(Request $request)
-    // {
-    //     if($request->ajax())
-    //     {
-    //         $data = false;
-    //         $is_present = false;
-
-    //         if($request->state == 'false')
-    //         {
-    //             if(Session::has('checked_members'))
-    //             {
-    //                 $stored_ids = Session::get('checked_members');
-    //                 foreach($stored_ids as $key => $stored_id)
-    //                 {
-    //                     if($request->id == $stored_id['id'])
-    //                     {
-    //                         unset($stored_ids[$key]);
-    //                     }
-    //                 }
-    //                 Session::forget('all_members');
-    //                 Session::put('checked_members', $stored_ids);
-    //                 return response()->json(['removed' => true]);
-    //             }
-    //         }
-
-    //         if($request->state == 'true')
-    //         {
-    //             if(Session::has('checked_members'))
-    //             {
-    //                 $stored_ids = Session::get('checked_members');
-    //                 foreach($stored_ids as $key => $stored_id)
-    //                 {
-    //                     if($request->id == $stored_id['id'])
-    //                     {
-    //                         $is_present = true;
-    //                     }
-    //                 }
-    //             }
-
-    //             if($is_present == false)
-    //             {
-    //                 $stored_ids[] = ['id' => $request->id];
-    //                 Session::put('checked_members', $stored_ids);
-    //             }
-    //             $data = true;
-    //         }
-    //     }
-    //     return response()->json(['data' => $data]);
-    // }
 
 
 
@@ -3275,6 +3247,71 @@ public function ajax_add_how_it_works(Request $request)
         }
         return response()->json(['data' => $data]);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    public function ajax_send_members_newsletter(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $newsletter = Newsletter::where('id', $request->newsletter_id)->first();
+            if($newsletter)
+            {
+                foreach($request->stored_id as $id)
+                {
+                    $member = User::where('id', $id)->first();
+                    if($member)
+                    {
+                        Mail::to($member->email)->send(new NewsletterMailer($newsletter));
+                    }
+                }
+            }
+            $data = true;
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

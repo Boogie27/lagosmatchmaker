@@ -341,7 +341,7 @@
 
 
 <!--  SEND MODAL ALERT START -->
-<section class="modal-alert-popup" id="send_users_newesletter_modal_popup_box">
+<!-- <section class="modal-alert-popup" id="send_users_newesletter_modal_popup_box">
     <div class="sub-confirm-container">
         <div class="sub-confirm-dark-theme">
             <div class="sub-inner-content">
@@ -360,7 +360,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 <!--  SEND MODAL ALERT END -->
 
 
@@ -445,6 +445,51 @@
 
 
 
+<!--  MEMBER NEWSLETTER MODAL ALERT START -->
+<section class="modal-alert-popup" id="member_newesletter_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p><b>Newsletter</b></p>
+                </div>
+                @if(count($newsletters = newsletters()))
+                <ul class="ul-member-newsletter">
+                    @php($x = 1)
+                    @foreach($newsletters as $newsletter)
+                    <li class="main">
+                        <div class="inner-newsletter">
+                            <span>
+                                <a href="{{ url('/admin/edit-newsletter/'.$newsletter->id) }}" style="color: #555;">{{ $x }}. {{ $newsletter->title  }}</a>
+                            </span>
+                            <div class="text-right pb-3">
+                                <div class="drop-down">
+                                    <i class="fa fa-ellipsis-h drop-down-open"></i>
+                                    <ul class="drop-down-body">
+                                        <li class="text-left">
+                                            <a href="{{ url('/admin/edit-newsletter/'.$newsletter->id) }}" class="">Edit</a>
+                                            <a href="#" id="{{ $newsletter->id }}" class="send-member-newsletter-btn">Send</a>
+                                            <a href="{{ url('/admin/newsletter-preview/'.$newsletter->id) }}" class="">Preview</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    @php( $x++ )
+                    @endforeach
+                </ul>
+                @else
+                <div class="text-center pb-3">There are no newsletters</div>
+                @endif
+            </div>
+        </div>
+    </div>
+</section>
+<!--  SEND MODAL ALERT END -->
 
 
 
@@ -458,7 +503,28 @@
 
 
 
-
+<!--  SEND MODAL ALERT START -->
+<section class="modal-alert-popup" id="member_newesletter_confirm_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to send this newsletter?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button" data-url="{{ url('/admin/ajax-send-members-newsletter') }}" id="send_members_newsletter_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  SEND MODAL ALERT END -->
 
 
 

@@ -265,10 +265,10 @@
 
 
 <!-- USER NOTIFICATION BANNER START -->
-@if(is_loggedin() && !$user_detail->is_complete && !is_complete() && $settings->profile_alert)
+@if(is_loggedin() && !$user_detail->is_approved && !is_complete() && $settings->profile_alert)
 <div class="top-banner-start top-banner-alert">
     <div class="top-banner-inner error">
-        <i class="fa fa-times" id="top_banner_cancle_btn"></i>
+        <i class="fa fa-times top-banner-cancle-btn"></i>
         <div class="containment text-center">
             <i class="fa fa-bell"></i>
             <span>{{ $settings->profile_alert }}</span>
@@ -280,7 +280,7 @@
 
 
 
-
+<!-- top_banner_cancle_btn -->
 
 
 
@@ -302,6 +302,26 @@
 
 
 
+ <!-- NOTIFICATION WARNING BANNER START -->
+ @if(is_loggedin() && $notification = approved_notification())
+    @if($notification->description)
+    <div class="top-banner-start top-banner-alert">
+        <div class="top-banner-inner warning">
+            <i class="fa fa-times top-banner-cancle-btn" data-id="{{ $notification->not_id }}" data-url="{{ url('/delete-approved-notification') }}" id="delete_approved_notification"></i>
+            <div class="containment">
+                <i class="fa fa-bell"></i>
+                <span>{{ $notification->description }}</span>
+            </div>
+        </div>
+    </div>
+    @endif
+@endif
+<!-- NOTIFICATION WARNING BANNER END -->
+
+
+
+
+
 
 
 
@@ -309,7 +329,7 @@
  @if(Session::has('warning'))
     <div class="top-banner-start top-banner-alert">
         <div class="top-banner-inner warning">
-            <i class="fa fa-times"  id="top_banner_cancle_btn"></i>
+            <i class="fa fa-times top-banner-cancle-btn"></i>
             <div class="containment">
                 <i class="fa fa-bell"></i>
                 <span>{{ Session::get('warning') }}</span>

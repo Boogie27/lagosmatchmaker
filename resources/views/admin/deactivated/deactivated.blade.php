@@ -43,13 +43,15 @@
                                         </form>
                                     </div>
                                </div>
-                               <div class="table-responsive"> <!-- table start-->
+                               <div class="table-responsive" id="members_parent_table_container"> <!-- table start-->
                                     <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>Avatar</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
+                                                <th>Level</th>
                                                 <th>Date</th>
                                                 <th>Action</th>
                                             </tr>
@@ -59,6 +61,9 @@
                                             @foreach($deactivates as $deactivated)
                                             @php($avatar = $deactivated->gender == 'male' ? 'M' : 'F')
                                             <tr>
+                                                <td>
+                                                    <input type="checkbox" id="{{ $deactivated->id }}" class="check-box-members-input-btn" {{ checked_member($deactivated->id) ? 'checked' : '' }}>
+                                                </td>
                                                 <td class="avatar-parent">
                                                     <a href="{{ url('/admin/member-detail/'.$deactivated->id) }}" class="avatar-link">
                                                         <div class="avatar {{ $deactivated->is_active ? 'active' : ''}}">
@@ -70,6 +75,7 @@
                                                     <a href="{{ url('/admin/member-detail/'.$deactivated->id) }}" class="member-name">{{ ucfirst($deactivated->user_name) }} </a>
                                                 </td>
                                                 <td>{{ $deactivated->email }}</td>
+                                                <td><span class="badge badge-soft-{{ $deactivated->membership_level == 'basic' ? 'success' : 'warning' }} py-1">{{ $deactivated->membership_level == 'basic' ? 'Basic' : 'Premium' }}</span></td>
                                                 <td>{{ date('d M Y', strtotime($deactivated->date_deactivated)) }}</td>
                                                 <td>
                                                     <div class="drop-down">
@@ -98,6 +104,11 @@
                                     <div class="paginate">{{ $deactivates->links("pagination::bootstrap-4") }}</div>
                                     @endif
                                 </div>
+                                @if(count($deactivates))
+                                <div class="text">
+                                    <a href="#" id="open_members_newsletter_modal_btn">| Send newsletter |</a>
+                                </div>
+                                @endif
                             </div> <!-- end card body-->
                         </div> <!-- end card -->
                     </div><!-- end col-->

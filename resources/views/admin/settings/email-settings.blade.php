@@ -44,38 +44,11 @@
                                             <input type="email" name="from_email" parsley-trigger="change" placeholder="Enter From Email" class="form-control" value="{{ $email_settings->from_email ?? old('from_email') }}">
                                             <div class="alert-form text-danger">@if($errors->first('from_email')) {{ $errors->first('from_email') }} @endif</div>
                                         </div>
-                                       <div class="row">
-                                           <div class="col-xl-6">
-                                                <div class="form-group">
-                                                    <label for="userName">SMTP Name<span class="text-danger">*</span></label>
-                                                    <input type="text" name="smtp_host" parsley-trigger="change" placeholder="Enter SMTP Name" class="form-control" value="{{ $email_settings->smtp_name ?? old('smtp_name') }}">
-                                                    <div class="alert-form text-danger">@if($errors->first('smtp_name')) {{ $errors->first('smtp_name') }} @endif</div>
-                                                </div>
-                                           </div>
-                                           <div class="col-xl-6">
-                                                <div class="form-group">
-                                                    <label for="userName">SMTP Password<span class="text-danger">*</span></label>
-                                                    <input type="password" name="smtp_password" parsley-trigger="change" placeholder="Enter SMTP Password" class="form-control" value="{{ $email_settings->smtp_password ?? old('smtp_password') }}">
-                                                    <div class="alert-form text-danger">@if($errors->first('smtp_password')) {{ $errors->first('smtp_password') }} @endif</div>
-                                                </div>
-                                           </div>
-                                       </div>
-                                       <div class="row">
-                                           <div class="col-xl-6">
-                                                <div class="form-group">
-                                                    <label for="userName">SMTP Port<span class="text-danger">*</span></label>
-                                                    <input type="text" name="smtp_port" parsley-trigger="change" placeholder="Enter SMTP Port" class="form-control" value="{{ $email_settings->smtp_host ?? old('smtp_port') }}">
-                                                    <div class="alert-form text-danger">@if($errors->first('smtp_port')) {{ $errors->first('smtp_port') }} @endif</div>
-                                                </div>
-                                           </div>
-                                           <div class="col-xl-6">
-                                                <div class="form-group">
-                                                    <label for="userName">SMTP Host<span class="text-danger">*</span></label>
-                                                    <input type="text" name="smtp_host" parsley-trigger="change" placeholder="Enter SMTP Host" class="form-control" value="{{ $email_settings->smtp_port ?? old('smtp_host') }}">
-                                                    <div class="alert-form text-danger">@if($errors->first('smtp_host')) {{ $errors->first('smtp_host') }} @endif</div>
-                                                </div>
-                                           </div>
-                                       </div>
+                                        <div class="form-group">
+                                            <label for="">Approved profile mail</label>
+                                            <textarea name="approved_profile_mail" class="form-control" cols="30" rows="3" placeholder="Write Complete profile alert message...">{{ $email_settings->approved_profile_mail ?? old('approved_profile_mail')}}</textarea>
+                                            <div class="alert-form text-danger">@if($errors->first('approved_profile_mail')) {{ $errors->first('approved_profile_mail') }} @endif</div>
+                                        </div>
                                         <div class="form-group text-right mb-3">
                                             <div class="form-group">
                                                 <button type="submit" id="email_settings_submit_btn" style="display: none;"></button>

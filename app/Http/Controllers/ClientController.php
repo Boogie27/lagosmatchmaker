@@ -413,6 +413,7 @@ class ClientController extends Controller
                         'notification_from' => $id,
                         'notification_to' => 'admin',
                         'title' => $request->user_name,
+                        'type' => 'register',
                         'description' => $request->user_name.' has just registered with lagosmatchmaker',
                         'link' => 'admin/member-detail/'.$id,
                 ]);
@@ -451,7 +452,7 @@ class ClientController extends Controller
         
         if(!$user)
         {
-            return redirect('web/404');
+            return redirect('/404');
         }
 
         $reports = DB::table('reports')->where('is_featured', 1)->get(); // aget all reports

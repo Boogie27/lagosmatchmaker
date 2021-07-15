@@ -716,85 +716,6 @@ $("#send_newsletter_confirm_submit_btn").click(function(e){
 
 
 
-// ************** OPEN SEND NEWSLETTER TO MEMBERS MODAL************//
-var name
-$(".send-users-newsletter-modal-open").click(function(e){
-    e.preventDefault()
-    name = $(this).attr('data-name')
-    newsletter_id = $(this).attr('id')
-    $("#send_users_newesletter_modal_popup_box").show()
-    $("#send_users_newsletter_confirm_submit_btn").html('Proceed')
-})
-
-
-
-
-
-
-
-
-// ************* SEND NEWSLETTER TO MEMBERS*********** //
-$("#send_users_newsletter_confirm_submit_btn").click(function(e){
-    e.preventDefault()
-    var url = $(this).attr('data-url')
-    $(this).html("Please wait...")
-
-    csrf_token() //csrf token
-
-    $.ajax({
-        url: url,
-        method: "post",
-        data: {
-            name: name,
-            newsletter_id: newsletter_id
-        },
-        success: function (response){
-            if(response.error){
-                bottom_alert_error(response.error)
-            }else if(response.data){
-                bottom_alert_success('Newsletter sent successfully!')
-            }else{
-                bottom_alert_error('Network error, try again later!')
-            }
-            $(".modal-alert-popup").hide()
-            console.log(response)
-        }, 
-        error: function(){
-            $(".modal-alert-popup").hide()
-            bottom_alert_error('Network error, try again later!')
-        }
-    });
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ************* CHECK/UNCHECK SINGLE MEMBERS ***********//
-// $("#members_parent_table_container").on('click', '.check-box-members-input-btn', function(){
-//     id = $(this).attr('id')
-//     url = $(this).attr('data-url')
-
-//     if($(this).prop('checked'))
-//     {
-//         check_single(url, true)
-//     }else{
-//         check_single(url, false)
-//     }
-//     $("#mass_member_check_box_input").prop('checked', false)
-//     $("#mass_member_check_box_input").prop('checked', false)
-// })
-
 
 
 
@@ -950,25 +871,6 @@ $("#mass_add_user_subscription_confirm_submit_btn").click(function(e){
 
 
 
-// function check_single(url, state){
-
-//     csrf_token() //csrf token
-
-//     $.ajax({
-//         url: url,
-//         method: "post",
-//         data: {
-//             id: id,
-//             state: state
-//         },
-//         success: function (response){
-//         console.log(response)
-//         }, 
-//         error: function(){
-//             bottom_alert_error('Network error, try again later!')
-//         }
-//     });
-// }
 
 
 
@@ -976,6 +878,68 @@ $("#mass_add_user_subscription_confirm_submit_btn").click(function(e){
 
 
 
+// ********* OPEN MEMBERS NEWSLETTER ***********//
+$("#open_members_newsletter_modal_btn").click(function(e){
+    e.preventDefault()
+    if(stored_id.length == 0)
+    {
+        return bottom_alert_error('No member was selected!')
+    }
+    $("#member_newesletter_modal_popup_box").show()
+})
+
+
+
+
+// ********* CONFIRM SEND MEMBERS NEWSLETTERS MODAL OPEN ***********//
+var newsletter_id
+$(".send-member-newsletter-btn").click(function(e){
+    e.preventDefault()
+    newsletter_id = $(this).attr('id')
+
+    $("#member_newesletter_modal_popup_box").hide()
+    $("#member_newesletter_modal_popup_box").hide()
+    $("#member_newesletter_confirm_modal_popup_box").show()
+})
+
+
+
+
+// *********** SEND NEWSLETTER **************//
+$("#send_members_newsletter_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    var url = $(this).attr('data-url')
+    $(this).html('Please wait...')
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            stored_id: stored_id,
+            newsletter_id: newsletter_id
+        },
+        success: function (response){
+            if(response.data){
+                bottom_alert_success('Newsletter sent successfully!')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            stored_id = []
+            $(".modal-alert-popup").hide()
+            $("#mass_member_check_box_input").prop('checked', false)
+            $(".check-box-members-input-btn").prop('checked', false)        
+        }, 
+        error: function(){
+            stored_id = []
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+            $("#mass_member_check_box_input").prop('checked', false)
+            $(".check-box-members-input-btn").prop('checked', false)  
+        }
+    });
+})
 
 
 
@@ -1009,18 +973,3 @@ $("#mass_add_user_subscription_confirm_submit_btn").click(function(e){
 
 // end
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

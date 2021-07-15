@@ -43,10 +43,11 @@
                                         </form>
                                     </div>
                                </div>
-                               <div class="table-responsive"> <!-- table start-->
+                               <div class="table-responsive" id="members_parent_table_container"> <!-- table start-->
                                     <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>Avatar</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
@@ -60,6 +61,9 @@
                                             @foreach($premiums as $premium)
                                             @php($avatar = $premium->gender == 'male' ? 'M' : 'F')
                                             <tr>
+                                                <td>
+                                                    <input type="checkbox" id="{{ $premium->id }}" class="check-box-members-input-btn" {{ checked_member($premium->id) ? 'checked' : '' }}>
+                                                </td>
                                                 <td class="avatar-parent">
                                                     <a href="{{ url('/admin/member-detail/'.$premium->id) }}" class="avatar-link">
                                                         <div class="avatar {{ $premium->is_active ? 'active' : ''}}">
@@ -112,6 +116,11 @@
                                 @endif
                                 @if(count($premiums))
                                 <div class="paginate">{{ $premiums->links("pagination::bootstrap-4") }}</div>
+                                @endif
+                                @if(count($premiums))
+                                <div class="text">
+                                    <a href="#" id="open_members_newsletter_modal_btn">| Send newsletter |</a>
+                                </div>
                                 @endif
                             </div> <!-- end card body-->
                         </div> <!-- end card -->

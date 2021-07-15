@@ -51,6 +51,7 @@
                                                 <th>Avatar</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
+                                                <th>Level</th>
                                                 <th>Suspend</th>
                                                 <th>Date</th>
                                                 <th>Action</th>
@@ -62,7 +63,7 @@
                                             @php($avatar = $member->gender == 'male' ? 'M' : 'F')
                                             <tr>
                                                 <td>
-                                                    <input type="checkbox" data-url="{{ url('/admin/ajax-check-single-member') }}" id="{{ $member->id }}" class="check-box-members-input-btn" {{ checked_member($member->id) ? 'checked' : '' }}>
+                                                    <input type="checkbox" id="{{ $member->id }}" class="check-box-members-input-btn" {{ checked_member($member->id) ? 'checked' : '' }}>
                                                 </td>
                                                 <td class="avatar-parent">
                                                     <a href="{{ url('/admin/member-detail/'.$member->id) }}" class="avatar-link">
@@ -75,6 +76,7 @@
                                                     <a href="{{ url('/admin/member-detail/'.$member->id) }}" class="member-name">{{ ucfirst($member->user_name) }} </a>
                                                 </td>
                                                 <td>{{ $member->email }}</td>
+                                                <td><span class="badge badge-soft-{{ $member->membership_level == 'basic' ? 'success' : 'warning' }} py-1">{{ $member->membership_level == 'basic' ? 'Basic' : 'Premium' }}</span></td>
                                                 <td>
                                                     <div class="suspend {{ $member->is_suspend ? 'active' : ''}}">
                                                         <a href="#" data-name="{{ $member->user_name }}" id="{{ $member->id }}" class="suspend-confirm-box-open"></a>
@@ -119,6 +121,7 @@
                                 @endif
                                 @if(count($all_members))
                                 <div class="text">
+                                    <a href="#" id="open_members_newsletter_modal_btn">| Send newsletter |</a>
                                     <a href="#" id="open_mass_subscription_modal_btn">| Assign subscription |</a>
                                 </div>
                                 @endif

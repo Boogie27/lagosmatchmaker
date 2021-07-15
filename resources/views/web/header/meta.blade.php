@@ -4,7 +4,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta property="og:url" content="{{ current_url() }}">
 <meta property="og:title" content="{{ settings()->app_name }}">
-<meta name="description" content="You are just some steps away from finding a perfect match">
+<meta name="description" content="Privacy is our policy">
 <meta property="og:image" content="{{ asset('web/images/icons/icon.ico') }}" href="{{ asset('web/images/icons/icon.ico') }}">
 <title>{{ settings()->app_name }}</title>
 
