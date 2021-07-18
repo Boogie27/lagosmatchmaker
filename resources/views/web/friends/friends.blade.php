@@ -175,16 +175,18 @@ $(".accept-user-like-request-friends").click(function(e){
             user_id: user_id,
         },
         success: function (response){
-            // location.reload()
             if(response.subscribe){
                 apend_message('<p>Subscribe to like this member</p>')
                 $("#user_confirm_sub_modal_popup").show()
-                $("#access_preloader_container").hide()
             }else if(response.subscribe_to_premium){
                 apend_message('<p>Subscribe to premium to like this member </p>')
                 $("#user_confirm_sub_modal_popup").show()
-                $("#access_preloader_container").hide()
+            }else if(response.matched){
+                location.reload()
+            }else{
+                bottom_error_danger('Network error, try again later!')
             }
+            $("#access_preloader_container").hide()
         }, 
         error: function(){
            $("#access_preloader_container").hide()
@@ -192,31 +194,6 @@ $(".accept-user-like-request-friends").click(function(e){
         }
     });
 })
-
-
-
-
-
-
-
-function bottom_error_danger(string){
-    var bottom = '0px';
-    var alert =  $("#bottom_alert_danger").children('.bottom-alert-danger')
-
-    if($(window).width() > 767){
-        bottom = '5px'
-    }
-
-    $(alert).html(string)
-    $(alert).css({ bottom: bottom })
-
-    setTimeout(function(){
-        $(alert).css({
-            bottom: '-100px'
-        })
-    }, 4000)
-}
-
 
 
 

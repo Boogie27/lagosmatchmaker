@@ -47,7 +47,7 @@
                                     <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
                                         <thead>
                                             <tr>
-                                                <th><input type="checkbox" data-url="{{ url('/admin/ajax-check-all-members') }}" id="mass_member_check_box_input"></th>
+                                                <th><input type="checkbox" id="mass_member_check_box_input"></th>
                                                 <th>Avatar</th>
                                                 <th>Name</th>
                                                 <th>Email</th>

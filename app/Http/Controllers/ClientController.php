@@ -89,21 +89,12 @@ class ClientController extends Controller
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
-       
-
-         $basic_sub = DB::table('subscriptions')->where('type', 'basic')->first();
-        if($basic_sub && $basic_sub->amount == 0 && $request->membership_level == 'basic')
+        if(!$request->membership_level)
         {
-            $members = User::where('membership_level', 'basic')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1);
+            return back();
         }
 
-        if($basic_sub && $basic_sub->amount > 0 || $request->membership_level == 'premium')
-        {
-            $members = DB::table('user_subscriptions')->leftJoin('users', 'user_subscriptions.user_id', '=', 'users.id')
-                        ->where('user_subscriptions.subscription_type', $request->membership_level)->where('user_subscriptions.is_expired', 0)->where('users.is_suspend', 0)->where('users.is_deactivated', 0)
-                        ->where('users.is_approved', 1);
-        }
-
+        $members = User::where('membership_level', $request->membership_level)->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1);
 
         if($request->looking_for)
         {
@@ -151,7 +142,7 @@ class ClientController extends Controller
             return view('web.premium', compact('premiums', 'genotypes', 'marital_status', 'states'));
         }
         
-        return redirect('web.index');
+        return redirect('/');
     }
 
 
@@ -282,16 +273,6 @@ class ClientController extends Controller
 
 
 
-    // public function forgot_password_store(Request $request)
-    // {
-    //     $token = password_hash(uniqid(), PASSWORD_DEFAULT);
-    //     $url = url('/new-password?token='.$token);
-
-    //     SendEmailJob::dispatch($request->email, $url)->delay(now()->addSeconds(5));
-
-    //     return back()->with('success', 'Password reset token has been sent to your email.');
-    // }
-
 
 
     
@@ -347,6 +328,11 @@ class ClientController extends Controller
         return view('web.new-password')->with('error', 'Network error, try again later!');
     }
     
+
+
+
+
+
 
 
     
@@ -505,8 +491,7 @@ class ClientController extends Controller
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
-        $members = DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'premium')->where('users.membership_level', 'premium')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1);//get all premium members
-
+        $members = User::where('membership_level', 'premium')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1);
         
 
         if($request->query('membership_level'))
@@ -531,10 +516,6 @@ class ClientController extends Controller
             {
                 $members->where('users.marital_status', $request->marital_status);
             }
-            if($request->membership_level)
-            {
-                $members->where('users.membership_level', $request->membership_level);
-            }
             if($request->religion)
             {
                 $members->where('users.religion', $request->religion);
@@ -542,10 +523,6 @@ class ClientController extends Controller
             if($request->location)
             {
                 $members->where('users.location', $request->location);
-            }
-            if($request->name)
-            {
-                $members->where('users.display_name', 'LIKE', "%{$request->name}%");
             }
         }
         
@@ -570,7 +547,7 @@ class ClientController extends Controller
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
-        $premiums = DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'premium')->where('users.membership_level', 'premium')->where('users.gender', 'male')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1)->paginate(25);//get all male premium members
+        $premiums = User::where('gender', 'male')->where('membership_level', 'premium')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->paginate(25);//get all male premium members
        
         return view('web.premium', compact('premiums', 'states', 'genotypes', 'marital_status'));
     }
@@ -589,7 +566,7 @@ class ClientController extends Controller
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
-        $premiums = DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'premium')->where('users.membership_level', 'premium')->where('users.gender', 'female')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1)->paginate(25);//get all female premium members
+        $premiums = User::where('gender', 'female')->where('membership_level', 'premium')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->paginate(25);//get all female premium members
        
         return view('web.premium', compact('premiums', 'states', 'genotypes', 'marital_status'));
     }
@@ -769,6 +746,10 @@ class ClientController extends Controller
 
 
 
+
+
+
+
     public function how_it_works_index()
     {
         $states = DB::table('states')->where('is_featured', 1)->get(); // aget all states
@@ -781,6 +762,11 @@ class ClientController extends Controller
 
         return view('web.how-it-works', compact('how_it_works', 'marital_status', 'genotypes', 'states'));
     }
+
+
+
+
+
 
 
 
@@ -818,16 +804,8 @@ class ClientController extends Controller
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
 
-        $basic_sub = DB::table('subscriptions')->where('type', 'basic')->first();
-        if($basic_sub->amount == 0)
-        {
-            $members = User::where('membership_level', 'basic')->where('is_deactivated', 0)->where('is_suspend', 0)->where('is_approved', 0); //get all basic  when its free         
-        }
-
-        if($basic_sub->amount > 0)
-        {
-            $members= DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'basic')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1);//get basic when its not free  
-        }
+        $members = User::where('membership_level', 'basic')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1);
+        
 
 
         if($request->query('membership_level'))
@@ -851,10 +829,6 @@ class ClientController extends Controller
             if($request->marital_status)
             {
                 $members->where('users.marital_status', $request->marital_status);
-            }
-            if($request->membership_level)
-            {
-                $members->where('users.membership_level', $request->membership_level);
             }
             if($request->religion)
             {
@@ -886,16 +860,7 @@ class ClientController extends Controller
 
     public function basic_men()
     {
-        $basic_sub = DB::table('subscriptions')->where('type', 'basic')->first();
-        if($basic_sub->amount == 0)
-        {
-            $basics = User::where('gender', 'male')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->paginate(25); // get all basic men
-        }
-       
-        if($basic_sub->amount > 0)
-        {
-            $basics= DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'basic')->where('users.gender', 'male')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1)->paginate(25);//get basic when its not free  
-        }
+        $basics = User::where('gender', 'male')->where('membership_level', 'basic')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->paginate(25);
 
         $states = DB::table('states')->where('is_featured', 1)->get(); // aget all states
 
@@ -914,16 +879,7 @@ class ClientController extends Controller
 
     public function basic_women()
     {
-        $basic_sub = DB::table('subscriptions')->where('type', 'basic')->first();
-        if($basic_sub->amount == 0)
-        {
-            $basics = User::where('gender', 'female')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->paginate(25); // get all basic women
-        }
-       
-        if($basic_sub->amount > 0)
-        {
-            $basics= DB::table('user_subscriptions')->leftjoin('users', 'user_subscriptions.user_id', '=', 'users.id')->where('user_subscriptions.is_expired', 0)->where('user_subscriptions.subscription_type', 'basic')->where('users.gender', 'female')->where('users.is_deactivated', 0)->where('users.is_suspend', 0)->where('users.is_approved', 1)->paginate(25);//get basic when its not free  
-        }
+        $basics = User::where('gender', 'female')->where('membership_level', 'basic')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->paginate(25);
 
         $states = DB::table('states')->where('is_featured', 1)->get(); // aget all states
 

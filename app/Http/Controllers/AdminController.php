@@ -263,10 +263,10 @@ class AdminController extends Controller
 
     public function update_notification($id)
     {
-        $notification = DB::table('notifications')->where('notification_from', $id)->where('type', 'register')->where('notification_to', 'admin')->where('is_seen', 0)->first();
+        $notification = DB::table('notifications')->where('notification_from', $id)->where('notification_to', 'admin')->where('type', 'register')->where('is_seen', 0)->first();
         if($notification)
         {
-            DB::table('notifications')->where('notification_from', $id)->where('type', 'register')->where('notification_to', 'admin')->where('is_seen', 0)->update([
+            DB::table('notifications')->where('notification_from', $id)->where('notification_to', 'admin')->where('type', 'register')->where('is_seen', 0)->update([
                 'is_seen' => 1
             ]);
         }

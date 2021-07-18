@@ -347,7 +347,6 @@ Route::group(['middleware' => 'remember_me'], function(){
 
     // ************* ALL MEMBERS ************//
     Route::get("/admin/all-members", [AdminController::class, "all_members_index"]);
-    Route::post("/admin/ajax-check-all-members", [AdminAjaxController::class, "ajax_check_all_members"]);
     Route::post("/admin/ajax-add-mass-user-subscription", [AdminAjaxController::class, "ajax_add_mass_user_subscription"]);
 
    

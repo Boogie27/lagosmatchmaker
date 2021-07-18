@@ -50,6 +50,7 @@ class ClientAjaxController extends Controller
                 if($user)
                 {
                     $user->age = $request->age;
+                    $user->gender = $request->i_am;
                     $user->HIV = strtoupper($request->hiv);
                     $user->complexion = $request->complexion;
                     $user->career = $request->career;

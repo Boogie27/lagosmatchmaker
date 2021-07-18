@@ -1,5 +1,5 @@
 <!-- APP PRELOADER START-->
-<!-- <section id="app_preloader_container">
+<section id="app_preloader_container">
     <div class="access-preloader-container">
         <div class="access-preloader-dark-theme">
             <div class="access-inner-content">
@@ -7,7 +7,7 @@
             </div>
         </div>
     </div>
-</section> -->
+</section>
 <!-- APP PRELOADER END-->
 
 

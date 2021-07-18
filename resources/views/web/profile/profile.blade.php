@@ -216,18 +216,18 @@
                         <form action="{{ url('/search') }}" method="GET">
                             <div class="form-group">
                                 <div class="alert-form text-danger"></div>
-                                <select  name="i_am" class="selectpicker form-control">
+                                <select class="selectpicker form-control">
                                     <option value="">I am</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option value="male">Man</option>
+                                    <option value="female">Woman</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <div class="alert-form text-danger"></div>
                                 <select  name="looking_for" class="selectpicker form-control">
                                     <option value="">Looking for</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option value="male">Man</option>
+                                    <option value="female">Woman</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -298,7 +298,6 @@
                             </div>
                             <div class="form-group">
                                 <select name="membership_level" class="selectpicker form-control">
-                                    <option value="">Select membership</option>
                                     <option value="basic">Basic </option>
                                     <option value="premium">Premium </option>
                                 </select>

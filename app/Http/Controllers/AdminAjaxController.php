@@ -191,6 +191,7 @@ class AdminAjaxController extends Controller
                 if($user)
                 {
                     $user->age = $request->age;
+                    $user->gender = $request->i_am;
                     $user->HIV = strtoupper($request->hiv);
                     $user->complexion = $request->complexion;
                     $user->career = $request->career;
@@ -3001,44 +3002,6 @@ public function ajax_add_how_it_works(Request $request)
 
 
 
-
-
-
-
-
-
-
-
-    public function ajax_check_all_members(Request $request)
-    {
-        if($request->ajax())
-        {
-            $data = false;
-            $users_id = [];
-            if($request->state == 'true')
-            {
-                $users = User::all();
-                if(count($users))
-                {
-                    foreach($users as $user)
-                    {
-                        $users_id[] = $user->id;
-                    }
-                }
-            }
-            if(count($users_id))
-            {
-                $data = $users_id;
-            }
-           
-        }
-        return response()->json(['data' => $data]);
-    }
-
-
-
-    
-    
 
 
 

@@ -80,7 +80,7 @@ $(document).ready(function(){
 function nav_notification_alert(){
     var url = $("#admin_notification_alert").attr('data-url')
 
-    if(url.length == 0) return
+    if(!url) return
 
     csrf_token() //csrf token
     
@@ -116,7 +116,7 @@ nav_notification_alert()
 function unseen_nav_notification(){
     var url = $("#navigation_notification_body").attr('data-url')
 
-    if(url.length == 0) return
+    if(!url) return
 
     csrf_token() //csrf token
     
@@ -763,41 +763,23 @@ function check_single_member(id, data)
 
 // *********** CHECK ALL MEMBERS ************//
 $("#members_parent_table_container").on('click', '#mass_member_check_box_input', function(){
-    var url = $(this).attr('data-url')
     if($(this).prop('checked'))
     {
-        check_all_members(url, true)
+        check_all(true)
         $(".check-box-members-input-btn").prop('checked', true)
     }else{
-        check_all_members(url, false)
+        check_all(false)
         $(".check-box-members-input-btn").prop('checked', false)
     }
 })
 
 
-
-
-function check_all_members(url, state)
-{
-    csrf_token() //csrf token
-
-    $.ajax({
-        url: url,
-        method: "post",
-        data: {
-            state: state
-        },
-        success: function (response){
-            if(response.data){
-                stored_id = Object.keys(response.data)
-            }else{
-                stored_id = []
-            }
-        }, 
-        error: function(){
-            bottom_alert_error('Network error, try again later!')
-        }
-    });
+function check_all(state){
+    var checkbox = $(".check-box-members-input-btn");
+    $.each(checkbox, function(index, current){
+        var id = $(current).attr('id')
+        check_single_member(id, state)
+    })
 }
 
 

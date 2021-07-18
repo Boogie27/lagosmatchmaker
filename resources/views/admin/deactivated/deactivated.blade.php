@@ -47,7 +47,7 @@
                                     <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
                                         <thead>
                                             <tr>
-                                                <th></th>
+                                                <th><input type="checkbox" id="mass_member_check_box_input"></th>
                                                 <th>Avatar</th>
                                                 <th>Name</th>
                                                 <th>Email</th>

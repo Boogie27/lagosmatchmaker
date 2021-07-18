@@ -303,7 +303,21 @@ function approved_notification()
 
 
 
+// function is_subscribed()
+// {
+//     $basic_subscription = DB::table('subscriptions')->where('type', 'basic')->first();
+//     if($basic_subscription && $basic_subscription->amount == 0 && Auth::user('membership_level') == 'basic')
+//     {
+//         return true;
+//     }
 
+//     $subscription = DB::table('user_subscriptions')->where('user_id', Auth::user('id'))->where('is_expired', 0)->first();
+//     if($subscription)
+//     {
+//         return true;
+//     }
+//     return false;
+// }
 
 
 
@@ -655,7 +669,7 @@ function checked_member($id)
 function detail_is_complete()
 {
     $state = false;
-    $users = User::where('is_complete', 1)->get();
+    $users = User::where('is_approved', 0)->where('is_complete', 1)->get();
     if(count($users))
     {
         $state = count($users);

@@ -186,21 +186,21 @@
                                     </div>
                                     </div>
                                     <div class="col-lg-12">
-                                    <div class="row">
-                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                            <div class="form-group">
-                                                    <select name="membership_level" class="selectpicker form-control">
-                                                        <option value="basic">Basic membership</option>
-                                                        <option value="premium">Premium membership</option>
-                                                    </select>
-                                                </div>
+                                        <div class="row">
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                        <select name="membership_level" class="selectpicker form-control">
+                                                            <option value="basic">Basic membership</option>
+                                                            <option value="premium">Premium membership</option>
+                                                        </select>
+                                                    </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                        <input type="text" name="name" class="form-control" value="" placeholder="Name">
+                                                    </div>
+                                            </div>
                                         </div>
-                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                            <div class="form-group">
-                                                    <input type="text" name="name" class="form-control" value="" placeholder="Name">
-                                                </div>
-                                        </div>
-                                    </div>
                                     </div>  
                                     <div class="col-lg-12">
                                         <div class="row">
@@ -210,6 +210,7 @@
                                                             <option value="">Select religion</option>
                                                             <option value="christain">Christain</option>
                                                             <option value="muslim">Muslim</option>
+                                                            <option value="other">Other</option>
                                                         </select>
                                                     </div>
                                             </div>

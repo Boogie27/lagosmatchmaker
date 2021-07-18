@@ -91,6 +91,7 @@
                                         <option value="">Religion</option>
                                         <option value="christian" {{  $user->religion == 'christian' ? 'selected' : '' }}>Christian</option>
                                         <option value="muslim" {{  $user->religion == 'muslim' ? 'selected' : '' }}>Muslim</option>
+                                        <option value="other" {{  $user->religion == 'other' ? 'selected' : '' }}>Other</option>
                                     </select>
                                 </div>
                             </div>
