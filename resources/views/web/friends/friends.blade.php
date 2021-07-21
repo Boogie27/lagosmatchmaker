@@ -25,7 +25,7 @@
             <div class="col-xl-12"><!-- profile detail left end-->
                 @foreach($friends_request as $request)
                 @php($name = $request->display_name ? ucfirst($request->display_name) : ucfirst($request->user_name))
-                @php($image = $request->gender == 'male' ? 'M' : 'F')
+                @php($image =  gender($request->gender))
                 <div class="firends-main-body"><!-- firend start-->
                     <div class="friends-inner-content">
                         <div class="message-img">
@@ -84,7 +84,7 @@
                 @foreach($friends as $friend)
                 @php($user = get_friends(user('id'), $friend))
                 @php($display_name = $user->display_name ? ucfirst($user->display_name) : ucfirst($user->user_name))
-                @php($image = $user->gender == 'male' ? 'M' : 'F')
+                @php($image =  gender($user->gender))
                 <div class="firends-main-body"><!-- firend start-->
                     <div class="friends-inner-content">
                         <div class="message-img">

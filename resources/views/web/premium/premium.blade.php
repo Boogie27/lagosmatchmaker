@@ -12,7 +12,7 @@
                 <div class="row">
                     @foreach($premiums as $premium)
                         @if(user('id') != $premium->id)
-                            @php($image = $premium->gender == 'male' ? 'M' : 'F')
+                            @php($image =  gender($premium->gender))
                             @php($name = $premium->display_name ? ucfirst($premium->display_name) : ucfirst($premium->user_name))
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"><!-- member start-->
                                 <div class="member-inner-div"> 
@@ -62,7 +62,7 @@
                                                 <li>Genotype: <span>{{ $premium->genotype ?? '' }}</span></li>
                                                 <li>Religion: <span>{{ $premium->religion ?? '' }}</span></li>
                                                 <li>Location: <span>{{ $premium->location ?? '' }}</span></li>
-                                                <li>Education: <span>{{ $premium->education ?? '' }}</span></li>
+                                                <li>University: <span>{{ $premium->education ?? '' }}</span></li>
                                                 <li>Career: <span>{{ $premium->career ?? '' }}</span></li>
                                                 <li>Marital status: <span>{{ $premium->marital_status ?? '' }}</span></li>
                                                 <li>About: <span>{{ $premium->about ?? '' }}</span></li>
@@ -75,7 +75,7 @@
                     @endforeach
                 </div>
                 @if(count($premiums))
-                <div class="paginate">{{ $premiums->links("pagination::bootstrap-4") }}</div>
+                <div class="paginate">{{ $premiums->withQueryString()->links("pagination::bootstrap-4") }}</div>
                 @endif
                 <div class="join-us-btn top-members-btn">
                     <a href="#" data-modal="#member_search_form_modal" class="mr-2"><i class="fa fa-search"></i> Search</a>

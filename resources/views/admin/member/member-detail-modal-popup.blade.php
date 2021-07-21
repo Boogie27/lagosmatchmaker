@@ -102,7 +102,7 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <div class="alert-form alert_education text-danger"></div>
-                                    <input type="text" id="edit_education_input" class="form-control" value="{{ $user->education }}" placeholder="Education">
+                                    <input type="text" id="edit_education_input" class="form-control" value="{{ $user->education }}" placeholder="University">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
@@ -231,7 +231,7 @@ function edit_detail_info(){
             genotype: genotype,
             location: location,
             religion: religion,
-            education: education,
+            university: education,
             complexion: complexion,
             looking_for: looking_for,
             display_name: display_name,
@@ -323,7 +323,7 @@ function get_detail_error(error){
     $(".alert_21").html(error.genotype)
     $(".alert_hiv").html(error.hiv)
     $(".alert_complexion").html(error.complexion)
-    $(".alert_education").html(error.education)
+    $(".alert_education").html(error.university)
     $(".alert_career").html(error.career)
 }
 

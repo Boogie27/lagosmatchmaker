@@ -329,6 +329,33 @@
 
 
 
+<!--  SEND MODAL ALERT START -->
+<section class="modal-alert-popup" id="mass_approve_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to approve these members?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button" data-url="{{ url('/admin/ajax-mass-approve-members') }}" id="mass_approve_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  SEND MODAL ALERT END -->
+
+
+
+
+
 
 
 

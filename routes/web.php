@@ -371,6 +371,9 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/admin/member-detail/{id}", [AdminController::class, "member_detail_index"]);
     Route::post("/ajax-suspend-member", [AdminAjaxController::class, "ajax_suspend_member"]);
     Route::post("/ajax-approve-member", [AdminAjaxController::class, "ajax_approve_member"]);
+    Route::post("/admin/ajax-mass-approve-members", [AdminAjaxController::class, "ajax_mass_approve_members"]);
+
+    
     Route::post("/ajax-deactivate-member", [AdminAjaxController::class, "ajax_deactivate_member"]);
     Route::post("/admin/edit-detail-info", [AdminAjaxController::class, "edit_detail_info_ajax"]);
     Route::post("/admin/ajax-get-detail-info", [AdminAjaxController::class, "ajax_get_detail_info"]);

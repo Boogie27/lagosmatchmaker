@@ -278,6 +278,7 @@ class AdminController extends Controller
 
     public function member_detail_index($id)
     {
+        $gender = null;
         $user = User::where('id', $id)->first();
         if(!$user)
         {
@@ -286,7 +287,17 @@ class AdminController extends Controller
 
        $this->update_notification($id);
 
-        $gender = $user->gender == 'male' ? 'man' : 'woman';
+       if($user->gender)
+        {
+            if($user->gender == 'male')
+            {
+                $gender = 'man';
+            }
+            if($user->gender == 'female')
+            {
+                $gender = 'woman';
+            }
+        }
         $display_name = $user->display_name ? $user->display_name : $user->user_name;
 
         $states = DB::table('states')->where('is_featured', 1)->get(); // aget all states

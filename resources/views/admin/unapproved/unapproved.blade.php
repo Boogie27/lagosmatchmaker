@@ -56,7 +56,7 @@
                                         <tbody id="parent_table">
                                             @if(count($unapproved))
                                             @foreach($unapproved as $unapprove)
-                                            @php($avatar = $unapprove->gender == 'male' ? 'M' : 'F')
+                                            @php($avatar = gender($unapprove->gender))
                                             <tr>
                                                 <td>
                                                     <input type="checkbox" id="{{ $unapprove->id }}" class="check-box-members-input-btn" {{ checked_member($unapprove->id) ? 'checked' : '' }}>
@@ -115,6 +115,7 @@
                                 @if(count($unapproved))
                                 <div class="text">
                                     <a href="#" id="open_members_newsletter_modal_btn">| Send newsletter |</a>
+                                    <a href="#" id="open_approved_all_modal_btn"> Approve |</a>
                                 </div>
                                 @endif
                             </div> <!-- end card body-->

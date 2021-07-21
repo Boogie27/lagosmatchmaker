@@ -931,12 +931,55 @@ $("#send_members_newsletter_confirm_submit_btn").click(function(e){
 
 
 
+// *********** MASS APPROVE MEMBERS MODAL OPEN***********//
+$("#open_approved_all_modal_btn").click(function(e){
+    e.preventDefault()
+    if(stored_id.length == 0)
+    {
+        return bottom_alert_error('No member was selected!')
+    }
+    $("#mass_approve_modal_popup_box").show()
+})
 
 
 
+// ********** MASS APPROVE MEMBERS ******************//
+$("#mass_approve_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    var url = $(this).attr('data-url')
+    $(this).html('Please wait...')
 
+    csrf_token() //csrf token
 
-
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            stored_id: stored_id
+        },
+        success: function (response){
+            if(response.empty)
+            {
+                bottom_alert_error('No member selected!')
+            }else if(response.data){
+               location.reload()
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            stored_id = []
+            $(".modal-alert-popup").hide()
+            $("#mass_member_check_box_input").prop('checked', false)
+            $(".check-box-members-input-btn").prop('checked', false)        
+        }, 
+        error: function(){
+            stored_id = []
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+            $("#mass_member_check_box_input").prop('checked', false)
+            $(".check-box-members-input-btn").prop('checked', false)  
+        }
+    });
+})
 
 
 

@@ -319,7 +319,7 @@
                 </div>
                 <div class="confirm-header">
                     <h4>Upload ID Card</h4>
-                    <p>Upload Government issued or valid ID card, 1MB max</p>
+                    <p>Upload Government issued or valid ID card, 10MB max</p>
                     <p class="text-warning" style="font-size: 10px;">Contact the admin for any assistance or information</p>
                 </div>
                 <div class="confirm-form">

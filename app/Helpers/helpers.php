@@ -74,6 +74,27 @@ function is_loggedin(){
 
 
 
+
+
+function gender($gender = null)
+{
+    if($gender && $gender == 'male')
+    {
+        return 'M';
+    }
+    if($gender && $gender == 'female')
+    {
+        return 'F';
+    }
+    return null;
+}
+
+
+
+
+
+
+
 function user_detail()
 {
     if(Session::has('user'))

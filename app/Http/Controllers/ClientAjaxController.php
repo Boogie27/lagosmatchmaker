@@ -35,7 +35,7 @@ class ClientAjaxController extends Controller
                 'hiv' => 'required',
                 'complexion' => 'required|max:50',
                 'career' => 'required|max:100',
-                'education' => 'required|max:100',
+                'university' => 'required|max:100',
             ]);
 
             if(!$validator->passes())
@@ -54,7 +54,7 @@ class ClientAjaxController extends Controller
                     $user->HIV = strtoupper($request->hiv);
                     $user->complexion = $request->complexion;
                     $user->career = $request->career;
-                    $user->education = $request->education;
+                    $user->education = $request->university;
                     $user->location = strtolower($request->location);
                     $user->genotype = $request->genotype;
                     $user->religion = strtolower($request->religion);
@@ -384,7 +384,7 @@ class ClientAjaxController extends Controller
             $file = Image::files('image');
 
             $file_name = Image::name('image', 'ID_CARD');
-            $image->upload_image($file, ['name' => $file_name, 'size_allowed' => 1000000,'file_destination' => 'web/images/ID_card/']);
+            $image->upload_image($file, ['name' => $file_name, 'size_allowed' => 10000000,'file_destination' => 'web/images/ID_card/']);
                 
             $image_name = 'web/images/ID_card/'.$file_name;
 
@@ -1549,7 +1549,7 @@ public function ajax_check_member_detail(Request $request)
                 $file = Image::files('image');
 
                 $file_name = Image::name('image', 'ID_CARD');
-                $image->upload_image($file, ['name' => $file_name, 'size_allowed' => 1000000,'file_destination' => 'web/images/ID_card/']);
+                $image->upload_image($file, ['name' => $file_name, 'size_allowed' => 10000000,'file_destination' => 'web/images/ID_card/']);
                     
                 $image_name = 'web/images/ID_card/'.$file_name;
 

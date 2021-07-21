@@ -24,7 +24,7 @@
                 @foreach($users as $user)
                     @php($last_chat = last_chat($user->id))
                     @php($unread_message = unread($user->id))
-                    @php($image = $user->gender == 'male' ? 'M' : 'F')
+                    @php($image =  gender($user->gender))
                     <div class="message-inner-content">
                         <div class="message-img">
                             <i class="fa fa-circle {{ $user->is_active ? 'active' : '' }}"></i>   

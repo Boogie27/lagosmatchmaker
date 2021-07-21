@@ -101,6 +101,15 @@ class AdminAjaxController extends Controller
         }
         return response()->json(['data' => $data]);
     }
+
+
+
+
+
+
+
+
+
     
 
 
@@ -125,6 +134,50 @@ class AdminAjaxController extends Controller
 
 
 
+
+
+
+    public function ajax_mass_approve_members(Request $request)
+    {
+        $data = false;
+        if($request->ajax())
+        {
+            if(!count($request->stored_id))
+            {
+                return response()->json(['empty' => true]);
+            }
+
+            foreach($request->stored_id as $user_id)
+            {
+                $user = User::where('id', $user_id)->first();
+                $user_detail = $user;
+                if($user)
+                {
+                    $data = true;
+                    $this->send_approved_notification($user);
+                    $user->is_approved = 1;
+                    $user->save();
+                  
+                    if(settings()->approved_profile_mail)
+                    {
+                        Mail::to($user_detail->email)->send(new ApproveUserMail());
+                    }
+                }
+            }
+            
+        }
+        return response()->json(['data' => $data]);
+    }
+
+    
+
+
+
+
+
+
+
+
     public function ajax_deactivate_member(Request $request)
     {
         $data = false;
@@ -138,7 +191,6 @@ class AdminAjaxController extends Controller
 
                 $user->is_deactivated = $is_deactivated;
                 $user->date_deactivated = $date_deactivated;
-                // $user->is_suspend = 0;
                 $user->is_active = 0;
                 $user->save();
                 if($is_deactivated == 1){
@@ -176,7 +228,7 @@ class AdminAjaxController extends Controller
                 'hiv' => 'required',
                 'complexion' => 'required|max:50',
                 'career' => 'required|max:100',
-                'education' => 'required|max:100',
+                'university' => 'required|max:100',
             ]);
 
             if(!$validator->passes())
@@ -195,7 +247,7 @@ class AdminAjaxController extends Controller
                     $user->HIV = strtoupper($request->hiv);
                     $user->complexion = $request->complexion;
                     $user->career = $request->career;
-                    $user->education = $request->education;
+                    $user->education = $request->university;
                     $user->location = strtolower($request->location);
                     $user->genotype = $request->genotype;
                     $user->religion = strtolower($request->religion);
@@ -1896,7 +1948,7 @@ class AdminAjaxController extends Controller
 
                 $fileName = Image::name('image', 'slider');
                 $slider = 'web/images/banner/'.$fileName;
-                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 1000000,'file_destination' => 'web/images/banner/' ]);
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/banner/' ]);
                 
                 if(!$image->passed())
                 {
@@ -1990,7 +2042,7 @@ class AdminAjaxController extends Controller
 
                 $fileName = Image::name('image', 'slider');
                 $slider = 'web/images/banner/'.$fileName;
-                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 1000000,'file_destination' => 'web/images/banner/' ]);
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/banner/' ]);
                 
                 if(!$image->passed())
                 {
@@ -2191,7 +2243,7 @@ class AdminAjaxController extends Controller
 
                 $fileName = Image::name('image', 'bank_icon');
                 $icon = 'web/images/icons/'.$fileName;
-                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 1000000,'file_destination' => 'web/images/icons/' ]);
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/icons/' ]);
                 
                 if(!$image->passed())
                 {
@@ -2845,7 +2897,7 @@ public function ajax_add_how_it_works(Request $request)
 
                 $fileName = Image::name('image', 'slider');
                 $how_it_work = 'web/images/icons/'.$fileName;
-                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 1000000,'file_destination' => 'web/images/icons/' ]);
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/icons/' ]);
                 
                 if(!$image->passed())
                 {
@@ -2943,7 +2995,7 @@ public function ajax_add_how_it_works(Request $request)
 
                 $fileName = Image::name('image', 'slider');
                 $how_it_works_image = 'web/images/icons/'.$fileName;
-                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 1000000,'file_destination' => 'web/images/icons/' ]);
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/icons/' ]);
                 
                 if(!$image->passed())
                 {
@@ -3119,7 +3171,7 @@ public function ajax_add_how_it_works(Request $request)
                 $file = Image::files('image');
 
                 $file_name = Image::name('image', 'ID_CARD');
-                $image->upload_image($file, ['name' => $file_name, 'size_allowed' => 1000000,'file_destination' => 'web/images/ID_card/']);
+                $image->upload_image($file, ['name' => $file_name, 'size_allowed' => 10000000,'file_destination' => 'web/images/ID_card/']);
                     
                 $image_name = 'web/images/ID_card/'.$file_name;
 

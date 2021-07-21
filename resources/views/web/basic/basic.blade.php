@@ -12,7 +12,7 @@
                 <div class="row">
                     @foreach($basics as $basic)
                         @if(user('id') != $basic->id)
-                            @php($image = $basic->gender == 'male' ? 'M' : 'F')
+                            @php($image =  gender($basic->gender))
                             @php($name = $basic->display_name ? ucfirst($basic->display_name) : ucfirst($basic->user_name))
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12"><!-- member start-->
                                 <div class="member-inner-div"> 
@@ -62,7 +62,7 @@
                                                 <li>Genotype: <span>{{ $basic->genotype ?? '' }}</span></li>
                                                 <li>Religion: <span>{{ $basic->religion ?? '' }}</span></li>
                                                 <li>Location: <span>{{ $basic->location ?? '' }}</span></li>
-                                                <li>Education: <span>{{ $basic->education ?? '' }}</span></li>
+                                                <li>University: <span>{{ $basic->education ?? '' }}</span></li>
                                                 <li>Career: <span>{{ $basic->career ?? '' }}</span></li>
                                                 <li>Marital status: <span>{{ $basic->marital_status ?? '' }}</span></li>
                                                 <li>About: <span>{{ $basic->about ?? '' }}</span></li>
@@ -75,7 +75,7 @@
                     @endforeach
                 </div>
                 @if(count($basics))
-                <div class="paginate">{{ $basics->links("pagination::bootstrap-4") }}</div>
+                <div class="paginate">{{ $basics->withQueryString()->links("pagination::bootstrap-4") }}</div>
                 @endif
                 <div class="join-us-btn top-members-btn">
                     <a href="#" data-modal="#member_search_form_modal" class="mr-2"><i class="fa fa-search"></i> Search</a>

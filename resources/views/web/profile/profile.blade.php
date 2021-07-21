@@ -118,7 +118,7 @@
                             <div class="body">: {{ $user->complexion ?? 'Empty' }}</div>
                         </li>
                         <li>
-                            <div class="title">Education  </div>
+                            <div class="title">University  </div>
                             <div class="body">: {{ $user->education ?? 'Empty' }}</div>
                         </li>
                         <li>

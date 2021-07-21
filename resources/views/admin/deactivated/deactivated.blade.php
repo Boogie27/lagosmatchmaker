@@ -59,7 +59,7 @@
                                         <tbody id="parent_table">
                                             @if(count($deactivates))
                                             @foreach($deactivates as $deactivated)
-                                            @php($avatar = $deactivated->gender == 'male' ? 'M' : 'F')
+                                            @php($avatar = gender($deactivated->gender))
                                             <tr>
                                                 <td>
                                                     <input type="checkbox" id="{{ $deactivated->id }}" class="check-box-members-input-btn" {{ checked_member($deactivated->id) ? 'checked' : '' }}>

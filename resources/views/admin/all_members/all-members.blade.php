@@ -60,7 +60,7 @@
                                         <tbody>
                                             @if(count($all_members))
                                             @foreach($all_members as $member)
-                                            @php($avatar = $member->gender == 'male' ? 'M' : 'F')
+                                            @php($avatar = gender($member->gender))
                                             <tr>
                                                 <td>
                                                     <input type="checkbox" id="{{ $member->id }}" class="check-box-members-input-btn" {{ checked_member($member->id) ? 'checked' : '' }}>

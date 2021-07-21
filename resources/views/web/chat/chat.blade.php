@@ -1,4 +1,4 @@
-
+@php($user_detail = user_detail())
 
 
 <!-- CHAT SECTION START-->
@@ -26,7 +26,7 @@
                                     <a href="{{ url('/chat/'.$message->id) }}"> <!-- chat message start -->
                                         <ul class="ul-chat-message">
                                             <li class="chat-profile-img">
-                                            <h4>{{ $message->gender == 'male' ? 'M' : 'F' }}</h4>
+                                            <h4>{{  gender($message->gender) }}</h4>
                                             </li>
                                             <li class="chat-msg">
                                                 <h5>{{ $name }} <span class="float-right">{{ chat_time($last_chat->time) }}</span></h5>
@@ -46,13 +46,13 @@
                             <div class="chat-profile-img">
                                 <ul class="ul-chat-profile-img">
                                     <li class="profile-img-img">
-                                        <h4>{{ user_detail()->gender == 'male' ? 'M' : 'F' }}</h4>
+                                        <h4>{{ gender($user_detail->gender) }}</h4>
                                     </li>
                                     <li class="chat-profile-right">
                                        <a href="#">
-                                            @php($name = display_name(user_detail()->display, user_detail()->user_name))
+                                            @php($name = display_name($user_detail->display, $user_detail->user_name))
                                             <h5>{{ $name }}</h5>
-                                            <p>Location: {{ user_detail()->location }}</p>
+                                            <p>Location: {{ $user_detail->location }}</p>
                                        </a>
                                     </li>
                                 </ul>

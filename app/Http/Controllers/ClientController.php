@@ -132,13 +132,13 @@ class ClientController extends Controller
 
         if($request->membership_level == 'basic')
         {
-            $basics  = $members->paginate(25);
+            $basics  = $members->paginate(28);
             return view('web.basic', compact('basics', 'genotypes', 'marital_status', 'states'));
         }
         
         if($request->membership_level == 'premium')
         {
-            $premiums  = $members->paginate(25);
+            $premiums  = $members->paginate(28);
             return view('web.premium', compact('premiums', 'genotypes', 'marital_status', 'states'));
         }
         
@@ -380,6 +380,7 @@ class ClientController extends Controller
             'confirm_password' => 'required|min:6|max:12',
             'gender' => 'required'
         ]);
+
         
         $register = User::create([
                 'user_name' => $request->user_name,
@@ -431,6 +432,7 @@ class ClientController extends Controller
 
     public function profile_detail($id)
     {
+        $gender = null;
         $was_liked = false;
         $you_liked = false;
 
@@ -461,7 +463,17 @@ class ClientController extends Controller
 
         $display_name = $user->display_name ? $user->display_name : $user->user_name; //user name
 
-        $gender = $user->gender == 'male' ? 'man' : 'woman'; // gender
+        if($user->gender)
+        {
+            if($user->gender == 'male')
+            {
+                $gender = 'man';
+            }
+            if($user->gender == 'female')
+            {
+                $gender = 'woman';
+            }
+        }
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
@@ -528,7 +540,7 @@ class ClientController extends Controller
         
 
 
-        $premiums = $members->paginate(25);
+        $premiums = $members->paginate(28);
         
         return view('web.premium', compact('premiums', 'states', 'genotypes', 'marital_status'));
     }
@@ -547,7 +559,7 @@ class ClientController extends Controller
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
-        $premiums = User::where('gender', 'male')->where('membership_level', 'premium')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->paginate(25);//get all male premium members
+        $premiums = User::where('gender', 'male')->where('membership_level', 'premium')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->paginate(28);//get all male premium members
        
         return view('web.premium', compact('premiums', 'states', 'genotypes', 'marital_status'));
     }
@@ -566,8 +578,8 @@ class ClientController extends Controller
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
-        $premiums = User::where('gender', 'female')->where('membership_level', 'premium')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->paginate(25);//get all female premium members
-       
+        $premiums = User::where('gender', 'female')->where('membership_level', 'premium')->where('is_approved', 1)->where('is_deactivated', 0)->paginate(28);//get all female premium members
+
         return view('web.premium', compact('premiums', 'states', 'genotypes', 'marital_status'));
     }
 
@@ -845,7 +857,7 @@ class ClientController extends Controller
         }
         
 
-        $basics = $members->paginate(25);
+        $basics = $members->paginate(28);
 
 
         return view('web.basic', compact('basics', 'states', 'genotypes', 'marital_status'));
@@ -860,7 +872,7 @@ class ClientController extends Controller
 
     public function basic_men()
     {
-        $basics = User::where('gender', 'male')->where('membership_level', 'basic')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->paginate(25);
+        $basics = User::where('gender', 'male')->where('membership_level', 'basic')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->paginate(28);
 
         $states = DB::table('states')->where('is_featured', 1)->get(); // aget all states
 
@@ -879,7 +891,7 @@ class ClientController extends Controller
 
     public function basic_women()
     {
-        $basics = User::where('gender', 'female')->where('membership_level', 'basic')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->paginate(25);
+        $basics = User::where('gender', 'female')->where('membership_level', 'basic')->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->paginate(28);
 
         $states = DB::table('states')->where('is_featured', 1)->get(); // aget all states
 
