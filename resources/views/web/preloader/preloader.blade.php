@@ -1,11 +1,11 @@
 <!-- MAIN APP PRELOADER START-->
-<!-- <div class="main-app-preloader" id="main_app_preloader">
+<div class="main-app-preloader" id="main_app_preloader">
     <div class="preloader-inner">
         <div class="inner-preloader-box">
             <div class="rotating-preloader"></div>
         </div>
     </div>
-</div> -->
+</div>
 <!-- MAIN APP PRELOADER END-->
 
 

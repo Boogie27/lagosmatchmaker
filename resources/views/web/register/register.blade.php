@@ -45,6 +45,14 @@
                     </div>
                 </div>
                 <div class="col-xl-12">
+                    <div class="form-group">
+                        @if($errors->first('phone'))
+                        <div class="alert-form text-danger">{{ $errors->first('phone') }}</div>
+                        @endif
+                        <input type="text" name="phone" class="form-control" value="" placeholder="Phone number">
+                    </div>
+                </div>
+                <div class="col-xl-12">
                     @if($errors->first('gender'))
                     <div class="alert-form text-danger">{{ $errors->first('gender') }}</div>
                     @endif

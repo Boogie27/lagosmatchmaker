@@ -61,6 +61,7 @@
                                                 <li>Age: <span>{{ $premium->age ?? '' }}</span></li>
                                                 <li>Genotype: <span>{{ $premium->genotype ?? '' }}</span></li>
                                                 <li>Religion: <span>{{ $premium->religion ?? '' }}</span></li>
+                                                <li>State of origin: <span>{{ $premium->state_of_origin ?? '' }}</span></li>
                                                 <li>Location: <span>{{ $premium->location ?? '' }}</span></li>
                                                 <li>University: <span>{{ $premium->education ?? '' }}</span></li>
                                                 <li>Career: <span>{{ $premium->career ?? '' }}</span></li>

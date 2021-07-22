@@ -270,7 +270,7 @@ function is_complete()
                 $user->smoking && $user->drinking && $user->interest 
                 && $user->genotype && $user->language && $user->height && $user->weight 
                 && $user->body_type && $user->ethnicity && $user->HIV && $user->complexion 
-                && $user->education && $user->career && !$user->is_complete)
+                && $user->education && $user->career && $user->state_of_origin && $user->phone && !$user->is_complete)
             {
                 $state = true;
                 $user->is_complete = 1;

@@ -378,14 +378,20 @@ class ClientController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|max:12|same:confirm_password',
             'confirm_password' => 'required|min:6|max:12',
+            'phone' => 'required|min:11|max:11',
             'gender' => 'required'
         ]);
 
-        
+        if(!is_numeric($request->phone))
+        {
+            return back()->with('error', 'Wrong phone number format!');
+        }
+
         $register = User::create([
                 'user_name' => $request->user_name,
                 'email' => $request->email,
                 'gender' => $request->gender,
+                'phone' => $request->phone,
                 'password' => hash::make($request->password),
                 'membership_level' => 'basic',
             ]);

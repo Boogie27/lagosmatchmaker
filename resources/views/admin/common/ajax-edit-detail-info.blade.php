@@ -35,6 +35,10 @@
     @endif
 </li>
 <li>
+    <div class="title">Phone number  </div>
+    <div class="body">: {{ $user->phone ?? 'Empty' }}</div>
+</li>
+<li>
     <div class="title">Complexion  </div>
     <div class="body">: {{ $user->complexion ?? 'Empty' }}</div>
 </li>
@@ -49,6 +53,10 @@
 <li>
     <div class="title">Religion  </div>
     <div class="body">: {{ $user->religion ?? 'Empty' }}</div>
+</li>
+<li>
+    <div class="title">State Of Origin  </div>
+    <div class="body">: {{ $user->state_of_origin ?? 'Empty' }}</div>
 </li>
 <li>
     <div class="title">Location  </div>

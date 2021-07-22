@@ -229,6 +229,8 @@ class AdminAjaxController extends Controller
                 'complexion' => 'required|max:50',
                 'career' => 'required|max:100',
                 'university' => 'required|max:100',
+                'state_of_origin' => 'required',
+                'phone' => 'required|min:11|max:11',
             ]);
 
             if(!$validator->passes())
@@ -238,12 +240,18 @@ class AdminAjaxController extends Controller
 
             if($validator->passes())
             {
+                if(!is_numeric($request->phone))
+                {
+                    return response()->json(['error' => ['phone' => 'Wrong phone number format!']]);
+                }
+
                 $id = $request->user_id;
                 $user =  $user = User::where('id', $id)->first(); //get user detail
                 if($user)
                 {
                     $user->age = $request->age;
                     $user->gender = $request->i_am;
+                    $user->phone = $request->phone;
                     $user->HIV = strtoupper($request->hiv);
                     $user->complexion = $request->complexion;
                     $user->career = $request->career;
@@ -254,6 +262,7 @@ class AdminAjaxController extends Controller
                     $user->looking_for = $request->looking_for;
                     $user->marital_status = strtolower($request->marital_status);
                     $user->display_name = strtolower($request->display_name);
+                    $user->state_of_origin = strtolower($request->state_of_origin);
                     if($user->save())
                     {
                         $data = true;

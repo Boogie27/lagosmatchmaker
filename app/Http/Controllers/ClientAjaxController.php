@@ -35,7 +35,9 @@ class ClientAjaxController extends Controller
                 'hiv' => 'required',
                 'complexion' => 'required|max:50',
                 'career' => 'required|max:100',
+                'phone' => 'required|min:11|max:11',
                 'university' => 'required|max:100',
+                'state_of_origin' => 'required',
             ]);
 
             if(!$validator->passes())
@@ -45,12 +47,18 @@ class ClientAjaxController extends Controller
 
             if($validator->passes())
             {
+                if(!is_numeric($request->phone))
+                {
+                    return response()->json(['error' => ['phone' => 'Wrong phone number format!']]);
+                }
+
                 $id = Auth::user('id');
                 $user = User::where('id', $id)->first(); //get user detail
                 if($user)
                 {
                     $user->age = $request->age;
                     $user->gender = $request->i_am;
+                    $user->phone = $request->phone;
                     $user->HIV = strtoupper($request->hiv);
                     $user->complexion = $request->complexion;
                     $user->career = $request->career;
@@ -61,6 +69,7 @@ class ClientAjaxController extends Controller
                     $user->looking_for = $request->looking_for;
                     $user->marital_status = strtolower($request->marital_status);
                     $user->display_name = strtolower($request->display_name);
+                    $user->state_of_origin = strtolower($request->state_of_origin);
                     if($user->save())
                     {
                         $data = true;
@@ -87,7 +96,7 @@ class ClientAjaxController extends Controller
             $user->smoking && $user->drinking && $user->interest 
             && $user->genotype && $user->language && $user->height && $user->weight 
             && $user->body_type && $user->ethnicity && $user->HIV && $user->complexion 
-            && $user->education && $user->career && !$user->is_complete)
+            && $user->education && $user->career && $user->state_of_origin && $user->phone && !$user->is_complete)
             {
                 $state = true;
                 $user->is_complete = 1;
@@ -704,30 +713,30 @@ class ClientAjaxController extends Controller
         if($request->ajax())
         {
             $data = false;
-            $user = User::where('id', $request->user_id)->first(); //get user detail
-            $subscription = DB::table('subscriptions')->where('type', 'basic')->first();
-            $my_sub = DB::table('user_subscriptions')->where('user_id', Auth::user('id'))->where('is_expired', 0)->first();           
+            // $user = User::where('id', $request->user_id)->first(); //get user detail
+            // $subscription = DB::table('subscriptions')->where('type', 'basic')->first();
+            // $my_sub = DB::table('user_subscriptions')->where('user_id', Auth::user('id'))->where('is_expired', 0)->first();           
 
-            if($subscription && $subscription->amount != 0)
-            {
-                if(Auth::user('membership_level') == 'basic' && $user->membership_level == 'premium')
-                {
-                    return response()->json(['subscribe_to_premium' => true]);
-                }
+            // if($subscription && $subscription->amount != 0)
+            // {
+            //     if(Auth::user('membership_level') == 'basic' && $user->membership_level == 'premium')
+            //     {
+            //         return response()->json(['subscribe_to_premium' => true]);
+            //     }
 
-                if(!$my_sub)
-                {
-                    return response()->json(['subscribe' => true]);
-                }
-            }
+            //     if(!$my_sub)
+            //     {
+            //         return response()->json(['subscribe' => true]);
+            //     }
+            // }
 
-            if($subscription && $subscription->amount == 0)
-            {
-                if(Auth::user('membership_level') == 'basic' && $user->membership_level == 'premium')
-                {
-                    return response()->json(['subscribe_to_premium' => true]);
-                }
-            }
+            // if($subscription && $subscription->amount == 0)
+            // {
+            //     if(Auth::user('membership_level') == 'basic' && $user->membership_level == 'premium')
+            //     {
+            //         return response()->json(['subscribe_to_premium' => true]);
+            //     }
+            // }
             
               
             $accept = DB::table('likes')->where('initiator_id', $request->user_id)->where('acceptor_id', Auth::user('id'))->update([
