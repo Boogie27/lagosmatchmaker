@@ -309,31 +309,34 @@ function get_ajax_edit_detail(user_id){
 
 function validate_detail_field(phone, state_of_origin, hiv, complexion, education, career, genotype, display_name, i_am, looking_for, marital_status, age, religion, location){
     var is_state = false;
-
-    if(!phone || !state_of_origin || !complexion || !hiv || !education || !career || !genotype || !display_name || !looking_for || !i_am || !marital_status || !age || !religion || !location){
+    if(display_name.length > 50){
         is_state = true;
-        $(".form_alert_0").html('*All fields is required')
-    }else{
-        if(display_name.length > 50){
-            is_state = true;
-            $(".alert_0").html('*Maximum of 50 characters')
-        }
-        if(complexion.length > 50){
-            $(".alert_complexion").html('*Maximum of 50 characters')
-        }
-        if(education.length > 100){
-            $(".alert_education").html('*Maximum of 100 characters')
-        }
-        if(career.length > 100){
-            $(".alert_career").html('*Maximum of 100 characters')
-        }
+        $(".alert_0").html('*Maximum of 50 characters')
+    }
+    if(complexion.length > 50){
+        is_state = true;
+        $(".alert_complexion").html('*Maximum of 50 characters')
+    }
+    if(education.length > 100){
+        is_state = true;
+        $(".alert_education").html('*Maximum of 100 characters')
+    }
+    if(career.length > 100){
+        is_state = true;
+        $(".alert_career").html('*Maximum of 100 characters')
+    }
+    if(phone != ''){
         if(phone.length < 11){
+            is_state = true;
             $(".alert_phone_number").html('*Minimum of 11 characters')
         }
         if(phone.length > 11){
+            is_state = true;
             $(".alert_phone_number").html('*Maximum of 11 characters')
         }
     }
+    
+    
     return is_state;
 }
 
@@ -370,6 +373,80 @@ function preloader_toggle(){
         $("#access_preloader_container").hide()
     }, 1000)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function validate_detail_field(phone, state_of_origin, hiv, complexion, education, career, genotype, display_name, i_am, looking_for, marital_status, age, religion, location){
+//     var is_state = false;
+
+//     if(!phone || !state_of_origin || !complexion || !hiv || !education || !career || !genotype || !display_name || !looking_for || !i_am || !marital_status || !age || !religion || !location){
+//         is_state = true;
+//         $(".form_alert_0").html('*All fields is required')
+//     }else{
+//         if(display_name.length > 50){
+//             is_state = true;
+//             $(".alert_0").html('*Maximum of 50 characters')
+//         }
+//         if(complexion.length > 50){
+    // is_state = true;
+//             $(".alert_complexion").html('*Maximum of 50 characters')
+//         }
+//         if(education.length > 100){
+    // is_state = true;
+//             $(".alert_education").html('*Maximum of 100 characters')
+//         }
+//         if(career.length > 100){
+    // is_state = true;
+//             $(".alert_career").html('*Maximum of 100 characters')
+//         }
+//         if(phone.length < 11){
+    // is_state = true;
+//             $(".alert_phone_number").html('*Minimum of 11 characters')
+//         }
+//         if(phone.length > 11){
+                // is_state = true;
+//             $(".alert_phone_number").html('*Maximum of 11 characters')
+//         }
+//     }
+//     return is_state;
+// }
+
+
+
+
+
+
+
+
+
 
 
 // end

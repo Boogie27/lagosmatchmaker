@@ -144,10 +144,10 @@ function life_style(){
 
     csrf_token() //csrf token
 
-    if(validate_physical_info_field(height, weight, body_type, ethnicity)){
-        $("#edit_physical_info_submit_btn").html('Update Detail')
-        return
-    }
+    // if(validate_physical_info_field(height, weight, body_type, ethnicity)){
+    //     $("#edit_physical_info_submit_btn").html('Update Detail')
+    //     return
+    // }
 
 
     $.ajax({
@@ -198,26 +198,26 @@ function get_physical_error(error){
 
 
 
-function validate_physical_info_field(height, weight, body_type, ethnicity){
-    var is_state = false;
+// function validate_physical_info_field(height, weight, body_type, ethnicity){
+//     var is_state = false;
 
-    if(!height || !weight || !body_type || !ethnicity){
-        is_state = true;
-        $(".form_alert_0").html('*All fields is required')
-    }else{
-        // if(hair_color.length > 50){
-        //     is_state = true;
-        //     $(".alert_17").html('*Maximum of 50 characters')
-        // }
+//     if(!height || !weight || !body_type || !ethnicity){
+//         is_state = true;
+//         $(".form_alert_0").html('*All fields is required')
+//     }else{
+//         if(hair_color.length > 50){
+//             is_state = true;
+//             $(".alert_17").html('*Maximum of 50 characters')
+//         }
 
-        // if(eye_color.length > 50){
-        //     is_state = true;
-        //     $(".alert_18").html('*Maximum of 50 characters')
-        // }
-    }
+//         if(eye_color.length > 50){
+//             is_state = true;
+//             $(".alert_18").html('*Maximum of 50 characters')
+//         }
+//     }
 
-    return is_state;
-}
+//     return is_state;
+// }
 
 
 

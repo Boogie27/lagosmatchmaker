@@ -183,20 +183,14 @@ function get_lifestyle_error(error){
 
 function validate_lifestyle_field(interest, drinking, smoking, language){
     var is_state = false;
-
-    if(!interest || !drinking || !smoking || !language){
+    if(interest != '' && interest.length > 150){
         is_state = true;
-        $(".form_alert_0").html('*All fields is required')
-    }else{
-        if(interest.length > 150){
-            is_state = true;
-            $(".alert_11").html('*Maximum of 150 characters')
-        }
+        $(".alert_11").html('*Maximum of 150 characters')
+    }
 
-        if(language.length > 150){
-            is_state = true;
-            $(".alert_14").html('*Maximum of 150 characters')
-        }
+    if(language != '' && language.length > 150){
+        is_state = true;
+        $(".alert_14").html('*Maximum of 150 characters')
     }
 
     return is_state;

@@ -218,19 +218,10 @@ class AdminAjaxController extends Controller
         if($request->ajax())
         {
             $validator = Validator::make($request->all(), [
-                'age' => 'required',
-                'i_am' => 'required',
-                'display_name' => 'required|max:50',
-                'location' => 'required',
-                'religion' => 'required',
-                'looking_for' => 'required',
-                'marital_status' => 'required',
-                'hiv' => 'required',
-                'complexion' => 'required|max:50',
-                'career' => 'required|max:100',
-                'university' => 'required|max:100',
-                'state_of_origin' => 'required',
-                'phone' => 'required|min:11|max:11',
+                'display_name' => 'max:50',
+                'complexion' => 'max:50',
+                'career' => 'max:100',
+                'university' => 'max:100',
             ]);
 
             if(!$validator->passes())
@@ -240,9 +231,20 @@ class AdminAjaxController extends Controller
 
             if($validator->passes())
             {
-                if(!is_numeric($request->phone))
+                if($request->phone)
                 {
-                    return response()->json(['error' => ['phone' => 'Wrong phone number format!']]);
+                    if(strlen($request->phone) < 11)
+                    {
+                        return response()->json(['error' => ['phone' => '*Minimum of 11 characters!']]);
+                    }
+                    if(strlen($request->phone) > 11)
+                    {
+                        return response()->json(['error' => ['phone' => '*Maximum of 11 characters!']]);
+                    }
+                    if(!is_numeric($request->phone))
+                    {
+                        return response()->json(['error' => ['phone' => 'Wrong phone number format!']]);
+                    }
                 }
 
                 $id = $request->user_id;
@@ -252,17 +254,17 @@ class AdminAjaxController extends Controller
                     $user->age = $request->age;
                     $user->gender = $request->i_am;
                     $user->phone = $request->phone;
-                    $user->HIV = strtoupper($request->hiv);
+                    $user->HIV = $request->hiv ? strtoupper($request->hiv) : null;
                     $user->complexion = $request->complexion;
                     $user->career = $request->career;
                     $user->education = $request->university;
-                    $user->location = strtolower($request->location);
+                    $user->location = $request->location ? strtolower($request->location) : null;
                     $user->genotype = $request->genotype;
-                    $user->religion = strtolower($request->religion);
+                    $user->religion = $request->religion ? strtolower($request->religion) : null;
                     $user->looking_for = $request->looking_for;
-                    $user->marital_status = strtolower($request->marital_status);
-                    $user->display_name = strtolower($request->display_name);
-                    $user->state_of_origin = strtolower($request->state_of_origin);
+                    $user->marital_status = $request->marital_status ? strtolower($request->marital_status) : null;
+                    $user->display_name = $request->display_name ? strtolower($request->display_name) : null;
+                    $user->state_of_origin = $request->state_of_origin ? strtolower($request->state_of_origin) : null;
                     if($user->save())
                     {
                         $data = true;
@@ -383,10 +385,8 @@ class AdminAjaxController extends Controller
         if($request->ajax())
         {
             $validator = Validator::make($request->all(), [
-                'drinking' => 'required',
-                'smoking' => 'required',
-                'interest' => 'required|max:150',
-                'language' => 'required|max:150',
+                'interest' => 'max:150',
+                'language' => 'max:150',
             ]);
 
             if(!$validator->passes())
@@ -443,36 +443,20 @@ class AdminAjaxController extends Controller
         $data = false;
         if($request->ajax())
         {
-            $validator = Validator::make($request->all(), [
-                'height' => 'required',
-                'weight' => 'required',
-                'body_type' => 'required',
-                'ethnicity' => 'required',
-            ]);
-
-            if(!$validator->passes())
+            $id = $request->user_id;
+            $user =  $user = User::where('id', $id)->first(); //get user detail
+            if($user)
             {
-                return response()->json(['error' => $validator->errors()]);
-            }
+                $user->height = $request->height;
+                $user->weight = $request->weight;
+                $user->body_type = $request->body_type;
+                $user->ethnicity = $request->ethnicity;
 
-            if($validator->passes())
-            {
-                $id = $request->user_id;
-                $user =  $user = User::where('id', $id)->first(); //get user detail
-                if($user)
+                if($user->save())
                 {
-                    $user->height = $request->height;
-                    $user->weight = $request->weight;
-                    $user->body_type = $request->body_type;
-                    $user->ethnicity = $request->ethnicity;
-
-                    if($user->save())
-                    {
-                        $data = true;
-                    }
+                    $data = true;
                 }
             }
-
         }
         return response()->json(['data' => true]);
     }
