@@ -116,10 +116,12 @@ function edit_about_me(){
                 $(".modal-btn-close").click()
                 $("#ul_about_me_body").children().children().html(about)
             }else{
+                $("#edit_about_submit_btn").html('Update Detail')
                 $(".form_alert_0").html('Network error, try again later!')
             }
         },
         error: function(){
+            $("#edit_about_submit_btn").html('Update Detail')
             $(".form_alert_0").html('Network error, try again later!')
         }
     });

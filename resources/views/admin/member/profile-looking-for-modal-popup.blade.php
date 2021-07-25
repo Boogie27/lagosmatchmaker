@@ -111,10 +111,12 @@ function looking_for(){
                 $("#access_preloader_container").show()
                 $("#ul_looking_for_body").children().children().html(looking_for)
             }else{
+                $("#edit_looking_for_submit_btn").html('Update Detail')
                 $(".form_alert_0").html('Network error, try again later!')
             }
         },
         error: function(){
+            $("#edit_looking_for_submit_btn").html('Update Detail')
             $(".form_alert_0").html('Network error, try again later!')
         }
     });

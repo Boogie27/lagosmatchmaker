@@ -93,7 +93,10 @@
                             <div class="chat-input">
                                 <input type="file" id="upload_chat_image_input" style="display: none;">
                                 <input type="text" id="chating_input_box" class="form-control" placeholder="Enter Message...">
-                                <button type="button" id="chatting_button_submit"><i class="fa fa-paper-plane"></i></button>
+                                <button type="button" id="chatting_button_submit">
+                                    <i class="fa fa-paper-plane"></i>
+                                    <!-- <div class="chat-loader"></div> -->
+                                </button>
                             </div>
                         </form>
                         <ul class="ul-chat-files">
@@ -197,6 +200,7 @@ var take = 8;
 var max = false;
 var remender = 0;
 var active = false
+var is_sending = false
 var user_id = "{{ $receiver->id }}"
 var chat_token = "{{ $chat_token }}"
 
@@ -295,9 +299,13 @@ function get_chat()
                 $(".inner-chat-body").html(response.data)
            }
            console.log(response, skip)
+           is_sending = false
+           $("#chatting_button_submit").html('<i class="fa fa-paper-plane"></i>')
         }, 
         error: function(){
+            is_sending = false
             bottom_alert_error('Network error, try again later!')
+            $("#chatting_button_submit").html('<i class="fa fa-paper-plane"></i>')
         }
     });
 }
@@ -327,8 +335,19 @@ $("#chatting_button_submit").click(function(e){
 
 
 function send_chat(){
-
     var chat = $("#chating_input_box").val();
+    if(chat.length <= 0){
+        return bottom_alert_error('Chat can not be empty!')
+    }
+
+    if(is_sending) return
+    if(!is_sending){
+        is_sending = true;
+    }
+
+    $("#chatting_button_submit").html('<div class="chat-loader"></div>')
+    
+   
    
     csrf_token() //csrf token
 
@@ -344,6 +363,8 @@ function send_chat(){
             $("#chating_input_box").val('')
         }, 
         error: function(){
+            is_sending = false;
+            $("#chatting_button_submit").html('<i class="fa fa-paper-plane"></i>')
             bottom_alert_error('Network error, try again later!')
         }
     });

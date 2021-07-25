@@ -154,10 +154,12 @@ function life_style(){
                 $(".modal-btn-close").click()
                 $("#access_preloader_container").show()
             }else{
+                $("#edit_life_style_submit_btn").html('Update Detail')
                 $(".form_alert_0").html('Network error, try again later!')
             }
         },
         error: function(){
+            $("#edit_life_style_submit_btn").html('Update Detail')
             $(".form_alert_0").html('Network error, try again later!')
         }
     });

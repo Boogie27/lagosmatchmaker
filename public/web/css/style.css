@@ -2991,6 +2991,23 @@ ul.profile-two-content{
     padding: 20px 20px;
     background-color:  rgb(42, 42, 42);
 }
+.chat-loader{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 3px solid rgb(196, 142, 44);
+    border-bottom: 3px solid transparent;
+    -webkit-animation: chat-spin 0.4s linear infinite; 
+    animation: chat-spin 0.4s linear infinite;
+}
+@keyframes chat-spin{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
 @media only screen and (max-width: 1125px){
     #chat_left_container{
         display: none;

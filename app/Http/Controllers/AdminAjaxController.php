@@ -251,17 +251,17 @@ class AdminAjaxController extends Controller
                 $user =  $user = User::where('id', $id)->first(); //get user detail
                 if($user)
                 {
-                    $user->age = $request->age;
-                    $user->gender = $request->i_am;
-                    $user->phone = $request->phone;
+                    $user->age = $request->age ? $request->age : null;
+                    $user->gender = $request->i_am ? $request->i_am : null;
+                    $user->phone = $request->phone ? $request->phone : null;
                     $user->HIV = $request->hiv ? strtoupper($request->hiv) : null;
-                    $user->complexion = $request->complexion;
-                    $user->career = $request->career;
-                    $user->education = $request->university;
+                    $user->complexion = $request->complexion ? $request->complexion : null;
+                    $user->career = $request->career ? $request->career : null;
+                    $user->education = $request->university ? $request->university : null;
                     $user->location = $request->location ? strtolower($request->location) : null;
-                    $user->genotype = $request->genotype;
+                    $user->genotype = $request->genotype ? $request->genotype : null;
                     $user->religion = $request->religion ? strtolower($request->religion) : null;
-                    $user->looking_for = $request->looking_for;
+                    $user->looking_for = $request->looking_for ? $request->looking_for : null; 
                     $user->marital_status = $request->marital_status ? strtolower($request->marital_status) : null;
                     $user->display_name = $request->display_name ? strtolower($request->display_name) : null;
                     $user->state_of_origin = $request->state_of_origin ? strtolower($request->state_of_origin) : null;

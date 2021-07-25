@@ -169,10 +169,12 @@ function life_style(){
                 $(".modal-btn-close").click()
                 $("#access_preloader_container").show()
             }else{
+                $("#edit_physical_info_submit_btn").html('Update Detail')
                 $(".form_alert_0").html('Network error, try again later!')
             }
         },
         error: function(){
+            $("#edit_physical_info_submit_btn").html('Update Detail')
             $(".form_alert_0").html('Network error, try again later!')
         }
     });
