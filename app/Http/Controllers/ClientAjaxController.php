@@ -33,6 +33,7 @@ class ClientAjaxController extends Controller
                 'looking_for' => 'required',
                 'marital_status' => 'required',
                 'hiv' => 'required',
+                'country' => 'required',
                 'complexion' => 'required|max:50',
                 'career' => 'required|max:100',
                 'phone' => 'required|min:11|max:11',
@@ -59,6 +60,7 @@ class ClientAjaxController extends Controller
                     $user->age = $request->age;
                     $user->gender = $request->i_am;
                     $user->phone = $request->phone;
+                    $user->country = $request->country;
                     $user->HIV = strtoupper($request->hiv);
                     $user->complexion = $request->complexion;
                     $user->career = $request->career;

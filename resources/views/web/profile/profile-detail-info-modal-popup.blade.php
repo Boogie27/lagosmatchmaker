@@ -113,39 +113,31 @@
                                     <input type="text" id="edit_phone_number_input" class="form-control" value="{{ $user->phone }}" placeholder="Phone number">
                                 </div>
                             </div>
-                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <div class="alert-form alert_career text-danger"></div>
                                     <input type="text" id="edit_career_input" class="form-control" value="{{ $user->career }}" placeholder="Career">
                                 </div>
                             </div>
-                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <div class="alert-form alert_7 text-danger"></div>
-                                    <select id="edit_location_input" class="selectpicker form-control">
-                                        <option value="">Select location</option>
-                                        @if(count($states))
-                                        @foreach($states as $state)
-                                            <option value="{{ $state->state }}" {{   $state->state == strtoupper($user->location) ? 'selected' : '' }}>{{ strtoupper($state->state) }}</option>
-                                        @endforeach
-                                        @endif
-                                    </select>
+                                    <input type="text" id="edit_location_input" class="form-control" value="{{ $user->location }}" placeholder="Enter state">
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <div class="alert-form alert_state_of_origin text-danger"></div>
-                                    <select id="edit_state_of_origin_input" class="selectpicker form-control">
-                                        <option value="">State Of Origin</option>
-                                        @if(count($states))
-                                        @foreach($states as $state)
-                                            <option value="{{ $state->state }}" {{   $state->state == strtoupper($user->location) ? 'selected' : '' }}>{{ strtoupper($state->state) }}</option>
-                                        @endforeach
-                                        @endif
-                                    </select>
+                                    <input type="text" id="edit_state_of_origin_input" class="form-control" value="{{ $user->state_of_origin }}" placeholder="State of origin">
                                 </div>
                             </div>
-                            <div class="col-xl-12 mt-4">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <div class="alert-form alert_country text-danger"></div>
+                                    <input type="text" id="edit_country_input" class="form-control" value="{{ $user->country }}" placeholder="Enter country">
+                                </div>
+                            </div>
+                            <div class="col-xl-12">
                                 <div class="form-group">
                                     <button type="button" id="edit_detail_info_submit_btn" class="btn-fill-block">Update Detail</button>
                                     <div class="form-error-alert form_alert_0 text-danger"></div>
@@ -220,6 +212,7 @@ function edit_detail_info(){
     var education = $("#edit_education_input").val()
     var career = $("#edit_career_input").val()
     var phone = $("#edit_phone_number_input").val()
+    var country = $("#edit_country_input").val()
     var state_of_origin = $("#edit_state_of_origin_input").val()
    
 
@@ -227,7 +220,7 @@ function edit_detail_info(){
 
     csrf_token() //csrf token
 
-    if(validate_detail_field(phone, state_of_origin, hiv, complexion, education, career, genotype, display_name, i_am, looking_for, marital_status, age, religion, location)){
+    if(validate_detail_field(country, phone, state_of_origin, hiv, complexion, education, career, genotype, display_name, i_am, looking_for, marital_status, age, religion, location)){
         $("#edit_detail_info_submit_btn").html('Update Detail')
         return;
     }
@@ -241,6 +234,7 @@ function edit_detail_info(){
             hiv: hiv,
             phone: phone,
             career: career,
+            country: country,
             genotype: genotype,
             location: location,
             religion: religion,
@@ -299,10 +293,10 @@ function get_ajax_edit_detail(){
 
 
 
-function validate_detail_field(phone, state_of_origin, hiv, complexion, education, career, genotype, display_name, i_am, looking_for, marital_status, age, religion, location){
+function validate_detail_field(country, phone, state_of_origin, hiv, complexion, education, career, genotype, display_name, i_am, looking_for, marital_status, age, religion, location){
     var is_state = false;
 
-    if(!phone || !state_of_origin || !complexion || !hiv || !education || !career || !genotype || !display_name || !looking_for || !i_am || !marital_status || !age || !religion || !location){
+    if(!country || !phone || !state_of_origin || !complexion || !hiv || !education || !career || !genotype || !display_name || !looking_for || !i_am || !marital_status || !age || !religion || !location){
         is_state = true;
         $(".form_alert_0").html('*All fields are required')
     }else{
@@ -348,6 +342,7 @@ function get_detail_error(error){
     $(".alert_career").html(error.career)
     $(".alert_phone_number").html(error.phone)
     $(".alert_state_of_origin").html(error.state_of_origin)
+    $(".alert_country").html(error.country)
 }
 
 

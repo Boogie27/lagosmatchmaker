@@ -254,6 +254,7 @@ class AdminAjaxController extends Controller
                     $user->age = $request->age ? $request->age : null;
                     $user->gender = $request->i_am ? $request->i_am : null;
                     $user->phone = $request->phone ? $request->phone : null;
+                    $user->gender = $request->country ? $request->country : null;
                     $user->HIV = $request->hiv ? strtoupper($request->hiv) : null;
                     $user->complexion = $request->complexion ? $request->complexion : null;
                     $user->career = $request->career ? $request->career : null;

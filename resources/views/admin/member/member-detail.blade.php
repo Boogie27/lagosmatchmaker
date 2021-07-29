@@ -117,6 +117,10 @@
                                             <div class="body">: {{ $user->location ? ucfirst($user->location) : 'Empty' }}</div>
                                         </li>
                                         <li>
+                                            <div class="title">Country  </div>
+                                            <div class="body">: {{ $user->country ? ucfirst($user->country) : 'Empty' }}</div>
+                                        </li>
+                                        <li>
                                             <div class="title">Membership level  </div>
                                             <div class="body">: {{ $user->membership_level ?? 'Empty' }}</div>
                                         </li>

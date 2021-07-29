@@ -106,6 +106,7 @@
                                         <div class="form-group flex">
                                             <label for="">I am: </label>
                                             <select name="i_am" class="selectpicker form-control">
+                                                <option value="">Select</option>
                                                 <option value="male">Man</option>
                                                 <option value="female">Woman</option>
                                             </select>
@@ -115,8 +116,9 @@
                                         <div class="form-group flex">
                                             <label for="">Looking for: </label>
                                             <select name="looking_for" class="selectpicker form-control">
-                                                <option value="female">Woman</option>
-                                                <option value="male">Man</option>
+                                                <option value="">Select</option>
+                                                <option value="man">Man</option>
+                                                <option value="woman">Woman</option>
                                             </select>
                                         </div>
                                     </div> 

@@ -144,6 +144,10 @@
                             <div class="body">: {{ $user->location ? ucfirst($user->location) : 'Empty' }}</div>
                         </li>
                         <li>
+                            <div class="title">Country  </div>
+                            <div class="body">: {{ $user->country ? ucfirst($user->country) : 'Empty' }}</div>
+                        </li>
+                        <li>
                             <div class="title">Membership level  </div>
                             <div class="body">: {{ $user->membership_level ?? 'Empty' }}</div>
                         </li>
@@ -236,8 +240,8 @@
                                 <div class="alert-form text-danger"></div>
                                 <select  name="looking_for" class="selectpicker form-control">
                                     <option value="">Looking for</option>
-                                    <option value="male">Man</option>
-                                    <option value="female">Woman</option>
+                                    <option value="man">Man</option>
+                                    <option value="woman">Woman</option>
                                 </select>
                             </div>
                             <div class="form-group">

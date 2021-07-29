@@ -96,9 +96,13 @@ class ClientController extends Controller
 
         $members = User::where('membership_level', $request->membership_level)->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1);
 
+        if($request->i_am)
+        {
+            $members->where('users.gender', $request->i_am);
+        }
         if($request->looking_for)
         {
-            $members->where('users.gender', $request->looking_for);
+            $members->where('users.looking_for', $request->looking_for);
         }
         if($request->from_age)
         {

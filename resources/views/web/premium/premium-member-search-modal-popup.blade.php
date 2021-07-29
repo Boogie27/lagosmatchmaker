@@ -19,7 +19,7 @@
                     <p>Search through our existing premium members</p>
                 </div>
                 <div class="form-input-popup">
-                     <form action="{{ url('/premium') }}" method="GET">
+                     <form action="{{ url('/search') }}" method="GET">
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
@@ -34,8 +34,8 @@
                                 <div class="form-group">
                                     <select name="looking_for" class="selectpicker form-control">
                                         <option value="">Looking for</option>
-                                        <option value="female">Woman</option>
-                                        <option value="male">Man</option>
+                                        <option value="man">Man</option>
+                                        <option value="woman">Woman</option>
                                     </select>
                                 </div>
                             </div>
@@ -109,6 +109,7 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <select name="membership_level" class="selectpicker form-control">
+                                        <option value="basic">Basic membership</option>
                                         <option value="premium">Premium membership</option>
                                     </select>
                                 </div>

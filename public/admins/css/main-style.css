@@ -773,7 +773,7 @@ ul.ul-profile-detail li p.detail-about-p{
     color:   rgb(40, 40, 102);
 }
 .form-input-popup{
-    padding: 20px;
+    padding: 0px 20px;
 }
 .form-input-popup form input, .form-input-popup form textarea{
     border-radius: 4px;
