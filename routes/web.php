@@ -542,7 +542,7 @@ Route::group(['middleware' => 'remember_me'], function(){
 
 
 
-    // ********** SETTINGS SECTION ***************//
+    // ********** SETTINGS SECTION **************//
     Route::get("/admin/settings", [AdminController::class, "settings_index"]);
     Route::post("/admin/home-page", [AdminController::class, "home_page_update"]);
     Route::post("/admin/footer-left", [AdminController::class, "footer_left_update"]);
