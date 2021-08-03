@@ -141,10 +141,12 @@ function life_style(){
                 $(".modal-btn-close").click()
                 $("#access_preloader_container").show()
             }else{
+                $("#edit_life_style_submit_btn").html('Update Detail')
                 $(".form_alert_0").html('Network error, try again later!')
             }
         },
         error: function(){
+            $("#edit_life_style_submit_btn").html('Update Detail')
             $(".form_alert_0").html('Network error, try again later!')
         }
     });
@@ -213,6 +215,10 @@ function get_life_style(){
             preloader_toggle()
             $("#ul_life_style_body").html(response)
             $("#edit_life_style_submit_btn").html('Update Detail')
+        },
+        error: function(){
+            $("#edit_life_style_submit_btn").html('Update Detail')
+            $(".form_alert_0").html('Network error, try again later!')
         }
     });
 }

@@ -254,10 +254,12 @@ function edit_detail_info(){
                 $(".modal-btn-close").click()
                 $("#access_preloader_container").show()
             }else{
+                $("#edit_detail_info_submit_btn").html('Update Detail')
                 $(".form_alert_0").html('Network error, try again later!')
             }
         },
         error: function(){
+            $("#edit_detail_info_submit_btn").html('Update Detail')
             $(".form_alert_0").html('Network error, try again later!')
         }
     });
@@ -286,6 +288,10 @@ function get_ajax_edit_detail(){
             preloader_toggle()
             $("#ul_profile_detail_body").html(response)
             $("#edit_detail_info_submit_btn").html('Update Detail')
+        },
+        error: function(){
+            $("#edit_detail_info_submit_btn").html('Update Detail')
+            $(".form_alert_0").html('Network error, try again later!')
         }
     });
 }

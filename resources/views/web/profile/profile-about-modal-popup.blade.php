@@ -111,10 +111,12 @@ function edit_about_me(){
                 $(".modal-btn-close").click()
                 $("#access_preloader_container").show()
             }else{
+                $("#edit_about_submit_btn").html('Update Detail')
                 $(".form_alert_0").html('Network error, try again later!')
             }
         },
         error: function(){
+            $("#edit_about_submit_btn").html('Update Detail')
             $(".form_alert_0").html('Network error, try again later!')
         }
     });
@@ -166,6 +168,10 @@ function get_about_me(){
             preloader_toggle()
             $("#ul_about_me_body").html(response)
             $("#edit_about_submit_btn").html('Update Detail')
+        },
+        error: function(){
+            $("#edit_about_submit_btn").html('Update Detail')
+            $(".form_alert_0").html('Network error, try again later!')
         }
     });
 }

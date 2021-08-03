@@ -192,7 +192,19 @@ a {
     margin: 0px;
     text-align: center;
 }
-
+/* ******** SEARCH FORM *********** */
+.search-bottom-info p{
+    margin: 0px;
+    padding: 10px;
+    font-size: 11px;
+    color:  rgb(235, 164, 33);
+}
+.search-bottom-info.inner-search p{
+    color: rgb(175, 175, 175);
+}
+.search-bottom-info p i{
+    font-size: 15px;
+}
 /* ********** BUTTONS ************ */
 button.btn-fill{
     padding: 5px 10px;
@@ -320,15 +332,19 @@ ul li a.nav-signup:hover{
     color: #fff;
 }
 ul.nav-right-small{
-    text-align: right;
+    /* text-align: right; */
     padding: 20px 0px;
-}
-ul.nav-right-small li{
-    width: 50px;
-    display: inline-block;
+    display: flex;
+    padding: 0px 50px;
+    justify-content: space-between;
 }
 ul.nav-right-small li .notification-icon i{
     font-size: 19px;
+}
+ul.nav-right-small li a.nav-font{
+    font-size: 15px;
+    padding: 0px 20px;
+    text-decoration: none;
 }
 i.note-bell{
     top: 6px;
@@ -444,11 +460,6 @@ ul.ul-notification-body li p{
     .nav-right-mobile{
         width: 70%;
     }
-    ul.nav-right-small{
-        display: flex;
-        padding: 10px 0px;
-        justify-content: flex-end;
-    }
     .navigation{
         padding: 0px;
     }
@@ -475,6 +486,9 @@ ul.ul-notification-body li p{
         text-align: center;
         padding: 10px 0px;
         justify-content: space-between;
+    }
+    ul.nav-right-small li a i.fa-bars{
+       padding: 0px 20px;
     }
 }
 @media only screen and (max-width: 767px){
@@ -558,7 +572,57 @@ ul.ul-drop-down li a:hover{
 /* ********* INDEX PAGE ********** */
 .search-bar-container{
     padding: 5px;
-    /* background-color: rgb(31, 30, 30); */
+}
+.latest-members-section{
+    padding: 100px 0px;
+    background-color: rgb(36, 36, 36);
+}
+.latest-members-section .title-header{
+    text-align: center;
+    padding: 50px 0px;
+}
+.latest-members-section .title-header h4{
+    color: #ccc;
+}
+.latest-members{
+    padding: 0px 20px;
+}
+.member-content{
+    padding: 50px 0px;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 40px;
+    background-color: rgb(29, 29, 29);
+    border: 1px solid transparent;
+}
+.latest-members a{
+    text-decoration: none;
+}
+.member-content:hover{
+    transform: scale(1.01);
+    background-color: rgb(32, 32, 32);
+    border: 1px solid rgb(156, 115, 38);
+}
+.member-content ul li.header{
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-color: #fff;
+}
+.member-content ul li.name{
+    font-weight: bold;
+    color:  rgb(228, 154, 17);
+}
+.member-content ul li.level{
+    font-size: 11px;
+    color:  #ccc;
+}
+.member-content ul li.header h3{
+    top: 25px;
+    font-size: 40px;
+    position: relative;
+    color: rgb(196, 142, 44);
 }
 .inner-search-form{
     border-radius: 4px;
@@ -582,6 +646,14 @@ ul.ul-drop-down li a:hover{
 .inner-search-form input::placeholder{
     color: #fff;
 }
+
+@media only screen and (max-width: 992px){
+    .latest-members-section{
+        padding-top: 200px;
+    }
+}
+
+
 /* ********* SLIDER FORM *********** */
 .inner-slider-form{
     top: 150px;
@@ -2028,7 +2100,8 @@ ul.ul-profile-detail li p.detail-about-p{
 }
 .member-inner-div:hover{
     transform: scale(1.01);
-    border: 1px solid rgb(46, 46, 45);
+    /* border: 1px solid rgb(46, 46, 45); */
+    border: 1px solid rgb(156, 115, 38);
 }
 .member-img-img{
     width: 100px;
@@ -2564,7 +2637,7 @@ ul.ul-sub-body li a:hover{
     background-color:  rgb(39, 39, 39);
 } */
 .index-subscription-section{
-    padding: 150px 0px;
+    padding: 100px 0px 150px 0px;
     background-color:  rgb(29, 29, 29);
 }
 .index-subscription-content{
@@ -2627,7 +2700,7 @@ ul.ul-index-sub-body li{
 }
 @media only screen and (max-width: 992px){
     .index-subscription-section{
-        padding-top: 200px;
+        padding-top: 40px;
     }
     .index-subscription-banner{
         width: 33%;

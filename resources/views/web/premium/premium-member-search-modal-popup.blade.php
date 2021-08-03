@@ -89,7 +89,7 @@
                                 <div class="form-group">
                                     <select name="religion" class="selectpicker form-control">
                                         <option value="">Select religion</option>
-                                        <option value="christain">Christain</option>
+                                        <option value="christian">Christian</option>
                                         <option value="muslim">Muslim</option>
                                     </select>
                                 </div>
@@ -121,18 +121,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-12">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
-                                    <div class="form-group">
-                                        <select name="location" class="selectpicker form-control">
-                                            <option value="">Select location</option>
-                                            @if(count($states))
-                                                @foreach($states as $state)
-                                                <option value="{{ strtolower($state->state) }}">{{ $state->state }}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
+                                    <input type="text" name="location" class="form-control" value="" placeholder="State">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" name="country" class="form-control" value="" placeholder="Country">
                                 </div>
                             </div>
                             <div class="col-xl-12">
@@ -143,6 +139,15 @@
                         </div>
                      </form>
                 </div>
+                @if(settings() && settings()->home_page)
+                @php($home_page = json_decode(settings()->home_page, true))
+                <div class="search-bottom-info inner-search">
+                    <p>
+                        <i class="fa fa-bell"></i>
+                        {!! nl2br($home_page['search_bottom']) !!}
+                    </p>
+                </div>
+                @endif
             <div>
         <div>
     <div>

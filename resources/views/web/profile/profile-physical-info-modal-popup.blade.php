@@ -190,11 +190,13 @@ function life_style(){
                 $(".modal-btn-close").click()
                 $("#access_preloader_container").show()
             }else{
+                $("#edit_physical_info_submit_btn").html('Update Detail')
                 $(".form_alert_0").html('Network error, try again later!')
             }
             console.log(response)
         },
         error: function(){
+            $("#edit_physical_info_submit_btn").html('Update Detail')
             $(".form_alert_0").html('Network error, try again later!')
         }
     });
@@ -264,6 +266,10 @@ function get_physical_info(){
             preloader_toggle()
             $("#ul_phisical_info_body").html(response)
             $("#edit_physical_info_submit_btn").html('Update Detail')
+        },
+        error: function(){
+            $("#edit_physical_info_submit_btn").html('Update Detail')
+            $(".form_alert_0").html('Network error, try again later!')
         }
     });
 }

@@ -106,7 +106,11 @@
                         </li>
                         <li><a href="#" class="side-navigation-open-button"><i class="fa fa-bars"></i></a></li>
                         @else
-                        <li class="float-right"><a href="#" class="side-navigation-open-button"><i class="fa fa-bars"></i></a></li>
+                        <li><a href="#" class="side-navigation-open-button"><i class="fa fa-bars"></i></a></li>
+                        <li>
+                            <a href="{{ url('/how-it-works') }}" class="nav-font">How it works</a>
+                            <a href="{{ url('/login') }}" class="nav-font">Login</a>
+                        </li>
                         @endif
                     </ul>
                 </div>

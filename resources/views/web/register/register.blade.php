@@ -122,10 +122,6 @@ get_gender()
 
 
 
-// *********** LOGIN BUTTON *********//
-$("#register_form_submit").click(function(e){
-    $(this).html('Please wait...')
-})
 
 
 

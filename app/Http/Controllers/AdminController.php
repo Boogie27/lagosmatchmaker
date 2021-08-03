@@ -925,6 +925,7 @@ class AdminController extends Controller
             'title' => 'required|min:3|max:50',
             'link' => 'required',
             'body' => 'required|min:10|max:100',
+            'bottom' => 'max:200',
         ]);
 
         $settings = DB::table('settings')->where('id', 1)->first();
@@ -936,6 +937,7 @@ class AdminController extends Controller
         $home_page['title'] = $request->title;
         $home_page['body'] = $request->body;
         $home_page['link'] = $request->link;
+        $home_page['search_bottom'] = $request->search_bottom;
 
         if($settings)
         { 

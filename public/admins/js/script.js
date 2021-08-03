@@ -989,6 +989,98 @@ $("#mass_approve_confirm_submit_btn").click(function(e){
 
 
 
+// *********** MASS UNAPPROVE MEMBERS MODAL OPEN***********//
+$("#open_mass_unapprove_modal_btn").click(function(e){
+    e.preventDefault()
+    if(stored_id.length == 0)
+    {
+        return bottom_alert_error('No member was selected!')
+    }
+    $("#mass_unapprove_modal_popup_box").show()
+})
+
+
+
+// ********** MASS UNAPPROVE MEMBERS ******************//
+$("#mass_unapprove_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    var url = $(this).attr('data-url')
+    $(this).html('Please wait...')
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            stored_id: stored_id
+        },
+        success: function (response){
+            if(response.empty)
+            {
+                bottom_alert_error('No member selected!')
+            }else if(response.data){
+               location.reload()
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            stored_id = []
+            $(".modal-alert-popup").hide()
+            $("#mass_member_check_box_input").prop('checked', false)
+            $(".check-box-members-input-btn").prop('checked', false)        
+        }, 
+        error: function(){
+            stored_id = []
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+            $("#mass_member_check_box_input").prop('checked', false)
+            $(".check-box-members-input-btn").prop('checked', false)  
+        }
+    });
+})
+
+
+
+
+
+
+
+
+// ********* UPDATE CHRISTAINS ***********//
+$("#open_mass_christain_modal_btn").click(function(e){
+    e.preventDefault()
+    url = $(this).attr('data-url')
+    
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            update_christain: 'update_christain'
+        },
+        success: function (response){
+            if(response.empty){
+                bottom_alert_error('Empty!')
+            }else if(response.data){
+                bottom_alert_success('Religion updated successfully!')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }  
+            console.log(response)   
+        }, 
+        error: function(){
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
 
 
 

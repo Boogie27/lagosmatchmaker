@@ -43,6 +43,8 @@ class ClientController extends Controller
        
         $subscriptions = DB::table('subscriptions')->where('sub_is_featured', 1)->get(); //get all subscriptions options
        
+        $latest_members = User::where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1)->orderBy('id', 'DESC')->limit(8)->get();
+
         $images = null;
         $personalized = null;
         $descriptions = null;
@@ -68,7 +70,7 @@ class ClientController extends Controller
         $user = user_detail();
 
        
-        return view('web.index', compact('user', 'images', 'descriptions', 'personalized', 'subscriptions', 'banners', 'states', 'genotypes', 'marital_status'));
+        return view('web.index', compact('latest_members', 'user', 'images', 'descriptions', 'personalized', 'subscriptions', 'banners', 'states', 'genotypes', 'marital_status'));
     }
 
 
@@ -96,14 +98,22 @@ class ClientController extends Controller
 
         $members = User::where('membership_level', $request->membership_level)->where('is_suspend', 0)->where('is_deactivated', 0)->where('is_approved', 1);
 
-        if($request->i_am)
+        if(!empty($request->looking_for))
         {
-            $members->where('users.gender', $request->i_am);
+            $looking_for = $request->looking_for == 'man' ? 'male' : 'female';
         }
-        if($request->looking_for)
+
+        if(!empty($request->looking_for && $request->i_am != $looking_for))
         {
-            $members->where('users.looking_for', $request->looking_for);
+            $members->where('users.gender', $looking_for);
         }
+
+        if(!empty($request->i_am) && !empty($request->looking_for) && $request->i_am == $looking_for)
+        {
+           
+            $members->where('users.gender', $request->i_am)->where('users.looking_for', $request->looking_for);
+        }
+
         if($request->from_age)
         {
             $members->where('users.age', '>=', $request->from_age);
@@ -112,9 +122,13 @@ class ClientController extends Controller
         {
             $members->where('users.age', '<=', $request->to_age);
         }
+        if($request->country)
+        {
+            $members->where('users.country', $request->country);
+        }
         if($request->genotype)
         {
-            $members->where('users.genotype', $request->genotype);
+            $members->where('users.genotype', strtoupper($request->genotype));
         }
         if($request->marital_status)
         {
@@ -526,6 +540,10 @@ class ClientController extends Controller
             {
                 $members->where('users.age', '>=', $request->from_age);
             }
+            if($request->country)
+            {
+                $members->where('users.country', $request->country);
+            }
             if($request->to_age)
             {
                 $members->where('users.age', '<=', $request->to_age);
@@ -843,6 +861,10 @@ class ClientController extends Controller
             if($request->to_age)
             {
                 $members->where('users.age', '<=', $request->to_age);
+            }
+            if($request->country)
+            {
+                $members->where('users.country', $request->country);
             }
             if($request->genotype)
             {

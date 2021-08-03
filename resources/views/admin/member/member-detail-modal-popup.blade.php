@@ -87,7 +87,7 @@
                                     <div class="alert-form alert_5 text-danger"></div>
                                     <select id="edit_religion_input"class="selectpicker form-control">
                                         <option value="">Select religion</option>
-                                        <option value="christian" {{  $user->religion == 'christian' ? 'selected' : '' }}>Christian</option>
+                                        <option value="christain" {{  $user->religion == 'christain' ? 'selected' : '' }}>Christian</option>
                                         <option value="muslim" {{  $user->religion == 'muslim' ? 'selected' : '' }}>Muslim</option>
                                         <option value="other" {{  $user->religion == 'other' ? 'selected' : '' }}>Other</option>
                                     </select>

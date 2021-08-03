@@ -63,6 +63,7 @@
                                                 <li>Religion: <span>{{ $premium->religion ?? '' }}</span></li>
                                                 <li>State of origin: <span>{{ $premium->state_of_origin ?? '' }}</span></li>
                                                 <li>Location: <span>{{ $premium->location ?? '' }}</span></li>
+                                                <li>Country: <span>{{ $premium->country ?? '' }}</span></li>
                                                 <li>University: <span>{{ $premium->education ?? '' }}</span></li>
                                                 <li>Career: <span>{{ $premium->career ?? '' }}</span></li>
                                                 <li>Marital status: <span>{{ $premium->marital_status ?? '' }}</span></li>

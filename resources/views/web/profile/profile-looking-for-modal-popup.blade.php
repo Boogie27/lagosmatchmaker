@@ -112,10 +112,12 @@ function looking_for(){
                 $(".modal-btn-close").click()
                 $("#access_preloader_container").show()
             }else{
+                $("#edit_looking_for_submit_btn").html('Update Detail')
                 $(".form_alert_0").html('Network error, try again later!')
             }
         },
         error: function(){
+            $("#edit_looking_for_submit_btn").html('Update Detail')
             $(".form_alert_0").html('Network error, try again later!')
         }
     });
@@ -167,6 +169,10 @@ function get_looking_for(){
             preloader_toggle()
             $("#ul_looking_for_body").html(response)
             $("#edit_looking_for_submit_btn").html('Update Detail')
+        },
+        error: function(){
+            $("#edit_looking_for_submit_btn").html('Update Detail')
+            $(".form_alert_0").html('Network error, try again later!')
         }
     });
 }

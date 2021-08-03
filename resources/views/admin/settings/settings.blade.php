@@ -57,6 +57,12 @@
                                                                 <div class="alert-form text-danger">@if($errors->first('body')) {{ $errors->first('body') }} @endif</div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-xl-12">
+                                                            <div class="form-group">
+                                                            <textarea name="search_bottom" class="form-control" cols="10" rows="3" placeholder="Search bottom">{{ $home_page['search_bottom'] }}</textarea>
+                                                                <div class="alert-form text-danger">@if($errors->first('search_bottom')) {{ $errors->first('search_bottom') }} @endif</div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="form-group text-right mb-3">
                                                         <div class="form-group">

@@ -296,20 +296,11 @@
                             <div class="form-group">
                                 <select name="religion" class="selectpicker form-control">
                                     <option value="">Select religion</option>
-                                    <option value="christain">Christain</option>
+                                    <option value="christian">Christian</option>
                                     <option value="muslim">Muslim</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <select name="location" class="selectpicker form-control">
-                                    <option value="">Select location</option>
-                                    @if(count($states))
-                                        @foreach($states as $state)
-                                        <option value="{{ strtolower($state->state) }}">{{ $state->state }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
+                           
                             <div class="form-group">
                                 <select name="membership_level" class="selectpicker form-control">
                                     <option value="basic">Basic </option>
@@ -317,10 +308,25 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <input type="text" name="location" class="form-control" value="" placeholder="State">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="country" class="form-control" value="" placeholder="Country">
+                            </div>
+                            <div class="form-group">
                                 <button type="submit" class="btn-fill-block">Filter a match</button>
                             </div>
                             @csrf
                         </form>
+                        @if(settings() && settings()->home_page)
+                        @php($home_page = json_decode(settings()->home_page, true))
+                        <div class="search-bottom-info inner-search">
+                            <p>
+                                <i class="fa fa-bell"></i>
+                                {!! nl2br($home_page['search_bottom']) !!}
+                            </p>
+                        </div>
+                        @endif
                     </div>
                 </div>
                 @if(is_loggedin() && user_detail()->id != $user->id && $is_friend)

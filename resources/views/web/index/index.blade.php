@@ -5,9 +5,35 @@
 
 <!-- <div class="home-empty-content"></div> -->
 
-
-
-
+@if(count($latest_members))
+<section class="latest-members-section">
+    <div class="title-header">
+            <h4>Latest Members</h4>
+            <p> Lagosmatchmaker newly registered members</p>
+        </div>
+    <div class="latest-members">
+        <div class="row">
+            @foreach($latest_members as $latest_member)
+            @php($image =  gender($latest_member->gender))
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 "> <!-- member start-->
+                <a href="{{ url('/profile/'.$latest_member->id) }}">
+                    <div class="member-content">
+                        <ul>
+                            <li class="header">
+                                <h3>{{ $image }}</h3>
+                            </li>
+                            <li class="level pt-2 {{ $latest_member->is_active ? 'text-success' : 'text-danger' }}">{{ $latest_member->is_active ? 'online' : 'offline' }}</li>
+                            <li class="name">{{ $latest_member->user_name }}</li>
+                            <li class="level">{{ ucfirst($latest_member->membership_level) }} Member</li>
+                        </ul>
+                    </div>
+                </a>
+            </div><!-- member end-->
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
 
 
 
@@ -210,23 +236,21 @@
                                                 <div class="form-group">
                                                         <select name="religion" class="selectpicker form-control">
                                                             <option value="">Select religion</option>
-                                                            <option value="christain">Christain</option>
+                                                            <option value="christian">Christian</option>
                                                             <option value="muslim">Muslim</option>
                                                             <option value="other">Other</option>
                                                         </select>
                                                     </div>
                                             </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                                 <div class="form-group">
-                                                        <select name="location" class="selectpicker form-control">
-                                                            <option value="">Select location</option>
-                                                            @if(count($states))
-                                                                @foreach($states as $state)
-                                                                <option value="{{ strtolower($state->state) }}">{{ $state->state }}</option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
-                                                    </div>
+                                                    <input type="text" name="location" class="form-control" value="" placeholder="State">
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12">
+                                                <div class="form-group">
+                                                    <input type="text" name="country" class="form-control" value="" placeholder="Country">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -238,6 +262,15 @@
                                     </div> 
                                 </div>
                             </div>
+                            @if(settings() && settings()->home_page)
+                            @php($home_page = json_decode(settings()->home_page, true))
+                           <div class="search-bottom-info">
+                               <p>
+                                    <i class="fa fa-bell"></i>
+                                    {!! nl2br($home_page['search_bottom']) !!}
+                                </p>
+                           </div>
+                           @endif
                         </form>
                     </div>
                 </div>

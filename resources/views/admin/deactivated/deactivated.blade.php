@@ -35,6 +35,7 @@
                                 <!-- <h4 class="header-title mt-0 mb-1">Buttons example</h4> -->
                                <div class="table-top">
                                     <div class="page-icon"><i class="fa fa-users"></i></div>
+                                    <a href="#" id="open_mass_unapprove_modal_btn">| Unapprove |</a>
                                     <div class="table-search">
                                         <form action="{{ url('/admin/deactivated') }}" method="GET">
                                             <div class="form-group">

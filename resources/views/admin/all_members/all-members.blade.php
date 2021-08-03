@@ -35,6 +35,8 @@
                                 <!-- <h4 class="header-title mt-0 mb-1">Buttons example</h4> -->
                                <div class="table-top">
                                     <div class="page-icon"><i class="fa fa-users"></i></div>
+                                    <a href="#" id="open_mass_unapprove_modal_btn">| Unapprove |</a>
+                                    <!-- <a href="#" data-url="{{ url('/admin/ajax-update-christain') }}" id="open_mass_christain_modal_btn">| Christain |</a> -->
                                     <div class="table-search">
                                         <form action="{{ url('/admin/all-members') }}" method="GET">
                                             <div class="form-group">

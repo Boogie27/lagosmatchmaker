@@ -72,14 +72,3 @@
 
 
 
-
-<script>
-$(document).ready(function(){
-// *********** LOGIN BUTTON *********//
-$("#login_form_submit").click(function(e){
-    $(this).html('Please wait...')
-})
-
-
-})
-</script>

@@ -372,7 +372,9 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/ajax-suspend-member", [AdminAjaxController::class, "ajax_suspend_member"]);
     Route::post("/ajax-approve-member", [AdminAjaxController::class, "ajax_approve_member"]);
     Route::post("/admin/ajax-mass-approve-members", [AdminAjaxController::class, "ajax_mass_approve_members"]);
+    Route::post("/admin/ajax-mass-unapprove-members", [AdminAjaxController::class, "ajax_mass_unapprove_members"]);
 
+    
     
     Route::post("/ajax-deactivate-member", [AdminAjaxController::class, "ajax_deactivate_member"]);
     Route::post("/admin/edit-detail-info", [AdminAjaxController::class, "edit_detail_info_ajax"]);
@@ -386,6 +388,8 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/ajax-delete-id-card", [AdminAjaxController::class, "ajax_delete_id_card"]);
     Route::post("/admin/upload-id-card-edit", [AdminAjaxController::class, "ajax_upload_id_card_edit"]);
     Route::post("/admin/ajax-send-members-newsletter", [AdminAjaxController::class, "ajax_send_members_newsletter"]);
+    
+    Route::post("/admin/ajax-update-christain", [AdminAjaxController::class, "ajax_update_christain"]);
     
     
     
@@ -454,7 +458,7 @@ Route::group(['middleware' => 'remember_me'], function(){
     // *********** HEIGHT SECTION *************//
     Route::get("/admin/heights", [AdminController::class, "height_index"]);
     Route::post("/admin/ajax-edit-height", [AdminAjaxController::class, "ajax_edit_height"]);
-    Route::post("/admin/ajax-delete-height", [AdminAjaxController::class, "ajax_delete_delete"]);
+    Route::post("/admin/ajax-delete-height", [AdminAjaxController::class, "ajax_delete_height"]);
     Route::post("/admin/ajax-add-height", [AdminAjaxController::class, "ajax_add_height"]);
     Route::post("/admin/ajax-feature-height", [AdminAjaxController::class, "ajax_feature_height"]);
 

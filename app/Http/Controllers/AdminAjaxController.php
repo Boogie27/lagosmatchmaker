@@ -178,6 +178,43 @@ class AdminAjaxController extends Controller
 
 
 
+    public function ajax_mass_unapprove_members(Request $request)
+    {
+        $data = false;
+        if($request->ajax())
+        {
+            if(!count($request->stored_id))
+            {
+                return response()->json(['empty' => true]);
+            }
+
+            foreach($request->stored_id as $user_id)
+            {
+                $user = User::where('id', $user_id)->first();
+                $user_detail = $user;
+                if($user)
+                {
+                    $data = true;
+                    $this->send_approved_notification($user);
+                    $user->is_approved = 0;
+                    $user->save();
+                }
+            }
+            
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+
+
     public function ajax_deactivate_member(Request $request)
     {
         $data = false;
@@ -254,7 +291,7 @@ class AdminAjaxController extends Controller
                     $user->age = $request->age ? $request->age : null;
                     $user->gender = $request->i_am ? $request->i_am : null;
                     $user->phone = $request->phone ? $request->phone : null;
-                    $user->gender = $request->country ? $request->country : null;
+                    $user->country = $request->country ? $request->country : null;
                     $user->HIV = $request->hiv ? strtoupper($request->hiv) : null;
                     $user->complexion = $request->complexion ? $request->complexion : null;
                     $user->career = $request->career ? $request->career : null;
@@ -1379,7 +1416,7 @@ class AdminAjaxController extends Controller
 
 
 
-    public function ajax_delete_delete(Request $request)
+    public function ajax_delete_height(Request $request)
     {
         if($request->ajax())
         {
@@ -3298,8 +3335,28 @@ public function ajax_add_how_it_works(Request $request)
 
 
 
-
-
+    public function ajax_update_christain(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $users = User::where('religion', 'christain')->get();
+            if(count($users))
+            {
+                foreach($users as $user)
+                {
+                    $update = User::where('id', $user->id)->first();
+                    $update->religion = 'christian';
+                    $update->save();
+                    $data = true;
+                }
+            }else{
+                return response()->json(['empty' => true]);
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
 
 
 
