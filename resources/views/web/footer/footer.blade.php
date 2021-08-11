@@ -1,4 +1,4 @@
-
+@php($settings = settings())
 
 <!-- SCROLL TOP ICON START-->
 <section>
@@ -15,8 +15,8 @@
 <section class="footer-section">
     <div class="footer-container">
         <div class="row">
-            @if(settings() && settings()->footer_left)
-            @php($footer_left = json_decode(settings()->footer_left, true))
+            @if($settings && $settings->footer_left)
+            @php($footer_left = json_decode($settings->footer_left, true))
             <div class="col-xl-4 col-lg-6"> <!-- about start-->
                 <div class="footer-content">
                     <ul class="ul-footer-about">
@@ -34,8 +34,8 @@
             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-10"> <!-- newsletter start-->
                 <div class="footer-content">
                     <ul class="ul-footer-about">
-                        @if(settings() && settings()->footer_middle)
-                        @php($footer_middle = json_decode(settings()->footer_middle, true))
+                        @if($settings && $settings->footer_middle)
+                        @php($footer_middle = json_decode($settings->footer_middle, true))
                         <li><h4>{{ ucfirst($footer_middle['title']) }}</h4></li>
                         <li>
                             <p>{{ $footer_middle['body'] }}</p>
@@ -54,20 +54,41 @@
                            </form>
                         </li>
                     </ul>
+                    @if($settings && $settings->social_media)
+                    @php($social_media = json_decode($settings->social_media, true))
+                    <div class="footer-social-media">
+                        <label for="" class="s-header">Social Media: </label>
+                        @if(isset($social_media['facebook']))
+                        <a href="{{ $social_media['facebook'] }}" title="Facebook"><i class="fab fa-facebook"></i></a>
+                        @endif
+                        @if(isset($social_media['linkedin']))
+                        <a href="{{ $social_media['linkedin'] }}" title="Linkedin"><i class="fab fa-linkedin"></i></a>
+                        @endif
+                        @if(isset($social_media['twitter']))
+                        <a href="{{ $social_media['twitter'] }}" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        @endif
+                        @if(isset($social_media['instagram']))
+                        <a href="{{ $social_media['instagram'] }}" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        @endif
+                        @if(isset($social_media['youtube']))
+                        <a href="{{ $social_media['youtube'] }}" title="Youtube"><i class="fab fa-youtube"></i></a>
+                        @endif
+                    </div>
+                    @endif
                 </div>
             </div><!-- newsletter end-->
             <div class="col-xl-4 col-lg-6"> <!-- links start-->
                 <div class="footer-content">
                     <ul class="ul-footer-links">
                         <li class="footer-link-h"><h4>Contact Links</h4></li>
-                        @if(settings() && settings()->phone)
-                        <li><a href="tel:{{ settings()->phone }}"><i class="fa fa-phone"></i> Phone: {{ settings()->phone }}</a></li>
+                        @if($settings && $settings->phone)
+                        <li><a href="tel:{{ $settings->phone }}"><i class="fa fa-phone"></i> Phone: {{ $settings->phone }}</a></li>
                         @endif
-                        @if(settings() && settings()->email)
-                        <li><a href="mailto:{{ settings()->email }}"><i class="far fa-envelope"></i> Email: {{ settings()->email }}</a></li>
+                        @if($settings && $settings->email)
+                        <li><a href="mailto:{{ $settings->email }}"><i class="far fa-envelope"></i> Email: {{ $settings->email }}</a></li>
                         @endif
-                        @if(settings() && settings()->address)
-                        <li><a href="#"><i class="fa fa-map-marker-alt"></i> {{ settings()->address }}</a></li>
+                        @if($settings && $settings->address)
+                        <li><a href="#"><i class="fa fa-map-marker-alt"></i> {{ $settings->address }}</a></li>
                         @endif
                         <li><a href="{{ url('/about-us') }}"><i class="fa fa-users"></i>About us</a></li>
                         <li><a href="{{ url('/terms') }}"><i class="fa fa-folder"></i>Terms & Condition</a></li>
@@ -78,7 +99,8 @@
             </div><!-- links end-->
         </div>
     </div>
-    <div class="footer-rights">{{ settings()->copyright }}</div>
+    
+    <div class="footer-rights">{{ $settings->copyright }}</div>
 </section>
 <!-- FOOTER START-->
 

@@ -19,7 +19,7 @@
                                 <li class="breadcrumb-item active" aria-current="page">Basic</li>
                             </ol>
                         </nav>
-                        <h4 class="mb-1 mt-0">Basic members</h4>
+                        <h4 class="mb-1 mt-0">{{ $user->user_name }} Match</h4>
                         @if(Session::has('error'))
                         <div class="main-alert-danger text-center mt-3">{{ Session::get('error')}}</div>
                         @endif

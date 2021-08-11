@@ -326,9 +326,9 @@ function validate_detail_field(country, phone, state_of_origin, hiv, complexion,
             is_state = true;
             $(".alert_phone_number").html('*Minimum of 11 characters')
         }
-        if(phone.length > 11){
+        if(phone.length > 20){
             is_state = true;
-            $(".alert_phone_number").html('*Maximum of 11 characters')
+            $(".alert_phone_number").html('*Maximum of 20 characters')
         }
     }
     

@@ -274,9 +274,9 @@ class AdminAjaxController extends Controller
                     {
                         return response()->json(['error' => ['phone' => '*Minimum of 11 characters!']]);
                     }
-                    if(strlen($request->phone) > 11)
+                    if(strlen($request->phone) > 20)
                     {
-                        return response()->json(['error' => ['phone' => '*Maximum of 11 characters!']]);
+                        return response()->json(['error' => ['phone' => '*Maximum of 20 characters!']]);
                     }
                     if(!is_numeric($request->phone))
                     {
@@ -1688,9 +1688,11 @@ class AdminAjaxController extends Controller
         {
             $data = false;
             $today = date('Y-m-d H:i:s');
+            
             $check = DB::table('user_subscriptions')->where('user_sub_id', $request->id)->first();
-            if($check && $check->end_date < $today)
+            if($check && $today < $check->end_date)
             {
+               
                 $is_expired = $check->is_expired ? 0 : 1;
                 $end_date = $is_expired ? $today : null;
 
@@ -1701,6 +1703,14 @@ class AdminAjaxController extends Controller
 
                 if($is_expired)
                 {
+                    DB::table('notifications')->insert([
+                        'notification_from' => 'admin',
+                        'notification_to' => $check->user_id,
+                        'type' => 'expired_subscription',
+                        'link' => '/subscription',
+                        'description' => 'Your monthly '.$check->subscription_type.' subscription has expired, Please subscribe to continue dating. To subscribe, click here ',
+                    ]);
+
                     return response()->json(['expired' => true]);
                 }else{
                     return response()->json(['active' => true]);
@@ -3365,9 +3375,25 @@ public function ajax_add_how_it_works(Request $request)
 
 
 
+    public function ajax_delete_user_subscription(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $user_subs = DB::table('user_subscriptions')->where('user_sub_id', $request->sub_id)->first();
+            if($user_subs)
+            {
+                $delete = DB::table('user_subscriptions')->where('user_sub_id', $request->sub_id)->delete();
+                if($delete)
+                {
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
-
-
+    
 
 
 

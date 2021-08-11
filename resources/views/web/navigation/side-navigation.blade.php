@@ -10,7 +10,7 @@
             <li><a href="{{ url('/premium') }}">Premium</a></li> -->
             @if(is_loggedin())
             <li><a href="{{ url('/messages') }}">Message</a></li>
-            <li><a href="{{ url('/friends') }}">Friends</a></li>
+            <li><a href="{{ url('/friends') }}">Matches</a></li>
             <li><a href="{{ url('/manual-payment') }}">Subscription</a></li>
             @endif
             <li><a href="{{ url('/how-it-works') }}">How it works</a></li>

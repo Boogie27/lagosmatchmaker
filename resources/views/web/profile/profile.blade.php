@@ -14,7 +14,7 @@
                         </li>
                         @if(is_loggedin() && user('id') == $user->id)
                         <li class="profile-settings">
-                            <a href="{{ url('/friends') }}"><i class="fa fa-users"></i> Friends</a>
+                            <a href="{{ url('/friends') }}"><i class="fa fa-users"></i> Matches</a>
                         </li>
                         <li class="profile-settings">
                             <a href="{{ url('/settings') }}"><i class="fa fa-cog"></i> Settings</a>

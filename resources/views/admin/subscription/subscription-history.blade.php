@@ -77,6 +77,7 @@
                                                                 @if(date('Y-m-d H:i:s') < $user_sub->end_date)
                                                                 <a href="#" data-name="{{ $user_sub->user_name }}" id="{{ $user_sub->user_sub_id }}" class="confimr-box-open-btn">End subscription</a>
                                                                 @endif
+                                                                <a href="#" data-name="{{ $user_sub->user_name }}" id="{{ $user_sub->user_sub_id }}" class="delete-subscription-box-open-btn">Delete Subscription</a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -154,6 +155,38 @@
 
 
 
+<!--  DELETE MODAL ALERT START -->
+<section class="modal-alert-popup" id="delete_sub_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to delete this subscription?</b></p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button"  id="delete_sub_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  DELETE MODAL ALERT END -->
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -210,6 +243,18 @@ function csrf_token(){
 
 
 
+
+// ******* EMPTY TABLE MESSAGE **************//
+function table_check(){
+    var table = $("#parent_table").children()
+    if(table.length == 0){
+        $("#bottom_table_part").html("<div class='text-center'>There are no subscriptions yet!</div>")
+    }
+}
+
+
+
+
 // ********** CONFIRM MODAL MESSAGE***********//
 function apend_message(message){
     $("#confirm_end_sub_modal_popup_box").find('.confirm-header').html(message)
@@ -256,10 +301,10 @@ $("#sub_confirm_submit_btn").click(function(e){
         },
         success: function (response){
             if(response.expired){
-                $(table_parent).remove()
-                bottom_alert_success(content+' subscription has been deleted!')
+                $(".genotype-name i.text-success").hide()
+                bottom_alert_success(content+' subscription has been ended!')
             }else if(response.active){
-                $(table_parent).remove()
+                // $(table_parent).remove()
                 bottom_alert_success(content+' subscription has been activated!')
             }else{
                 bottom_alert_error('Network error, try again later!')
@@ -273,6 +318,55 @@ $("#sub_confirm_submit_btn").click(function(e){
     });
 })
 
+
+
+
+
+
+
+
+
+// ************* OPEN DELETE SUBSCRIPTION CONFIRM MODAL*********//
+var sub_id 
+$(".delete-subscription-box-open-btn").click(function(e){
+    e.preventDefault()
+    sub_id = $(this).attr('id')
+    $("#delete_sub_modal_popup_box").show()
+    $("#delete_sub_confirm_submit_btn").html('Proceed')
+    table_parent = $(this).parent().parent().parent().parent().parent()
+})
+
+
+
+
+// **********DELETE SUBSCRIPTION ***********//
+$("#delete_sub_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    $(this).html('Please wait...')
+
+   csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/admin/ajax-delete-subscription') }}",
+        method: "post",
+        data: {
+            sub_id: sub_id,
+        },
+        success: function (response){
+            if(response.data){
+                $(table_parent).remove()
+                table_check()
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
 
 
 

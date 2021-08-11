@@ -500,6 +500,7 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/ajax-add-subscription-bank-icon", [AdminAjaxController::class, "ajax_add_subscription_bank_icon"]);
     Route::post("/admin/ajax-add-user-subscription", [AdminAjaxController::class, "ajax_add_user_subscription"]);
     Route::post("/admin/personalized-matching", [AdminController::class, "personalized_matching_update"]);
+    Route::post("/admin/ajax-delete-subscription", [AdminAjaxController::class, "ajax_delete_user_subscription"]);
     
     
 
@@ -554,8 +555,9 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/admin/payment-settings", [AdminController::class, "payment_settings_index"]);
     Route::post("/admin/payment-settings", [AdminController::class, "payment_settings_update"]);
     Route::post("/admin/profile-alert-message", [AdminController::class, "profile_alert_message_update"]);
+    Route::post("/admin/social-media", [AdminController::class, "social_media_update"]);
     
-
+   
 
 
 

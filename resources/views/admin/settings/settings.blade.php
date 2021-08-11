@@ -267,6 +267,56 @@
                                         </div>
                                     </div><!-- report end-->
                                     
+                                    <div class="col-xl-6"><!-- report start-->
+                                        <div class="profile-detail-left">
+                                            <div class="title-header">
+                                                <h4>Social media</h4> 
+                                            </div>
+                                            <div class="form-body-settings">
+                                                <form action="{{ url('/admin/social-media') }}" method="POST" class="parsley-examples">
+                                                    <div class="row">
+                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="">Facebook:</label>
+                                                                <input type="text" name="facebook" class="form-control" value="{{ $social_media['facebook'] ?? old('facebook') }}" placeholder="Facebook link">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="">Twitter:</label>
+                                                                <input type="text" name="twitter" class="form-control" value="{{ $social_media['twitter'] ?? old('twitter') }}" placeholder="Twitter link">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="">Instagram:</label>
+                                                                <input type="text" name="instagram" class="form-control" value="{{ $social_media['instagram'] ?? old('instagram') }}" placeholder="Instagram link">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="">Linkedin:</label>
+                                                                <input type="text" name="linkedin" class="form-control" value="{{ $social_media['linkedin'] ?? old('linkedin') }}" placeholder="Linkedin link">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="">Youtube:</label>
+                                                                <input type="text" name="youtube" class="form-control" value="{{ $social_media['youtube'] ?? old('youtube') }}" placeholder="Youtube link">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group text-right mb-3">
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn-mini">Update</button>
+                                                        </div>
+                                                        @csrf
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div><!-- report end-->
+
                                     <div class="col-xl-12"><!-- report start-->
                                         <!-- <div class="profile-detail-left">
                                             <div class="title-header"><h4>Report</h4></div>

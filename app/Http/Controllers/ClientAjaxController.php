@@ -36,7 +36,7 @@ class ClientAjaxController extends Controller
                 'country' => 'required',
                 'complexion' => 'required|max:50',
                 'career' => 'required|max:100',
-                'phone' => 'required|min:11|max:11',
+                'phone' => 'required|min:11|max:20',
                 'university' => 'required|max:100',
                 'state_of_origin' => 'required',
             ]);
@@ -952,7 +952,8 @@ class ClientAjaxController extends Controller
                 'sender_id' => Auth::user('id'),
                 'receiver_id' => $receiver_id,
                 'chat' => $request->chat,
-                'type' => 'text'
+                'type' => 'text',
+                'time' => date('Y-m-d H:i:s')
             ]);
             if($create)
             {
@@ -1009,7 +1010,8 @@ class ClientAjaxController extends Controller
                        'sender_id' => Auth::user('id'),
                        'receiver_id' => $receiver_id,
                        'chat' => $chat_image,
-                       'type' => 'image'
+                       'type' => 'image',
+                       'time' => date('Y-m-d H:i:s')
                     ]);
 
                     if($create)
@@ -1266,13 +1268,13 @@ class ClientAjaxController extends Controller
         if($request->ajax())
         {
             $data = false;
-            $notification = DB::table('notifications')->where('not_id', $request->id)->first();
+            $notification = DB::table('notifications')->where('not_id', $request->not_id)->first();
             if($notification)
             {
-                $delete = DB::table('notifications')->where('not_id', $request->id)->delete();
+                $delete = DB::table('notifications')->where('not_id', $request->not_id)->delete();
                 if($delete)
                 {
-                    $data =  'notification deleted';
+                    $data =  true;
                 }
             } 
         }

@@ -396,7 +396,7 @@ class ClientController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|max:12|same:confirm_password',
             'confirm_password' => 'required|min:6|max:12',
-            'phone' => 'required|min:11|max:11',
+            'phone' => 'required|min:11|max:20',
             'gender' => 'required'
         ]);
 

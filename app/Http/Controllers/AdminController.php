@@ -906,14 +906,10 @@ class AdminController extends Controller
         $footer_middle = $settings->footer_middle ? json_decode($settings->footer_middle, true) : array();
 
   
-// $home_pag = ["app_name" => "Lagosmatchmaker", "logo" => "web/images/icons/logo.png", "copy_right" => "Copyright lagosmatchmaker © 2021. All Rights Reserved."];
-
-//     print_r(json_encode($home_pag)); 
-//     die();
+        $social_media = $settings->social_media ? json_decode($settings->social_media, true) : array(); 
 
 
-
-        return view('admin.settings', compact('settings', 'home_page', 'footer_left', 'footer_middle'));
+        return view('admin.settings', compact('settings', 'social_media', 'home_page', 'footer_left', 'footer_middle'));
     }
     
 
@@ -1210,8 +1206,10 @@ class AdminController extends Controller
     public function friends_index($id)
     {
         $friends = DB::table('likes')->where('initiator_id', $id)->orWhere('acceptor_id', $id)->where('is_accept', 1)->paginate(25);
-    
-        return view('admin.friends', compact('friends', 'id'));
+        
+        $user = User::where('id', $id)->first();
+
+        return view('admin.friends', compact('user', 'friends', 'id'));
     }
 
     
@@ -1522,10 +1520,7 @@ class AdminController extends Controller
         }else{
            $all_members = User::paginate(50);
         }
-        
-        // Session::forget('checked_members');
-        // dd(Session::get('checked_members'));
-        
+
         return view('admin.all-members', compact('all_members')); 
     }
 
@@ -1534,6 +1529,48 @@ class AdminController extends Controller
 
 
 
+
+    public function social_media_update(Request $request)
+    {
+        $social_media = null;
+        $settings = DB::table('settings')->where('id', 1)->first();
+        if($settings)
+        {
+            if($request->facebook)
+            {
+                $social_media['facebook'] = $request->facebook;
+            }
+            if($request->twitter)
+            {
+                $social_media['twitter'] = $request->twitter;
+            }
+            if($request->instagram)
+            {
+                $social_media['instagram'] = $request->instagram;
+            }
+            if($request->linkedin)
+            {
+                $social_media['linkedin'] = $request->linkedin;
+            }
+            if($request->youtube)
+            {
+                $social_media['youtube'] = $request->youtube;
+            }
+        }
+        $stored = $social_media != null ? json_encode($social_media) : null;
+
+        $update = DB::table('settings')->where('id', 1)->first();
+        if($update)
+        {
+            DB::table('settings')->where('id', 1)->update([
+                'social_media' => $stored
+            ]);
+            Session::flash('success', 'Social media link updated successfully!');
+        }
+
+        return back();
+    }
+    
 
 
 

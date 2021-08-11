@@ -533,7 +533,7 @@ $(".confirm_modal_popup").click(function(e){
     var display_name = $(this).attr('data-name')
    
     if($(button).hasClass('fa-heart')){
-        apend_message('<p>Signup or Login to like <br><b>'+display_name+'</b></p>')
+        apend_message('<p>Signup or Login to match with <br><b>'+display_name+'</b></p>')
     }
     if($(button).hasClass('fa-envelope')){
         apend_message('<p>Signup or Login to message <br><b>'+display_name+'</b></p>')
@@ -592,15 +592,15 @@ $("ul#ul_member_anchor").on('click', '.like-a-member-btn', function(e){
         },
         success: function (response){
             if(response.subscribe_to_premium){
-                apend_message('<p>Subscribe to premium to like <br><b>'+display_name+'</b></p>')
+                apend_message('<p>Subscribe to premium to match with <br><b>'+display_name+'</b></p>')
                 $("#user_confirm_sub_modal_popup").show()
                 $("#access_preloader_container").hide()
             }else if(response.like_this_user){
                 // location.reload()
                 get_member_links(link_url, user_id, parent)
-                bottom_success_danger(display_name+' has been liked!')
+                bottom_success_danger(display_name+' has been matched!')
             }else if(response.subscribe){
-                apend_message('<p>Subscribe to like <b>'+display_name+'</b></p>')
+                apend_message('<p>Subscribe to match with <b>'+display_name+'</b></p>')
                 $("#user_confirm_sub_modal_popup").show()
                 $("#access_preloader_container").hide()
             }else{
@@ -652,7 +652,7 @@ $("ul#ul_member_anchor").on('click', '.unlike-a-member-btn', function(e){
     $("#user_confirm_modal_popup").show()
     $("#user_unlike_id_input").val(user_id)
     $("#user_confirm_unlike_submit").html('Proceed')
-    $("#user_confirm_modal_popup").find('.confirm-header').html(' <p>Do you wish to unlike <b>'+display_name+'</b>?</p>')
+    $("#user_confirm_modal_popup").find('.confirm-header').html(' <p>Do you wish to unmatch <b>'+display_name+'</b>?</p>')
 })
 
 
@@ -707,7 +707,7 @@ $("ul#ul_member_anchor").on('click', '.cancle-user-like-request', function(e){
     $("#user_confirm_modal_popup").show()
     $("#user_unlike_id_input").val(user_id)
     $("#user_confirm_unlike_submit").html('Proceed')
-    $("#user_confirm_modal_popup").find('.confirm-header').html(' <p>Do you wish to cancle <b>'+display_name+'</b> request?</p>')
+    $("#user_confirm_modal_popup").find('.confirm-header').html(' <p>Do you wish to cancle <b>'+display_name+'</b> match?</p>')
 })
 
 
@@ -740,7 +740,7 @@ $("ul#ul_member_anchor").on('click', '.accept-user-like-request', function(e){
         },
         success: function (response){
             if(response.subscribe_to_premium){
-                apend_message('<p>Subscribe to premium to accept <br><b>'+display_name+'</b> request</p>')
+                apend_message('<p>Subscribe to premium to match with <br><b>'+display_name+'</b></p>')
                 $("#user_confirm_sub_modal_popup").show()
                 $("#access_preloader_container").hide()
             }else if(response.matched){
@@ -840,7 +840,26 @@ $("#delete_approved_notification").click(function(e){
 
 
 
+// *********** DELETE SUBSCRIPTION NOTIFICATION **********//
+$("#top_banner_cancle_btn").click(function(e){
+    e.preventDefault()
+    var url = $(this).attr('data-url')
+    var not_id = $(this).attr('data-id')
+    $(".top-banner-alert").hide(200)
+    
+    csrf_token() //csrf token
 
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            not_id: not_id
+        },
+        success: function (response){
+            $(".top-banner-alert").hide(200)
+        }
+    });
+})
 
 
 

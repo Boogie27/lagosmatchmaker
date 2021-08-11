@@ -574,7 +574,7 @@ ul.ul-drop-down li a:hover{
     padding: 5px;
 }
 .latest-members-section{
-    padding: 100px 0px;
+    padding: 0px 0px 100px 0px;
     background-color: rgb(36, 36, 36);
 }
 .latest-members-section .title-header{
@@ -588,7 +588,7 @@ ul.ul-drop-down li a:hover{
     padding: 0px 20px;
 }
 .member-content{
-    padding: 50px 0px;
+    padding: 10px;
     text-align: center;
     border-radius: 5px;
     margin-bottom: 40px;
@@ -649,7 +649,42 @@ ul.ul-drop-down li a:hover{
 
 @media only screen and (max-width: 992px){
     .latest-members-section{
-        padding-top: 200px;
+        padding-top: 50px;
+    }
+}
+@media only screen and (max-width: 567px){
+    .latest-members .row{
+        padding: 0px;
+    }
+    .latest-members .expand{
+        max-width: 50%;
+        padding: 0px 5px;
+        margin: 0px;
+    }
+    .member-content{
+        padding: 10px;
+    }
+    .member-content ul li.header{
+        width: 100px;
+        height: 100px;
+    }
+}
+@media only screen and (max-width: 398px){
+    .member-content ul li.header{
+        width: 90px;
+        height: 90px;
+    }
+    .member-content ul li.header h3{
+        top: 20px;
+    }
+}
+@media only screen and (max-width: 320px){
+    .member-content ul li.header{
+        width: 70px;
+        height: 70px;
+    }
+    .member-content ul li.header h3{
+        top: 10px;
     }
 }
 
@@ -1598,6 +1633,21 @@ ul.ul-footer-links li a i{
     box-shadow: none;
     color:  rgb(196, 142, 44);
 }
+label.s-header{
+    color: #fff;
+    font-size: 13px;
+    margin-right: 10px;
+}
+.footer-social-media{
+    top: 30px;
+    padding: 10px 0px;
+    position: relative;
+}
+.footer-social-media a{
+    font-size: 20px;
+    margin-right: 10px;
+    color: rgb(196, 142, 44);
+}
 @media only screen and (max-width: 567px){
     ul.ul-footer-about li img{
         width: 100%;
@@ -1609,6 +1659,11 @@ ul.ul-footer-links li a i{
     
     .footer-content ul.ul-footer-about li p{
         font-size: 11px;
+    }
+}
+@media only screen and (max-width: 398px){
+    .footer-social-media a{
+        font-size: 17px;
     }
 }
 
@@ -2637,7 +2692,7 @@ ul.ul-sub-body li a:hover{
     background-color:  rgb(39, 39, 39);
 } */
 .index-subscription-section{
-    padding: 100px 0px 150px 0px;
+    padding: 100px 0px 50px 0px;
     background-color:  rgb(29, 29, 29);
 }
 .index-subscription-content{
@@ -2700,7 +2755,7 @@ ul.ul-index-sub-body li{
 }
 @media only screen and (max-width: 992px){
     .index-subscription-section{
-        padding-top: 40px;
+        padding-top: 100px;
     }
     .index-subscription-banner{
         width: 33%;

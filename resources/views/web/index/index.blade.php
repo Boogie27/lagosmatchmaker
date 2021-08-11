@@ -5,35 +5,7 @@
 
 <!-- <div class="home-empty-content"></div> -->
 
-@if(count($latest_members))
-<section class="latest-members-section">
-    <div class="title-header">
-            <h4>Latest Members</h4>
-            <p> Lagosmatchmaker newly registered members</p>
-        </div>
-    <div class="latest-members">
-        <div class="row">
-            @foreach($latest_members as $latest_member)
-            @php($image =  gender($latest_member->gender))
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 "> <!-- member start-->
-                <a href="{{ url('/profile/'.$latest_member->id) }}">
-                    <div class="member-content">
-                        <ul>
-                            <li class="header">
-                                <h3>{{ $image }}</h3>
-                            </li>
-                            <li class="level pt-2 {{ $latest_member->is_active ? 'text-success' : 'text-danger' }}">{{ $latest_member->is_active ? 'online' : 'offline' }}</li>
-                            <li class="name">{{ $latest_member->user_name }}</li>
-                            <li class="level">{{ ucfirst($latest_member->membership_level) }} Member</li>
-                        </ul>
-                    </div>
-                </a>
-            </div><!-- member end-->
-            @endforeach
-        </div>
-    </div>
-</section>
-@endif
+
 
 
 
@@ -283,6 +255,45 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+@if(count($latest_members))
+<section class="latest-members-section">
+    <div class="title-header">
+            <h4>Latest Members</h4>
+            <p> Lagosmatchmaker newly registered members</p>
+        </div>
+    <div class="latest-members">
+        <div class="row">
+            @foreach($latest_members as $latest_member)
+            @php($image =  gender($latest_member->gender))
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 expand"> <!-- member start-->
+                <a href="{{ url('/profile/'.$latest_member->id) }}">
+                    <div class="member-content">
+                        <ul>
+                            <li class="header">
+                                <h3>{{ $image }}</h3>
+                            </li>
+                            <li class="level pt-2 {{ $latest_member->is_active ? 'text-success' : 'text-danger' }}">{{ $latest_member->is_active ? 'online' : 'offline' }}</li>
+                            <li class="name">{{ $latest_member->user_name }}</li>
+                            <li class="level">{{ ucfirst($latest_member->membership_level) }} Member</li>
+                        </ul>
+                    </div>
+                </a>
+            </div><!-- member end-->
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
 
 
 

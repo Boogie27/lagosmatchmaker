@@ -4,8 +4,8 @@
 <section class="message-section">
     <div class="message-container">
         <div class="title-header">
-            <h4>Your friends request</h4>
-            <p> <a href="{{ url('/') }}">Home</a> - friends</p>
+            <h4>Your matched request</h4>
+            <p> <a href="{{ url('/') }}">Home</a> - matches</p>
         </div>
     </div>
 </section>
@@ -61,9 +61,13 @@
 <section class="message-section">
     <div class="message-container">
         <div class="title-header">
-            <h4>Your friends</h4>
+            <h4>Your Match</h4>
             @if(count($friends))
-            <p> You currently have {{ count($friends) }} friends</p>
+               @if(count($friends) == 1)
+                <p> You currently have {{ count($friends) }} match</p>
+               @else
+                <p> You currently have {{ count($friends) }} matches</p>
+               @endif
             @endif
         </div>
     </div>
@@ -176,10 +180,10 @@ $(".accept-user-like-request-friends").click(function(e){
         },
         success: function (response){
             if(response.subscribe){
-                apend_message('<p>Subscribe to like this member</p>')
+                apend_message('<p>Subscribe to match with this member</p>')
                 $("#user_confirm_sub_modal_popup").show()
             }else if(response.subscribe_to_premium){
-                apend_message('<p>Subscribe to premium to like this member </p>')
+                apend_message('<p>Subscribe to premium to match with this member </p>')
                 $("#user_confirm_sub_modal_popup").show()
             }else if(response.matched){
                 location.reload()

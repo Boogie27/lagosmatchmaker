@@ -311,19 +311,24 @@ function validate_detail_field(country, phone, state_of_origin, hiv, complexion,
             $(".alert_0").html('*Maximum of 50 characters')
         }
         if(complexion.length > 50){
+            is_state = true;
             $(".alert_complexion").html('*Maximum of 50 characters')
         }
         if(education.length > 100){
+            is_state = true;
             $(".alert_education").html('*Maximum of 100 characters')
         }
         if(career.length > 100){
+            is_state = true;
             $(".alert_career").html('*Maximum of 100 characters')
         }
         if(phone.length < 11){
+            is_state = true;
             $(".alert_phone_number").html('*Minimum of 11 characters')
         }
-        if(phone.length > 11){
-            $(".alert_phone_number").html('*Maximum of 11 characters')
+        if(phone.length > 20){
+            is_state = true;
+            $(".alert_phone_number").html('*Maximum of 20 characters')
         }
     }
     return is_state;

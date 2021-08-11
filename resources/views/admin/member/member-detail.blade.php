@@ -32,7 +32,7 @@
                             <i class="fa fa-ellipsis-h drop-down-open"></i>
                             <ul class="drop-down-body">
                                 <li class="text-left">
-                                    <a href="{{ url('/admin/friends/'.$user->id) }}" class="">Friends</a>
+                                    <a href="{{ url('/admin/friends/'.$user->id) }}" class="">Match</a>
                                     <a href="mailto:{{ $user->email }}" class="">Send mail</a>
                                     @if(!$user->is_approved)
                                     <a href="#" data-name="{{ $user->user_name }}" id="{{ $user->id }}" class="deatil-approve-confirm-box-open">Approve</a>
