@@ -38,7 +38,9 @@
                                     <a href="#" data-name="{{ $user->user_name }}" id="{{ $user->id }}" class="deatil-approve-confirm-box-open">Approve</a>
                                     @endif
                                     <a href="{{ url('/admin/subscription-history/'.$user->id) }}" class="">subscription details</a>
-                                   
+                                    @if($user->is_approved && !$user->is_deactivated)
+                                    <a href="#" id="{{ $user->id }}" class="add-user-subscription-btn">Add subscription</a>
+                                    @endif
                                 </li>
                             </ul>
                         </div>

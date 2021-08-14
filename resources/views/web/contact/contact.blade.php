@@ -73,13 +73,3 @@
 
 
 
-<script>
-$(document).ready(function(){
-// *********** LOGIN BUTTON *********//
-$("#contact_submit_btn").click(function(e){
-    $(this).html('Please wait...')
-})
-
-
-})
-</script>

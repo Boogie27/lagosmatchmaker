@@ -23,7 +23,7 @@
                         @if(!is_loggedin())
                             <li><a href="#" class="login_confirm_modal_popup"><i class="far fa-comment"></i> Message</a></li>
                             <!-- <li><a href="#" class="login_confirm_modal_popup"><i class="fa fa-video"></i></a></li> -->
-                            <li><a href="#" class="login_confirm_modal_popup"><i class="fa fa-heart"></i> Like</a></li>
+                            <li><a href="#" class="login_confirm_modal_popup"><i class="fa fa-heart text-danger"></i> Match</a></li>
                         @endif
                          
                         @if(is_loggedin() && user_detail()->id != $user->id)
@@ -32,10 +32,10 @@
                             @endif
                             <!-- <li><a href="#" id="user_video_call_modal_popup"><i class="fa fa-video"></i></a></li> -->
                             @if($was_liked && $was_liked->is_accept || $you_liked && $you_liked->is_accept)
-                            <li><a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart"></i> Unlike</a></li>
+                            <li><a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart text-danger"></i> Unmatch</a></li>
                             @endif
                             @if(!$was_liked && !$you_liked)
-                            <li><a href="#" class="user_like_confirm_modal_popup"><i class="fa fa-heart"></i> Like</a></li>
+                            <li><a href="#" class="user_like_confirm_modal_popup"><i class="fa fa-heart text-danger"></i> Match</a></li>
                             @endif
                         @endif
                     </ul>
@@ -51,7 +51,7 @@
             @endif
             @if(is_loggedin() && user_detail()->id != $user->id && $you_liked && !$you_liked->is_accept)
             <div class="action-like-btn">
-                <a href="#" class="user-cancle-like-request-btn decline"><i class="fa fa-heart"></i> Cancle request</a>
+                <a href="#" class="user-cancle-like-request-btn decline"><i class="fa fa-heart"></i> Cancle match</a>
             </div>
             @endif
         </div>

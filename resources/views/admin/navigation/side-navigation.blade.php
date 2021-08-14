@@ -76,13 +76,22 @@
                             <a href="{{ url('/admin/premium') }}">Premium</a>
                         </li>
                         <li>
+                            <a href="{{ url('/admin/suspended') }}">Suspended
+                            <span class="bg-danger badge" id="is_suspend_counter" style="color: #fff; font-size: 9px;">{{ is_suspend() }}</span>
+                        </a>
+                        </li>
+                        <li>
                             <a href="{{ url('/admin/unapproved') }}">Unapproved 
                                 <span class="bg-danger badge" style="color: #fff; font-size: 9px;">{{ detail_is_complete() }}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('/admin/deactivated') }}">Deactivated</a>
+                            <a href="{{ url('/admin/deactivated') }}">
+                            Deactivated
+                            <span class="bg-danger badge" style="color: #fff; font-size: 9px;">{{ deactivated() }}</span>
+                            </a>
                         </li>
+                        
                         <li>
                             <a href="{{ url('/admin/add-member') }}">Add member</a>
                         </li>
@@ -134,10 +143,16 @@
                             <a href="{{ url('/admin/subscription') }}">Subscriptions</a>
                         </li>
                         <li>
+                            <a href="{{ url('/admin/manual-subscription') }}">Manual subscriptions</a>
+                        </li>
+                        <li>
                             <a href="{{ url('/admin/user-subscription') }}">User subscriptions</a>
                         </li>
                         <li>
-                            <a href="{{ url('/admin/manual-subscription') }}">Manual subscriptions</a>
+                            <a href="{{ url('/admin/ended-subscriptions') }}">
+                            Ended Subscriptions
+                            <span class="bg-danger badge" style="color: #fff; font-size: 9px;">{{ ended_sub() }}</span>
+                            </a>
                         </li>
                     </ul>
                 </li>

@@ -358,6 +358,9 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/add-member", [AdminController::class, "add_member_store"]);
     Route::get("/admin/basic", [AdminController::class, "basic_index"]);
     Route::get("/admin/premium", [AdminController::class, "premium_index"]);
+    Route::get("/admin/suspended", [AdminController::class, "suspended_index"]);
+    Route::post("/admin/ajax-mass-unsuspend-members", [AdminAjaxController::class, "ajax_mass_unsuspend_members"]);
+    Route::get("/admin/ended-subscriptions", [AdminController::class, "ended_subscriptions_index"]);
     Route::get("/admin/friends/{id}", [AdminController::class, "friends_index"]);
     Route::get("/admin/read-chats", [AdminController::class, "read_chats_index"]);
     Route::post("/admin/ajax-delete-user-chat", [AdminAjaxController::class, "ajax_delete_user_chat"]);
@@ -509,8 +512,11 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/admin/contact", [AdminController::class, "contact_index"]);
     Route::get("/admin/contact-detail/{id}", [AdminController::class, "contact_detail_index"]);
     Route::post("/admin/ajax-contact-us-seen", [AdminAjaxController::class, "ajax_contact_us_seen"]);
+    Route::post("/admin/ajax-mass-contact-us-seen", [AdminAjaxController::class, "ajax_mass_contact_us_seen"]);
     Route::post("/admin/ajax-contact-us-delete", [AdminAjaxController::class, "ajax_contact_us_delete"]);
-
+    Route::post("/admin/ajax-mass-contact-us-delete", [AdminAjaxController::class, "ajax_mass_contact_us_delete"]);
+    
+    
 
 
     
@@ -518,7 +524,9 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/admin/reports", [AdminController::class, "report_index"]);
     Route::get("/admin/report-detail/{id}", [AdminController::class, "report_detail_index"]);
     Route::post("/admin/ajax-report-seen", [AdminAjaxController::class, "ajax_report_seen"]);
+    Route::post("/admin/ajax-mass-report-seen", [AdminAjaxController::class, "ajax_mass_report_seen"]);
     Route::post("/admin/ajax-report-delete", [AdminAjaxController::class, "ajax_report_delete"]);
+    Route::post("/admin/ajax-mass-reports-delete", [AdminAjaxController::class, "ajax_mass_report_delete"]);
       
     
 

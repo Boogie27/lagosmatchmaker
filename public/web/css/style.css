@@ -651,6 +651,9 @@ ul.ul-drop-down li a:hover{
     .latest-members-section{
         padding-top: 50px;
     }
+    .member-content:hover{
+        border: 1px solid rgb(58, 58, 58);
+    }
 }
 @media only screen and (max-width: 567px){
     .latest-members .row{
@@ -2055,6 +2058,11 @@ ul.ul-profile-detail li p.detail-about-p{
 
     }
 }
+@media only screen and (max-width: 992px){
+    .profile-detail-right{
+        margin-top: 50px;
+    }
+}
 @media only screen and (max-width: 567px){
     .profile-detail-container{
         padding: 0px 10px 100px 10px;
@@ -2266,7 +2274,9 @@ ul.ul-member-body li span{
     
 }
 @media only screen and (max-width: 992px){
-    
+    .member-inner-div:hover{
+        border: 1px solid rgb(73, 73, 73);
+    }
 }
 @media only screen and (max-width: 767px){
     .top-members-body{
@@ -3790,6 +3800,9 @@ ul.ul-friends li h5{
 }
 ul.ul-friends li a{
     text-decoration: none;
+}
+ul.ul-friends li span.status{
+    font-size: 11px;
 }
 ul.ul-friends li p{
     color: rgb(168, 168, 168);

@@ -2,7 +2,7 @@
 <div class="navbar navbar-expand flex-column flex-md-row navbar-custom">
     <div class="container-fluid">
         <!-- LOGO -->
-        <a href="index.html" class="navbar-brand mr-0 mr-md-2 logo">
+        <a href="{{ url('/admin') }}" class="navbar-brand mr-0 mr-md-2 logo">
             @if(settings()->logo)
             <span class="logo-lg">
                 <img src="{{ asset( settings()->logo) }}" alt="" />

@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
 
+use App\Mail\Matchmail;
 
+
+use Mail;
 use Session;
 use Cookie;
 use Validator;
@@ -625,7 +628,12 @@ class ClientAjaxController extends Controller
                         'initiator_id' => Auth::user('id'),
                         'acceptor_id' => $user_id,
                     ]);
-       //you can choose to send a notification here
+
+       //send a notification email to other user
+       $acceptor = User::where('id', $user_id)->first();
+       $message = 'You have a new match notification, '.Auth::user('user_name').' has matched with you on Lagosmatchmaker.';
+       $this->match_mail($acceptor->email, $message);
+
         return true;
      }
 
@@ -747,6 +755,12 @@ class ClientAjaxController extends Controller
 
             if($accept)
             {
+                $initiator = User::where('id', $request->user_id)->first();
+
+                $message = Auth::user('user_name').' has accepted your match on Lagosmatchmaker, now you can chat with eachother.';
+                
+                $this->match_mail($initiator->email, $message);
+
                 return response()->json(['matched' => true]);
             }
         }
@@ -754,6 +768,25 @@ class ClientAjaxController extends Controller
      }
 
 
+
+
+
+
+
+
+    public function match_mail($email, $message)
+    {
+        Mail::to($email)->send(new Matchmail($message));
+    }
+
+
+
+
+
+    public function chat_mail($email, $message)
+    {
+        Mail::to($email)->send(new Matchmail($message));
+    }
 
 
 
@@ -957,6 +990,12 @@ class ClientAjaxController extends Controller
             ]);
             if($create)
             {
+                $check = User::where('id', $request->receiver_id)->first();
+                if($check && !$check->is_active)
+                {
+                    $message = $check->user_name.' You have one new message from '.Auth::user('user_name').' on Lagosmatchmaker';
+                    $this->chat_mail($check->email, $message);
+                }
                 $data = true;
             }
        }
@@ -1016,8 +1055,12 @@ class ClientAjaxController extends Controller
 
                     if($create)
                     {
-                    //    $chats = $this->get_chat($receiver_id);
-                    //    return view('web.chat.ajax-get-chat', compact('chats'));
+                        $check = User::where('id', $receiver_id)->first();
+                        if($check && !$check->is_active)
+                        {
+                            $message = $check->user_name.' You have one new message from '.Auth::user('user_name').' on Lagosmatchmaker';
+                            $this->chat_mail($check->email, $message);
+                        }
                         $data = true;
                     }
                }

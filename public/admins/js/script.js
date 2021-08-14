@@ -330,8 +330,14 @@ function apend_message(message){
 
 
 // ********** SUSPEND MEMBER / UNSUSPEND MEMBER***************//
+var counter = 0
 $("#suspend_confirm_submit_btn").click(function(e){
     e.preventDefault()
+    var counterForm = $("#is_suspend_counter").html()
+    if(counterForm.length){
+        counter = parseInt(counterForm)
+    }
+
     var url = $(this).attr('data-url')
     var user_id = $("#member_suspend_id_input").val()
     $("#suspend_confirm_submit_btn").html('Please wait...')
@@ -346,10 +352,14 @@ $("#suspend_confirm_submit_btn").click(function(e){
         },
         success: function (response){
             if(response.suspended){
+                counter++
+                $("#is_suspend_counter").html(counter)
                 $(suspend).toggleClass('active')
                 $(online_member).removeClass('active')
                 bottom_alert_success('User has been suspended!')
             }else if(response.unsuspended){
+                counter--
+                $("#is_suspend_counter").html(counter)
                 $(suspend).toggleClass('active')
                 bottom_alert_success('User has been unsuspended!')
             }else{
@@ -607,10 +617,11 @@ $("#add_user_subscription_confirm_submit_btn").click(function(e){
     var url = $(this).attr('data-url')
     var type = $("#add_user_type_input").val()
     var amount = $("#add_suser_sub_amount").val()
+    var duration = $("#add_user_duration_input").val()
     $(this).html('Please wait...')
 
     if(!type){
-        $('.alert_sub_inputs').html('*All fields are required')
+        $('.alert_sub_inputs').html('*Type and Duration is required')
         $("#add_user_subscription_confirm_submit_btn").html('Proceed')
         return
     }
@@ -623,7 +634,8 @@ $("#add_user_subscription_confirm_submit_btn").click(function(e){
         data: {
             type: type,
             user_id: user_id,
-            amount: amount
+            amount: amount,
+            duration: duration
         },
         success: function (response){
             if(response.error){
@@ -787,6 +799,68 @@ function check_all(state){
 
 
 
+
+
+
+// ********** MASS UNSUSPEND MODAL OPEN************//
+$("#open_mass_unsuspend_modal_btn").click(function(e){
+    e.preventDefault()
+    if(stored_id.length == 0)
+    {
+        return bottom_alert_error('No member was selected!')
+    }
+    $("#mass_unsuspend_modal_popup_box").show()
+    $("#mass_unsuspend_confirm_submit_btn").html('Proceed')
+})
+
+
+
+
+
+
+
+
+// ********** MASS UNSUSPEND MEMBERS **********//
+$("#mass_unsuspend_confirm_submit_btn").click(function(e){
+    var url = $(this).attr('data-url')
+    $(this).html('Please wait...')
+    
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            stored_id: stored_id
+        },
+        success: function (response){
+            if(response.empty)
+            {
+                bottom_alert_error('No member selected!')
+            }else if(response.data){
+               location.reload()
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            stored_id = []
+            $(".modal-alert-popup").hide()
+            $("#mass_member_check_box_input").prop('checked', false)
+            $(".check-box-members-input-btn").prop('checked', false)        
+        }, 
+        error: function(){
+            stored_id = []
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+            $("#mass_member_check_box_input").prop('checked', false)
+            $(".check-box-members-input-btn").prop('checked', false)  
+        }
+    });
+})
+
+
+
+
+
 // *********** OPEN MASS SUBCRIPTION MODAL ************//
 $("#open_mass_subscription_modal_btn").click(function(e){
     e.preventDefault()
@@ -802,15 +876,22 @@ $("#open_mass_subscription_modal_btn").click(function(e){
 
 
 
+// 
+
+
+
+
+
 // ********** ASSIGN MEMBER TO SUBSCRIPTION **********//
 $("#mass_add_user_subscription_confirm_submit_btn").click(function(e){
     var url = $(this).attr('data-url')
     var type = $("#mass_add_user_type_input").val()
     var amount = $("#mass_add_suser_sub_amount").val()
+    var duration = $("#mass_add_user_duration_input").val()
     $(this).html('Please wait...')
 
     if(!type){
-        $('.alert_sub_inputs').html('*All fields are required')
+        $('.alert_sub_inputs').html('*Type and Duration is required')
         $(this).html('Proceed')
         return
     }
@@ -823,7 +904,8 @@ $("#mass_add_user_subscription_confirm_submit_btn").click(function(e){
         data: {
             type: type,
             stored_id: stored_id,
-            amount: amount
+            amount: amount,
+            duration: duration
         },
         success: function (response){
             if(response.error){

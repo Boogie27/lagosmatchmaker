@@ -2,7 +2,7 @@
 
 <div class="title-header text-center">
     <h4>You're Matched</h4>
-    <p>You and {{ $display_name }} have both liked each other</p>
+    <p>You and {{ $display_name }} have both matched with each other</p>
     <ul class="ul-profile-match">
         <li class="profile-one">
         @php($my_name = user_detail()->display_name ? user_detail()->display_name : user_detail()->user_name)

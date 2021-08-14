@@ -16,10 +16,10 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Home</a></li>
                                 <li class="breadcrumb-item"><a href="javascript: void()">Members</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Basic</li>
+                                <li class="breadcrumb-item active" aria-current="page">Ended Subscription</li>
                             </ol>
                         </nav>
-                        <h4 class="mb-1 mt-0">Basic members</h4>
+                        <h4 class="mb-1 mt-0">Ended Subscription</h4>
                         @if(Session::has('error'))
                         <div class="main-alert-danger text-center mt-3">{{ Session::get('error')}}</div>
                         @endif
@@ -36,8 +36,9 @@
                                <div class="table-top">
                                     <div class="page-icon"><i class="fa fa-users"></i></div>
                                     <a href="#" id="open_mass_unapprove_modal_btn">| Unapprove |</a>
+                                    <!-- <a href="#" data-url="{{ url('/admin/ajax-update-christain') }}" id="open_mass_christain_modal_btn">| Christain |</a> -->
                                     <div class="table-search">
-                                        <form action="{{ url('/admin/basic') }}" method="GET">
+                                        <form action="{{ url('/admin/all-members') }}" method="GET">
                                             <div class="form-group">
                                                 <input type="text" name="search" class="form-control" placeholder="Search...">
                                             </div>
@@ -52,56 +53,58 @@
                                                 <th>Avatar</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
+                                                <th>Level</th>
                                                 <th>Suspend</th>
                                                 <th>Date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if(count($basics))
-                                            @foreach($basics as $basic)
-                                            @php($avatar = gender($basic->gender))
+                                            @if(count($members))
+                                            @foreach($members as $member)
+                                            @php($avatar = gender($member->gender))
                                             <tr>
                                                 <td>
-                                                    <input type="checkbox" id="{{ $basic->id }}" class="check-box-members-input-btn" {{ checked_member($basic->id) ? 'checked' : '' }}>
+                                                    <input type="checkbox" id="{{ $member->id }}" class="check-box-members-input-btn" {{ checked_member($member->id) ? 'checked' : '' }}>
                                                 </td>
                                                 <td class="avatar-parent">
-                                                    <a href="{{ url('/admin/member-detail/'.$basic->id) }}" class="avatar-link">
-                                                        <div class="avatar {{ $basic->is_active ? 'active' : ''}}">
+                                                    <a href="{{ url('/admin/member-detail/'.$member->id) }}" class="avatar-link">
+                                                        <div class="avatar {{ $member->is_active ? 'active' : ''}}">
                                                             <h4>{{ $avatar }}</h4>
                                                         </div>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a href="{{ url('/admin/member-detail/'.$basic->id) }}" class="member-name">{{ ucfirst($basic->user_name) }} </a>
+                                                    <a href="{{ url('/admin/member-detail/'.$member->id) }}" class="member-name">{{ ucfirst($member->user_name) }} </a>
                                                 </td>
-                                                <td>{{ $basic->email }}</td>
+                                                <td>{{ $member->email }}</td>
+                                                <td><span class="badge badge-soft-{{ $member->membership_level == 'basic' ? 'success' : 'warning' }} py-1">{{ $member->membership_level == 'basic' ? 'Basic' : 'Premium' }}</span></td>
                                                 <td>
-                                                    <div class="suspend {{ $basic->is_suspend ? 'active' : ''}}">
-                                                        <a href="#" data-name="{{ $basic->user_name }}" id="{{ $basic->id }}" class="suspend-confirm-box-open"></a>
+                                                    <div class="suspend {{ $member->is_suspend ? 'active' : ''}}">
+                                                        <a href="#" data-name="{{ $member->user_name }}" id="{{ $member->id }}" class="suspend-confirm-box-open"></a>
                                                     </div>
                                                 </td>
-                                                <td>{{ date('d M Y', strtotime($basic->date_registered)) }}</td>
+                                                <td>{{ date('d M Y', strtotime($member->date_registered)) }}</td>
                                                 <td>
                                                     <div class="drop-down">
                                                         <i class="fa fa-ellipsis-h drop-down-open"></i>
                                                         <ul class="drop-down-body">
                                                             <li>
-                                                                <a href="{{ url('/admin/member-detail/'.$basic->id) }}">Detail</a>
+                                                                <a href="{{ url('/admin/member-detail/'.$member->id) }}">Detail</a>
                                                             </li>
                                                             <li>
-                                                                <a href="{{ url('/admin/subscription-history/'.$basic->id) }}" class="">subscription details</a>
+                                                                <a href="{{ url('/admin/subscription-history/'.$member->id) }}" class="">subscription details</a>
                                                             </li>
                                                             <li>
-                                                                <a href="#" id="{{ $basic->id }}" class="add-user-subscription-btn">Add subscription</a>
+                                                                <a href="#" id="{{ $member->id }}" class="add-user-subscription-btn">Add subscription</a>
                                                             </li>
-                                                            @if(!$basic->is_approved)
+                                                            @if(!$member->is_approved)
                                                             <li>
-                                                                <a href="#" data-name="{{ $basic->user_name }}" id="{{ $basic->id }}" class="approve-confirm-box-open">Approve</a>
+                                                                <a href="#" data-name="{{ $member->user_name }}" id="{{ $member->id }}" class="approve-confirm-box-open">Approve</a>
                                                             </li>
                                                             @endif
                                                             <li class="li-deactivate">
-                                                                <a href="#" data-name="{{ $basic->user_name }}" id="{{ $basic->id }}" class="deactivate-confirm-box-open {{ $basic->is_deactivated ? 'active' : '' }}">{{ !$basic->is_deactivated ? 'Deactivate' : 'Activate' }}</a>
+                                                                <a href="#" data-name="{{ $member->user_name }}" id="{{ $member->id }}" class="deactivate-confirm-box-open {{ $member->is_deactivated ? 'active' : '' }}">{{ !$member->is_deactivated ? 'Deactivate' : 'Activate' }}</a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -112,13 +115,13 @@
                                         </tbody>
                                     </table>
                                 </div><!-- table end-->
-                                @if(!count($basics))
+                                @if(!count($members))
                                 <div class="text-center">There are no members yet!</div>
                                 @endif
-                                @if(count($basics))
-                                <div class="paginate">{{ $basics->links("pagination::bootstrap-4") }}</div>
+                                @if(count($members))
+                                <div class="paginate">{{ $members->links("pagination::bootstrap-4") }}</div>
                                 @endif
-                                @if(count($basics))
+                                @if(count($members))
                                 <div class="text">
                                     <a href="#" id="open_members_newsletter_modal_btn">| Send newsletter |</a>
                                     <a href="#" id="open_mass_subscription_modal_btn">| Assign subscription |</a>

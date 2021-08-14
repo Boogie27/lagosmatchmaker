@@ -4,7 +4,7 @@
 <section class="message-section">
     <div class="message-container">
         <div class="title-header">
-            <h4>Your matched request</h4>
+            <h4>Your matches request</h4>
             <p> <a href="{{ url('/') }}">Home</a> - matches</p>
         </div>
     </div>
@@ -61,14 +61,8 @@
 <section class="message-section">
     <div class="message-container">
         <div class="title-header">
-            <h4>Your Match</h4>
-            @if(count($friends))
-               @if(count($friends) == 1)
-                <p> You currently have {{ count($friends) }} match</p>
-               @else
-                <p> You currently have {{ count($friends) }} matches</p>
-               @endif
-            @endif
+            <h4>Your Matches</h4>
+            <p> You currently have {{ count($friends) }} matches</p>
         </div>
     </div>
 </section>
@@ -92,16 +86,17 @@
                 <div class="firends-main-body"><!-- firend start-->
                     <div class="friends-inner-content">
                         <div class="message-img">
-                            <i class="fa fa-circle {{ $user->is_active ? 'active' : '' }}"></i>   
+                            <!-- <i class="fa fa-circle {{ $user->is_active ? 'active' : '' }}"></i>    -->
                             <h4>{{ $image }}</h4>
                         </div>
                         <ul class="ul-friends">
                             <li>
                                 <a href="{{ url('/profile/'.$user->id) }}"><h5>{{ $display_name }}</h5></a>
+                                <span class="status" style="color: #ccc;">Status: </span><span class="status {{ $user->is_active ? 'text-success' : 'text-danger' }}">{{ $user->is_active ? 'Online' : 'Offline' }}</span>
                             </li>
                            <li class="friends-bottom">
                                <a href="{{ url('/chat/'.$user->id) }}" class="f-send-msg">Send message</a>
-                               <label for="">matched</label>
+                               <label for="">matches</label>
                            </li>
                         </ul>
                     </div>

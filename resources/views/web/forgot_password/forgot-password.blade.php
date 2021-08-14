@@ -57,13 +57,3 @@
 
 
 
-<script>
-$(document).ready(function(){
-// *********** LOGIN BUTTON *********//
-$("#form_access_btn_submit").click(function(e){
-    $(this).html('Please wait...')
-})
-
-
-})
-</script>

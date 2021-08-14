@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 
 use App\Mail\ApproveUserMail;
 use App\Mail\NewsletterMailer;
+use App\Mail\SubscriptionMail;
+
 use App\Jobs\SendNewsletterJob;
 
 use Mail;
@@ -1692,28 +1694,43 @@ class AdminAjaxController extends Controller
             $check = DB::table('user_subscriptions')->where('user_sub_id', $request->id)->first();
             if($check && $today < $check->end_date)
             {
-               
-                $is_expired = $check->is_expired ? 0 : 1;
-                $end_date = $is_expired ? $today : null;
-
-                DB::table('user_subscriptions')->where('user_sub_id', $request->id)->update([
-                        'is_expired' => $is_expired,
-                        'date_ended' => $end_date
-                ]);
-
-                if($is_expired)
+                $user = DB::table('users')->where('id', $check->user_id)->first();
+                if($user)
                 {
-                    DB::table('notifications')->insert([
-                        'notification_from' => 'admin',
-                        'notification_to' => $check->user_id,
-                        'type' => 'expired_subscription',
-                        'link' => '/subscription',
-                        'description' => 'Your monthly '.$check->subscription_type.' subscription has expired, Please subscribe to continue dating. To subscribe, click here ',
+                    $is_expired = $check->is_expired ? 0 : 1;
+                    $end_date = $is_expired ? $today : null;
+
+                    DB::table('user_subscriptions')->where('user_sub_id', $request->id)->update([
+                            'is_expired' => $is_expired,
+                            'date_ended' => $end_date
                     ]);
 
-                    return response()->json(['expired' => true]);
-                }else{
-                    return response()->json(['active' => true]);
+                    DB::table('users')->where('id', $check->user_id)->update([
+                        'subscription' => 'expired',
+                        'membership_level' => 'basic'
+                    ]);
+
+                    if($is_expired)
+                    {
+                        DB::table('notifications')->insert([
+                            'notification_from' => 'admin',
+                            'notification_to' => $check->user_id,
+                            'type' => 'expired_subscription',
+                            'link' => '/subscription',
+                            'description' => 'Your '.$check->subscription_type.' subscription has expired, Please subscribe to continue matching. To subscribe, click here ',
+                        ]);
+
+                        $message['message'] = 'Your '.ucfirst($check->subscription_type).' subscription has expired, Please subscribe to continue matching';
+                        $message['start_date'] = date('d M Y', strtotime($today));
+                        $message['end_date'] = date('d M Y', strtotime($end_date));
+
+
+                        Mail::to($user->email)->send(new SubscriptionMail($message));
+
+                        return response()->json(['expired' => true]);
+                    }else{
+                        return response()->json(['active' => true]);
+                    }
                 }
             }
         }
@@ -1743,6 +1760,32 @@ class AdminAjaxController extends Controller
         }
         return response()->json(['data' => $data]);
     }
+
+
+
+
+
+
+
+
+    public function ajax_mass_contact_us_seen(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            foreach($request->stored_id as $id)
+            {
+                $check = ContactUs::where('id', $id)->first();
+                if($check)
+                {
+                    $check->is_seen = 1;
+                    $check->save();
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
     
 
 
@@ -1763,6 +1806,37 @@ class AdminAjaxController extends Controller
                 {
                     $data = url('/admin/contact');
                 }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+
+    public function ajax_mass_contact_us_delete(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            foreach($request->stored_id as $id)
+            {
+                $check = ContactUs::where('id', $id)->first();
+                if($check)
+                {
+                    ContactUs::where('id', $id)->delete();
+                }
+                $data = true;
+            }
+            if($data)
+            {
+                Session::flash('success', 'Contact messages deleted successfully!');
             }
         }
         return response()->json(['data' => $data]);
@@ -1792,6 +1866,59 @@ class AdminAjaxController extends Controller
                     $data = true;
                 }
             }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+    public function ajax_mass_report_seen(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            foreach($request->stored_id as $id)
+            {
+                $check = DB::table('user_reports')->where('report_id', $id)->first();
+                if($check)
+                {
+                    DB::table('user_reports')->where('report_id', $id)->update([
+                        'is_seen' => 1
+                    ]);
+                }
+            }
+            $data = true;
+        }
+        return response()->json(['data' => $data]);
+    }
+    
+
+
+
+
+
+
+    public function ajax_mass_unsuspend_members(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            foreach($request->stored_id as $id)
+            {
+                $check = User::where('id', $id)->first();
+                if($check)
+                {
+                    $check->is_suspend = 0;
+                    $check->save();
+                }
+            }
+            $data = true;
         }
         return response()->json(['data' => $data]);
     }
@@ -1827,6 +1954,29 @@ class AdminAjaxController extends Controller
 
 
 
+
+
+
+
+
+
+    public function ajax_mass_report_delete(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            foreach($request->stored_id as $id)
+            {
+                $check = DB::table('user_reports')->where('report_id', $id)->first();
+                if($check)
+                {
+                    DB::table('user_reports')->where('report_id', $id)->delete();
+                }
+            }
+            $data = true;
+        }
+        return response()->json(['data' => $data]);
+    }
 
     
 
@@ -2350,11 +2500,12 @@ class AdminAjaxController extends Controller
         {
              $validator = Validator::make($request->all(), [
                 'type' => 'required',
+                'duration' => 'required',
             ]);
 
             if(!$validator->passes())
             {
-                return response()->json(['error' => ['all' => '*All fields are required']]);
+                return response()->json(['error' => ['all' => '*Type and Duration are required']]);
             }
 
             if($validator->passes())
@@ -2362,34 +2513,44 @@ class AdminAjaxController extends Controller
                 $subscription = DB::table('subscriptions')->where('type', $request->type)->first();
                 if($subscription)
                 {
+                    $today = date('Y-m-d H:i:s');
                     $old_sub = DB::table('user_subscriptions')->where('user_id', $request->user_id)->where('is_expired', 0)->first();
                     if($old_sub)
                     {
                         DB::table('user_subscriptions')->where('user_id', $request->user_id)->where('is_expired', 0)->update([
                                 'is_expired' => 1,
-                                'date_ended' => date('Y-m-d H:i:s')
+                                'date_ended' => $today
                         ]);
                     }
                     
                     $reference = uniqid();
-                    $end_date = date('Y-m-d H:i:s', strtotime('+'.$subscription->duration));
-
+                    $end_date = date('Y-m-d H:i:s', strtotime('+'.$request->duration));
                     $create = DB::table('user_subscriptions')->insert([
                                 'reference' => $reference,
                                 'user_id' => $request->user_id,
                                 'subscription_id' => $subscription->sub_id,
-                                'duration' => $subscription->duration,
+                                'duration' => $request->duration,
                                 'amount' => $request->amount,
                                 'subscription_type' => $subscription->type,
-                                'start_date' => date('Y-m-d H:i:s'),
+                                'start_date' => $today,
                                 'end_date' => $end_date,
                             ]);
                     
                     if($create)
                     {
                         $user = User::where('id', $request->user_id)->first();
+
+                        $user_email = $user->email;
+
+                        $user->subscription = 'active';
                         $user->membership_level = $subscription->type;
                         $user->save();
+
+                        $message['message'] = 'Congratulations, you have successfully subscribed to '.ucfirst($subscription->type).' membership level.';
+                        $message['start_date'] = date('d M Y', strtotime($today));
+                        $message['end_date'] = date('d M Y', strtotime($end_date));
+
+                        Mail::to($user_email)->send(new SubscriptionMail($message));
 
                         $data = true;
                         Session::flash('success', 'Subscription added successfully!');
@@ -3106,11 +3267,12 @@ public function ajax_add_how_it_works(Request $request)
             $data = false;
             $validator = Validator::make($request->all(), [
                 'type' => 'required',
+                'duration' => 'required',
             ]);
 
             if(!$validator->passes())
             {
-                return response()->json(['error' => ['all' => '*All fields are required']]);
+                return response()->json(['error' => ['all' => '*Type and Duration are required']]);
             }
 
             if(!$request->stored_id)
@@ -3126,7 +3288,7 @@ public function ajax_add_how_it_works(Request $request)
                     $state = false;
                     foreach($request->stored_id as $id)
                     {
-                        $subscribe = $this->mass_add_subcription($id, $request->amount, $subscription);
+                        $subscribe = $this->mass_add_subcription($id, $request->amount, $subscription, $request->duration);
                         if(!$subscribe)
                         {
                             $state = true;
@@ -3153,39 +3315,50 @@ public function ajax_add_how_it_works(Request $request)
 
 
 
-    public function mass_add_subcription($id, $amount, $subscription)
+    public function mass_add_subcription($id, $amount, $subscription, $duration)
     {
         $state = false;
+        $today = date('Y-m-d H:i:s');
         $old_sub = DB::table('user_subscriptions')->where('user_id', $id)->where('is_expired', 0)->first();
         if($old_sub)
         {
             DB::table('user_subscriptions')->where('user_id', $id)->where('is_expired', 0)->update([
                     'is_expired' => 1,
-                    'date_ended' => date('Y-m-d H:i:s')
+                    'date_ended' => $today
             ]);
         }
         
         $reference = uniqid();
-        $end_date = date('Y-m-d H:i:s', strtotime('+'.$subscription->duration));
+        $end_date = date('Y-m-d H:i:s', strtotime('+'.$duration));
 
         $create = DB::table('user_subscriptions')->insert([
                     'reference' => $reference,
                     'user_id' => $id,
                     'subscription_id' => $subscription->sub_id,
-                    'duration' => $subscription->duration,
+                    'duration' => $duration,
                     'amount' => $amount,
                     'subscription_type' => $subscription->type,
-                    'start_date' => date('Y-m-d H:i:s'),
+                    'start_date' => $today,
                     'end_date' => $end_date,
                 ]);
-        
+
         if($create)
         {
             $user = User::where('id', $id)->first();
+
+            $user_email = $user->email;
+
+            $user->subscription = 'active';
             $user->membership_level = $subscription->type;
             $user->save();
 
-          $state = true;
+            $message['message'] = 'Congratulations, you have successfully subscribed to '.ucfirst($subscription->type).' membership level.';
+            $message['start_date'] = date('d M Y', strtotime($today));
+            $message['end_date'] = date('d M Y', strtotime($end_date));
+
+            Mail::to($user_email)->send(new SubscriptionMail($message));
+
+            $state = true;
         }
         return $state;
     }

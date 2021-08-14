@@ -49,24 +49,7 @@
 
 
 
-<!-- http://127.0.0.1:8000/new-password?token=$2y$10$X4RwT6T4zUH54d9cK3ifGuLzsvgq2BJDxF4M4matzV4M3p1Xad0N6 -->
 
 
 
 
-
-
-
-
-
-
-<script>
-$(document).ready(function(){
-// *********** LOGIN BUTTON *********//
-$("#login_btn_submit").click(function(e){
-    $(this).html('Please wait...')
-})
-
-
-})
-</script>

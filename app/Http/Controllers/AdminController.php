@@ -173,6 +173,55 @@ class AdminController extends Controller
 
 
 
+
+
+
+    public function suspended_index(Request $request)
+    {
+        $suspend = User::where('is_suspend', 1);
+        
+        if($request->search)
+        {
+            if(preg_match('/@/', $request->search))
+            {
+                $suspend->where('email', 'LIKE', "%{$request->search}%");
+            }else{
+                $suspend->where('user_name', 'LIKE', "%{$request->search}%");
+            }
+        }
+
+        $suspended = $suspend->paginate(50);
+
+        return view('admin.suspended', compact('suspended'));
+    }
+
+
+
+
+
+
+    public function ended_subscriptions_index(Request $request)
+    {
+        $member = User::where('subscription', 'expired')->where('is_approved', 1);
+        
+        if($request->search)
+        {
+            if(preg_match('/@/', $request->search))
+            {
+                $member->where('email', 'LIKE', "%{$request->search}%");
+            }else{
+                $member->where('user_name', 'LIKE', "%{$request->search}%");
+            }
+        }
+
+        $members = $member->paginate(50);
+
+        return view('admin.ended-subscriptions', compact('members'));
+    }
+
+
+
+
     public function deactivated_index(Request $request)
     {
         $deactivate = User::where('is_deactivated', 1);

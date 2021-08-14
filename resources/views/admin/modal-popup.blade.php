@@ -242,6 +242,25 @@
                         <input type="number" min="0" id="add_suser_sub_amount" class="form-control" placeholder="Amount">
                     </div>
                 </div>
+                <div class="col-lg-12">
+                    <div class="form-group text-left">
+                        <label for="">Duration<span class="text-danger">*</span></label>
+                        <select id="add_user_duration_input"  class="selectpicker form-control">
+                            <option value="1month">One Month</option>
+                            <option value="2month">Two Month</option>
+                            <option value="3month">Three Month</option>
+                            <option value="4month">Four Month</option>
+                            <option value="5month">Five Month</option>
+                            <option value="6month">Six Month</option>
+                            <option value="7month">Seven Month</option>
+                            <option value="8month">Eight Month</option>
+                            <option value="9month">Nine Month</option>
+                            <option value="10month">Ten Month</option>
+                            <option value="11month">Eleven Month</option>
+                            <option value="1year">One Year</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="confirm-form">
                     <form action="" method="POST">
                         <button type="button"  data-url="{{ url('/admin/ajax-add-user-subscription') }}" id="add_user_subscription_confirm_submit_btn" class="confirm-btn">Proceed</button>
@@ -361,6 +380,31 @@
 
 
 
+<!--  SEND MODAL ALERT START -->
+<section class="modal-alert-popup" id="mass_unsuspend_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to unsuspend these members?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button" data-url="{{ url('/admin/ajax-mass-unsuspend-members') }}" id="mass_unsuspend_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  SEND MODAL ALERT END -->
+
+
+
 
 
 
@@ -436,6 +480,25 @@
                     <div class="form-group text-left">
                         <label for="">Amount<span class="text-danger">*</span></label>
                         <input type="number" min="0" id="mass_add_suser_sub_amount" class="form-control" placeholder="Amount">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group text-left">
+                        <label for="">Duration<span class="text-danger">*</span></label>
+                        <select id="mass_add_user_duration_input"  class="selectpicker form-control">
+                            <option value="1month">One Month</option>
+                            <option value="2month">Two Month</option>
+                            <option value="3month">Three Month</option>
+                            <option value="4month">Four Month</option>
+                            <option value="5month">Five Month</option>
+                            <option value="6month">Six Month</option>
+                            <option value="7month">Seven Month</option>
+                            <option value="8month">Eight Month</option>
+                            <option value="9month">Nine Month</option>
+                            <option value="10month">Ten Month</option>
+                            <option value="11month">Eleven Month</option>
+                            <option value="1year">One Year</option>
+                        </select>
                     </div>
                 </div>
                 <div class="confirm-form">

@@ -32,10 +32,11 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                               <div class="table-responsive"> <!-- table start-->
+                               <div class="table-responsive" id="table_parent_container"> <!-- table start-->
                                     <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
                                         <thead>
                                             <tr>
+                                                <th><input type="checkbox" id="mass_table_check_box_input"></th>
                                                 <th>Reporter</th>
                                                 <th>Reported</th>
                                                 <th>Seen</th>
@@ -47,6 +48,9 @@
                                             @if(count($users))
                                                 @foreach($users as $user)
                                                 <tr>
+                                                    <td>
+                                                        <input type="checkbox" id="{{ $user->report_id }}" class="table-check-box-input-btn">
+                                                    </td>
                                                     <td>
                                                         {{ ucfirst($user->user_name) }}
                                                     </td>
@@ -84,6 +88,12 @@
                                     <div class="paginate">{{ $users->links("pagination::bootstrap-4") }}</div>
                                     @endif
                                 </div>
+                                @if(count($users))
+                                <div class="text">
+                                    <a href="#" id="open_mass_delete_reports_modal_btn">| Delete |</a>
+                                    <a href="#" id="open_mass_reports_seen_modal_btn">| Mark as seen |</a>
+                                </div>
+                                @endif
                             </div> <!-- end card body-->
                         </div> <!-- end card -->
                     </div><!-- end col-->
@@ -175,6 +185,30 @@
 
 
 
+<!--  DELETE MODAL ALERT START -->
+<section class="modal-alert-popup" id="mass_delete_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to delete?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button"  id="mass_delete_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  DELETE MODAL ALERT END -->
+
+
 
 
 
@@ -228,6 +262,68 @@ function csrf_token(){
 
 
 
+
+
+
+// ************* CHECK/UNCHECK SINGLE MEMBERS ***********//
+$("#table_parent_container").on('click', '.table-check-box-input-btn', function(){
+    id = $(this).attr('id')
+
+    if($(this).prop('checked'))
+    {
+        check_single_member(id, true)
+    }else{
+        check_single_member(id, false)
+    }
+    $("#mass_table_check_box_input").prop('checked', false)
+})
+
+
+
+
+var stored_id = []
+function check_single_member(id, data)
+{
+    if(stored_id.includes(id))
+    {
+        for(var i = 0; i < stored_id.length; i++){
+            if(data == false && stored_id[i] == id){
+                stored_id.splice(i, 1)
+            }
+        }
+    }else{
+        stored_id.push(id)
+    }
+    console.log(stored_id)
+}
+
+
+
+
+
+
+
+
+// *********** CHECK ALL CONTACTS ************//
+$("#table_parent_container").on('click', '#mass_table_check_box_input', function(){
+    if($(this).prop('checked'))
+    {
+        check_all(true)
+        $(".table-check-box-input-btn").prop('checked', true)
+    }else{
+        check_all(false)
+        $(".table-check-box-input-btn").prop('checked', false)
+    }
+})
+
+
+function check_all(state){
+    var checkbox = $(".table-check-box-input-btn");
+    $.each(checkbox, function(index, current){
+        var id = $(current).attr('id')
+        check_single_member(id, state)
+    })
+}
 
 
 
@@ -343,6 +439,99 @@ $("#delete_confirm_submit_btn").click(function(e){
         }, 
         error: function(){
             $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+
+// ********* OPEN MASS DELETE CONFIRM MODAL ************//
+$("#open_mass_delete_reports_modal_btn").click(function(e){
+    e.preventDefault()
+    if(stored_id.length == 0)
+    {
+        return bottom_alert_error('No report was selected!')
+    }
+    $("#mass_delete_modal_popup_box").show()
+    $("#mass_delete_confirm_submit_btn").html('Proceed')
+})
+
+
+
+
+
+
+
+// ********* MASS DELETE REPORTS ************//
+$("#mass_delete_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    $(this).html('Please wait...')
+    
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/admin/ajax-mass-reports-delete') }}",
+        method: "post",
+        data: {
+            stored_id: stored_id,
+        },
+        success: function (response){
+            if(response.data){
+               location.reload()
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+
+
+
+
+// ************* MASS SEEN CONTACTS **************//
+$("#open_mass_reports_seen_modal_btn").click(function(e){
+    e.preventDefault()
+    if(stored_id.length == 0)
+    {
+        return bottom_alert_error('No report was selected!')
+    }
+    
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/admin/ajax-mass-report-seen') }}",
+        method: "post",
+        data: {
+            stored_id: stored_id,
+        },
+        success: function (response){
+            if(response.data){
+               location.reload()
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+        }, 
+        error: function(){
             bottom_alert_error('Network error, try again later!')
         }
     });

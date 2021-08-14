@@ -158,7 +158,7 @@ $(".login_confirm_modal_popup").click(function(e){
     var display_name = $(".user-display-name").html()
    
     if($(button).hasClass('fa-heart')){
-        apend_message('<p>Signup or Login to like <br><b>'+display_name+'</b></p>')
+        apend_message('<p>Signup or Login to match with <br><b>'+display_name+'</b></p>')
     }
     if($(button).hasClass('fa-comment')){
         apend_message('<p>Signup or Login to message <br><b>'+display_name+'</b></p>')
@@ -237,13 +237,13 @@ $(".user_like_confirm_modal_popup").click(function(e){
         },
         success: function (response){
             if(response.subscribe_to_premium){
-                apend_message('<p>Subscribe to premium to like <br><b>'+display_name+'</b></p>')
+                apend_message('<p>Subscribe to premium to match with <br><b>'+display_name+'</b></p>')
                 $("#membership_sub_modal_popup").show()
                 $("#access_preloader_container").hide()
             }else if(response.like_this_user){
                 location.reload()
             }else if(response.subscribe){
-                apend_message('<p>Subscribe to like <b>'+display_name+'</b></p>')
+                apend_message('<p>Subscribe to match with <b>'+display_name+'</b></p>')
                 $("#membership_sub_modal_popup").show()
                 $("#access_preloader_container").hide()
             }
@@ -342,13 +342,13 @@ $(".user-accept-like-btn").click(function(e){
         },
         success: function (response){
             if(response.subscribe_to_premium){
-                apend_message('<p>Subscribe to premium to accept <br><b>'+display_name+'</b> request</p>')
+                apend_message('<p>Subscribe to premium to accept <br><b>'+display_name+'</b> match</p>')
                 $("#membership_sub_modal_popup").show()
                 $("#access_preloader_container").hide()
             }else if(response.matched){
                get_matched_modal(user_id)
                get_profile_likns(user_id)
-            //    var ulikeBtn = ' <li><a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart"></i> Unlike</a></li>';
+            //    var ulikeBtn = ' <li><a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart"></i> Unmatch</a></li>';
             //    $("#user_like_action_btns").append(ulikeBtn);
             }else{
                 $("#access_preloader_container").hide()
@@ -449,7 +449,7 @@ $("#user_like_action_btns").on('click', '#user_unlike_confirm_modal_popup', func
     e.preventDefault()
     var display_name = $(".user-display-name").html()
 
-    $("#unlike_user_modal_popup").find('.confirm-header').html(' <p>Do you wish to unlike <b>'+display_name+'</b></p>')
+    $("#unlike_user_modal_popup").find('.confirm-header').html(' <p>Do you wish to unmatch <b>'+display_name+'</b></p>')
     $("#unlike_user_modal_popup").show()
     $("#unlike_user_modal_submit_btn").html('Proceed')
 })

@@ -121,6 +121,7 @@
                                 @if(count($premiums))
                                 <div class="text">
                                     <a href="#" id="open_members_newsletter_modal_btn">| Send newsletter |</a>
+                                    <a href="#" id="open_mass_subscription_modal_btn">| Assign subscription |</a>
                                 </div>
                                 @endif
                             </div> <!-- end card body-->

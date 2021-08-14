@@ -31,10 +31,11 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                               <div class="table-responsive"> <!-- table start-->
+                               <div class="table-responsive" id="contact_parent_container"> <!-- table start-->
                                     <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
                                         <thead>
                                             <tr>
+                                                <th><input type="checkbox" id="mass_contact_us_check_box_input"></th>
                                                 <th>Full name</th>
                                                 <th>Email</th>
                                                 <th>Seen</th>
@@ -46,6 +47,9 @@
                                             @if(count($contacts))
                                                 @foreach($contacts as $contact)
                                                 <tr>
+                                                    <td>
+                                                        <input type="checkbox" id="{{ $contact->id }}" class="check-box-contact-us-input-btn">
+                                                    </td>
                                                     <td>
                                                         {{ ucfirst($contact->full_name) }}
                                                     </td>
@@ -63,6 +67,7 @@
                                                             <i class="fa fa-ellipsis-h drop-down-open"></i>
                                                             <ul class="drop-down-body">
                                                                 <li>
+                                                                    <a href="mailto:{{ $contact->email }}">Reply</a>
                                                                     <a href="{{ url('/admin/contact-detail/'.$contact->id) }}">View detail</a>
                                                                     <a href="#" data-name="{{ $contact->full_name }}" id="{{ $contact->id }}" class="delete-confirm-box-open">Delete</a>
                                                                 </li>
@@ -77,12 +82,18 @@
                                 </div><!-- table end-->
                                 <div id="bottom_table_part">
                                     @if(!count($contacts))
-                                    <div class="text-center">There are no contacts yet!</div>
+                                    <div class="text-center">There are no contact messages yet!</div>
                                     @endif
                                     @if(count($contacts))
                                     <div class="paginate">{{ $contacts->links("pagination::bootstrap-4") }}</div>
                                     @endif
                                 </div>
+                                @if(count($contacts))
+                                <div class="text">
+                                    <a href="#" id="open_mass_delete_contact_us_modal_btn">| Delete |</a>
+                                    <a href="#" id="open_mass_contact_us_seen_modal_btn">| Mark as seen |</a>
+                                </div>
+                                @endif
                             </div> <!-- end card body-->
                         </div> <!-- end card -->
                     </div><!-- end col-->
@@ -174,6 +185,35 @@
 
 
 
+<!--  DELETE MODAL ALERT START -->
+<section class="modal-alert-popup" id="mass_delete_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to delete?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button"  id="mass_delete_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  DELETE MODAL ALERT END -->
+
+
+
+
+
+
+
 
 
 
@@ -214,6 +254,18 @@
 
 <script>
 $(document).ready(function(){
+    // ******* EMPTY TABLE MESSAGE **************//
+function table_check(){
+    var table = $("#parent_table").children()
+    if(table.length == 0){
+        $("#bottom_table_part").html("<div class='text-center'>There are no contacts messages yet!</div>")
+    }
+}
+
+
+
+
+
 // ********* CSRF PAGE TOKEN ***********//
 function csrf_token(){
     $.ajaxSetup({
@@ -224,6 +276,73 @@ function csrf_token(){
 }
 
 
+
+
+
+
+
+
+
+
+// ************* CHECK/UNCHECK SINGLE MEMBERS ***********//
+$("#contact_parent_container").on('click', '.check-box-contact-us-input-btn', function(){
+    id = $(this).attr('id')
+
+    if($(this).prop('checked'))
+    {
+        check_single_member(id, true)
+    }else{
+        check_single_member(id, false)
+    }
+    $("#mass_contact_us_check_box_input").prop('checked', false)
+})
+
+
+
+
+var stored_id = []
+function check_single_member(id, data)
+{
+    if(stored_id.includes(id))
+    {
+        for(var i = 0; i < stored_id.length; i++){
+            if(data == false && stored_id[i] == id){
+                stored_id.splice(i, 1)
+            }
+        }
+    }else{
+        stored_id.push(id)
+    }
+    console.log(stored_id)
+}
+
+
+
+
+
+
+
+
+// *********** CHECK ALL CONTACTS ************//
+$("#contact_parent_container").on('click', '#mass_contact_us_check_box_input', function(){
+    if($(this).prop('checked'))
+    {
+        check_all(true)
+        $(".check-box-contact-us-input-btn").prop('checked', true)
+    }else{
+        check_all(false)
+        $(".check-box-contact-us-input-btn").prop('checked', false)
+    }
+})
+
+
+function check_all(state){
+    var checkbox = $(".check-box-contact-us-input-btn");
+    $.each(checkbox, function(index, current){
+        var id = $(current).attr('id')
+        check_single_member(id, state)
+    })
+}
 
 
 
@@ -334,6 +453,7 @@ $("#delete_confirm_submit_btn").click(function(e){
         success: function (response){
             if(response.data){
                $(parent_container).remove()
+               table_check()
                bottom_alert_success(content+' message deleted successfully!')
             }else{
                 bottom_alert_error('Network error, try again later!')
@@ -348,6 +468,98 @@ $("#delete_confirm_submit_btn").click(function(e){
 })
 
 
+
+
+
+
+
+
+
+
+
+// ********* OPEN MASS DELETE CONFIRM MODAL ************//
+$("#open_mass_delete_contact_us_modal_btn").click(function(e){
+    e.preventDefault()
+    if(stored_id.length == 0)
+    {
+        return bottom_alert_error('No contact was selected!')
+    }
+    $("#mass_delete_modal_popup_box").show()
+    $("#mass_delete_confirm_submit_btn").html('Proceed')
+})
+
+
+
+
+
+
+// ********* MASS DELETE CONTACTS MESSAGES ************//
+$("#mass_delete_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    $(this).html('Please wait...')
+    
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/admin/ajax-mass-contact-us-delete') }}",
+        method: "post",
+        data: {
+            stored_id: stored_id,
+        },
+        success: function (response){
+            if(response.data){
+               location.reload()
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+
+
+
+
+// ************* MASS SEEN CONTACTS **************//
+$("#open_mass_contact_us_seen_modal_btn").click(function(e){
+    e.preventDefault()
+    if(stored_id.length == 0)
+    {
+        return bottom_alert_error('No contact was selected!')
+    }
+    
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/admin/ajax-mass-contact-us-seen') }}",
+        method: "post",
+        data: {
+            stored_id: stored_id,
+        },
+        success: function (response){
+            if(response.data){
+               location.reload()
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+        }, 
+        error: function(){
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
 
 
 

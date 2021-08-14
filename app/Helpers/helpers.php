@@ -119,6 +119,11 @@ function user_detail()
 
 
 
+
+
+
+
+
 function user($string){
     if(Session::has('user'))
         {
@@ -595,6 +600,51 @@ function admin_notification()
     return $notifications;
 }
 
+
+
+
+
+
+
+function is_suspend()
+{
+    $users = User::where('is_suspend', 1)->get();
+    if(count($users))
+    {
+        return count($users);
+    }
+    return false;
+}
+
+
+
+
+
+
+function deactivated()
+{
+    $users = User::where('is_deactivated', 1)->get();
+    if(count($users))
+    {
+        return count($users);
+    }
+    return false;
+}
+
+
+
+
+
+
+function ended_sub()
+{
+    $ended = User::where('subscription', 'expired')->where('is_approved', 1)->get();
+    if(count($ended))
+    {
+        return count($ended);
+    }
+    return false;
+}
 
 
 
