@@ -38,7 +38,7 @@ class UserMail extends Mailable
     public function build()
     {
         return $this->subject($this->app->app_name)
-                    ->from($this->app->from_email)
+                    ->from($this->app->from_email, 'Lagosmatchmaker')
                     ->view('web.forgot_password.forgot-password-message');
     }
 }

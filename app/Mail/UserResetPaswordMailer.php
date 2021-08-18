@@ -36,7 +36,7 @@ class UserResetPaswordMailer extends Mailable
     public function build()
     {
         return $this->subject('Reset Forgotten Password')
-                    ->from($this->app->from_email)
+                    ->from($this->app->from_email, 'Lagosmatchmaker')
                     ->view('web.forgot_password.forgot-password-message');
     }
 }

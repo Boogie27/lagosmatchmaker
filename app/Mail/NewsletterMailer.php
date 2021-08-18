@@ -38,7 +38,7 @@ class NewsletterMailer extends Mailable
     public function build()
     {
         return $this->subject($this->newsletter->title)
-                    ->from($this->app->from_email)
+                    ->from($this->app->from_email, 'Lagosmatchmaker')
                     ->view('admin.newsletter.template');
     }
 }

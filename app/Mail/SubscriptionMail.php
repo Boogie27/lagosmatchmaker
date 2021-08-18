@@ -40,7 +40,7 @@ class SubscriptionMail extends Mailable
     public function build()
     {
         return $this->subject('Membership Subscription')
-                    ->from($this->app->from_email)
+                    ->from($this->app->from_email, 'Lagosmatchmaker')
                     ->view('admin.subscription.subscription-mail-template');
     }
 }

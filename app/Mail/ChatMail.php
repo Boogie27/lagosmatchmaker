@@ -40,7 +40,7 @@ class ChatMail extends Mailable
     public function build()
     {
         return $this->subject('Chat Notification')
-                    ->from($this->app->from_email)
+                    ->from($this->app->from_email, 'Lagosmatchmaker')
                     ->view('web.chat.chat-mail-template');
     }
 }

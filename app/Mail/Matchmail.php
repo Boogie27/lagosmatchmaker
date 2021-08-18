@@ -40,7 +40,7 @@ class Matchmail extends Mailable
     public function build()
     {
         return $this->subject('Lagosmatchmaker matches')
-                    ->from($this->app->from_email)
+                    ->from($this->app->from_email, 'Lagosmatchmaker')
                     ->view('web.friends.match-mail-template');
     }
 }

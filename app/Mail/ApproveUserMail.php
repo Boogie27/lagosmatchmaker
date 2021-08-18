@@ -38,7 +38,7 @@ class ApproveUserMail extends Mailable
     public function build()
     {
         return $this->subject('Account approval')
-                    ->from($this->app->from_email)
+                    ->from($this->app->from_email, 'Lagosmatchmaker')
                     ->view('admin.unapproved.mail-template');
     }
 }
