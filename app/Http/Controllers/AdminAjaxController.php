@@ -3566,6 +3566,50 @@ public function ajax_add_how_it_works(Request $request)
         return response()->json(['data' => $data]);
     }
 
+
+
+
+
+
+
+    public function ajax_add_user_profile_image(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $user = User::where('id', $request->user_id)->first();
+
+            if(Image::exists('image'))
+            {
+                $file = Image::files('image');
+                $image = new Image();
+
+                $fileName = Image::name('image', 'avatar');
+                $avatar = 'web/images/avatar/'.$fileName;
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/avatar/' ]);
+                
+                if(!$image->passed())
+                {
+                    return response()->json(['error' => ['image' => $image->error()]]);
+                }
+
+                if($image->passed())
+                {
+                    $old_image = $user->avatar;
+                    $user->avatar = $avatar;
+                    if($user->save())
+                    {
+                        $data = true;
+                        Image::remove($old_image);
+                        $data = asset($avatar);
+                    }
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
+
     
 
 
@@ -3574,9 +3618,31 @@ public function ajax_add_how_it_works(Request $request)
 
 
 
+    public function ajax_delete_user_profile_image(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $user = User::where('id', $request->user_id)->first();
+            if($user && !$user->avatar)
+            {
+                return response()->json(['no_avatar' => true]);
+            }
+
+            $gender = $user->gender;
+            $profile_image = $user->avatar;
+            $user->avatar = null;
+            if($user->save())
+            {
+                Image::remove($profile_image);
+                $data = asset(avatar($gender));
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
-
+    
 
 
 

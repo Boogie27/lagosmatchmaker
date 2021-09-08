@@ -28,7 +28,12 @@
                     <div class="message-inner-content">
                         <div class="message-img">
                             <i class="fa fa-circle {{ $user->is_active ? 'active' : '' }}"></i>   
+                            @if(!is_loggedin() || !is_matched($user->id))
                             <h4>{{ $image }}</h4>
+                            @endif
+                            @if(is_loggedin() && is_matched($user->id) && $user->avatar)
+                            <img src="{{ asset($user->avatar) }}" alt="">
+                            @endif
                         </div>
                         <ul class="ul-message">
                             <li>

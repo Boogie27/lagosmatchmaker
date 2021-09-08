@@ -1,9 +1,33 @@
 <!-- PROFILE START-->
+@php($user_detail = user_detail())
+
+
 <section class="profile-section">
     <div class="profile-container">
         <div class="profile-banner" id="profile_banner_div">
             <div class="profile-inner-banner">
+                @if(is_loggedin() && $user_detail->id == $user->id)
+                <div class="add-profile-img">
+                    <a href="#" class="open-add-profile-image" title="Add profile image"><i class="fa fa-camera"></i></a>
+                    <input type="file" id="profile_image_input" style="display: none;">
+                </div>
+                @endif
                 <div class="profile-banner-body">
+                    @if(is_loggedin())
+                        @if($user_detail->id != $user->id && is_matched($user->id) && $user->avatar || $user_detail->id == $user->id && $user->avatar)
+                        <div class="profile-image-img">
+                            <img src="{{ asset($user->avatar) }}" alt="">
+                        </div>
+                        @else
+                        <div class="profile-image-img">
+                            <img src="{{ asset(avatar($user->gender)) }}" alt="">
+                        </div>
+                        @endif
+                    @else
+                    <div class="profile-image-img">
+                        <img src="{{ asset(avatar($user->gender)) }}" alt="">
+                    </div>
+                    @endif
                     <div class="title-header text-center">
                         <h4 class="user-display-name">{{ ucfirst($user->user_name) }}</h4>
                         <p class="text-warning">{{ ucfirst($user->membership_level) }}</p>
@@ -26,7 +50,7 @@
                             <li><a href="#" class="login_confirm_modal_popup"><i class="fa fa-heart text-danger"></i> Match</a></li>
                         @endif
                          
-                        @if(is_loggedin() && user_detail()->id != $user->id)
+                        @if(is_loggedin() && $user_detail->id != $user->id)
                             @if($was_liked && $was_liked->is_accept || $you_liked && $you_liked->is_accept)
                             <li><a href="{{ url('/chat/'.$user->id) }}"><i class="far fa-comment"></i> Message</a></li>
                             @endif
@@ -43,13 +67,13 @@
             </div>
         </div>
         <div class="profile-bottom">
-            @if(is_loggedin() && user_detail()->id != $user->id && $was_liked && !$was_liked->is_accept )
+            @if(is_loggedin() && $user_detail->id != $user->id && $was_liked && !$was_liked->is_accept )
             <div class="action-like-btn">
                 <a href="#" class="user-accept-like-btn accept"><i class="fa fa-heart"></i> Accept</a>
                 <a href="#" class="user-cancle-like-request-btn decline"><i class="fa fa-heart"></i> Decline</a>
             </div>
             @endif
-            @if(is_loggedin() && user_detail()->id != $user->id && $you_liked && !$you_liked->is_accept)
+            @if(is_loggedin() && $user_detail->id != $user->id && $you_liked && !$you_liked->is_accept)
             <div class="action-like-btn">
                 <a href="#" class="user-cancle-like-request-btn decline"><i class="fa fa-heart"></i> Cancle match</a>
             </div>
@@ -113,7 +137,7 @@
                             <div class="body">: Empty</div>
                             @endif
                         </li>
-                        @if(is_loggedin() && user_detail()->id == $user->id)
+                        @if(is_loggedin() && $user_detail->id == $user->id)
                         <li>
                             <div class="title">Phone number  </div>
                             <div class="body">: {{ $user->phone ?? 'Empty' }}</div>
@@ -329,7 +353,7 @@
                         @endif
                     </div>
                 </div>
-                @if(is_loggedin() && user_detail()->id != $user->id && $is_friend)
+                @if(is_loggedin() && $user_detail->id != $user->id && $is_friend)
                 <div class="profile-detail-right"> <!-- report start-->
                     <div class="title-header"><h4>Report Members</h4></div>
                     <div class="profile-right-form">

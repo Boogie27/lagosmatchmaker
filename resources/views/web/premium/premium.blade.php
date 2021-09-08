@@ -18,7 +18,14 @@
                                 <div class="member-inner-div"> 
                                     <div class="member-img">
                                         <div class="member-img-img">
+                                            @if(!is_loggedin() || !is_matched($premium->id))
                                             <h4><a href="{{ url('/profile/'.$premium->id) }}">{{ $image }}</a></h4>
+                                            @endif
+                                            @if(is_loggedin() && is_matched($premium->id) && $premium->avatar)
+                                            <a href="{{ url('/profile/'.$premium->id) }}">
+                                                <img src="{{ asset($premium->avatar) }}" alt="">
+                                            </a>
+                                            @endif
                                         </div>
                                         <ul class="ul-member-anchor" id="ul_member_anchor">
                                             @if(!is_loggedin())
@@ -79,17 +86,19 @@
                 @if(count($premiums))
                 <div class="paginate">{{ $premiums->withQueryString()->links("pagination::bootstrap-4") }}</div>
                 @endif
+                
+                @else
+                <div class="empty-page">
+                    <p>There are no members yet!</p>
+                </div>
+                @endif
+
                 <div class="join-us-btn top-members-btn">
                     <a href="#" data-modal="#member_search_form_modal" class="mr-2"><i class="fa fa-search"></i> Search</a>
                     <a href="{{ url('/premium') }}" class="show-all">All premium</a>
                     <a href="{{ url('/premium/men') }}" class="middle-btn"><i class="fa fa-male"></i> Men</a>
                     <a href="{{ url('/premium/women') }}"><i class="fa fa-female"></i> Women</a>
                 </div>
-                @else
-                <div class="empty-page">
-                    <p>There are no members yet!</p>
-                </div>
-                @endif
             </div>
         </div>
      </div>

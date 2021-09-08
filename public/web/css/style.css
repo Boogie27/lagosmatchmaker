@@ -606,8 +606,13 @@ ul.ul-drop-down li a:hover{
 .member-content ul li.header{
     width: 100px;
     height: 100px;
+    overflow: hidden;
     margin: 0 auto;
     border-radius: 50%;
+    background-color: #fff;
+}
+.member-content ul li img{
+    width: 100%;
     background-color: #fff;
 }
 .member-content ul li.name{
@@ -1787,6 +1792,7 @@ label.s-header{
 .profile-banner-body{
     color: #fff;
     width: 100%;
+    position: relative;
 }
 .profile-banner-body .title-header{
     width: 100%;
@@ -1829,7 +1835,73 @@ li.profile-status span.active{
 .profile-banner-body ul li a:hover{
     color: rgb(196, 142, 44);
 }
-
+.profile-image-img{
+    top: 10px;
+    left: 10px;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    position: absolute;
+    border-radius: 10px;
+    background-color: #fff;
+}
+.profile-image-img img{
+    width: 100%;
+    border-radius: 10px;
+    background-color: #fff;
+}
+.add-profile-img{
+    height: 0px;
+    padding: 0px 20px;
+    text-align: right;
+    position: relative;
+}
+.add-profile-img a{
+    z-index: 10;
+    right: 10px;
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    position: absolute;
+    color: rgb(196, 142, 44);
+}
+@media only screen and (max-width: 992px){
+    .profile-image-img{
+        top: 20px;
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+        position: relative;
+    }
+}
+@media only screen and (max-width: 767px){
+    .profile-image-img{
+        left: 0px;
+        width: 450px;
+        height: 450px;
+        padding: 0px;
+}
+}
+@media only screen and (max-width: 567px){
+    .profile-image-img{
+        width: 90%;
+        height: 100%;
+    }
+    .add-profile-img a{
+        top: 30px;
+        right: 30px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: #fff;
+        background-color:  rgba(196, 143, 44, 0.486);
+    }
+}
+@media only screen and (max-width: 398px){
+    .add-profile-img a{
+        top: 30px;
+        right: 20px;
+    }
+}
 .profile-banner-body ul li a i{
     font-size: 15px;
     padding: 5px;
@@ -2171,6 +2243,7 @@ ul.ul-profile-detail li p.detail-about-p{
     height: 100px;
     margin: 0 auto;
     display: table;
+    overflow: hidden;
     text-align: center;
     margin-bottom: 20px;
     margin-top: 10px;
@@ -2178,6 +2251,10 @@ ul.ul-profile-detail li p.detail-about-p{
     border-radius: 50%;
     background-color: #fff;
     border: 2px solid rgb(196, 142, 44);
+}
+.member-img-img img{
+    width: 100%;
+    background-color: #fff;
 }
 .member-img-img h4{
     font-size: 40px;
@@ -2365,6 +2442,7 @@ ul.ul-member-body li span{
 .message-img{
     width: 70px;
     height: 70px; 
+    overflow: hidden;
     display: table;
     text-align: center;
     border-radius: 50%;
@@ -2376,8 +2454,12 @@ ul.ul-member-body li span{
     vertical-align: middle;
     color: rgb(196, 142, 44);
 }
+.message-img img{ 
+    width: 100%;
+    background-color: #fff;
+}
 .message-img i{
-    bottom: 3px;
+    bottom: 7px;
     right: 12px;
     font-size: 7px;
     position: absolute;
@@ -3216,7 +3298,7 @@ ul.ul-chat-message li img{
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 2px solid rgb(250, 53, 53);
+    /* border: 2px solid rgb(250, 53, 53); */
 }
 ul.ul-chat-message li img.active{
     border: 2px solid rgb(80, 246, 80);
@@ -3224,11 +3306,17 @@ ul.ul-chat-message li img.active{
 ul.ul-chat-message li.chat-profile-img{
     width: 50px;
     height: 50px;
+    overflow: hidden;
     display: table;
     text-align: center;
     border-radius: 50%;
     background-color: #fff;
     border: 2px solid rgb(250, 53, 53);
+}
+ul.ul-chat-message li.chat-profile-img img{
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
 }
 ul.ul-chat-message li.chat-profile-img.active{
     border: 2px solid rgb(80, 246, 80);
@@ -3272,8 +3360,13 @@ ul.ul-chat-profile-img li.profile-img-img{
     width: 40px;
     height: 40px;
     display: table;
+    overflow: hidden;
     text-align: center;
     border-radius: 50%;
+    background-color: #fff;
+}
+ul.ul-chat-profile-img li.profile-img-img img{
+    width: 100%;
     background-color: #fff;
 }
 ul.ul-chat-profile-img li.profile-img-img h4{
@@ -3325,10 +3418,15 @@ ul.ul-chat-profile-img li.chat-profile-right{
     margin: 0px;
     font-size: 20px;
     display: table;
+    overflow: hidden;
     text-align: center;
     border-radius: 50%;
     background-color: #fff;
     border: 2px solid rgb(250, 53, 53);
+}
+.chat-head-left ul li.chat-profile-img img{
+    width: 100%;
+    background-color: #fff;
 }
 .chat-head-left ul li.chat-profile-img.active{
     border: 2px solid rgb(80, 246, 80); 

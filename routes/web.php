@@ -75,9 +75,9 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/edit-physical-info", [ClientAjaxController::class, "ajax_edit_physical_info"]);
     Route::post("/ajax-get-physical-info", [ClientAjaxController::class, "ajax_get_physical_info"]);
     Route::post("/ajax-login-check", [ClientAjaxController::class, "ajax_login_check"]);
+    Route::post("/ajax-add-profile-image", [ClientAjaxController::class, "ajax_add_profile_image"]);
 
-
-
+    
 
 
     // ************ MEMBER SECTION ***************//
@@ -391,6 +391,8 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/ajax-delete-id-card", [AdminAjaxController::class, "ajax_delete_id_card"]);
     Route::post("/admin/upload-id-card-edit", [AdminAjaxController::class, "ajax_upload_id_card_edit"]);
     Route::post("/admin/ajax-send-members-newsletter", [AdminAjaxController::class, "ajax_send_members_newsletter"]);
+    Route::post("/admin/ajax-delete-user-profile-image", [AdminAjaxController::class, "ajax_delete_user_profile_image"]);
+    Route::post("/admin/ajax-add-user-profile-image", [AdminAjaxController::class, "ajax_add_user_profile_image"]);
     
     Route::post("/admin/ajax-update-christain", [AdminAjaxController::class, "ajax_update_christain"]);
     

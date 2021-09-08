@@ -144,7 +144,9 @@ class ClientController extends Controller
         }
         if($request->name)
         {
-            $members->where('users.display_name', 'LIKE', "%{$request->name}%");
+            $members->where('users.user_name', 'LIKE', "%{$request->name}%");
+
+            // dd($members);
         }
 
 
@@ -407,7 +409,7 @@ class ClientController extends Controller
 
         $register = User::create([
                 'user_name' => $request->user_name,
-                'email' => $request->email,
+                'email' => strtolower($request->email),
                 'gender' => $request->gender,
                 'phone' => $request->phone,
                 'password' => hash::make($request->password),
@@ -564,9 +566,11 @@ class ClientController extends Controller
             {
                 $members->where('users.location', $request->location);
             }
+            if($request->name)
+            {
+                $members->where('users.user_name', 'LIKE', "%{$request->name}%");
+            }
         }
-        
-
 
         $premiums = $members->paginate(28);
         
@@ -822,9 +826,11 @@ class ClientController extends Controller
         $friends_request = DB::table('likes')->where('acceptor_id', Auth::user('id'))->where('is_accept', 0)
                             ->leftJoin('users', 'likes.initiator_id', 'users.id')->get();
 
-        $friends = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('is_accept', 1)->orWhere('acceptor_id', Auth::user('id'))->where('is_accept', 1)->paginate(25);
+        $friend = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('is_accept', 1)->orWhere('acceptor_id', Auth::user('id'))->where('is_accept', 1);
+        $friends_count = $friend->get();
+        $friends = $friend->paginate(50);
 
-        return view('web.friends', compact('friends', 'friends_request'));
+        return view('web.friends', compact('friends', 'friends_count' ,'friends_request'));
     }
     
 
@@ -884,7 +890,7 @@ class ClientController extends Controller
             }
             if($request->name)
             {
-                $members->where('users.display_name', 'LIKE', "%{$request->name}%");
+                $members->where('users.user_name', 'LIKE', "%{$request->name}%");
             }
         }
         

@@ -30,7 +30,12 @@
                     <div class="friends-inner-content">
                         <div class="message-img">
                             <i class="fa fa-circle {{ $request->is_active ? 'active' : '' }}"></i>   
+                            @if(!is_loggedin() || !is_matched($request->id))
                             <h4>{{ $image }}</h4>
+                            @endif
+                            @if(is_loggedin() && is_matched($request->id) && $request->avatar)
+                            <img src="{{ asset($request->avatar) }}" alt="">
+                            @endif
                         </div>
                         <ul class="ul-friends" id="ul_member_anchor">
                             <li>
@@ -62,7 +67,7 @@
     <div class="message-container">
         <div class="title-header">
             <h4>Your Matches</h4>
-            <p> You currently have {{ count($friends) }} matches</p>
+            <p> You currently have {{ count($friends_count) }} matches</p>
         </div>
     </div>
 </section>
@@ -86,8 +91,12 @@
                 <div class="firends-main-body"><!-- firend start-->
                     <div class="friends-inner-content">
                         <div class="message-img">
-                            <!-- <i class="fa fa-circle {{ $user->is_active ? 'active' : '' }}"></i>    -->
+                            @if(!is_loggedin() || !is_matched($user->id))
                             <h4>{{ $image }}</h4>
+                            @endif
+                            @if(is_loggedin() && is_matched($user->id) && $user->avatar)
+                            <img src="{{ asset($user->avatar) }}" alt="">
+                            @endif
                         </div>
                         <ul class="ul-friends">
                             <li>
@@ -104,6 +113,9 @@
                 @endforeach
             </div><!-- profile detail left end-->
         </div>
+        @if(count($friends))
+            <div class="paginate">{{ $friends->withQueryString()->links("pagination::bootstrap-4") }}</div>
+        @endif
         @else
         <div class="empty-page">
             <p>You have no friends yet!</p>

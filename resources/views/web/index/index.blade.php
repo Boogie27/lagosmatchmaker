@@ -280,7 +280,14 @@
                     <div class="member-content">
                         <ul>
                             <li class="header">
+                                @if(!is_loggedin() || !is_matched($latest_member->id))
                                 <h3>{{ $image }}</h3>
+                                @endif
+                                @if(is_loggedin() && is_matched($latest_member->id) && $latest_member->avatar)
+                                <a href="{{ url('/profile/'.$latest_member->id) }}">
+                                    <img src="{{ asset($latest_member->avatar) }}" alt="">
+                                </a>
+                                @endif
                             </li>
                             <li class="level pt-2 {{ $latest_member->is_active ? 'text-success' : 'text-danger' }}">{{ $latest_member->is_active ? 'online' : 'offline' }}</li>
                             <li class="name">{{ $latest_member->user_name }}</li>

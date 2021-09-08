@@ -1660,8 +1660,46 @@ public function ajax_check_member_detail(Request $request)
     
 
 
+    public function ajax_add_profile_image(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $user = User::where('id', Auth::user('id'))->first();
+            if(!$user || !$user->is_active)
+            {
+                return response()->json(['data' => $data]);
+            }
 
+            if(Image::exists('image'))
+            {
+                $file = Image::files('image');
+                $image = new Image();
 
+                $fileName = Image::name('image', 'avatar');
+                $avatar = 'web/images/avatar/'.$fileName;
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/avatar/' ]);
+                
+                if(!$image->passed())
+                {
+                    return response()->json(['error' => ['image' => $image->error()]]);
+                }
+                if($image->passed())
+                {
+                    $old_image = $user->avatar;
+                    $user->avatar = $avatar;
+                    if($user->save())
+                    {
+                        $data = true;
+                        Image::remove($old_image);
+                        $data = asset($avatar);
+                    }
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+    
 
 
 

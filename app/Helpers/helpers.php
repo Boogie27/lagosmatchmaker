@@ -49,10 +49,45 @@ function display_name($display_name, $user_name)
 
 function current_url()
 {
-    return 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+    $http_host = $_SERVER['HTTP_HOST'];
+    $http = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
+    if($http_host == 'lagosmatchmaker.com'){
+        $http = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+    }
+    
+    return $http;
 }
 
 
+
+
+
+
+function is_matched($id)
+{
+    $is_matched = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('acceptor_id', $id)->orWhere('initiator_id', $id)->where('acceptor_id', Auth::user('id'))->first();
+    if($is_matched && $is_matched->is_accept)
+    {
+        return true;
+    }
+    return false;
+}
+
+
+
+
+
+
+function avatar($gender)
+{
+    $avatar = '/web/images/avatar/female.png';
+    if($gender == 'male')
+    {
+        $avatar = '/web/images/avatar/male.png';
+    }
+    return $avatar;
+}
 
 
 
@@ -409,7 +444,7 @@ function approved_notification()
 
 function admin_image($image, $gender)
 {
-    $img = 'admins/images/profile_image/female.jpg';
+    $img = 'admins/images/profile_image/female.png';
     if($gender == 'male')
     {
         $img = 'admins/images/profile_image/male.png';

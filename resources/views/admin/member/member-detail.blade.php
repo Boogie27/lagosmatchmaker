@@ -47,7 +47,25 @@
                     </div>
                     <div class="profile-detail-container">
                         <div class="row">
+
                             <div class="col-xl-12"><!-- profile detail left end-->
+                                <div class="profile-detail-left">
+                                    <div class="title-header">
+                                        <h4>Profile Image</h4>
+                                        <div class="user-delete-img">
+                                        <a href="#" class="open-add-profile-image" title="Add profile image"><i class="fa fa-camera"></i></a>
+                                            <a href="#" id="open_profile_image_delete" class="text-danger"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                        <input type="file" id="profile_image_input" style="display: none;">
+                                    </div>
+                                    <ul class="ul-profile-detail">
+                                        <li class="user-profile-img">
+                                            @php($user_image = $user->avatar ? $user->avatar : avatar($user->gender))
+                                            <img src="{{ asset($user_image) }}" alt="">
+                                        </li>
+                                    </ul>
+                                </div>
+                                
                                 <div class="profile-detail-left">
                                     <div class="title-header">
                                         <h4>Detail info</h4> 
@@ -350,6 +368,34 @@
 
 
 
+
+
+
+
+
+
+<!--  DELETE PROFILE IMAGE MODAL ALERT START -->
+<section class="modal-alert-popup" id="delete_user_profile_img_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to delete this profile image?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button" id="delete_user_profile_img_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  DELETE PROFILE IMAGE MODAL ALERT END -->
 
 
 
@@ -663,6 +709,144 @@ $("#delete_id_card_confirm_submit_btn").click(function(e){
 
 
 
+
+
+
+
+
+// *************** OPEN ADD PROFILE IMAGE **************//
+$(".open-add-profile-image").click(function(e){
+    e.preventDefault()
+    $("#profile_image_input").click()
+})
+
+
+
+
+
+
+// ********** ADD  PROFILE IMAGE **************//
+$("#profile_image_input").on('change', function(e){
+    e.preventDefault()
+	var image = $("#profile_image_input");
+    $("#access_preloader_container").show()
+    
+    if(validate_image(e))
+    {
+        return bottom_alert_error('Image type must be jpg, jpeg, png!')
+    }
+    
+    csrf_token() //csrf token
+
+	var data = new FormData();
+	var image = $(image)[0].files[0];
+
+    data.append('user_id', "{{ $user->id }}");
+    data.append('image', image);
+
+	$.ajax({
+        url: "{{ url('/admin/ajax-add-user-profile-image') }}",
+        method: "post",
+        data: data,
+        contentType: false,
+        processData: false,
+        success: function (response){
+           if(response.error){
+                bottom_alert_error(response.error.image)
+           }else if(response.data){
+                $(".user-profile-img img").attr('src', response.data)
+                bottom_alert_success('Profile image added successfully!')
+           }else{
+                bottom_alert_error('Network error, try again later!')
+           }
+           $("#profile_image_input").val("")
+           $("#access_preloader_container").hide()
+		},
+		error: function(){
+            $("#profile_image_input").val("")
+            $("#access_preloader_container").hide()
+            bottom_alert_error('Network error, try again later!')
+		}
+    });
+})
+
+
+
+
+
+
+
+
+function validate_image(e){
+    var state = false;
+    var file = e.target.files
+    var extension = file[0].type;
+    
+    if(extension != 'image/jpeg'){
+        state = true;
+        $("#profile_image_input").val('')
+        $("#access_preloader_container").hide()
+    }
+    return state;
+}
+
+
+
+
+
+
+
+
+
+
+
+// ******** DELETE PROFILE IMAGE MODAL OPEN ************//
+$("#open_profile_image_delete").click(function(e){
+    e.preventDefault()
+    $("#delete_user_profile_img_modal_popup_box").show()
+    $("#delete_user_profile_img_confirm_submit_btn").html("Proceed")
+})
+
+
+
+
+
+
+
+
+
+// ******** DELETE ID CARD ************//
+$("#delete_user_profile_img_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    $(this).html('Please wait...')
+    var btn = $(this);
+
+     csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/admin/ajax-delete-user-profile-image') }}",
+        method: "post",
+        data: {
+            user_id: "{{ $user->id }}",
+        },
+        success: function (response){
+            if(response.no_avatar){
+                bottom_alert_error('Empty Profile Image!')
+            }else if(response.data){
+              console.log(response.data)
+                $(".user-profile-img img").attr('src', response.data)
+                bottom_alert_success('Profile image deleted successfully!')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
 
 
 

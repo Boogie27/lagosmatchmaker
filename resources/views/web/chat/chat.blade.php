@@ -26,7 +26,12 @@
                                     <a href="{{ url('/chat/'.$message->id) }}"> <!-- chat message start -->
                                         <ul class="ul-chat-message">
                                             <li class="chat-profile-img">
-                                            <h4>{{  gender($message->gender) }}</h4>
+                                                @if(!is_loggedin() || !is_matched($message->id))
+                                                <h4>{{  gender($message->gender) }}</h4>
+                                                @endif
+                                                @if(is_loggedin() && is_matched($message->id) && $message->avatar)
+                                                <img src="{{ asset($message->avatar) }}" alt="">
+                                                @endif
                                             </li>
                                             <li class="chat-msg">
                                                 <h5>{{ $name }} <span class="float-right">{{ chat_time($last_chat->time) }}</span></h5>
@@ -46,7 +51,11 @@
                             <div class="chat-profile-img">
                                 <ul class="ul-chat-profile-img">
                                     <li class="profile-img-img">
+                                        @if(is_loggedin() && $user_detail->avatar)
+                                        <img src="{{ asset($message->avatar) }}" alt="">
+                                        @else
                                         <h4>{{ gender($user_detail->gender) }}</h4>
+                                        @endif
                                     </li>
                                     <li class="chat-profile-right">
                                        <a href="#">
@@ -68,7 +77,12 @@
                             <ul>
                                 <li><a href="{{ url('/messages') }}"><i class="fa fa-arrow-left"></i></a></li>
                                 <li class="chat-profile-img {{ $receiver->is_active ? 'active' : '' }}">
+                                    @if(!is_loggedin() || !is_matched($receiver->id))   
                                     <h4>{{ $profile_image }}</h4>
+                                    @endif
+                                    @if(is_loggedin() && is_matched($receiver->id) && $receiver->avatar)
+                                    <img src="{{ asset($receiver->avatar) }}" alt="">
+                                    @endif
                                 </li>
                                 <li><h5>{{ ucfirst($display_name) }}</h5></li>
                             </ul>
