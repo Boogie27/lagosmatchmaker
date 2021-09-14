@@ -8,7 +8,7 @@
             <div class="profile-inner-banner">
                 @if(is_loggedin() && $user_detail->id == $user->id)
                 <div class="add-profile-img">
-                    <a href="#" class="open-add-profile-image" title="Add profile image"><i class="fa fa-camera"></i></a>
+                    <a href="#" class="profile-image-option" title="Add profile image"><i class="fa fa-camera"></i></a>
                     <input type="file" id="profile_image_input" style="display: none;">
                 </div>
                 @endif
@@ -51,16 +51,32 @@
                         @endif
                          
                         @if(is_loggedin() && $user_detail->id != $user->id)
-                            @if($was_liked && $was_liked->is_accept || $you_liked && $you_liked->is_accept)
-                            <li><a href="{{ url('/chat/'.$user->id) }}"><i class="far fa-comment"></i> Message</a></li>
-                            @endif
+                            <li class="li-is-block-content" id="cant_message_member_btn">
+                                @if(!is_blocked($user_detail->id, $user->id))
+                                    @if(is_matched($user->id))
+                                    <a href="{{ url('/chat/'.$user->id) }}"><i class="far fa-comment"></i> Message</a>
+                                    @endif
+                                @else
+                                    @if(is_matched($user->id))
+                                    <a href="#" class="cant-message-btn text-danger"><i class="far fa-comment"></i> Message</a>
+                                    @endif
+                                @endif
+                            </li>
                             <!-- <li><a href="#" id="user_video_call_modal_popup"><i class="fa fa-video"></i></a></li> -->
-                            @if($was_liked && $was_liked->is_accept || $you_liked && $you_liked->is_accept)
-                            <li><a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart text-danger"></i> Unmatch</a></li>
-                            @endif
-                            @if(!$was_liked && !$you_liked)
-                            <li><a href="#" class="user_like_confirm_modal_popup"><i class="fa fa-heart text-danger"></i> Match</a></li>
-                            @endif
+                           
+                            <li id="li_unlike_member_btn">
+                                @if(is_matched($user->id))
+                                <a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart text-danger"></i> Unmatch</a>
+                                @endif
+                            </li>
+                           
+                            <li class="li-is-block-content" id="li_like_member_btn">
+                                @if(!is_blocked($user_detail->id, $user->id))
+                                    @if(!$was_liked && !$you_liked)
+                                    <a href="#" class="user_like_confirm_modal_popup"><i class="fa fa-heart text-danger"></i> Match</a>
+                                    @endif
+                                @endif
+                            </li>
                         @endif
                     </ul>
                 </div>
@@ -332,6 +348,9 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <input type="text" name="name" class="form-control" value="" placeholder="Name">
+                            </div>
+                            <div class="form-group">
                                 <input type="text" name="location" class="form-control" value="" placeholder="State">
                             </div>
                             <div class="form-group">
@@ -355,7 +374,7 @@
                 </div>
                 @if(is_loggedin() && $user_detail->id != $user->id && $is_friend)
                 <div class="profile-detail-right"> <!-- report start-->
-                    <div class="title-header"><h4>Report Members</h4></div>
+                    <div class="title-header"><h4>Report Member</h4></div>
                     <div class="profile-right-form">
                         <p>We use your feeback to help us learn when something's not right.</p>
                         <div class="text-right">
@@ -364,6 +383,31 @@
                     </div>
                 </div><!-- report end-->
                 @endif
+                @if(is_loggedin() && $user_detail->id != $user->id)
+                <div class="profile-detail-right"> <!-- report start-->
+                    <div class="title-header"><h4>Block Member</h4></div>
+                    <div class="profile-right-form">
+                        <p>
+                            Blocked members will not be able to send or receive message from you.
+                            To view blocked members, goto settings.
+                        </p>
+                        <div class="text-right" id="member_block_container">
+                            @if($is_blocked)
+                            <a href="#" id="unblock_modal_open_btn" class="report-btn">Unblock</a>
+                            @else
+                            <a href="#" id="block_modal_open_btn" class="report-btn">Block</a>
+                            @endif
+                        </div>
+                    </div>
+                </div><!-- report end-->
+                @endif
+                <div class="profile-detail-right"> <!-- report start-->
+                    <div class="profile-right-form">
+                        <p>
+                            To view blocked members, goto <a href="{{ url('/settings') }}"  class="report-btn">Settings</a>
+                        </p>
+                    </div>
+                </div><!-- report end-->
             </div><!-- profile detail right end-->
         </div>
     </div>

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Auth;
 use App\Models\Image;
 use App\Models\Chat;
+use App\Models\Block;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
@@ -1660,45 +1661,45 @@ public function ajax_check_member_detail(Request $request)
     
 
 
-    public function ajax_add_profile_image(Request $request)
-    {
-        if($request->ajax())
-        {
-            $data = false;
-            $user = User::where('id', Auth::user('id'))->first();
-            if(!$user || !$user->is_active)
-            {
-                return response()->json(['data' => $data]);
-            }
+    // public function ajax_add_profile_image(Request $request)
+    // {
+    //     if($request->ajax())
+    //     {
+    //         $data = false;
+    //         $user = User::where('id', Auth::user('id'))->first();
+    //         if(!$user || !$user->is_active)
+    //         {
+    //             return response()->json(['data' => $data]);
+    //         }
 
-            if(Image::exists('image'))
-            {
-                $file = Image::files('image');
-                $image = new Image();
+    //         if(Image::exists('image'))
+    //         {
+    //             $file = Image::files('image');
+    //             $image = new Image();
 
-                $fileName = Image::name('image', 'avatar');
-                $avatar = 'web/images/avatar/'.$fileName;
-                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/avatar/' ]);
+    //             $fileName = Image::name('image', 'avatar');
+    //             $avatar = 'web/images/avatar/'.$fileName;
+    //             $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/avatar/' ]);
                 
-                if(!$image->passed())
-                {
-                    return response()->json(['error' => ['image' => $image->error()]]);
-                }
-                if($image->passed())
-                {
-                    $old_image = $user->avatar;
-                    $user->avatar = $avatar;
-                    if($user->save())
-                    {
-                        $data = true;
-                        Image::remove($old_image);
-                        $data = asset($avatar);
-                    }
-                }
-            }
-        }
-        return response()->json(['data' => $data]);
-    }
+    //             if(!$image->passed())
+    //             {
+    //                 return response()->json(['error' => ['image' => $image->error()]]);
+    //             }
+    //             if($image->passed())
+    //             {
+    //                 $old_image = $user->avatar;
+    //                 $user->avatar = $avatar;
+    //                 if($user->save())
+    //                 {
+    //                     $data = true;
+    //                     Image::remove($old_image);
+    //                     $data = asset($avatar);
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return response()->json(['data' => $data]);
+    // }
     
 
 
@@ -1709,12 +1710,146 @@ public function ajax_check_member_detail(Request $request)
 
 
 
+    public function ajax_add_profile_image(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            if($request->image)
+            {
+                $encode_1 = explode(';', $request->image);
+                $encode_2 = explode(',', $encode_1[1]);
+
+                $image = base64_decode($encode_2[1]);
+                $image_name = 'web/images/avatar/avatar_'.time().'.png';
+                
+                if(file_put_contents($image_name, $image))
+                {
+                    $user = User::where('id', Auth::user('id'))->first();
+                    if($user && $user->avatar)
+                    {
+                        Image::remove($user->avatar);
+                    }
+
+                    if(!$user)
+                    {
+                        Image::remove($image_name);
+                    }else{
+                        $user->avatar = $image_name;
+                        $user->save();
+
+                        $data = asset($image_name);
+                    }
+                }
+            } 
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
 
 
 
 
+
+
+
+
+
+
+    public function ajax_delete_user_profile_image(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $user = User::where('id', Auth::user('id'))->first();
+            if($user && !$user->avatar)
+            {
+                return response()->json(['no_avatar' => true]);
+            }
+
+            $gender = $user->gender;
+            $profile_image = $user->avatar;
+            $user->avatar = null;
+            if($user->save())
+            {
+                Image::remove($profile_image);
+                $data = asset(avatar($gender));
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+    public function ajax_block_member(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+           
+
+            $check = Block::where('blocker', Auth::user('id'))->where('blocked_member', $request->user_id)->first();
+            if($check)
+            {
+                $unblock = Block::where('blocker', Auth::user('id'))->where('blocked_member', $request->user_id)->delete();
+                if($unblock)
+                {
+                    $data = 'unblocked';
+                }
+            }else{
+                $block = Block::create([
+                    'blocker' => Auth::user('id'),
+                    'blocked_member' => $request->user_id,
+                    'block_date' => date('Y-m-d H:i:s'),
+                ]);
+                if($block)
+                {
+                    $data = 'blocked';
+                }
+            }
+            $is_matched = is_matched($request->user_id);
+
+            $is_blocked = is_blocked(Auth::user('id'), $request->user_id);
+        }
+        return response()->json(['data' => $data, 'is_blocked' => $is_blocked, 'is_matched' => $is_matched]);
+    }
+    
+
+
+
+
+
+
+
+
+    public function ajax_deactivate_account(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $user = User::where('id', Auth::user('id'))->first();
+            if($user)
+            {
+                $user->is_deactivated = 1;
+                $user->save();
+                if($user->save())
+                {
+                    $data = url('/login');
+                    Session::forget('user');
+                    Session::flash('success', 'Account has been deactivated successfully!');
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+    
 
 
 

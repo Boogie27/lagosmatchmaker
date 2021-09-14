@@ -22,72 +22,91 @@
     @endif
     </div>
     <div class="index-subscription-content">
-        <!-- <div class="text-center">
-            <a href="#" id="start_record_audio_btn" class="btn-fill">Start recording...</a>
-            <a href="#" id="stop_record_audio_btn" class="btn btn-danger">Stop recording</a>
-        </div> -->
         <br><br>
         <div class="row">
-            <div class="col-xl-8"><!-- sub content start-->
+            <div class="col-xl-12"><!-- sub content start-->
                 <div class="main-subscription-body">
-                @if(count($subscriptions))
-                    @foreach($subscriptions as $subscription)
-                    <div class="index-subscription-banner"><!-- sub start-->
-                        <div class="sub-banner">
-                            <img src="{{ asset('web/images/banner/sub-2.svg') }}" alt="">
-                            <ul class="ul-index-sub-head">
-                                <li><b><p>{{ ucfirst($subscription->type) }}</p></b></li>
-                                @if($subscription->amount == 0)
-                                <li><h3>Free</h3></li>
-                                <li><p>Membership currently free</p></li>
-                                @else
-                                <li><h3><span>₦</span>{{ money($subscription->amount) }}</h3></li>
-                                <li><p>Per Month</p></li>
-                                @endif
-                            </ul>
-                        </div>
-                        <ul class="ul-index-sub-body">
-                            @if($subscription->description)
-                            <li class="text-center">
-                                <p>{{ $subscription->description }}</p>
-                            </li>
-                            @endif
-                            @if($subscription->type == 'basic' && $subscription->amount != 0 || $subscription->type == 'premium')
-                                @if(!is_loggedin())
-                                <li class="text-center"><a href="#" class="btn-fill manual-payment-btn">Subscribe Now</a></li>
-                                @else
-                                <li class="text-center"><a href="#" id="{{ $subscription->sub_id }}" class="btn-fill manual-payment-modal-open">Subscribe Now</a></li>
-                                @endif
-                            @endif
-                        </ul>
-                    </div><!-- sub end-->
-                    @endforeach
-                @endif    
-                @if($personalized && $personalized['is_feature'])
-                    <div class="index-subscription-banner"><!-- sub start-->
-                        <div class="sub-banner">
-                            <img src="{{ asset('web/images/banner/sub-2.svg') }}" alt="">
-                                <ul class="ul-index-sub-head">
-                                    <li><b><p>{{ $personalized['title'] }}</p></b></li>
-                                    <li><h3><i class="fa fa-phone-alt"></i></h3></li>
-                                    <li><p>{{ $personalized['head'] }}</p></li>
+                    <div class="row">
+                        @if(count($subscriptions))
+                            @foreach($subscriptions as $subscription)
+                            <div class="col-xl-3 col-lg-4 col-md-6">
+                                <div class="index-subscription-banner"><!-- sub start-->
+                                    <div class="sub-banner">
+                                        <img src="{{ asset('web/images/banner/sub-2.svg') }}" alt="">
+                                        <ul class="ul-index-sub-head">
+                                            <li><b><p>{{ ucfirst($subscription->type) }}</p></b></li>
+                                            @if($subscription->amount == 0)
+                                            <li><h3>Free</h3></li>
+                                            <li><p>Membership currently free</p></li>
+                                            @else
+                                            <li><h3><span>₦</span>{{ money($subscription->amount) }}</h3></li>
+                                            <li><p>Per Month</p></li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                    <ul class="ul-index-sub-body">
+                                        @if($subscription->description)
+                                        <li class="text-center">
+                                            <p>{{ nl2br($subscription->description) }}</p>
+                                        </li>
+                                        @endif
+                                        @if($subscription->type == 'basic' && $subscription->amount != 0 || $subscription->type == 'premium')
+                                            @if(!is_loggedin())
+                                            <li class="text-center"><a href="#" class="btn-fill manual-payment-btn">Subscribe Now</a></li>
+                                            @else
+                                            <li class="text-center"><a href="#" id="{{ $subscription->sub_id }}" class="btn-fill manual-payment-modal-open">Subscribe Now</a></li>
+                                            @endif
+                                        @endif
+                                    </ul>
+                                </div><!-- sub end-->
+                            </div>
+                            @endforeach
+                        @endif
+                        @if($personalized && $personalized['is_feature'])
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="index-subscription-banner"><!-- sub start-->
+                                <div class="sub-banner">
+                                    <img src="{{ asset('web/images/banner/sub-2.svg') }}" alt="">
+                                        <ul class="ul-index-sub-head">
+                                            <li><b><p>{{ $personalized['title'] }}</p></b></li>
+                                            <li><h3><i class="fa fa-phone-alt"></i></h3></li>
+                                            <li><p>{{ $personalized['head'] }}</p></li>
+                                        </ul>
+                                </div>
+                                <ul class="ul-index-sub-body">
+                                    <li><p>{!!  nl2br($personalized['descriptions']) !!}</p></li>
+                                    @if(is_loggedin())
+                                    <li class="text-center"><a href="https://api.whatsapp.com/send?phone={{ settings()->phone }}" class="btn-fill">Subscribe Now</a></li>
+                                    @else
+                                    <li class="text-center">
+                                        <a href="#" class="btn-fill manual-payment-btn">Contact Us Now</a>
+                                    </li>
+                                    @endif
                                 </ul>
+                            </div><!-- sub end-->
                         </div>
-                        <ul class="ul-index-sub-body">
-                            <li><p>{!!  $personalized['descriptions'] !!}</p></li>
-                            @if(is_loggedin())
-                            <li class="text-center"><a href="https://api.whatsapp.com/send?phone={{ settings()->phone }}" class="btn-fill">Subscribe Now</a></li>
-                            @else
-                            <li class="text-center">
-                                <a href="#" class="btn-fill manual-payment-btn">Contact Us Now</a>
-                            </li>
-                            @endif
-                        </ul>
-                    </div><!-- sub end-->
+                        @endif
+                        @if($friendship && $friendship['is_feature'])
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="index-subscription-banner"><!-- sub start-->
+                                <div class="sub-banner">
+                                    <img src="{{ asset('web/images/banner/sub-2.svg') }}" alt="">
+                                        <ul class="ul-index-sub-head">
+                                            <li><b><p>{{ $friendship['title'] }}</p></b></li>
+                                            <li><h3><i class="fa fa-users"></i></h3></li>
+                                            <li><p>{{ $friendship['head'] }}</p></li>
+                                        </ul>
+                                </div>
+                                <ul class="ul-index-sub-body friendship">
+                                    <li><p>{!!  nl2br($friendship['descriptions']) !!}</p></li>
+                                </ul>
+                            </div><!-- sub end-->
+                        </div>
+                        @endif
+                    </div>
                 </div>
-                @endif
             </div><!-- sub content end-->
-            <div class="col-xl-4"><!-- form content start-->
+            <div class="col-xl-12"><!-- form content start-->
                 <div class="search-bar-container">
                     <div class="inner-search-form">
                         <form action="{{ url('/search') }}" method="GET">

@@ -33,21 +33,25 @@
                                             <li><a href="{{ url('/manual-payment') }}" data-name="{{ $name }}" class="confirm_modal_popup"><i class="far fa-heart"></i></a></li>
                                             <li><a href="{{ url('/profile/'.$basic->id) }}" data-name="{{ $name }}" class=""><i class="fa fa-info"></i></a></li>
                                             @else
-                                                @if(!get_like($basic->id))
-                                                <li><a href="{{ url('/ajax-like-user') }}" data-links="{{ url('/ajax-get-member-links') }}" data-url="{{ current_url() }}" data-name="{{ $name }}" class="like-a-member-btn" id="{{ $basic->id }}"><i class="far fa-heart"></i></a></li>
-                                                @endif
-                                                @if(get_like($basic->id) && get_like($basic->id)->is_accept)
-                                                <li><a href="{{ url('/chat/'.$basic->id) }}" data-name="{{ $name }}" id="{{ $basic->id }}" title="Message"><i class="far fa-envelope"></i></a></li>
-                                                <li><a href="#" data-name="{{ $name }}" class="unlike-a-member-btn" id="{{ $basic->id }}" title="Unmatch"><i class="far fa-heart text-success"></i></a></li>
+                                                @if(!is_blocked(user('id'), $basic->id))
+                                                    @if(!get_like($basic->id))
+                                                    <li><a href="{{ url('/ajax-like-user') }}" data-links="{{ url('/ajax-get-member-links') }}" data-url="{{ current_url() }}" data-name="{{ $name }}" class="like-a-member-btn" id="{{ $basic->id }}"><i class="far fa-heart"></i></a></li>
+                                                    @endif
+                                                    @if(get_like($basic->id) && get_like($basic->id)->is_accept)
+                                                    <li><a href="{{ url('/chat/'.$basic->id) }}" data-name="{{ $name }}" id="{{ $basic->id }}" title="Message"><i class="far fa-envelope"></i></a></li>
+                                                    <li><a href="#" data-name="{{ $name }}" class="unlike-a-member-btn" id="{{ $basic->id }}" title="Unmatch"><i class="far fa-heart text-success"></i></a></li>
+                                                    <li><a href="{{ url('/profile/'.$basic->id) }}" data-name="{{ $name }}" class="" title="Profile"><i class="fa fa-info"></i></a></li>
+                                                    @endif
+                                                    @if(get_like($basic->id) && user('id') == get_like($basic->id)->acceptor_id && !get_like($basic->id)->is_accept)
+                                                    <li><a href="#" data-name="{{ $name }}" id="{{ $basic->id }}" class="cancle-user-like-request cancle-btn">Unmatch</a></li>
+                                                    <li><a href="#"><i class="fa fa-heart text-danger"></i></a></li>
+                                                    <li><a href="{{ url('/ajax-accept-like-request') }}" data-name="{{ $name }}" data-detail="{{ url('/ajax-get-matched-detail') }}" data-links="{{ url('/ajax-get-member-links') }}" id="{{ $basic->id }}" class="accept-user-like-request accept-btn">Match</a></li>
+                                                    @endif
+                                                    @if(get_like($basic->id) && user('id') == get_like($basic->id)->initiator_id && !get_like($basic->id)->is_accept)
+                                                    <li><a href="#" data-name="{{ $name }}" class="unlike-a-member-btn" id="{{ $basic->id }}"><i class="far fa-heart text-danger"></i></a></li>
+                                                    @endif
+                                                @else
                                                 <li><a href="{{ url('/profile/'.$basic->id) }}" data-name="{{ $name }}" class="" title="Profile"><i class="fa fa-info"></i></a></li>
-                                                @endif
-                                                @if(get_like($basic->id) && user('id') == get_like($basic->id)->acceptor_id && !get_like($basic->id)->is_accept)
-                                                <li><a href="#" data-name="{{ $name }}" id="{{ $basic->id }}" class="cancle-user-like-request cancle-btn">Unmatch</a></li>
-                                                <li><a href="#"><i class="fa fa-heart text-danger"></i></a></li>
-                                                <li><a href="{{ url('/ajax-accept-like-request') }}" data-name="{{ $name }}" data-detail="{{ url('/ajax-get-matched-detail') }}" data-links="{{ url('/ajax-get-member-links') }}" id="{{ $basic->id }}" class="accept-user-like-request accept-btn">Match</a></li>
-                                                @endif
-                                                @if(get_like($basic->id) && user('id') == get_like($basic->id)->initiator_id && !get_like($basic->id)->is_accept)
-                                                <li><a href="#" data-name="{{ $name }}" class="unlike-a-member-btn" id="{{ $basic->id }}"><i class="far fa-heart text-danger"></i></a></li>
                                                 @endif
                                             @endif
                                         </ul>

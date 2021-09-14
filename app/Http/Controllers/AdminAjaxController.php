@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Chat;
 use App\Models\Admin;
 use App\Models\Image;
+use App\Models\Block;
 use App\Models\ContactUs;
 use App\Models\Newsletter;
 use Illuminate\Support\Facades\Hash;
@@ -3572,43 +3573,87 @@ public function ajax_add_how_it_works(Request $request)
 
 
 
+    // public function ajax_add_user_profile_image(Request $request)
+    // {
+    //     if($request->ajax())
+    //     {
+    //         $data = false;
+    //         $user = User::where('id', $request->user_id)->first();
+
+    //         if(Image::exists('image'))
+    //         {
+    //             $file = Image::files('image');
+    //             $image = new Image();
+
+    //             $fileName = Image::name('image', 'avatar');
+    //             $avatar = 'web/images/avatar/'.$fileName;
+    //             $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/avatar/' ]);
+                
+    //             if(!$image->passed())
+    //             {
+    //                 return response()->json(['error' => ['image' => $image->error()]]);
+    //             }
+
+    //             if($image->passed())
+    //             {
+    //                 $old_image = $user->avatar;
+    //                 $user->avatar = $avatar;
+    //                 if($user->save())
+    //                 {
+    //                     $data = true;
+    //                     Image::remove($old_image);
+    //                     $data = asset($avatar);
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return response()->json(['data' => $data]);
+    // }
+    
+
+
+
+
+
+
+
+
     public function ajax_add_user_profile_image(Request $request)
     {
         if($request->ajax())
         {
             $data = false;
-            $user = User::where('id', $request->user_id)->first();
-
-            if(Image::exists('image'))
+            if($request->image)
             {
-                $file = Image::files('image');
-                $image = new Image();
+                $encode_1 = explode(';', $request->image);
+                $encode_2 = explode(',', $encode_1[1]);
 
-                $fileName = Image::name('image', 'avatar');
-                $avatar = 'web/images/avatar/'.$fileName;
-                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/avatar/' ]);
+                $image = base64_decode($encode_2[1]);
+                $image_name = 'web/images/avatar/avatar_'.time().'.png';
                 
-                if(!$image->passed())
+                if(file_put_contents($image_name, $image))
                 {
-                    return response()->json(['error' => ['image' => $image->error()]]);
-                }
-
-                if($image->passed())
-                {
-                    $old_image = $user->avatar;
-                    $user->avatar = $avatar;
-                    if($user->save())
+                    $user = User::where('id', $request->user_id)->first();
+                    if($user && $user->avatar)
                     {
-                        $data = true;
-                        Image::remove($old_image);
-                        $data = asset($avatar);
+                        Image::remove($user->avatar);
+                    }
+
+                    if(!$user)
+                    {
+                        Image::remove($image_name);
+                    }else{
+                        $user->avatar = $image_name;
+                        $user->save();
+
+                        $data = asset($image_name);
                     }
                 }
-            }
+            } 
         }
         return response()->json(['data' => $data]);
     }
-    
+
 
     
 
@@ -3651,8 +3696,35 @@ public function ajax_add_how_it_works(Request $request)
 
 
 
-
-
+    
+    public function ajax_block_member(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            
+            $check = Block::where('blocker', $request->blocker_id)->where('blocked_member', $request->user_id)->first();
+            if($check)
+            {
+                $unblock = Block::where('blocker', $request->blocker_id)->where('blocked_member', $request->user_id)->delete();
+                if($unblock)
+                {
+                    $data = 'unblocked';
+                }
+            }else{
+                $block = Block::create([
+                    'blocker' => $request->blocker_id,
+                    'blocked_member' => $request->user_id,
+                    'block_date' => date('Y-m-d H:i:s'),
+                ]);
+                if($block)
+                {
+                    $data = 'blocked';
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
 

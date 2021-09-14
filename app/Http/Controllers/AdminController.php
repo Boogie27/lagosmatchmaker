@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Admin;
 use App\Models\Chat;
 use App\Models\Image;
+use App\Models\Block;
 use App\Models\Newsletter;
 use App\Models\ContactUs;
 
@@ -624,7 +625,12 @@ class AdminController extends Controller
             $personalized = json_decode($settings->personalized_match, true);
         }
 
-        return view('admin.manual-subscription', compact('images', 'descriptions', 'personalized'));
+        if($settings && $settings->friendship_matching)
+        {
+            $friendship = json_decode($settings->friendship_matching, true);
+        }
+
+        return view('admin.manual-subscription', compact('friendship', 'images', 'descriptions', 'personalized'));
     }
     
 
@@ -1356,7 +1362,7 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'max:30',
             'head' => 'max:30',
-            'descriptions' => 'max:150'
+            'descriptions' => 'max:500'
         ]);
 
 
@@ -1374,13 +1380,50 @@ class AdminController extends Controller
             DB::table('settings')->where('id', 1)->update([
                 'personalized_match' => $personalized
             ]);
-            return back()->with('success', 'Personalized match updated successfully!');
+            return back()->with('success', 'Personalized matching updated successfully!');
         }
 
 
         return back()->with('error', 'Network error, try again later');
     }
 
+
+
+
+
+
+
+
+    public function friendship_matching_update(Request $request)
+    {
+        $request->validate([
+            'title' => 'max:30',
+            'head' => 'max:30',
+            'descriptions' => 'max:500'
+        ]);
+
+
+        $is_featured = $request->feature_friendship == 'true' ? 1 : 0;
+        $settings = DB::table('settings')->where('id', 1)->first();
+        if($settings)
+        {
+            $stored['title'] = $request->title; 
+            $stored['head'] = $request->head; 
+            $stored['descriptions'] = $request->descriptions; 
+            $stored['is_feature']   = $is_featured;
+
+            $personalized = json_encode($stored);
+
+            DB::table('settings')->where('id', 1)->update([
+                'friendship_matching' => $personalized
+            ]);
+            return back()->with('success', 'Friendship matching updated successfully!');
+        }
+
+
+        return back()->with('error', 'Network error, try again later');
+    }
+    
 
 
     
@@ -1619,6 +1662,62 @@ class AdminController extends Controller
 
         return back();
     }
+    
+
+
+
+
+
+
+
+
+
+    public function blocked_member_index(Request $request)
+    {
+        $member = Block::leftJoin('users', 'blocks.blocked_member', '=', 'users.id');
+        if($request->search)
+        {
+            if(preg_match('/@/', $request->search))
+            {
+                $member->where('email', 'LIKE', "%{$request->search}%");
+            }else{
+                $member->where('user_name', 'LIKE', "%{$request->search}%");
+            }
+        }
+
+        $members = $member->paginate(50);
+        
+        
+        return view('admin.blocked', compact('members'));
+    }
+
+
+
+
+
+
+    public function member_blocked_members_index(Request $request, $id)
+    {
+        $member = Block::where('blocker', $id)->leftJoin('users', 'blocks.blocked_member', '=', 'users.id');
+        if($request->search)
+        {
+            if(preg_match('/@/', $request->search))
+            {
+                $member->where('email', 'LIKE', "%{$request->search}%");
+            }else{
+                $member->where('user_name', 'LIKE', "%{$request->search}%");
+            }
+        }
+
+        $user = get_user($id);
+
+        $members = $member->paginate(50);
+        
+        
+        return view('admin.blocked-members', compact('user', 'members'));
+    }
+
+
     
 
 

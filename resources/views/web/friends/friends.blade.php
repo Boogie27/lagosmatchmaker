@@ -36,6 +36,9 @@
                             @if(is_loggedin() && is_matched($request->id) && $request->avatar)
                             <img src="{{ asset($request->avatar) }}" alt="">
                             @endif
+                            @if(is_loggedin() && is_matched($request->id) && !$request->avatar)
+                            <img src="{{ asset(avatar($request->gender)) }}" alt="">
+                            @endif
                         </div>
                         <ul class="ul-friends" id="ul_member_anchor">
                             <li>
@@ -96,6 +99,9 @@
                             @endif
                             @if(is_loggedin() && is_matched($user->id) && $user->avatar)
                             <img src="{{ asset($user->avatar) }}" alt="">
+                            @endif
+                            @if(is_loggedin() && is_matched($user->id) && !$user->avatar)
+                            <img src="{{ asset(avatar($user->gender)) }}" alt="">
                             @endif
                         </div>
                         <ul class="ul-friends">

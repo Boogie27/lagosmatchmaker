@@ -9,6 +9,7 @@ use App\Models\Auth;
 use App\Models\Admin;
 use App\Models\Newsletter;
 use App\Models\ContactUs;
+use App\Models\Block;
 
 
 
@@ -73,6 +74,27 @@ function is_matched($id)
     }
     return false;
 }
+
+
+
+
+
+
+
+function is_blocked($blocker_id, $blocked_id)
+{
+    $is_blocked = Block::where('blocker', $blocker_id)->where('blocked_member', $blocked_id)
+                       ->orWhere('blocker', $blocked_id)->where('blocked_member', $blocker_id)->first();
+    
+    if($is_blocked)
+    {
+        return true;
+    }
+    return false;
+}
+
+
+
 
 
 
@@ -171,6 +193,20 @@ function user($string){
     return false;
 }
 
+
+
+
+
+
+function get_user($id)
+{
+    $user = User::where('id', $id)->first();
+    if($user)
+    {
+        return $user;
+    }
+    return false;
+}
 
 
 

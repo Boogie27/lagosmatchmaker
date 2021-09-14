@@ -130,3 +130,140 @@
 
 
 
+
+
+
+
+
+
+<!--  PROFILE MODAL START -->
+<section class="modal-alert-popup" id="cropper_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content cropper">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p><b>Crop image</b></p>
+                </div>
+                <div class="cropper-form">
+                    <img src="{{ asset('admins/images/profile_image/male.png') }}" alt="" id="cropper_sample_img">
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button"  id="cropper_confirm_submit_btn" class="confirm-btn">Upload image</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  PROFILE MODAL ALERT END -->
+
+
+
+
+
+
+
+<!--  PROFILE MODAL START -->
+<section class="modal-alert-popup" id="profile_img_option_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content cropper">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <h3>Profile Photo</h3>
+                </div>
+                <div class="profile-option-content">
+                    <ul>
+                        <li>
+                            <a href="#" id="open_profile_image_delete" class="delete"><i class="fa fa-trash"></i></a>
+                            <div class="text">Remove photo</div>
+                        </li>
+                        <li>
+                            <a href="#" class="profile-image-icon add"><i class="fa fa-image"></i></a>
+                            <div class="text">Gallery</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  PROFILE MODAL ALERT END -->
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  DELETE PROFILE IMAGE MODAL ALERT START -->
+<section class="modal-alert-popup" id="delete_user_profile_img_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to delete profile image?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button" id="delete_user_profile_img_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  DELETE PROFILE IMAGE MODAL ALERT END -->
+
+
+
+
+
+
+
+
+
+<!--  DELETE PROFILE IMAGE MODAL ALERT START -->
+<section class="modal-alert-popup" id="block_member_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to block <b>{{ $user->user_name }}</b> ?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button" id="block_member_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  DELETE PROFILE IMAGE MODAL ALERT END -->
+
+
+
+
+
+

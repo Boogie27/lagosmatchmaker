@@ -150,7 +150,7 @@
 
 
 
-<!--  DELETE MODAL ALERT START -->
+<!--  PROFILE MODAL START -->
 <section class="modal-alert-popup" id="cropper_modal_popup_box">
     <div class="sub-confirm-container">
         <div class="sub-confirm-dark-theme">
@@ -174,7 +174,7 @@
         </div>
     </div>
 </section>
-<!--  DELETE MODAL ALERT END -->
+<!--  PROFILE MODAL ALERT END -->
 
 
 
@@ -254,12 +254,13 @@ var image = $("#cropper_sample_img")
 $("#profile_image_input").change(function(e){
     var file = e.target.files
     var extension = file[0].type;
+    var type = extension.split('/')[1]
     
-    if(extension != 'image/jpeg'){
+    if(type != 'jpeg' && type != 'png'){
         $("#profile_image_input").val('')
         return bottom_alert_error('Image type must be jpg, jpeg, png!')
     }
-   
+
     var done = function(url){
         $(image).attr('src', '');
         $(image).attr('src', url)
@@ -305,8 +306,8 @@ $("#cropper_confirm_submit_btn").click(function(e){
     var url = $(this).attr('href');
 
     canvas = cropper.getCroppedCanvas({
-            width: 200,
-            height: 200
+            width: 400,
+            height: 400
         });
 
     canvas.toBlob(function(blob){

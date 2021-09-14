@@ -505,7 +505,13 @@ ul.ul-logout li p{
     color: rgb(138, 138, 138);
     border: 1px solid rgb(209, 209, 209);
 }
-
+.blocked-list a{
+    color: rgb(110, 110, 110);
+}
+.blocked-list ul{
+    list-style: none;
+    padding: 0px;
+}
 
 /* ********* PAGINATION ************ */
 .paginate{
@@ -914,7 +920,9 @@ a.profile-image-icon{
 /* *********** CROPPER ***************** */
 .cropper-form{
     width: 400px;
+    height: 400px;
     margin: 0 auto;
+    overflow: hidden;
     padding-bottom: 10px;
 }
 .cropper-form img{

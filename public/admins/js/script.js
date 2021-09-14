@@ -319,9 +319,12 @@ $(".suspend-confirm-box-open").click(function(e){
 
 // ********** CONFIRM MODAL MESSAGE***********//
 function apend_message(message){
-    $("#confirm_modal_popup_box").find('.confirm-header').html(message)
-    $("#approve_user_modal_popup_box").find('.confirm-header').html(message)
-    $("#deactivate_user_modal_popup_box").find('.confirm-header').html(message)
+    // $("#confirm_modal_popup_box").find('.confirm-header').html(message)
+    // $("#approve_user_modal_popup_box").find('.confirm-header').html(message)
+    // $("#deactivate_user_modal_popup_box").find('.confirm-header').html(message)
+
+    $(".sub-confirm-container").find('.confirm-header').html(message)
+
 }
 
 
@@ -406,7 +409,7 @@ $(".approve-confirm-box-open").click(function(e){
     $("#member_approve_id_input").val(user_id)
     $("#approve_user_modal_popup_box").show()
     $("#approve_confirm_submit_btn").html('Proceed')
-    apend_message('<p>Do you wish to approve <b>'+name+'</b></p>')
+    apend_message('<p>Do you wish to approve <b>'+name+'</b>?</p>')
 })
 
 
@@ -433,6 +436,96 @@ $("#approve_confirm_submit_btn").click(function(e){
                 $(approve_parent_div).remove()
                 table_check()
                 bottom_alert_success('User has been approved!')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+// ********** OPEN  UNBLOCK MEMBER MODAL **************//
+var name 
+var parent
+var user_id
+var blocker_id
+var unblock_parent_div = null;
+
+// ********** OPEN  BLOCK MEMBER MODAL **************//
+$("#member_table_container").on('click', '.block-confirm-box-open', function(e){
+    e.preventDefault()
+    
+    parent = $(this).parent()
+    unblock_parent_div = $(this).parent().parent().parent().parent().parent()
+    user_id = $(this).attr('id')
+    blocker_id = $(this).attr('blocker-id')
+    name = $(this).attr('data-name')
+
+    $("#unblock_member_modal_popup_box").show()
+    $("#submit_unblock_member_confirm_submit_btn").html('Proceed')
+    apend_message('<p>Do you wish to block <b>'+name+'</b>?</p>')
+})
+
+
+
+
+
+
+// ************ UNBLOCK MEMBER ****************//
+$("#member_table_container").on('click', '.unblock-confirm-box-open', function(e){
+    e.preventDefault()
+    
+    parent = $(this).parent()
+    unblock_parent_div = $(this).parent().parent().parent().parent().parent()
+    user_id = $(this).attr('id')
+    blocker_id = $(this).attr('blocker-id')
+    name = $(this).attr('data-name')
+
+    $("#unblock_member_modal_popup_box").show()
+    $("#submit_unblock_member_confirm_submit_btn").html('Proceed')
+    apend_message('<p>Do you wish to unblock <b>'+name+'</b>?</p>')
+}) 
+
+
+
+
+// ********** BLOCK / UNBLOCK MEMBER **************//
+$("#submit_unblock_member_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    var url = $(this).attr('data-url')
+    $(this).html('Please wait...')
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: url,
+        method: "post",
+        data: {
+            user_id: user_id,
+            blocker_id, blocker_id
+        },
+        success: function (response){
+            if(response.data == 'blocked'){
+                $(parent).html('<a href="#" data-name="'+name+'" blocker-id="'+blocker_id+'" id="'+user_id+'" class="unblock-confirm-box-open">Unblock</a>')
+                bottom_alert_success(name+' has been blocked!')
+            }else if(response.data == 'unblocked'){
+                if(!$(parent).hasClass('li-block-member-parent')){
+                    $(unblock_parent_div).remove()
+                    table_check()
+                }
+                $(parent).html('<a href="#" data-name="'+name+'" blocker-id="'+blocker_id+'" id="'+user_id+'" class="block-confirm-box-open">Block</a>')
+                bottom_alert_success(name+' has been unblocked!')
             }else{
                 bottom_alert_error('Network error, try again later!')
             }

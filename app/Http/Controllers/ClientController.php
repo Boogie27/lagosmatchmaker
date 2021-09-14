@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Auth;
 use App\Models\Paystack;
 use App\Models\Chat;
+use App\Models\Block;
 use App\Models\ContactUs;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,12 @@ class ClientController extends Controller
         {
             $personalized = json_decode($settings->personalized_match, true);
         }
+
+        if($settings && $settings->friendship_matching)
+        {
+            $friendship = json_decode($settings->friendship_matching, true);
+        }
+
         if($settings)
         {
             $manual_subscription = json_decode($settings->manual_subscription, true);
@@ -70,7 +77,7 @@ class ClientController extends Controller
         $user = user_detail();
 
        
-        return view('web.index', compact('latest_members', 'user', 'images', 'descriptions', 'personalized', 'subscriptions', 'banners', 'states', 'genotypes', 'marital_status'));
+        return view('web.index', compact('friendship', 'latest_members', 'user', 'images', 'descriptions', 'personalized', 'subscriptions', 'banners', 'states', 'genotypes', 'marital_status'));
     }
 
 
@@ -461,9 +468,9 @@ class ClientController extends Controller
         $gender = null;
         $was_liked = false;
         $you_liked = false;
-
+       
         $user = User::where('id', $id)->first(); //get user detail
-        
+      
         if(!$user)
         {
             return redirect('/404');
@@ -487,8 +494,12 @@ class ClientController extends Controller
 
         $drinkings = DB::table('drinking')->where('is_featured', 1)->get(); //get all drinking options
 
+        $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
+
         $display_name = $user->display_name ? $user->display_name : $user->user_name; //user name
 
+        
+        
         if($user->gender)
         {
             if($user->gender == 'male')
@@ -501,7 +512,6 @@ class ClientController extends Controller
             }
         }
 
-        $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
         if(Auth::user('id') != $id)
         {
@@ -511,8 +521,9 @@ class ClientController extends Controller
 
         $is_friend = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('acceptor_id', $id)->where('is_accept', 1)->orWhere('initiator_id', $id)->where('acceptor_id', Auth::user('id'))->where('is_accept', 1)->first();
 
+        $is_blocked = Block::where('blocker', Auth::user('id'))->where('blocked_member', $id)->first();
 
-        return view('web.profile', compact('is_friend', 'reports', 'marital_status', 'was_liked', 'you_liked','states', 'user', 'display_name', 'gender', 'smokings', 'drinkings', 'heights', 'weights', 'body_types', 'ethnicities', 'genotypes'));
+        return view('web.profile', compact('is_blocked', 'is_friend', 'reports', 'marital_status', 'was_liked', 'you_liked','states', 'user', 'display_name', 'gender', 'smokings', 'drinkings', 'heights', 'weights', 'body_types', 'ethnicities', 'genotypes'));
     }
 
 
@@ -629,8 +640,20 @@ class ClientController extends Controller
         }
 
         $states = DB::table('states')->where('is_featured', 1)->get(); // aget all states
-
+        
         $genotypes = DB::table('genotypes')->where('is_featured', 1)->get(); //get all genotypes options
+
+        $ethnicities = DB::table('ethnicities')->where('is_featured', 1)->get(); //get all ethnicities options
+   
+        $heights = DB::table('height')->where('is_featured', 1)->get(); //get all height options
+
+        $body_types = DB::table('body_type')->where('is_featured', 1)->get(); //get all body type options
+
+        $weights = DB::table('weight')->where('is_featured', 1)->get(); //get all weight options
+
+        $smokings = DB::table('smoking')->where('is_featured', 1)->get(); //get all smoking options
+
+        $drinkings = DB::table('drinking')->where('is_featured', 1)->get(); //get all drinking options
 
         $marital_status = DB::table('marital_status')->where('is_featured', 1)->get(); //get all marital_status options
 
@@ -664,7 +687,7 @@ class ClientController extends Controller
             }
         }
 
-        return view('web.message', compact('users','marital_status', 'genotypes', 'states'));
+        return view('web.message', compact('weights', 'heights', 'smokings', 'drinkings', 'ethnicities', 'body_types', 'users','marital_status', 'genotypes', 'states'));
     }
 
 
@@ -1136,7 +1159,10 @@ class ClientController extends Controller
         {
             return redirect('/');
         }
-        return view('web.settings');
+
+        $blocked = Block::where('blocker', Auth::user('id'))->leftJoin('users', 'blocks.blocked_member', '=', 'users.id')->paginate(5);
+
+        return view('web.settings', compact('blocked'));
     }
     
 

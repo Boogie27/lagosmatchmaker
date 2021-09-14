@@ -76,9 +76,11 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/ajax-get-physical-info", [ClientAjaxController::class, "ajax_get_physical_info"]);
     Route::post("/ajax-login-check", [ClientAjaxController::class, "ajax_login_check"]);
     Route::post("/ajax-add-profile-image", [ClientAjaxController::class, "ajax_add_profile_image"]);
-
+    Route::post("/ajax-delete-user-profile-image", [ClientAjaxController::class, "ajax_delete_user_profile_image"]);
+    Route::post("/ajax-block-member", [ClientAjaxController::class, "ajax_block_member"]);
+    Route::post("/ajax-deactivate-account", [ClientAjaxController::class, "ajax_deactivate_account"]);
     
-
+   
 
     // ************ MEMBER SECTION ***************//
     Route::get("/premium", [ClientController::class, "premium_index"]);
@@ -365,7 +367,10 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::get("/admin/read-chats", [AdminController::class, "read_chats_index"]);
     Route::post("/admin/ajax-delete-user-chat", [AdminAjaxController::class, "ajax_delete_user_chat"]);
     Route::post("/admin/ajax-get-infinit-user-chat", [AdminAjaxController::class, "ajax_get_infinit_user_chat"]);
-   
+    Route::get("/admin/blocked", [AdminController::class, "blocked_member_index"]);
+    Route::get("/admin/blocked-members/{id}", [AdminController::class, "member_blocked_members_index"]);
+    Route::post("/admin/ajax-block-member", [AdminAjaxController::class, "ajax_block_member"]);
+    
     
     
     Route::get("/admin/deactivated", [AdminController::class, "deactivated_index"]);
@@ -506,8 +511,9 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/ajax-add-user-subscription", [AdminAjaxController::class, "ajax_add_user_subscription"]);
     Route::post("/admin/personalized-matching", [AdminController::class, "personalized_matching_update"]);
     Route::post("/admin/ajax-delete-subscription", [AdminAjaxController::class, "ajax_delete_user_subscription"]);
+    Route::post("/admin/friendship-matching", [AdminController::class, "friendship_matching_update"]);
     
-    
+   
 
 
     // *********** CONTACT SECTION *************//

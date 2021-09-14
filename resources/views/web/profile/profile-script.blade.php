@@ -96,6 +96,7 @@ $("#report_modal_open_btn").click(function(e){
 
 
 
+
 // ********* OPEN ABOUT ME MODAL ***********//
 $("#about_me_edit_btn_open").click(function(e){
     e.preventDefault()
@@ -176,6 +177,7 @@ $(".login_confirm_modal_popup").click(function(e){
 function apend_message(message){
     $("#login_confirm_modal_popup").find('.confirm-header').html(message)
     $("#membership_sub_modal_popup").find('.confirm-header').html(message)
+    $("#block_member_modal_popup_box").find('.confirm-header').html(message)
 }
 
 
@@ -218,7 +220,7 @@ $("#login_confirm_submit_btn").click(function(e){
 
 
 // **************** LIKE A USER *********************//
-$(".user_like_confirm_modal_popup").click(function(e){
+$("#user_like_action_btns").on('click', '.user_like_confirm_modal_popup', function(e){
     e.preventDefault()
     var user_id = $("#user_id_input_box").val()
     var display_name = $(".user-display-name").html()
@@ -254,6 +256,7 @@ $(".user_like_confirm_modal_popup").click(function(e){
         }
     });
 })
+
 
 
 
@@ -539,58 +542,143 @@ $("#user_video_call_modal_popup").click(function(e){
 
 
 // *************** OPEN ADD PROFILE IMAGE **************//
-$(".open-add-profile-image").click(function(e){
+// $(".open-add-profile-image").click(function(e){
+//     e.preventDefault()
+//     $("#profile_image_input").click()
+// })
+
+
+
+
+
+
+// // ********** ADD  PROFILE IMAGE **************//
+// $("#profile_image_input").on('change', function(e){
+//     e.preventDefault()
+// 	var image = $("#profile_image_input");
+//     $("#access_preloader_container").show()
+    
+//     if(validate_image(e))
+//     {
+//         return bottom_alert_error('Image type must be jpg, jpeg, png!')
+//     }
+    
+//     csrf_token() //csrf token
+
+// 	var data = new FormData();
+// 	var image = $(image)[0].files[0];
+
+//     data.append('image', image);
+
+// 	$.ajax({
+//         url: "{{ url('/ajax-add-profile-image') }}",
+//         method: "post",
+//         data: data,
+//         contentType: false,
+//         processData: false,
+//         success: function (response){
+//            if(response.error){
+//                 bottom_alert_error(response.error.image)
+//            }else if(response.data){
+//                 $(".profile-image-img img").attr('src', response.data)
+//                 bottom_alert_success('Profile image added successfully!')
+//            }else{
+//                 bottom_alert_error('Network error, try again later!')
+//            }
+//            $("#profile_image_input").val("")
+//            $("#access_preloader_container").hide()
+// 		},
+// 		error: function(){
+//             $("#profile_image_input").val("")
+//             $("#access_preloader_container").hide()
+//             bottom_alert_error('Network error, try again later!')
+// 		}
+//     });
+// })
+
+
+
+
+
+
+
+
+// function validate_image(e){
+//     var state = true;
+//     var file = e.target.files
+//     var extension = file[0].type;
+    
+//     if(extension == 'image/jpeg' || extension == 'image/png'){
+//         state = false;
+//     }else{
+//         state = true;
+//         $("#profile_image_input").val('')
+//         $("#access_preloader_container").hide()
+//     }
+//     return state;
+// }
+
+
+
+
+
+
+
+
+
+// ********* OPEN PROFILE IMAGE OPTION *********//
+$(".profile-image-option").click(function(e){
     e.preventDefault()
+    $("#profile_img_option_modal_popup_box").show()
+})
+
+
+
+
+// ************ OPEN IMAGE INPUT **************//
+var cropper = null;
+var canvas = null;
+$(".profile-image-icon").click(function(e){
+    e.preventDefault()
+
+     if(cropper)
+    {
+        cropper.destroy();
+        cropper = null;
+    }
+
+    $("#profile_image_input").val('')
     $("#profile_image_input").click()
 })
 
 
 
-
-
-
-// ********** ADD  PROFILE IMAGE **************//
-$("#profile_image_input").on('change', function(e){
-    e.preventDefault()
-	var image = $("#profile_image_input");
-    $("#access_preloader_container").show()
+// *********** UPLOAD IMAGE TO CROPPER ***********//
+var image = $("#cropper_sample_img")
+$("#profile_image_input").change(function(e){
+    var file = e.target.files
+    var extension = file[0].type;
+    var type = extension.split('/')[1]
+    $("#profile_img_option_modal_popup_box").hide()
     
-    if(validate_image(e))
-    {
+    if(type != 'jpeg' && type != 'png'){
+        $("#profile_image_input").val('')
         return bottom_alert_error('Image type must be jpg, jpeg, png!')
     }
-    
-    csrf_token() //csrf token
 
-	var data = new FormData();
-	var image = $(image)[0].files[0];
+    var done = function(url){
+        $(image).attr('src', '');
+        $(image).attr('src', url)
+        $("#cropper_modal_popup_box").show()
+    }
 
-    data.append('image', image);
-
-	$.ajax({
-        url: "{{ url('/ajax-add-profile-image') }}",
-        method: "post",
-        data: data,
-        contentType: false,
-        processData: false,
-        success: function (response){
-           if(response.error){
-                bottom_alert_error(response.error.image)
-           }else if(response.data){
-                $(".profile-image-img img").attr('src', response.data)
-                bottom_alert_success('Profile image added successfully!')
-           }else{
-                bottom_alert_error('Network error, try again later!')
-           }
-           $("#profile_image_input").val("")
-           $("#access_preloader_container").hide()
-		},
-		error: function(){
-            $("#profile_image_input").val("")
-            $("#access_preloader_container").hide()
-            bottom_alert_error('Network error, try again later!')
-		}
-    });
+    if(file && file.length > 0){
+        reader = new FileReader()
+        reader.onload = function(event){
+            done(reader.result)
+        }
+        reader.readAsDataURL(file[0])
+    }
 })
 
 
@@ -600,17 +688,77 @@ $("#profile_image_input").on('change', function(e){
 
 
 
-function validate_image(e){
-    var state = false;
-    var file = e.target.files
-    var extension = file[0].type;
-    
-    if(extension != 'image/jpeg'){
-        state = true;
-        $("#profile_image_input").val('')
-        $("#access_preloader_container").hide()
-    }
-    return state;
+
+
+
+// DISPLAY IMAGE CROPPER ON IMAGE
+function image_cropper(){
+    $(image).on('load', function(e){
+        cropper = new Cropper(e.target, {
+            aspectRatio: 1,
+            viewMode: 3
+        });
+    });
+}
+image_cropper(); //crop image
+
+
+
+
+// CROP IMAGE
+$("#cropper_confirm_submit_btn").click(function(e){
+    e.preventDefault();
+    canvas = cropper.getCroppedCanvas({
+            width: 500,
+            height: 500
+        });
+
+    canvas.toBlob(function(blob){
+        var image_url = URL.createObjectURL(blob);
+        var reader = new FileReader();
+        reader.readAsDataURL(blob);
+
+        reader.onloadend = function(){
+            var base64data = reader.result;
+            upload_image(base64data);
+        }
+    });
+});
+
+
+
+
+
+
+// UPLOAD CROPPED IMAGE
+function upload_image(base64data){
+    $(".modal-alert-popup").hide()
+    $("#access_preloader_container").show()
+
+    csrf_token()   // gets page csrf token
+
+    $.ajax({
+        url: "{{ url('/ajax-add-profile-image') }}",
+        method: "post",
+        data: {
+            image: base64data
+        },
+        success: function (response){
+            if(response.data){
+                $(".profile-image-img img").attr('src', response.data)
+                bottom_alert_success('Profile image uploaded successfully!')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $("#profile_image_input").val('')
+            $("#access_preloader_container").hide()
+        }, 
+        error: function(){
+            $("#profile_image_input").val('')
+            $("#access_preloader_container").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
 }
 
 
@@ -623,8 +771,145 @@ function validate_image(e){
 
 
 
+// ******** DELETE PROFILE IMAGE MODAL OPEN ************//
+$("#open_profile_image_delete").click(function(e){
+    e.preventDefault()
+    $("#profile_img_option_modal_popup_box").hide()
+    $("#delete_user_profile_img_modal_popup_box").show()
+    $("#delete_user_profile_img_confirm_submit_btn").html("Proceed")
+})
 
 
+
+
+
+
+
+
+
+// ******** DELETE PROFILE IMAGE ************//
+$("#delete_user_profile_img_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    $(this).html('Please wait...')
+    var btn = $(this);
+
+     csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/ajax-delete-user-profile-image') }}",
+        method: "post",
+        data: {
+            user_id: "{{ $user->id }}",
+        },
+        success: function (response){
+            if(response.no_avatar){
+                bottom_alert_error('Empty Profile Image!')
+            }else if(response.data){
+              console.log(response.data)
+                $(".profile-image-img img").attr('src', response.data)
+                bottom_alert_success('Profile image deleted successfully!')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+// ********* BLOCK MEMBER MODAL OPEN ***********//
+var name = "{{ $user->user_name }}";
+$("#member_block_container").on('click', '#block_modal_open_btn', function(e){
+    e.preventDefault()
+  
+    $("#block_member_modal_popup_box").show()
+    $("#block_member_confirm_submit_btn").html('Proceed')
+    apend_message('<p>Do you wish to block <br><b>'+name+'</b></p>')
+})
+
+
+
+
+// ********* UNBLOCK MEMBER MODAL OPEN ***********//
+$("#member_block_container").on('click', '#unblock_modal_open_btn', function(e){
+    e.preventDefault()
+   
+    $("#block_member_modal_popup_box").show()
+    $("#block_member_confirm_submit_btn").html('Proceed')
+    apend_message('<p>Do you wish to unblock <br><b>'+name+'</b></p>')
+})
+
+
+
+
+
+
+
+// ******** CANT MESSAGE  MEMBER BTN************//
+$("#user_like_action_btns").on('click', '.cant-message-btn', function(e){
+    e.preventDefault()
+    bottom_alert_error("Can't message this member!")
+})
+
+
+
+
+
+// ******** BLOCK MEMBER ************//
+$("#block_member_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    $(this).html('Please wait...')
+
+     csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/ajax-block-member') }}",
+        method: "post",
+        data: {
+            user_id: "{{ $user->id }}",
+        },
+        success: function (response){
+            if(response.data == 'unblocked'){
+                bottom_alert_success(name+' has been unblocked')
+                $("#member_block_container").html('<a href="#" id="block_modal_open_btn" class="report-btn">Block</a>')
+            }else if(response.data == 'blocked'){
+                bottom_alert_success(name+' has been blocked')
+                $("#member_block_container").html('<a href="#" id="unblock_modal_open_btn" class="report-btn">Unblock</a>')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+
+            if(response.is_blocked){
+                $("#li_like_member_btn").html('')
+                if(response.is_matched){
+                    $("#cant_message_member_btn").html('<a href="#" class="cant-message-btn text-danger"><i class="far fa-comment"></i> Message</a>')
+                }
+            }else{
+                if(response.is_matched){
+                    $("#li_unlike_member_btn").html('<a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart text-danger"></i> Unmatch</a>')
+                    $("#cant_message_member_btn").html('<a href="{{ url("/chat/".$user->id) }}"><i class="far fa-comment"></i> Message</a>')
+                }else{
+                    $("#li_like_member_btn").html('<a href="#" class="user_like_confirm_modal_popup"><i class="fa fa-heart text-danger"></i> Match</a>')
+                }
+           }
+
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
 
 
 // end

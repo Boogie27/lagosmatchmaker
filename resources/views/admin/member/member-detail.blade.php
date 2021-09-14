@@ -41,6 +41,7 @@
                                     @if($user->is_approved && !$user->is_deactivated)
                                     <a href="#" id="{{ $user->id }}" class="add-user-subscription-btn">Add subscription</a>
                                     @endif
+                                    <a href="{{ url('/admin/blocked-members/'.$user->id) }}" class="">Blocked members</a>
                                 </li>
                             </ul>
                         </div>
@@ -53,7 +54,7 @@
                                     <div class="title-header">
                                         <h4>Profile Image</h4>
                                         <div class="user-delete-img">
-                                        <a href="#" class="open-add-profile-image" title="Add profile image"><i class="fa fa-camera"></i></a>
+                                        <a href="#" class="profile-image-iconx" title="Add profile image"><i class="fa fa-camera"></i></a>
                                             <a href="#" id="open_profile_image_delete" class="text-danger"><i class="fa fa-trash"></i></a>
                                         </div>
                                         <input type="file" id="profile_image_input" style="display: none;">
@@ -404,6 +405,38 @@
 
 
 
+
+<!--  PROFILE MODAL START -->
+<section class="modal-alert-popup" id="cropper_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content cropper">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p><b>Crop image</b></p>
+                </div>
+                <div class="cropper-form">
+                    <img src="{{ asset('web/images/avatar/male.png') }}" alt="" id="cropper_sample_img">
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button"  id="cropper_confirm_submit_btn" class="confirm-btn">Upload image</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  PROFILE MODAL ALERT END -->
+
+
+
+
+
+
 @include('admin.member.member-detail-modal-popup')
 @include('admin.member.profile-about-modal-popup')
 @include('admin.member.profile-looking-for-modal-popup')
@@ -715,8 +748,102 @@ $("#delete_id_card_confirm_submit_btn").click(function(e){
 
 
 // *************** OPEN ADD PROFILE IMAGE **************//
-$(".open-add-profile-image").click(function(e){
+// $(".open-add-profile-image").click(function(e){
+//     e.preventDefault()
+//     $("#profile_image_input").click()
+// })
+
+
+
+
+
+
+// // ********** ADD  PROFILE IMAGE **************//
+// $("#profile_image_input").on('change', function(e){
+//     e.preventDefault()
+// 	var image = $("#profile_image_input");
+//     $("#access_preloader_container").show()
+    
+//     if(validate_image(e))
+//     {
+//         return bottom_alert_error('Image type must be jpg, jpeg, png!')
+//     }
+    
+//     csrf_token() //csrf token
+
+// 	var data = new FormData();
+// 	var image = $(image)[0].files[0];
+
+//     data.append('user_id', "{{ $user->id }}");
+//     data.append('image', image);
+
+// 	$.ajax({
+//         url: "{{ url('/admin/ajax-add-user-profile-image') }}",
+//         method: "post",
+//         data: data,
+//         contentType: false,
+//         processData: false,
+//         success: function (response){
+//            if(response.error){
+//                 bottom_alert_error(response.error.image)
+//            }else if(response.data){
+//                 $(".user-profile-img img").attr('src', response.data)
+//                 bottom_alert_success('Profile image added successfully!')
+//            }else{
+//                 bottom_alert_error('Network error, try again later!')
+//            }
+//            $("#profile_image_input").val("")
+//            $("#access_preloader_container").hide()
+// 		},
+// 		error: function(){
+//             $("#profile_image_input").val("")
+//             $("#access_preloader_container").hide()
+//             bottom_alert_error('Network error, try again later!')
+// 		}
+//     });
+// })
+
+
+
+
+
+
+
+
+// function validate_image(e){
+//     var state = true;
+//     var file = e.target.files
+//     var extension = file[0].type;
+    
+//     if(extension == 'image/jpeg' || extension == 'image/png'){
+//         state = false;
+//     }else{
+//         state = true;
+//         $("#profile_image_input").val('')
+//         $("#access_preloader_container").hide()
+//     }
+//     return state;
+// }
+
+
+
+
+
+
+
+// ************ OPEN IMAGE INPUT **************//
+var cropper = null;
+var canvas = null;
+$(".profile-image-iconx").click(function(e){
     e.preventDefault()
+
+     if(cropper)
+    {
+        cropper.destroy();
+        cropper = null;
+    }
+
+    $("#profile_image_input").val('')
     $("#profile_image_input").click()
 })
 
@@ -724,50 +851,31 @@ $(".open-add-profile-image").click(function(e){
 
 
 
-
-// ********** ADD  PROFILE IMAGE **************//
-$("#profile_image_input").on('change', function(e){
-    e.preventDefault()
-	var image = $("#profile_image_input");
-    $("#access_preloader_container").show()
+// *********** UPLOAD IMAGE TO CROPPER ***********//
+var image = $("#cropper_sample_img")
+$("#profile_image_input").change(function(e){
+    var file = e.target.files
+    var extension = file[0].type;
+    var type = extension.split('/')[1]
     
-    if(validate_image(e))
-    {
+    if(type != 'jpeg' && type != 'png'){
+        $("#profile_image_input").val('')
         return bottom_alert_error('Image type must be jpg, jpeg, png!')
     }
-    
-    csrf_token() //csrf token
 
-	var data = new FormData();
-	var image = $(image)[0].files[0];
+    var done = function(url){
+        $(image).attr('src', '');
+        $(image).attr('src', url)
+        $("#cropper_modal_popup_box").show()
+    }
 
-    data.append('user_id', "{{ $user->id }}");
-    data.append('image', image);
-
-	$.ajax({
-        url: "{{ url('/admin/ajax-add-user-profile-image') }}",
-        method: "post",
-        data: data,
-        contentType: false,
-        processData: false,
-        success: function (response){
-           if(response.error){
-                bottom_alert_error(response.error.image)
-           }else if(response.data){
-                $(".user-profile-img img").attr('src', response.data)
-                bottom_alert_success('Profile image added successfully!')
-           }else{
-                bottom_alert_error('Network error, try again later!')
-           }
-           $("#profile_image_input").val("")
-           $("#access_preloader_container").hide()
-		},
-		error: function(){
-            $("#profile_image_input").val("")
-            $("#access_preloader_container").hide()
-            bottom_alert_error('Network error, try again later!')
-		}
-    });
+    if(file && file.length > 0){
+        reader = new FileReader()
+        reader.onload = function(event){
+            done(reader.result)
+        }
+        reader.readAsDataURL(file[0])
+    }
 })
 
 
@@ -777,17 +885,78 @@ $("#profile_image_input").on('change', function(e){
 
 
 
-function validate_image(e){
-    var state = false;
-    var file = e.target.files
-    var extension = file[0].type;
-    
-    if(extension != 'image/jpeg'){
-        state = true;
-        $("#profile_image_input").val('')
-        $("#access_preloader_container").hide()
-    }
-    return state;
+
+
+
+// DISPLAY IMAGE CROPPER ON IMAGE
+function image_cropper(){
+    $(image).on('load', function(e){
+        cropper = new Cropper(e.target, {
+            aspectRatio: 1,
+            viewMode: 3
+        });
+    });
+}
+image_cropper(); //crop image
+
+
+
+
+// CROP IMAGE
+$("#cropper_confirm_submit_btn").click(function(e){
+    e.preventDefault();
+    canvas = cropper.getCroppedCanvas({
+            width: 500,
+            height: 500
+        });
+
+    canvas.toBlob(function(blob){
+        var image_url = URL.createObjectURL(blob);
+        var reader = new FileReader();
+        reader.readAsDataURL(blob);
+
+        reader.onloadend = function(){
+            var base64data = reader.result;
+            upload_image(base64data);
+        }
+    });
+});
+
+
+
+
+
+
+// UPLOAD CROPPED IMAGE
+function upload_image(base64data){
+    $(".modal-alert-popup").hide()
+    $("#access_preloader_container").show()
+
+    csrf_token()   // gets page csrf token
+
+    $.ajax({
+        url: "{{ url('/admin/ajax-add-user-profile-image') }}",
+        method: "post",
+        data: {
+            image: base64data,
+            user_id: "{{ $user->id }}"
+        },
+        success: function (response){
+            if(response.data){
+                $(".user-profile-img img").attr('src', response.data)
+                bottom_alert_success('Profile image uploaded successfully!')
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $("#profile_image_input").val('')
+            $("#access_preloader_container").hide()
+        }, 
+        error: function(){
+            $("#profile_image_input").val('')
+            $("#access_preloader_container").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
 }
 
 
@@ -815,7 +984,7 @@ $("#open_profile_image_delete").click(function(e){
 
 
 
-// ******** DELETE ID CARD ************//
+// ******** DELETE PROFILE IMAGE ************//
 $("#delete_user_profile_img_confirm_submit_btn").click(function(e){
     e.preventDefault()
     $(this).html('Please wait...')

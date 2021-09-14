@@ -76,6 +76,9 @@
                             <a href="{{ url('/admin/premium') }}">Premium</a>
                         </li>
                         <li>
+                            <a href="{{ url('/admin/blocked') }}">Blocked</a>
+                        </li>
+                        <li>
                             <a href="{{ url('/admin/suspended') }}">Suspended
                             <span class="bg-danger badge" id="is_suspend_counter" style="color: #fff; font-size: 9px;">{{ is_suspend() }}</span>
                         </a>

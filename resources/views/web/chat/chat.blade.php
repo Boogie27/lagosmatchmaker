@@ -32,6 +32,9 @@
                                                 @if(is_loggedin() && is_matched($message->id) && $message->avatar)
                                                 <img src="{{ asset($message->avatar) }}" alt="">
                                                 @endif
+                                                @if(is_loggedin() && is_matched($message->id) && !$message->avatar)
+                                                <img src="{{ asset(avatar($message->gender)) }}" alt="">
+                                                @endif
                                             </li>
                                             <li class="chat-msg">
                                                 <h5>{{ $name }} <span class="float-right">{{ chat_time($last_chat->time) }}</span></h5>
@@ -83,6 +86,9 @@
                                     @if(is_loggedin() && is_matched($receiver->id) && $receiver->avatar)
                                     <img src="{{ asset($receiver->avatar) }}" alt="">
                                     @endif
+                                    @if(is_loggedin() && is_matched($receiver->id) && !$receiver->avatar)
+                                    <img src="{{ asset(avatar($receiver->gender)) }}" alt="">
+                                    @endif
                                 </li>
                                 <li><h5>{{ ucfirst($display_name) }}</h5></li>
                             </ul>
@@ -103,6 +109,7 @@
                         </div>
                     </div><!-- chat body end -->
                     <div class="chat-right-form">
+                        @if(!is_blocked($user_detail->id, $receiver->id))
                         <form action="" method="POST">
                             <div class="chat-input">
                                 <input type="file" id="upload_chat_image_input" style="display: none;">
@@ -117,6 +124,11 @@
                             <!-- <li><a href="#"><i class="fa fa-smile"></i></a></li> -->
                             <li><a href="#" id="upload_chat_image_btn"><i class="fa fa-image"></i></a></li>
                         </ul>
+                        @else
+                        <div class="blocked-alert">
+                            <p class="text-danger">You have been blocked and can't message {{ $receiver->user_name }}</p>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div><!-- chat right start -->

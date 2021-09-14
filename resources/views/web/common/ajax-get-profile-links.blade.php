@@ -16,14 +16,30 @@
 @endif
     
 @if(is_loggedin() && user_detail()->id != $user->id)
-    @if($was_liked && $was_liked->is_accept || $you_liked && $you_liked->is_accept)
-    <li><a href="{{ url('/chat/'.$user->id) }}"><i class="far fa-comment"></i> Message</a></li>
-    @endif
+    <li class="li-is-block-content" id="cant_message_member_btn">
+        @if(!is_blocked($user_detail->id, $user->id))
+            @if(is_matched($user->id))
+            <a href="{{ url('/chat/'.$user->id) }}"><i class="far fa-comment"></i> Message</a>
+            @endif
+        @else
+            @if(is_matched($user->id))
+            <a href="#" class="cant-message-btn text-danger"><i class="far fa-comment"></i> Message</a>
+            @endif
+        @endif
+    </li>
     <!-- <li><a href="#" id="user_video_call_modal_popup"><i class="fa fa-video"></i></a></li> -->
-    @if($was_liked && $was_liked->is_accept || $you_liked && $you_liked->is_accept)
-    <li><a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart"></i> Unlike</a></li>
-    @endif
-    @if(!$was_liked && !$you_liked)
-    <li><a href="#" class="user_like_confirm_modal_popup"><i class="fa fa-heart"></i> Like</a></li>
-    @endif
+
+    <li id="li_unlike_member_btn">
+        @if(is_matched($user->id))
+        <a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart text-danger"></i> Unmatch</a>
+        @endif
+    </li>
+
+    <li class="li-is-block-content" id="li_like_member_btn">
+        @if(!is_blocked($user_detail->id, $user->id))
+            @if(!$was_liked && !$you_liked)
+            <a href="#" class="user_like_confirm_modal_popup"><i class="fa fa-heart text-danger"></i> Match</a>
+            @endif
+        @endif
+    </li>
 @endif

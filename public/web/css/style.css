@@ -570,8 +570,10 @@ ul.ul-drop-down li a:hover{
     height: 100px;
 }
 /* ********* INDEX PAGE ********** */
-.search-bar-container{
-    padding: 5px;
+.inner-search-form{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 50px;
 }
 .latest-members-section{
     padding: 0px 0px 100px 0px;
@@ -1572,12 +1574,19 @@ ul.ul-about-content li p{
     margin: 0 auto;
     padding: 50px 10px;
 }
+ul.ul-footer-about li{
+    margin-bottom: 20px;
+}
 ul.ul-footer-about li img{
     height: 200px;
 }
 ul.ul-footer-about li h4, ul.ul-footer-links h4{
     margin-bottom: 20px;
     color: rgb(196, 142, 44);
+}
+ul.ul-footer-about li i{
+    color: #ccc;
+    margin-right: 10px;
 }
 ul.ul-footer-about li p{
     color: #fff;
@@ -1782,6 +1791,9 @@ label.s-header{
     width: 80%;
     margin: 0 auto;
 }
+.settings-body .title-header h4{
+    color: #fff;
+}
 .profile-banner{
     border-radius: 6px 6px 0px 0px;
     background-color: rgb(53, 53, 53);
@@ -1814,6 +1826,9 @@ label.s-header{
     width: 50%;
     margin: 0 auto;
     justify-content: space-between;
+}
+.profile-banner-body ul li{
+    margin-bottom: 10px;
 }
 .profile-banner-body ul li a{
     color: #fff;
@@ -1900,6 +1915,27 @@ li.profile-status span.active{
     .add-profile-img a{
         top: 30px;
         right: 20px;
+    }
+}
+
+/* *********** CROPPER ***************** */
+.cropper-form{
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+.cropper-form img{
+    width: 100%;
+    height: 100%;
+}
+@media only screen and (max-width: 567px){
+    .cropper-form{
+        width: 100%;
+    }
+    .sub-inner-content.cropper{
+        padding: 5px;
     }
 }
 .profile-banner-body ul li a i{
@@ -2066,6 +2102,35 @@ ul.ul-profile-detail li .body{
 ul.ul-profile-detail li p.detail-about-p{
     font-size: 12px;
 }
+/*  ********** PROFILE IMAGE OPTION BOX ******** */
+.profile-option-content{
+    padding: 20px 0px;
+}
+.profile-option-content ul li{
+    display: inline-block;
+    margin: 0px 10px;
+}
+.profile-option-content ul li a{
+    color: #fff;
+    padding: 20px 25px;
+    border-radius: 10px;
+}
+.profile-option-content ul li .text{
+    font-size: 13px;
+    margin-top: 20px;
+}
+.profile-option-content ul li a:hover{
+    opacity: 0.9;
+}
+.profile-option-content ul li a.delete{
+    background-color:rgb(248, 103, 36);
+}
+.profile-option-content ul li a.add{
+    background-color:purple
+}
+.profile-option-content ul li a.edit{
+    background-color:rgb(18, 168, 18)
+}
 /* ********* PROFILE DETAIL RIGHT *********/
 .profile-detail-right{
     margin-bottom: 15px;
@@ -2195,6 +2260,9 @@ ul.ul-profile-detail li p.detail-about-p{
     .you-may-like .like-content img{
         width: 60px;
         height: 60px;
+    }
+    .profile-option-content ul li{
+        margin: 10px 0px;
     }
 }
 
@@ -2443,15 +2511,14 @@ ul.ul-member-body li span{
     width: 70px;
     height: 70px; 
     overflow: hidden;
-    display: table;
     text-align: center;
     border-radius: 50%;
     position: relative;
     background-color: #fff;
 }
 .message-img h4{ 
-    display: table-cell;
-    vertical-align: middle;
+    top: 20px;
+    position: relative;
     color: rgb(196, 142, 44);
 }
 .message-img img{ 
@@ -2536,6 +2603,30 @@ ul.ul-message ul.ul-notification-body li{
     font-size: 11px;
     color: rgb(196, 142, 44);
 }
+.blocked-alert{
+    width: 100%;
+    text-align: center;
+}
+.blocked-alert p{
+    font-size: 13px;
+}
+.empty-message-page{
+    width: 100%;
+    height: 100vh;
+    display: table;
+    border-radius: 6px;
+    text-align: center;
+    color: rgb(196, 142, 44);
+    background-color: rgb(31, 31, 31);
+}
+.empty-message-page .inner-content-item{
+    display: table-cell;
+    vertical-align: middle;
+}
+.empty-message-page i{
+   font-size: 100px;
+   color: rgb(75, 75, 75);
+}
 @media only screen and (max-width: 1125px){
     .message-form {
         width: 60%;
@@ -2545,6 +2636,9 @@ ul.ul-message ul.ul-notification-body li{
    .message-content{
        width: 90%;
        margin: 0 auto;
+   }
+   .empty-message-page{
+    margin-bottom: 100px;
    }
    .disable{
        display: none;
@@ -2571,6 +2665,9 @@ ul.ul-message ul.ul-notification-body li{
     }
     .message-section-chart{
        padding: 100px 5px 50px 5px;
+    }
+    .message-img h4{ 
+        top: 10px;
     }
     .message-img{
         width: 50px;
@@ -2790,12 +2887,9 @@ ul.ul-sub-body li a:hover{
 .index-subscription-content{
     padding: 0px 20px;
 }
-.main-subscription-body{
-    display: flex;
-    justify-content: space-between;
-}
 .index-subscription-banner{
     width: 270px;
+    margin-bottom: 40px;
     border-radius: 5px;
     position: relative;
     background-color: #fff;
@@ -2833,6 +2927,9 @@ ul.ul-index-sub-body{
     height: 200px;
     padding: 20px 10px;
 }
+ul.ul-index-sub-body.friendship{
+    height: 100%;
+}
 ul.ul-index-sub-body li{
     font-size: 13px;
     color: rgba(248, 179, 50, 1);
@@ -2850,13 +2947,15 @@ ul.ul-index-sub-body li{
         padding-top: 100px;
     }
     .index-subscription-banner{
-        width: 33%;
-        margin: 0px 10px;
+        width: 80%;
+        margin: 0 auto;
+        margin-bottom: 40px;
     }
 }
 @media only screen and (max-width: 767px){
     .main-subscription-body{
         display: block;
+        margin-top: 80px;
     }
     .index-subscription-banner{
         width: 300px;
@@ -2992,6 +3091,10 @@ ul.ul-manual-sub-body li p{
     font-size: 20px;
     margin: 0px;
     color:  rgba(248, 179, 50, 1)
+}
+.confirm-header h3{
+    font-size: 20px;
+    margin: 0px;
 }
 .confirm-header p{
     font-size: 14px;
@@ -3308,14 +3411,16 @@ ul.ul-chat-message li.chat-profile-img{
     height: 50px;
     overflow: hidden;
     display: table;
+    padding: 0px;
     text-align: center;
-    border-radius: 50%;
+    border-radius: 10px;
     background-color: #fff;
     border: 2px solid rgb(250, 53, 53);
 }
 ul.ul-chat-message li.chat-profile-img img{
     width: 100%;
     height: 100%;
+    border-radius: 10px;
     background-color: #fff;
 }
 ul.ul-chat-message li.chat-profile-img.active{
@@ -3362,11 +3467,12 @@ ul.ul-chat-profile-img li.profile-img-img{
     display: table;
     overflow: hidden;
     text-align: center;
-    border-radius: 50%;
+    border-radius: 10px;
     background-color: #fff;
 }
 ul.ul-chat-profile-img li.profile-img-img img{
     width: 100%;
+    border-radius: 10px;
     background-color: #fff;
 }
 ul.ul-chat-profile-img li.profile-img-img h4{
@@ -3418,14 +3524,16 @@ ul.ul-chat-profile-img li.chat-profile-right{
     margin: 0px;
     font-size: 20px;
     display: table;
+    padding: 0px;
     overflow: hidden;
     text-align: center;
-    border-radius: 50%;
+    border-radius: 10px;
     background-color: #fff;
     border: 2px solid rgb(250, 53, 53);
 }
 .chat-head-left ul li.chat-profile-img img{
     width: 100%;
+    border-radius: 10px;
     background-color: #fff;
 }
 .chat-head-left ul li.chat-profile-img.active{
@@ -4175,6 +4283,50 @@ ul.ul-how-it-work li.hiw-button a:hover{
     box-shadow: none;
     color:  rgb(196, 142, 44);
 }
+.block-content{
+    margin-bottom: 20px;
+}
+.block-content img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.block-content ul{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.block-content ul li{
+    color: #fff;
+}
+.block-content ul li.block-img a{
+    color: #ccc;
+    font-size: 13px;
+    margin-left: 10px;
+    text-decoration: none;
+}
+.block-content ul li .block-date{
+    top: -10px;
+    color: rgb(53, 161, 53);
+    font-size: 12px;
+    position: relative;
+}
+.block-content ul li .settings-unblock-btn{
+    color: #fff;
+    font-size: 14px;
+    padding: 10px 30px;
+    text-decoration: none;
+    background-color:  rgb(196, 142, 44);
+}
+p.p-tag{
+    color: #ccc;
+    font-size: 13px;
+}
+a.deactivate-btn{
+    color: #fff;
+    padding: 10px 30px;
+}
 @media only screen and (max-width: 1125px){
     .setting-container{
         width: 80%;
@@ -4192,6 +4344,11 @@ ul.ul-how-it-work li.hiw-button a:hover{
     } 
     .settings-body form button{
         width: 100%;
+    }
+}
+@media only screen and (max-width: 567px){
+    .block-content ul li .settings-unblock-btn{
+        padding: 7px 10px;
     }
 }
 

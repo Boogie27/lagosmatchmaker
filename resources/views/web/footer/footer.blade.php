@@ -27,6 +27,7 @@
                         <li>
                             <img src="{{ asset($footer_left['image']) }}" alt="">
                         </li>
+                        <li><i class="fa fa-trash"></i><a href="{{ url('/settings') }}">Deactivate account</a></li>
                     </ul>
                 </div>
             </div><!-- about end-->
@@ -75,6 +76,7 @@
                         @endif
                     </div>
                     @endif
+                   
                 </div>
             </div><!-- newsletter end-->
             <div class="col-xl-4 col-lg-6"> <!-- links start-->

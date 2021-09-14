@@ -662,7 +662,28 @@
 
 
 
-
+<!--  DEACTIVATEE USER ALERT START -->
+<section class="modal-alert-popup" id="unblock_member_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to unblock <b>example</b>?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="submit"  data-url="{{ url('/admin/ajax-block-member') }}" id="submit_unblock_member_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  DEACTIVATEE USER ALERT END -->
 
 
 
