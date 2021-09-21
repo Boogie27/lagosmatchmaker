@@ -349,8 +349,9 @@ $(".user-accept-like-btn").click(function(e){
                 $("#membership_sub_modal_popup").show()
                 $("#access_preloader_container").hide()
             }else if(response.matched){
-               get_matched_modal(user_id)
-               get_profile_likns(user_id)
+                $(".profile-image-img img").attr('src', response.avatar)
+                get_matched_modal(user_id)
+                get_profile_likns(user_id)
             //    var ulikeBtn = ' <li><a href="#" id="user_unlike_confirm_modal_popup"><i class="fa fa-heart"></i> Unmatch</a></li>';
             //    $("#user_like_action_btns").append(ulikeBtn);
             }else{

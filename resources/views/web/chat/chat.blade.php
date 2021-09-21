@@ -55,7 +55,7 @@
                                 <ul class="ul-chat-profile-img">
                                     <li class="profile-img-img">
                                         @if(is_loggedin() && $user_detail->avatar)
-                                        <img src="{{ asset($message->avatar) }}" alt="">
+                                        <img src="{{ asset($user_detail->avatar) }}" alt="">
                                         @else
                                         <h4>{{ gender($user_detail->gender) }}</h4>
                                         @endif
@@ -97,6 +97,7 @@
                             <ul>
                                 <!-- <li><a href="#" id="video_call_open_btn"><i class="fa fa-video"></i></a></li> -->
                                 <li><a href="{{ url('/profile/'.$receiver->id) }}"><i class="fa fa-info"></i></a></li>
+                                <li><a href="#" id="refresh_chat_btn" class="refresh-btn">Refresh</a></li>
                             </ul>
                         </div>
                     </div><!-- chat right header end -->
@@ -596,6 +597,18 @@ get_infinte_chat()
 
 
 
+
+
+
+
+
+
+// ********** REFRESH CHAT **************//
+$("#refresh_chat_btn").click(function(e){
+    e.preventDefault()
+
+    return get_chat()
+})
 
 
 

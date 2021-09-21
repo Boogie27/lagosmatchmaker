@@ -106,8 +106,9 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/ajax-mark-seen-user-chat", [ClientAjaxController::class, "ajax_mark_seen_user_chat"]);
     Route::post("/ajax-max-users-message-delete", [ClientAjaxController::class, "ajax_max_users_message_delete"]);
     Route::post("/ajax-get-infinit-user-chat", [ClientAjaxController::class, "ajax_get_infinit_user_chat"]);
+    Route::post("/ajax-refresh-user-chat", [ClientAjaxController::class, "ajax_refresh_user_chat"]);
     
-   
+    
     
 
     // ************ SUBCRIPTION SECTION ***************//

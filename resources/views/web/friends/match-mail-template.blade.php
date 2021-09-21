@@ -142,7 +142,7 @@
         </div>
         <div class="page-body">
            <p>{{ $match_message }}</p>
-           <span>Click <a href="{{ $url }}"><b>here</b></a> to visit lagosmatchmaker</span>
+           <span>Click <a href="{{ $url }}"><b>here</b></a> to see and chat with your match.</span>
         </div>
     </div>
 

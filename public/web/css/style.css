@@ -591,6 +591,7 @@ ul.ul-drop-down li a:hover{
 }
 .member-content{
     padding: 10px;
+    overflow: hidden;
     text-align: center;
     border-radius: 5px;
     margin-bottom: 40px;
@@ -660,6 +661,11 @@ ul.ul-drop-down li a:hover{
     }
     .member-content:hover{
         border: 1px solid rgb(58, 58, 58);
+    }
+}
+@media only screen and (max-width: 767px){
+    .inner-search-form{
+        width: 100%;
     }
 }
 @media only screen and (max-width: 567px){
@@ -1895,7 +1901,7 @@ li.profile-status span.active{
         width: 450px;
         height: 450px;
         padding: 0px;
-}
+    }
 }
 @media only screen and (max-width: 567px){
     .profile-image-img{
@@ -2562,10 +2568,10 @@ ul.ul-message li h5{
 ul.ul-message li p{
     bottom: 0px;
     width: 100%;
+    height: 50px;
     cursor: pointer;
     font-size: 11px;
     overflow: hidden;
-    position: absolute;
     color: rgb(131, 131, 131);
 }
 ul.ul-message li p a{
@@ -2782,104 +2788,6 @@ ul.ul-video-call li .call-btn{
     padding: 100px 0px;
     background-color:  rgb(17, 17, 17);
 }
-/* .header-container{
-    padding: 150px 0px 0px 0px;
-    background-color:  rgb(24, 24, 24);
-}
-.subscription-section{
-    padding: 50px 0px;
-    background-color:  rgb(31, 31, 31);
-}
-.title-header h4, .title-header h5{
-    color: #fff;
-}
-.subscription-section .title-header h4{
-    font-size: 21px;
-}
-.subscription-content {
-    color: #fff;
-    width: 80%;
-    margin: 0 auto;
-    text-align: center;
-    padding: 70px 15px;
-}
-.subscription-banner{
-    width: 300px;
-    color: #333;
-    height: 500px;
-    position: relative;
-    margin: 0px 7px 50px 7px;
-    text-align: center;
-    display: inline-block;
-    border-radius: 10px;
-    background-color: #fff;
-}
-.subscription-banner img{
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    border-radius: 10px 10px 0px 0px;
-    position: absolute;
-}
-ul.ul-sub-head{
-    color: #fff;
-    z-index: 10;
-    position: relative;
-    padding: 100px 0px;
-    border-radius: 10px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-}
-ul.ul-sub-head li{
-    margin-bottom: 10px;
-}
-ul.ul-sub-head li h3{
-    margin: 0px;
-    font-size: 40px;
-    font-weight: 600;
-}
-ul.ul-sub-head span{
-    top: -15px;
-    right: -5;
-    font-size: 15px;
-    position: relative;
-}
-ul.ul-sub-head p{
-    font-size: 13px;
-    margin: 0px;
-}
-ul.ul-sub-body{
-    padding: 10px;
-}
-ul.ul-sub-body li{
-    margin-bottom: 30px;
-}
-ul.ul-sub-body li p{
-    margin: 0px;
-    font-size: 13px;
-    color:  rgb(230, 150, 3); 
-}
-ul.ul-sub-body li a{
-    color: #fff;
-    padding: 10px 30px;
-    border-radius: 3px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-    background-color: rgba(248, 179, 50, 1)
-}
-ul.ul-sub-body li a:hover{
-    background-color: rgb(214, 140, 3);
-}
-.subscritpion-alert{
-    width: 40%;
-    margin: 0 auto;
-}
-.sub-bottom-section{
-    color: #fff;
-    padding: 50px 0px;
-    background-color:  rgb(39, 39, 39);
-} */
 .index-subscription-section{
     padding: 100px 0px 50px 0px;
     background-color:  rgb(29, 29, 29);
@@ -3397,12 +3305,6 @@ ul.ul-chat-message li.chat-msg{
     padding-left: 10px;
     position: relative;
 }
-ul.ul-chat-message li img{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    /* border: 2px solid rgb(250, 53, 53); */
-}
 ul.ul-chat-message li img.active{
     border: 2px solid rgb(80, 246, 80);
 }
@@ -3419,7 +3321,6 @@ ul.ul-chat-message li.chat-profile-img{
 }
 ul.ul-chat-message li.chat-profile-img img{
     width: 100%;
-    height: 100%;
     border-radius: 10px;
     background-color: #fff;
 }
@@ -3522,10 +3423,10 @@ ul.ul-chat-profile-img li.chat-profile-right{
     width: 45px;
     height: 45px;
     margin: 0px;
+    overflow: hidden;
     font-size: 20px;
     display: table;
     padding: 0px;
-    overflow: hidden;
     text-align: center;
     border-radius: 10px;
     background-color: #fff;
@@ -3561,6 +3462,9 @@ ul.ul-chat-profile-img li.chat-profile-right{
     padding: 5px 10px;
     border-radius: 6px;
     background-color: rgb(87, 87, 87);   
+}
+.chat-head-right ul li a.refresh-btn{
+    font-size: 13px;  
 }
 .chat-head-right ul li a:hover{
     color: rgb(196, 142, 44);
@@ -4505,6 +4409,7 @@ ul.ul-report li a.active{
     width: 100%;
     height: 100%;
 }
+
 @media only screen and (max-width: 567px){
     .cropper-form{
         width: 100%;

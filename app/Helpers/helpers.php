@@ -113,6 +113,27 @@ function avatar($gender)
 
 
 
+
+
+
+
+function is_matched_avatar($id)
+{
+    $user = User::where('id', $id)->first();
+    if(is_matched($id) && $user->avatar)
+    {
+        return asset($user->avatar);
+    }
+    return asset(avatar($user->gender));
+}
+
+
+
+
+
+
+
+
 function is_loggedin(){
     if(Session::has('user'))
     {

@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col-xl-12"><!-- sub content start-->
                 <div class="main-subscription-body">
-                    <div class="row">
+                    <div class="row expand">
                         @if(count($subscriptions))
                             @foreach($subscriptions as $subscription)
                             <div class="col-xl-3 col-lg-4 col-md-6">

@@ -724,31 +724,6 @@ class ClientAjaxController extends Controller
         if($request->ajax())
         {
             $data = false;
-            // $user = User::where('id', $request->user_id)->first(); //get user detail
-            // $subscription = DB::table('subscriptions')->where('type', 'basic')->first();
-            // $my_sub = DB::table('user_subscriptions')->where('user_id', Auth::user('id'))->where('is_expired', 0)->first();           
-
-            // if($subscription && $subscription->amount != 0)
-            // {
-            //     if(Auth::user('membership_level') == 'basic' && $user->membership_level == 'premium')
-            //     {
-            //         return response()->json(['subscribe_to_premium' => true]);
-            //     }
-
-            //     if(!$my_sub)
-            //     {
-            //         return response()->json(['subscribe' => true]);
-            //     }
-            // }
-
-            // if($subscription && $subscription->amount == 0)
-            // {
-            //     if(Auth::user('membership_level') == 'basic' && $user->membership_level == 'premium')
-            //     {
-            //         return response()->json(['subscribe_to_premium' => true]);
-            //     }
-            // }
-            
               
             $accept = DB::table('likes')->where('initiator_id', $request->user_id)->where('acceptor_id', Auth::user('id'))->update([
                 'is_accept' => 1
@@ -761,8 +736,10 @@ class ClientAjaxController extends Controller
                 $message = Auth::user('user_name').' has accepted your match on Lagosmatchmaker, now you can chat with eachother.';
                 
                 $this->match_mail($initiator->email, $message);
+                
+                $avatar = is_matched_avatar($request->user_id);
 
-                return response()->json(['matched' => true]);
+                return response()->json(['matched' => true, 'avatar' => $avatar]);
             }
         }
         return response()->json(['data' => $data]);
