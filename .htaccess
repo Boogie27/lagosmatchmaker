@@ -1,4 +1,5 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    ErrorDocument 404 /404.php
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>

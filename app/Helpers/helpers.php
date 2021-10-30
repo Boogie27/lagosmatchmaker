@@ -132,6 +132,25 @@ function is_matched_avatar($id)
 
 
 
+function profile_img($id, $gender, $img)
+{
+    if($id && $img)
+    {
+        return $img;
+    }
+    
+    if($id && !$gender)
+    {
+        return null;
+    }else{
+        return avatar($gender);
+    }
+}
+
+
+
+
+
 
 
 function is_loggedin(){

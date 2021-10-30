@@ -1,7 +1,7 @@
 
 
 <!-- LOGIN START-->
-<section class="login-form-section">
+<section class="login-form-section small"  style="background-image: url({{ asset('web/images/banner/night-sky.gif') }})">
     <div class="form-container">
         <form action="{{ url('/login') }}" method="POST">
             @if(Session::has('error'))
@@ -20,7 +20,7 @@
                         @if($errors->first('email'))
                         <div class="alert-form text-danger">{{ $errors->first('email') }}</div>
                         @endif
-                        <input type="email" name="email" class="form-control" value="" placeholder="Email">
+                        <input type="text" name="email_username" class="form-control" value="" placeholder="Enter Email/username">
                     </div>
                 </div>
                 <div class="col-xl-12">

@@ -1635,48 +1635,7 @@ public function ajax_check_member_detail(Request $request)
 
 
 
-    
 
-
-    // public function ajax_add_profile_image(Request $request)
-    // {
-    //     if($request->ajax())
-    //     {
-    //         $data = false;
-    //         $user = User::where('id', Auth::user('id'))->first();
-    //         if(!$user || !$user->is_active)
-    //         {
-    //             return response()->json(['data' => $data]);
-    //         }
-
-    //         if(Image::exists('image'))
-    //         {
-    //             $file = Image::files('image');
-    //             $image = new Image();
-
-    //             $fileName = Image::name('image', 'avatar');
-    //             $avatar = 'web/images/avatar/'.$fileName;
-    //             $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/avatar/' ]);
-                
-    //             if(!$image->passed())
-    //             {
-    //                 return response()->json(['error' => ['image' => $image->error()]]);
-    //             }
-    //             if($image->passed())
-    //             {
-    //                 $old_image = $user->avatar;
-    //                 $user->avatar = $avatar;
-    //                 if($user->save())
-    //                 {
-    //                     $data = true;
-    //                     Image::remove($old_image);
-    //                     $data = asset($avatar);
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return response()->json(['data' => $data]);
-    // }
     
 
 
@@ -1723,6 +1682,67 @@ public function ajax_check_member_detail(Request $request)
         return response()->json(['data' => $data]);
     }
 
+
+
+
+
+
+
+
+
+
+
+    public function ajax_add_registered_profile_image(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            if($request->image)
+            {
+                if(!Session::has('register_details')){
+                    return response()->json(['data' => $data]);
+                }
+                
+                $encode_1 = explode(';', $request->image);
+                $encode_2 = explode(',', $encode_1[1]);
+
+                $image = base64_decode($encode_2[1]);
+                $image_name = 'web/images/avatar/avatar_'.time().'.png';
+                
+                if(file_put_contents($image_name, $image))
+                {
+                    $user_detail = Session::get('register_details');
+                    $register = User::create([
+                        'avatar' => $image_name,
+                        'membership_level' => 'basic',
+                        'gender' => $user_detail['gender'],
+                        'phone' => $user_detail['phone'],
+                        'user_name' => $user_detail['username'],
+                        'email' => strtolower($user_detail['email']),
+                        'password' => hash::make($user_detail['password'])
+                    ]);
+                    if($register && Auth::login($user_detail['email'])){
+                        $id = Auth::user('id');
+
+                        //send notification to admin
+                        DB::table('notifications')->insert([
+                            'notification_from' => $id,
+                            'notification_to' => 'admin',
+                            'title' => $user_detail['username'],
+                            'type' => 'register',
+                            'description' => $user_detail['username'].' has just registered with lagosmatchmaker',
+                            'link' => 'admin/member-detail/'.$id,
+                        ]);
+
+                        Session::flash('success', 'Account created successfully');
+                        $data = url('/profile/'.$id);
+                    }
+                }
+            } 
+        }
+        return response()->json(['data' => $data]);
+    }
+    
 
 
 
@@ -1813,7 +1833,9 @@ public function ajax_check_member_detail(Request $request)
             $user = User::where('id', Auth::user('id'))->first();
             if($user)
             {
+                $user->is_active = 0;
                 $user->is_deactivated = 1;
+                $user->date_deactivated = date('Y-m-d H:i:s');
                 $user->save();
                 if($user->save())
                 {
@@ -1833,6 +1855,44 @@ public function ajax_check_member_detail(Request $request)
 
 
 
+
+
+
+    public function register_new_members_ajax(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $validator = Validator::make($request->all(), [
+                'username' => 'required|min:3|max:50',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:6|max:12',
+                'confirm_password' => 'required|min:6|max:12|same:confirm_password',
+                'phone' => 'required|min:11|max:13',
+                'gender' => 'required'
+            ]);
+
+            if(!$validator->passes())
+            {
+                return response()->json(['error' => $validator->errors()]);
+            }
+
+            if($validator->passes())
+            {
+                $register_details['username'] = $request->username;
+                $register_details['email'] = $request->email;
+                $register_details['phone'] = $request->phone;
+                $register_details['password'] = $request->password;
+                $register_details['gender'] = $request->gender;
+
+                Session::put('register_details', $register_details);
+                $data = true;
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+    
 
 
 

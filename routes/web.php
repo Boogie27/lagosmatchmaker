@@ -58,7 +58,9 @@ Route::group(['middleware' => 'remember_me'], function(){
 
     // ************ REGISTER SECTION ***************//
     Route::get("/register", [ClientController::class, "register_index"]);
-    Route::post("/register", [ClientController::class, "register_store"]);
+    // Route::post("/register", [ClientController::class, "register_store"]);
+    Route::post("/register-new-members", [ClientAjaxController::class, "register_new_members_ajax"]);
+    
 
 
     // ************ PROFILE SECTION ***************//
@@ -79,6 +81,8 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/ajax-delete-user-profile-image", [ClientAjaxController::class, "ajax_delete_user_profile_image"]);
     Route::post("/ajax-block-member", [ClientAjaxController::class, "ajax_block_member"]);
     Route::post("/ajax-deactivate-account", [ClientAjaxController::class, "ajax_deactivate_account"]);
+    Route::post("/ajax-add-registered-profile-image", [ClientAjaxController::class, "ajax_add_registered_profile_image"]);
+    
     
    
 
@@ -573,6 +577,7 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/payment-settings", [AdminController::class, "payment_settings_update"]);
     Route::post("/admin/profile-alert-message", [AdminController::class, "profile_alert_message_update"]);
     Route::post("/admin/social-media", [AdminController::class, "social_media_update"]);
+    Route::post("/admin/member-register-page", [AdminController::class, "member_register_page_update"]);
     
    
 
@@ -586,10 +591,14 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/admin/ajax-delete-slider", [AdminAjaxController::class, "ajax_delete_slider"]);
     Route::post("/admin/ajax-update-slider", [AdminAjaxController::class, "ajax_update_slider"]);
     Route::post("/admin/ajax-feature-slider", [AdminAjaxController::class, "ajax_feature_slider"]);
-    
-    
-    
-    
+    Route::get("/admin/form-settings", [AdminController::class, "form_settings_index"]);
+    Route::post("/admin/ajax-add-form-slider", [AdminAjaxController::class, "ajax_add_form_slider"]);
+    Route::post("/admin/ajax-get-form-slider", [AdminAjaxController::class, "ajax_get_form_slider"]);
+    Route::post("/admin/ajax-delete-form-slider", [AdminAjaxController::class, "ajax_delete_form_slider"]);
+    Route::post("/admin/ajax-update-form-slider", [AdminAjaxController::class, "ajax_update_form_slider"]);
+    Route::post("/admin/ajax-feature-form-slider", [AdminAjaxController::class, "ajax_feature_form_slider"]);
+
+
 
 
     // ********** NEWSLETTER SECTION ***************//

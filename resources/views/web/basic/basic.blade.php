@@ -70,6 +70,7 @@
                                             <ul class="ul-member-body">
                                                 <li>Membership level: <span style="color:  rgb(196, 142, 44);">{{ ucfirst($basic->membership_level) }}</span></li>
                                                 <li>Age: <span>{{ $basic->age ?? '' }}</span></li>
+                                                <li>HIV: <span>{{ $basic->HIV == 'YES' ? 'Positive' : 'Negative' }}</span></li>
                                                 <li>Genotype: <span>{{ $basic->genotype ?? '' }}</span></li>
                                                 <li>Religion: <span>{{ $basic->religion ?? '' }}</span></li>
                                                 <li>State of origin: <span>{{ $basic->state_of_origin ?? '' }}</span></li>

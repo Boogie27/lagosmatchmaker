@@ -137,6 +137,10 @@ class ClientController extends Controller
         {
             $members->where('users.genotype', strtoupper($request->genotype));
         }
+        if($request->hiv)
+        {
+            $members->where('users.HIV', strtoupper($request->hiv));
+        }
         if($request->marital_status)
         {
             $members->where('users.marital_status', $request->marital_status);
@@ -152,20 +156,18 @@ class ClientController extends Controller
         if($request->name)
         {
             $members->where('users.user_name', 'LIKE', "%{$request->name}%");
-
-            // dd($members);
         }
 
 
         if($request->membership_level == 'basic')
         {
-            $basics  = $members->paginate(28);
+            $basics  = $members->orderBy('date_registered', 'DESC')->paginate(28);
             return view('web.basic', compact('basics', 'genotypes', 'marital_status', 'states'));
         }
         
         if($request->membership_level == 'premium')
         {
-            $premiums  = $members->paginate(28);
+            $premiums  = $members->orderBy('date_registered', 'DESC')->paginate(28);
             return view('web.premium', compact('premiums', 'genotypes', 'marital_status', 'states'));
         }
         
@@ -205,12 +207,23 @@ class ClientController extends Controller
 
     public function login_store(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6|max:12',
-        ]);
+        if(!$request->email_username){
+            return back()->with('error', '*All field is required!');
+        }
 
-        $user = User::where('email', $request->email)->first();
+        // $request->validate([
+        //     'password' => 'required|min:6|max:12',
+        // ]);
+
+        
+
+        if(preg_match('/@/', $request->email_username))
+        {
+           $user = User::where('email', $request->email_username)->first();
+        }else{
+            $user = User::where('user_name', $request->email_username)->first();
+        }
+
         if(!$user || !Hash::check($request->password, $user->password))
         {
             return back()->with('error', 'Wrong email or password, try again!');
@@ -227,7 +240,7 @@ class ClientController extends Controller
             return back()->with('error', 'This account has been suspended, contact the admin');
         }
 
-        if(Auth::login($request->email, $request->remember_me))
+        if(Auth::login($user->email, $request->remember_me))
         {
             if(Session::has('old_url'))
             {
@@ -386,8 +399,9 @@ class ClientController extends Controller
         {
             return redirect('/');
         }
+        $sliders = DB::table('form_banners')->get();
 
-        return view('web.register');
+        return view('web.register', compact('sliders'));
     }
 
 
@@ -564,6 +578,10 @@ class ClientController extends Controller
             if($request->genotype)
             {
                 $members->where('users.genotype', $request->genotype);
+            }
+            if($request->hiv)
+            {
+                $members->where('users.HIV', strtoupper($request->hiv));
             }
             if($request->marital_status)
             {
@@ -898,6 +916,10 @@ class ClientController extends Controller
             if($request->genotype)
             {
                 $members->where('users.genotype', $request->genotype);
+            }
+            if($request->hiv)
+            {
+                $members->where('users.HIV', strtoupper($request->hiv));
             }
             if($request->marital_status)
             {

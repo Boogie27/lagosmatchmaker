@@ -103,7 +103,7 @@
                                 </div>
                                 @if(count($user_subs))
                                 <div class="table-bottom">
-                                    <span>Total: {{ count($user_subs) }}</span>
+                                    <span>Total: {{ count($total_subscriptions) }}</span>
                                 </div>
                                 @endif
                             </div> <!-- end card body-->

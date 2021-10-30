@@ -3735,8 +3735,168 @@ public function ajax_add_how_it_works(Request $request)
 
 
 
+    public function ajax_add_form_slider(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            if(Image::exists('image'))
+            {
+                $file = Image::files('image');
+                $image = new Image();
+
+                $fileName = Image::name('image', 'slider');
+                $slider = 'web/images/banner/'.$fileName;
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/banner/' ]);
+                
+                if(!$image->passed())
+                {
+                    return response()->json(['error' => ['image' => $image->error()]]);
+                }
+                if($image->passed())
+                {
+                    $create = DB::table('form_banners')->insert([
+                        'banner' => $slider
+                    ]);
+                    if($create)
+                    {
+                        $data = true;
+                    }
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
+
+
+
+
+
+
+
+
+
+    public function ajax_get_form_slider(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $sliders = DB::table('form_banners')->get(); //get all banners
+            if($sliders)
+            {
+                return view('admin.common.ajax-get-form-banner', compact('sliders'));
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+    public function ajax_delete_form_slider(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = true;
+            $banner = DB::table('form_banners')->where('id', $request->banner_id)->first(); //get banner
+            if($banner)
+            {
+                $banner_img = $banner->banner;
+                $delete = DB::table('form_banners')->where('id', $request->banner_id)->delete();
+                if($delete)
+                {
+                    Image::remove($banner_img);
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+    public function ajax_update_form_slider(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $banner = DB::table('form_banners')->where('id', $request->banner_id)->first(); //get banner
+            if(!$banner)
+            {
+                return response()->json(['data' => $data]);
+            }
+
+            if(Image::exists('image'))
+            {
+                $file = Image::files('image');
+                $image = new Image();
+
+                $fileName = Image::name('image', 'slider');
+                $slider = 'web/images/banner/'.$fileName;
+                $image->upload_image($file, [ 'name' => $fileName, 'size_allowed' => 10000000,'file_destination' => 'web/images/banner/' ]);
+                
+                if(!$image->passed())
+                {
+                    return response()->json(['error' => ['image' => $image->error()]]);
+                }
+                if($image->passed())
+                {
+                    $banner_img = $banner->banner;
+                    $update = DB::table('form_banners')->where('id', $request->banner_id)->update([
+                        'banner' => $slider
+                    ]);
+                    if($update)
+                    {
+                        Image::remove($banner_img);
+                        $data = asset($slider);
+                    }
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
+
+
+
+
+
+
+
+
+
+
+    public function ajax_feature_form_slider(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = false;
+            $banner = DB::table('form_banners')->where('id', $request->banner_id)->first(); //get banner
+            if($banner)
+            {
+                $is_featured = $banner->is_featured ? 0 : 1;
+                $update = DB::table('form_banners')->where('id', $request->banner_id)->update([
+                        'is_featured' => $is_featured
+                ]);
+                if($update)
+                {
+                    $data = true;
+                }
+            }
+        }
+        return response()->json(['data' => $data]);
+    }
 
 
 

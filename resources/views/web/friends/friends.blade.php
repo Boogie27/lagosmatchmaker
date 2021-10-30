@@ -47,7 +47,7 @@
                            <li class="friends-bottom">
                                 <a href="#" id="{{ $request->id }}" class="accept-user-like-request-friends f-send-msg">Accept request</a>
                                 <label for="">
-                                   <a href="#" data-name="{{ $name }}" id="{{ $request->id }}" class="cancle-user-like-request" style="color: #fff;">Cancle request</a>
+                                   <a href="#" data-name="{{ $name }}" id="{{ $request->id }}" class="cancle-user-like-request" style="color: #fff;">Cancel request</a>
                                 </label>
                            </li>
                         </ul>

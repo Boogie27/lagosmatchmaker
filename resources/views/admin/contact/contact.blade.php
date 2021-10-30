@@ -51,7 +51,7 @@
                                                         <input type="checkbox" id="{{ $contact->id }}" class="check-box-contact-us-input-btn">
                                                     </td>
                                                     <td>
-                                                        {{ ucfirst($contact->full_name) }}
+                                                        <a href="{{ url('/admin/contact-detail/'.$contact->id) }}" style="color: #555;">{{ ucfirst($contact->full_name) }}</a>
                                                     </td>
                                                     <td>
                                                        {{ $contact->email }}

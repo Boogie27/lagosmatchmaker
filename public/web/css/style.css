@@ -1719,20 +1719,41 @@ label.s-header{
     width: 100%;
     height: 100vh;
     display: table;
+    z-index: 10;
+    position: relative;
     padding: 150px 0px 100px 0px;
     background-color: rgb(22, 22, 22);
 }
+.login-form-section:before{
+    background-color: rgba(0,0,0,.7);
+    bottom: 0;
+    content: "";
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+  }
 .form-container{
     display: table-cell;
     vertical-align: middle;
 }
 .form-container form{
-    width: 40%;
+    width: 80%;
     color: rgb(143, 143, 143);
     margin: 0 auto;
     padding: 40px 20px;
     background-color: rgb(41, 41, 41);
     /* box-shadow: 2px 2px 6px 2px rgb(8, 8, 8); */
+}
+.login-form-section.small form{
+    width: 50%;
+}
+.register{
+    width: 100%;
+    display: none;
 }
 .form-container form input{
     border: none;
@@ -1766,10 +1787,16 @@ label.s-header{
     .form-container form{
         width: 50%;
     }
+    .login-form-section.small form{
+        width: 60%;
+    }
 }
 @media only screen and (max-width: 992px){
     .form-container form{
         width: 60%;
+    }
+    .login-form-section.small form{
+        width: 80%;
     }
 }
 @media only screen and (max-width: 767px){
@@ -1777,9 +1804,15 @@ label.s-header{
         width: 80%;
         /* box-shadow: 2px 2px 6px 2px rgb(8, 8, 8); */
     }
+    .login-form-section.small form{
+        width: 90%;
+    }
 }
 @media only screen and (max-width: 567px){
     .form-container form{
+        width: 100%;
+    }
+    .login-form-section.small form{
         width: 100%;
     }
     .form-container{
@@ -1926,15 +1959,42 @@ li.profile-status span.active{
 
 /* *********** CROPPER ***************** */
 .cropper-form{
-    width: 400px;
-    height: 400px;
+    width: 480px;
+    height: 80vh;
     margin: 0 auto;
-    overflow: hidden;
+    overflow: scroll;
     padding-bottom: 10px;
+}
+.cropper-form::-webkit-scrollbar{
+   width: 10px;
+}
+.cropper-form::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    background-color:rgb(196, 142, 44);
+ }
+.sub-inner-content.cropper{
+    padding: 0px;
 }
 .cropper-form img{
     width: 100%;
     height: 100%;
+}
+.cropper button.btn-empty{
+    border: none;
+    margin-bottom: 10px;
+    padding: 10px 30px;
+    border-radius: 200px;
+    color: rgb(196, 142, 44);
+    transition: all 0.2s ease;
+    background-color: transparent;
+    border: 1px solid rgb(226, 226, 226);
+    box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.5)
+}
+.cropper button.btn-empty:hover{
+    box-shadow: 2px 0px 7px 0px rgba(0, 0, 0, 0.863)
+}
+button.btn-empty i{
+    color: rgb(196, 142, 44);
 }
 @media only screen and (max-width: 567px){
     .cropper-form{
@@ -1944,6 +2004,28 @@ li.profile-status span.active{
         padding: 5px;
     }
 }
+
+/* *********** CROPPER ***************** */
+/* .cropper-form{
+    width: 440px;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+.cropper-form img{
+    width: 100%;
+    height: 100%;
+}
+
+@media only screen and (max-width: 567px){
+    .cropper-form{
+        width: 100%;
+    }
+    .sub-inner-content.cropper{
+        padding: 5px;
+    } 
+}
+*/
+
 .profile-banner-body ul li a i{
     font-size: 15px;
     padding: 5px;
@@ -2136,6 +2218,14 @@ ul.ul-profile-detail li p.detail-about-p{
 }
 .profile-option-content ul li a.edit{
     background-color:rgb(18, 168, 18)
+}
+.confirm-header p.text{
+    /* top: -15px; */
+    padding: 0px;
+    margin: 0px;
+    font-size: 11px;
+    position: relative;
+    color: rgb(221, 151, 22);
 }
 /* ********* PROFILE DETAIL RIGHT *********/
 .profile-detail-right{
@@ -2985,6 +3075,12 @@ ul.ul-manual-sub-body li p{
     display: table-cell;
     vertical-align: middle;
     background-color: rgba(0, 0, 0, 0.623);
+}
+.sub-inner-content{
+    width: 550px;
+    margin: 0 auto;
+    border-radius: 4px;
+    background-color: #fff;
 }
 .sub-inner-content{
     width: 550px;
@@ -4396,26 +4492,117 @@ ul.ul-report li a.active{
     }
 }
 
-
-
-
-/* *********** CROPPER ***************** */
-.cropper-form{
-    width: 440px;
-    margin: 0 auto;
-    padding-bottom: 10px;
+/* ************ REGISTER ************** */
+.register-form-content{
+    width: 100%;
+    text-align: center;
+    display: table;
+    text-align: center;
 }
-.cropper-form img{
+ul.ul-left-content {
+    width: 100%;
+    height: 500px;
+    padding: 20px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    color: rgb(207, 207, 207);
+}
+ul.ul-left-content li{
+    text-align: center;
+    margin-bottom: 20px;
+}
+ul.ul-left-content li h3{
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: rgb(196, 142, 44);
+}
+ul.ul-left-content li h4{
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: rgb(196, 142, 44);
+}
+ul.ul-left-content li p{
+    font-size: 13px;
+}
+
+ul.ul-left-content li.register-img{
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    position: relative;
+}
+ul.ul-left-content li.register-img img{
+    top: 0px;
+    left: 0px;
+    opacity: 0;
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    position: absolute;
+    background-size: auto;
+    transition: all 0.5s ease;
+    background-position: center;
 }
-
+.form-container .expand{
+    margin: 0px;
+}
+a.gallery-btn{
+    top: 2px;
+    border: none;
+    color: #fff;
+    font-size: 25px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 10px 30px;
+    position: relative;
+    border-radius: 200px;
+    transition: all 0.2s ease;
+    background-color:rgb(196, 142, 44);
+    box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.5)
+}
+a.gallery-btn:hover{
+    box-shadow: 2px 0px 7px 0px rgba(0, 0, 0, 0.863)
+}
+@media only screen and (max-width: 1125px){
+    .register-form-content{
+        margin-bottom: 100px;
+        /* background-color: rgb(31, 31, 31); */
+    }
+    ul.ul-left-content  li p.break{
+        width: 70%;
+        margin: 0 auto;
+    }
+}
+@media only screen and (max-width: 992px){
+    ul.ul-left-content  li p.break{
+        width: 80%;
+    }
+}
+@media only screen and (max-width: 767px){
+    ul.ul-left-content  li p.break{
+        width: 90%;
+    }
+}
 @media only screen and (max-width: 567px){
-    .cropper-form{
+    ul.ul-left-content  li p.break{
         width: 100%;
     }
-    .sub-inner-content.cropper{
-        padding: 5px;
+}
+@media only screen and (max-width: 320px){
+    a.gallery-btn{
+        top: -10px;
+        margin-bottom: 30px;
+    }
+    ul.ul-left-content li.register-img{
+        width: 150px;
+        height: 150px;
+    }
+    ul.ul-left-content {
+        padding: 0px;
     }
 }
 

@@ -61,6 +61,7 @@
                                             @if(count($deactivates))
                                             @foreach($deactivates as $deactivated)
                                             @php($avatar = gender($deactivated->gender))
+                                            @php($date_deactivated = $deactivated->date_deactivated ? date('d M Y', strtotime($deactivated->date_deactivated)) : '---')
                                             <tr>
                                                 <td>
                                                     <input type="checkbox" id="{{ $deactivated->id }}" class="check-box-members-input-btn" {{ checked_member($deactivated->id) ? 'checked' : '' }}>
@@ -68,7 +69,11 @@
                                                 <td class="avatar-parent">
                                                     <a href="{{ url('/admin/member-detail/'.$deactivated->id) }}" class="avatar-link">
                                                         <div class="avatar {{ $deactivated->is_active ? 'active' : ''}}">
+                                                            @if($image = profile_img($deactivated->id, $deactivated->gender, $deactivated->avatar))
+                                                            <img src="{{ asset($image) }}" alt="">
+                                                            @else
                                                             <h4>{{ $avatar }}</h4>
+                                                            @endif
                                                         </div>
                                                     </a>
                                                 </td>
@@ -77,7 +82,7 @@
                                                 </td>
                                                 <td>{{ $deactivated->email }}</td>
                                                 <td><span class="badge badge-soft-{{ $deactivated->membership_level == 'basic' ? 'success' : 'warning' }} py-1">{{ $deactivated->membership_level == 'basic' ? 'Basic' : 'Premium' }}</span></td>
-                                                <td>{{ date('d M Y', strtotime($deactivated->date_deactivated)) }}</td>
+                                                <td>{{ $date_deactivated }}</td>
                                                 <td>
                                                     <div class="drop-down">
                                                         <i class="fa fa-ellipsis-h drop-down-open"></i>

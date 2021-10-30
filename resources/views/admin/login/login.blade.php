@@ -39,7 +39,7 @@
                         @endif
                         <div class="input-content">
                             <div class="input-icon"><i class="fa fa-key"></i></div>
-                            <input type="passsword" name="password" class="form-control" value="" placeholder="Password">
+                            <input type="password" name="password" class="form-control" value="" placeholder="Password">
                         </div>
                     </div>
                 </div>

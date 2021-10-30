@@ -12,10 +12,10 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#">Settings</a></li>
-                                <li class="breadcrumb-item"><a href="#">Banner Settings</a></li>
+                                <li class="breadcrumb-item"><a href="#">Form Settings</a></li>
                             </ol>
                         </nav>
-                        <h4 class="mb-1 mt-0">Banner Settings</h4>
+                        <h4 class="mb-1 mt-0">Form Settings</h4>
                         @if(Session::has('error'))
                         <div class="main-alert-danger text-center mt-3">{{ Session::get('error')}}</div>
                         @endif
@@ -32,9 +32,53 @@
                             <div class="col-xl-12 expand"><!-- profile detail left end-->
                                 <div class="profile-detail-left">
                                     <div class="title-header">
-                                        <h4>banner slider</h4> 
+                                        <h4>Form Details</h4> 
                                     </div>
                                     <div class="banner-slider-body" id="banner_slider_body">
+                                       <div class="form-body-settings">
+                                            <form action="{{ url('/admin/member-register-page') }}" method="POST" class="parsley-examples">
+                                                <div class="row">
+                                                    <div class="col-xl-6 col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <input type="text" name="title" parsley-trigger="change" placeholder="Title" class="form-control" value="{{ $register_detail['title'] }}">
+                                                            <div class="alert-form text-danger">@if($errors->first('title')) {{ $errors->first('title') }} @endif</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <input type="text" name="title_small" parsley-trigger="change" placeholder="Second Title" class="form-control" value="{{ $register_detail['title_small'] }}">
+                                                            <div class="alert-form text-danger">@if($errors->first('title_small')) {{ $errors->first('title_small') }} @endif</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6">
+                                                        <div class="form-group">
+                                                        <textarea name="body" class="form-control" cols="10" rows="3" placeholder="Body">{{ $register_detail['body'] }}</textarea>
+                                                            <div class="alert-form text-danger">@if($errors->first('body')) {{ $errors->first('body') }} @endif</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6">
+                                                        <div class="form-group">
+                                                        <textarea name="body_small" class="form-control" cols="10" rows="3" placeholder="Second Body">{{ $register_detail['body_small'] }}</textarea>
+                                                            <div class="alert-form text-danger">@if($errors->first('body_small')) {{ $errors->first('body_small') }} @endif</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group text-right mb-3">
+                                                    <div class="form-group">
+                                                        <div class="checkbox checkbox-success pt-2 float-left">
+                                                            <input id="feature_checker_item" name="is_feature" type="checkbox" {{ $register_detail['is_feature'] ? 'checked' : '' }}>
+                                                            <label for="feature_checker_item">Feature</label>
+                                                        </div>
+                                                        <button type="submit" class="btn-mini">Update</button>
+                                                    </div>
+                                                    @csrf
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <br><br><br>
+                                        <div class="title-header">
+                                            <h4><b>Form slider</b></h4> 
+                                        </div>
                                         <div class="row">
                                             @if(count($sliders))
                                             @foreach($sliders as $slider)
@@ -191,7 +235,7 @@ $("#banner_slider_body").on('change', '#slider_banner_input', function(e){
     data.append('image', image);
 
 	$.ajax({
-        url: "{{ url('/admin/ajax-add-slider') }}",
+        url: "{{ url('/admin/ajax-add-form-slider') }}",
         method: "post",
         data: data,
         contentType: false,
@@ -219,7 +263,7 @@ function get_sliders(){
     csrf_token() //csrf token
 
     $.ajax({
-        url: "{{ url('/admin/ajax-get-slider') }}",
+        url: "{{ url('/admin/ajax-get-form-slider') }}",
         method: "post",
         data: {
             slider: 'slider'
@@ -285,7 +329,7 @@ $("#delete_banner_confirm_submit_btn").click(function(e){
     csrf_token() //csrf token
 
     $.ajax({
-        url: "{{ url('/admin/ajax-delete-slider') }}",
+        url: "{{ url('/admin/ajax-delete-form-slider') }}",
         method: "post",
         data: {
             banner_id: banner_id
@@ -351,7 +395,7 @@ $("#banner_slider_body").on('change', '#update_slider_banner_input', function(e)
     data.append('banner_id', banner_id);
 
 	$.ajax({
-        url: "{{ url('/admin/ajax-update-slider') }}",
+        url: "{{ url('/admin/ajax-update-form-slider') }}",
         method: "post",
         data: data,
         contentType: false,
@@ -388,7 +432,7 @@ $("#banner_slider_body").on('click', '.feature_slider_checkbox_input', function(
     csrf_token() //csrf token
 
     $.ajax({
-        url: "{{ url('/admin/ajax-feature-slider') }}",
+        url: "{{ url('/admin/ajax-feature-form-slider') }}",
         method: "post",
         data: {
             banner_id: item_id

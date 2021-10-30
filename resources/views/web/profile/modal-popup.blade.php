@@ -138,21 +138,27 @@
 
 <!--  PROFILE MODAL START -->
 <section class="modal-alert-popup" id="cropper_modal_popup_box">
-    <div class="sub-confirm-container">
+    <div class="sub-confirm-container" id="">
         <div class="sub-confirm-dark-theme">
             <div class="sub-inner-content cropper">
-                <div class="text-right p-2">
+                <!-- <div class="text-right">
                     <button class="confirm-box-close"><i class="fa fa-times"></i></button>
-                </div>
+                </div> -->
                 <div class="confirm-header">
                     <p><b>Crop image</b></p>
                 </div>
-                <div class="cropper-form">
-                    <img src="{{ asset('admins/images/profile_image/male.png') }}" alt="" id="cropper_sample_img">
+                <div class="cropper-form" id="profile_image_cropper">
+                    <div class="inner-cropper-img">
+                        <img src="{{ asset('web/images/avatar/male.png') }}" alt="" id="cropper_sample_img">
+                    </div>
                 </div>
                 <div class="confirm-form">
                     <form action="" method="POST">
-                        <button type="button"  id="cropper_confirm_submit_btn" class="confirm-btn">Upload image</button>
+                        <a href="#" class="gallery-btn confirm-box-close"><i class="fa fa-trash"></i></a>
+                        <button type="button"  id="cropper_confirm_submit_btn" class="btn-empty">
+                            <i class="fa fa-arrow-up"></i>
+                            Upload image
+                        </button>
                         @csrf
                     </form>
                 </div>
@@ -178,12 +184,13 @@
                 </div>
                 <div class="confirm-header">
                     <h3>Profile Photo</h3>
+                    <p class="text">Your uploaded picture cannot be viewed by anyone except the people you choose to match with</p>
                 </div>
                 <div class="profile-option-content">
                     <ul>
                         <li>
-                            <a href="#" id="open_profile_image_delete" class="delete"><i class="fa fa-trash"></i></a>
-                            <div class="text">Remove photo</div>
+                            <a href="#" class="delete confirm-box-close"><i class="fa fa-trash"></i></a>
+                            <div class="text">Cancel</div>
                         </li>
                         <li>
                             <a href="#" class="profile-image-icon add"><i class="fa fa-image"></i></a>

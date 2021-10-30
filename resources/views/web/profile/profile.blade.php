@@ -1,19 +1,19 @@
 <!-- PROFILE START-->
 @php($user_detail = user_detail())
-
+@php($is_loggedin = is_loggedin())
 
 <section class="profile-section">
     <div class="profile-container">
         <div class="profile-banner" id="profile_banner_div">
             <div class="profile-inner-banner">
-                @if(is_loggedin() && $user_detail->id == $user->id)
+                @if($is_loggedin && $user_detail->id == $user->id)
                 <div class="add-profile-img">
                     <a href="#" class="profile-image-option" title="Add profile image"><i class="fa fa-camera"></i></a>
                     <input type="file" id="profile_image_input" style="display: none;">
                 </div>
                 @endif
                 <div class="profile-banner-body">
-                    @if(is_loggedin())
+                    @if($is_loggedin)
                         @if($user_detail->id != $user->id && is_matched($user->id) && $user->avatar || $user_detail->id == $user->id && $user->avatar)
                         <div class="profile-image-img">
                             <img src="{{ asset($user->avatar) }}" alt="">
@@ -36,7 +36,7 @@
                         <li class="profile-status">
                             Status: <span class="{{ $user->is_active ? 'active' : ''}}">{{ $user->is_active ? 'Online' : 'Offline'}}</span>
                         </li>
-                        @if(is_loggedin() && user('id') == $user->id)
+                        @if($is_loggedin && user('id') == $user->id)
                         <li class="profile-settings">
                             <a href="{{ url('/friends') }}"><i class="fa fa-users"></i> Matches</a>
                         </li>
@@ -44,13 +44,13 @@
                             <a href="{{ url('/settings') }}"><i class="fa fa-cog"></i> Settings</a>
                         </li>
                         @endif
-                        @if(!is_loggedin())
+                        @if(!$is_loggedin)
                             <li><a href="#" class="login_confirm_modal_popup"><i class="far fa-comment"></i> Message</a></li>
                             <!-- <li><a href="#" class="login_confirm_modal_popup"><i class="fa fa-video"></i></a></li> -->
                             <li><a href="#" class="login_confirm_modal_popup"><i class="fa fa-heart text-danger"></i> Match</a></li>
                         @endif
                          
-                        @if(is_loggedin() && $user_detail->id != $user->id)
+                        @if($is_loggedin && $user_detail->id != $user->id)
                             <li class="li-is-block-content" id="cant_message_member_btn">
                                 @if(!is_blocked($user_detail->id, $user->id))
                                     @if(is_matched($user->id))
@@ -62,7 +62,6 @@
                                     @endif
                                 @endif
                             </li>
-                            <!-- <li><a href="#" id="user_video_call_modal_popup"><i class="fa fa-video"></i></a></li> -->
                            
                             <li id="li_unlike_member_btn">
                                 @if(is_matched($user->id))
@@ -83,15 +82,15 @@
             </div>
         </div>
         <div class="profile-bottom">
-            @if(is_loggedin() && $user_detail->id != $user->id && $was_liked && !$was_liked->is_accept )
+            @if($is_loggedin && $user_detail->id != $user->id && $was_liked && !$was_liked->is_accept )
             <div class="action-like-btn">
                 <a href="#" class="user-accept-like-btn accept"><i class="fa fa-heart"></i> Accept</a>
                 <a href="#" class="user-cancle-like-request-btn decline"><i class="fa fa-heart"></i> Decline</a>
             </div>
             @endif
-            @if(is_loggedin() && $user_detail->id != $user->id && $you_liked && !$you_liked->is_accept)
+            @if($is_loggedin && $user_detail->id != $user->id && $you_liked && !$you_liked->is_accept)
             <div class="action-like-btn">
-                <a href="#" class="user-cancle-like-request-btn decline"><i class="fa fa-heart"></i> Cancle match</a>
+                <a href="#" class="user-cancle-like-request-btn decline"><i class="fa fa-heart"></i> Cancel match</a>
             </div>
             @endif
         </div>
@@ -112,7 +111,7 @@
                 <div class="profile-detail-left">
                     <div class="title-header">
                         <h4>Detail info</h4> 
-                        @if(is_loggedin() && user('id') == $user->id)
+                        @if($is_loggedin && user('id') == $user->id)
                         <a href="#" id="detail_info_edit_btn_open"><i class="fa fa-pen"></i></a>
                         @endif
                     </div>
@@ -153,7 +152,7 @@
                             <div class="body">: Empty</div>
                             @endif
                         </li>
-                        @if(is_loggedin() && $user_detail->id == $user->id)
+                        @if($is_loggedin && $user_detail->id == $user->id)
                         <li>
                             <div class="title">Phone number  </div>
                             <div class="body">: {{ $user->phone ?? 'Empty' }}</div>
@@ -196,7 +195,7 @@
                 <div class="profile-detail-left">
                     <div class="title-header">
                         <h4>About me</h4>
-                        @if(is_loggedin() && user('id') == $user->id)
+                        @if($is_loggedin && user('id') == $user->id)
                         <a href="#" id="about_me_edit_btn_open"><i class="fa fa-pen"></i></a>
                         @endif
                     </div>
@@ -210,7 +209,7 @@
                 <div class="profile-detail-left">
                     <div class="title-header">
                         <h4>Lifestyle</h4>
-                        @if(is_loggedin() && user('id') == $user->id)
+                        @if($is_loggedin && user('id') == $user->id)
                         <a href="#" id="detail_lifestyle_btn_open"><i class="fa fa-pen"></i></a>
                         @endif
                     </div>
@@ -236,7 +235,7 @@
                 <div class="profile-detail-left">
                     <div class="title-header">
                         <h4>Physical info</h4>
-                        @if(is_loggedin() && user('id') == $user->id)
+                        @if($is_loggedin && user('id') == $user->id)
                         <a href="#" id="detail_physical_info_btn_open"><i class="fa fa-pen"></i></a>
                         @endif
                     </div>
@@ -340,7 +339,13 @@
                                     <option value="muslim">Muslim</option>
                                 </select>
                             </div>
-                           
+                            <div class="form-group">
+                                <select name="hiv" class="selectpicker form-control">
+                                    <option value="">HIV Status</option>
+                                    <option value="YES">Positive</option>
+                                    <option value="NO">Negative</option>
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <select name="membership_level" class="selectpicker form-control">
                                     <option value="basic">Basic </option>
@@ -372,7 +377,7 @@
                         @endif
                     </div>
                 </div>
-                @if(is_loggedin() && $user_detail->id != $user->id && $is_friend)
+                @if($is_loggedin && $user_detail->id != $user->id && $is_friend)
                 <div class="profile-detail-right"> <!-- report start-->
                     <div class="title-header"><h4>Report Member</h4></div>
                     <div class="profile-right-form">
@@ -383,7 +388,7 @@
                     </div>
                 </div><!-- report end-->
                 @endif
-                @if(is_loggedin() && $user_detail->id != $user->id)
+                @if($is_loggedin && $user_detail->id != $user->id)
                 <div class="profile-detail-right"> <!-- report start-->
                     <div class="title-header"><h4>Block Member</h4></div>
                     <div class="profile-right-form">
@@ -401,6 +406,7 @@
                     </div>
                 </div><!-- report end-->
                 @endif
+                @if($is_loggedin && $user_detail->id != $user->id)
                 <div class="profile-detail-right"> <!-- report start-->
                     <div class="profile-right-form">
                         <p>
@@ -408,6 +414,7 @@
                         </p>
                     </div>
                 </div><!-- report end-->
+                @endif
             </div><!-- profile detail right end-->
         </div>
     </div>
@@ -426,12 +433,12 @@
 @include('web.profile.modal-popup')
 
 
-@if(is_loggedin())
+@if($is_loggedin)
     @include('web.profile.profile-report-member-modal-popup')
 @endif
 
 
-@if(is_loggedin() && user('id') == $user->id)
+@if($is_loggedin && user('id') == $user->id)
     @include('web.profile.profile-detail-info-modal-popup')
     @include('web.profile.profile-about-modal-popup')
     @include('web.profile.profile-looking-for-modal-popup')

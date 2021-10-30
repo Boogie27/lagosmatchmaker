@@ -25,7 +25,7 @@
                                     @php($name = display_name($message->display_name, $message->user_name))
                                     <a href="{{ url('/chat/'.$message->id) }}"> <!-- chat message start -->
                                         <ul class="ul-chat-message">
-                                            <li class="chat-profile-img">
+                                            <li class="chat-profile-img {{ $message->is_active ? 'active' : '' }}">
                                                 @if(!is_loggedin() || !is_matched($message->id))
                                                 <h4>{{  gender($message->gender) }}</h4>
                                                 @endif

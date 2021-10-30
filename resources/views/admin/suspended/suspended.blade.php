@@ -67,7 +67,11 @@
                                                 <td class="avatar-parent">
                                                     <a href="{{ url('/admin/member-detail/'.$suspend->id) }}" class="avatar-link">
                                                         <div class="avatar {{ $suspend->is_active ? 'active' : ''}}">
+                                                            @if($image = profile_img($suspend->id, $suspend->gender, $suspend->avatar))
+                                                            <img src="{{ asset($image) }}" alt="">
+                                                            @else
                                                             <h4>{{ $avatar }}</h4>
+                                                            @endif
                                                         </div>
                                                     </a>
                                                 </td>

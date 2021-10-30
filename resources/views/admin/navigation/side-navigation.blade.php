@@ -270,6 +270,9 @@
                         <li>
                             <a href="{{ url('/admin/banner-settings') }}">Banner settings</a>
                         </li>
+                        <li>
+                            <a href="{{ url('/admin/form-settings') }}">Form settings</a>
+                        </li>
                     </ul>
                 </li>
                 <li>

@@ -27,7 +27,9 @@
                         <li>
                             <img src="{{ asset($footer_left['image']) }}" alt="">
                         </li>
-                        <li><i class="fa fa-trash"></i><a href="{{ url('/settings') }}">Deactivate account</a></li>
+                        @if(is_loggedin())
+                        <li><i class="fa fa-trash text-warning"></i><a href="{{ url('/settings') }}">Deactivate account</a></li>
+                        @endif
                     </ul>
                 </div>
             </div><!-- about end-->

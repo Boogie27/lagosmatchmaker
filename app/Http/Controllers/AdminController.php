@@ -25,15 +25,15 @@ class AdminController extends Controller
     {
         $total_members = User::all(); //get total members
 
-        $basic = User::where('membership_level', 'basic')->get(); //ge all basic members
+        $basic = User::where('membership_level', 'basic')->where('is_deactivated', 0)->get(); //ge all basic members
 
-        $premium = User::where('membership_level', 'premium')->get(); //ge all premium members
+        $premium = User::where('membership_level', 'premium')->where('is_deactivated', 0)->get(); //ge all premium members
 
-        $unapproved = User::where('is_approved', '0')->get(); //ge all unapproved members
+        $unapproved = User::where('is_approved', 0)->get(); //ge all unapproved members
 
-        $suspended = User::where('is_suspend', '1')->get(); //ge all suspened members
+        $suspended = User::where('is_suspend', 1)->get(); //ge all suspened members
 
-        $deactivated = User::where('is_deactivated', '1')->get(); //ge all deactivated members
+        $deactivated = User::where('is_deactivated', 1)->get(); //ge all deactivated members
 
         $report_count = DB::table('user_reports')->get(); //get all member reports
 
@@ -567,7 +567,11 @@ class AdminController extends Controller
 
     public function user_subscription_index(Request $request)
     {
-        $user_sub = User::leftJoin('user_subscriptions', 'users.id', '=', 'user_subscriptions.user_id')->where('user_subscriptions.is_expired', 0);
+        $user_subcription = User::leftJoin('user_subscriptions', 'users.id', '=', 'user_subscriptions.user_id')->where('user_subscriptions.is_expired', 0);
+
+        $total_subscriptions = $user_subcription->get();
+        
+        $user_sub = $user_subcription;
 
         if($request->search)
         {
@@ -579,9 +583,9 @@ class AdminController extends Controller
             }
         }
 
-        $user_subs = $user_sub->paginate(25);
+        $user_subs = $user_sub->paginate(50);
 
-        return view('admin.user-subscription', compact('user_subs'));
+        return view('admin.user-subscription', compact('user_subs', 'total_subscriptions'));
     }
     
 
@@ -810,7 +814,7 @@ class AdminController extends Controller
         $request->validate([
             'old_password' => 'required|min:6|max:12',
             'new_password' => 'required|min:6|max:12|same:confirm_password',
-            'confirm_password' => 'required|min:3|max:100',
+            'confirm_password' => 'required|min:3|max:12',
         ]);
     
         $admin = Admin::where('id', Admin::admin('id'))->where('email', Admin::admin('email'))->first();
@@ -1721,6 +1725,66 @@ class AdminController extends Controller
     
 
 
+
+
+
+
+    public function form_settings_index(){
+        $register_detail = [];
+        $form_detail = DB::table('settings')->where('id', 1)->first(); //get form detail
+        $sliders = DB::table('form_banners')->get(); //get form banners
+
+        if($form_detail && $form_detail->register_form_detail)
+        {
+            $register_detail = json_decode($form_detail->register_form_detail, true);
+        }
+
+        return view('admin.form-settings', compact('sliders', 'register_detail'));
+    }
+
+
+
+
+
+
+
+
+
+    public function member_register_page_update(Request $request)
+    {
+        $request->validate([
+            'title' => 'max:50',
+            'title_small' => 'max:50',
+            'body' => 'max:300',
+            'body_small' => 'max:300'
+        ]);
+
+        $settings = DB::table('settings')->where('id', 1)->first();
+        if($settings->register_form_detail)
+        {
+            $register_form = json_decode($settings->register_form_detail, true);
+        }
+
+        $register_form['title'] = $request->title;
+        $register_form['body'] = $request->body;
+        $register_form['title_small'] = $request->title_small;
+        $register_form['body_small'] = $request->body_small;
+        $register_form['is_feature'] = $request->is_feature;
+
+        if(empty($request->title) && empty($request->body) && empty($request->title_small) && empty($request->body_small)){
+            $register_form['is_feature'] = false;
+        }
+
+        if($settings)
+        { 
+            DB::table('settings')->where('id', 1)->update([
+                'register_form_detail' => json_encode($register_form)
+            ]);
+            return back()->with('success', 'Form detail updated successfully!');
+        }
+
+        return back()->with('error', 'Network error, try again later');
+    }
 
 
 
