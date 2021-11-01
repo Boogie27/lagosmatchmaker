@@ -3,7 +3,7 @@
 <!-- FORGOT PASSWORD START-->
 <section class="login-form-section small">
     <div class="form-container">
-        <form action="{{ url('/forgot-password') }}" method="POST">
+        <form action="{{ current_url() }}" method="POST">
             @if(Session::has('error'))
             <div class="main-alert-danger text-center mb-3">{{ Session::get('error')}}</div>
             @endif
@@ -11,7 +11,7 @@
             <div class="main-alert-success text-center mb-3">{{ Session::get('success')}}</div>
             @endif
             <div class="title-header text-center">
-                <h3>Forgot password</h3>
+                <h3>Reset Username</h3>
                 <p>Already have an account? <a href="{{ url('/login') }}">Login</a></p>
             </div>
             <div class="row">
@@ -20,12 +20,12 @@
                         @if($errors->first('email'))
                         <div class="alert-form text-danger">{{ $errors->first('email') }}</div>
                         @endif
-                        <input type="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Email">
+                        <input type="email" name="email" class="form-control" value="" placeholder="Enter Email">
                     </div>
                 </div>
                 <div class="col-xl-12 mt-4">
                     <div class="form-group">
-                         <button type="submit" id="form_access_btn_submit" class="btn-fill-block">Receive Password</button>
+                         <button type="submit" class="btn-fill-block">Submit</button>
                     </div>
                     @csrf
                 </div>
@@ -34,18 +34,6 @@
     </div>
 </section>
 <!-- FORGOT PASSWORD END-->
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

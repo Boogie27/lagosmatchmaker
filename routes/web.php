@@ -42,7 +42,10 @@ Route::group(['middleware' => 'remember_me'], function(){
     // ************ LOGIN SECTION ***************//
     Route::get("/login", [ClientController::class, "login_index"]);
     Route::post("/login", [ClientController::class, "login_store"]);
-
+    Route::get("/reset-username", [ClientController::class, "reset_username_index"]);
+    Route::post("/reset-username", [ClientController::class, "reset_username_store"]);
+    Route::get("/new-username", [ClientController::class, "new_username_index"]);
+    Route::post("/new-username", [ClientController::class, "new_username_store"]);
 
 
 

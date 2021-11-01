@@ -1,7 +1,7 @@
 
 
 <!-- FORGOT PASSWORD START-->
-<section class="login-form-section">
+<section class="login-form-section small">
     <div class="form-container">
         <form action="{{ current_url() }}" method="POST">
             @if(Session::has('error'))

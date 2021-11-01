@@ -21,6 +21,7 @@ use Mail;
 
 use App\Jobs\SendEmailJob;
 use App\Mail\UserMail;
+use App\Mail\NewUsernameMailer;
 use App\Mail\UserResetPaswordMailer;
 
 
@@ -211,9 +212,9 @@ class ClientController extends Controller
             return back()->with('error', '*All field is required!');
         }
 
-        // $request->validate([
-        //     'password' => 'required|min:6|max:12',
-        // ]);
+        $request->validate([
+            'password' => 'required|min:6|max:12',
+        ]);
 
         
 
@@ -226,7 +227,7 @@ class ClientController extends Controller
 
         if(!$user || !Hash::check($request->password, $user->password))
         {
-            return back()->with('error', 'Wrong email or password, try again!');
+            return back()->with('error', 'Wrong email, username or password, try again!');
         }
 
         if($user && $user->is_deactivated)
@@ -261,6 +262,110 @@ class ClientController extends Controller
 
 
 
+
+
+
+
+
+    public function reset_username_index()
+    {
+        return view('web.reset-username');
+    }
+
+
+
+
+
+
+
+    public function reset_username_store(Request $request)
+    {
+        $check = User::where('email', $request->email)->first();
+        if(!$check)
+        {
+            return back()->with('error', '*Email '.$request->email.' does not exist!'); 
+        }
+
+        $token = password_hash(uniqid(), PASSWORD_DEFAULT);
+        $check = DB::table('reset_usernames')->where('email', $request->email)->first();
+        if($check)
+        {
+            DB::table('reset_usernames')->where('email', $request->email)->delete();
+        }
+
+        $create = DB::table('reset_usernames')->insert([
+            'email' => $request->email,
+            'token' => $token
+        ]);
+
+        if($create)
+        {
+            $url = url('/new-username?token='.$token);
+            Mail::to($request->email)->send(new NewUsernameMailer($url));
+        }
+
+        return back()->with('success', 'Username reset token has been sent to your email.');
+    }
+    
+
+
+
+
+    public function new_username_index(Request $request)
+    {
+        if(!$request->token){
+            return redirect('/404');
+        }
+
+        $check = DB::table('reset_usernames')->where('token', $request->token)->first();
+        if(!$check){
+            return redirect('/404');
+        }
+
+        return view('web.new-username');
+    }
+
+
+
+
+
+
+
+    
+    public function new_username_store(Request $request)
+    {
+        if(!$request->token)
+        {
+            return redirect('/404');
+        }
+
+        $request->validate([
+            'user_name' => 'required|min:3|max:50|unique:users',
+        ]);
+
+        if(preg_match('/@/', $request->user_name))
+        {
+           return back()->with('error', '*Must not use @ or an email address');
+        }
+
+        $token = DB::table('reset_usernames')->where('token', $request->token)->first();
+        if($token)
+        {
+            $update = User::where('email', $token->email)->first();
+            if($update)
+            {
+                $update->user_name = $request->user_name;
+                if($update->save())
+                {
+                    DB::table('reset_usernames')->where('token', $request->token)->delete();
+                    return redirect('/login')->with('success', 'Username reset successful, Now you can login');
+                }
+            }
+        }
+
+        return view('web.new-username')->with('error', 'Network error, try again later!');
+    }
+    
 
 
 
@@ -302,8 +407,6 @@ class ClientController extends Controller
             Mail::to($request->email)->send(new UserMail($url));
             // SendEmailJob::dispatch($request->email, $url)->delay(now()->addSeconds(5));
         }
-
-      
         
         return back()->with('success', 'Password reset token has been sent to your email.');
     }
@@ -329,8 +432,17 @@ class ClientController extends Controller
 
 
 
-    public function new_password_index()
+    public function new_password_index(Request $request)
     {
+        if(!$request->token){
+            return redirect('/404');
+        }
+
+        $check = DB::table('password_resets')->where('token', $request->token)->first();
+        if(!$check){
+            return redirect('/404');
+        }
+
         return view('web.new-password');
     }
 
@@ -347,7 +459,7 @@ class ClientController extends Controller
         ]);
         if(!$request->token)
         {
-            return redirect('/');
+            return redirect('/404');
         }
 
         $token = DB::table('password_resets')->where('token', $request->token)->first();
@@ -795,7 +907,7 @@ class ClientController extends Controller
 
         $chats = Chat::Where('receiver_id', Auth::user('id'))->where('receiver_delete', 0)->get();
         
-        $charts_2 = Chat::Where('sender_id', Auth::user('id'))->where('receiver_delete', 0)->get();
+        $charts_2 = Chat::Where('sender_id', Auth::user('id'))->where('sender_delete', 0)->get();
         
         // get ID of users who sent message to you
         foreach($chats as $chat)

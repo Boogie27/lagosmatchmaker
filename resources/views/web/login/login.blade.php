@@ -1,3 +1,7 @@
+@php($settings = settings())
+@php( $details = json_decode($settings->register_form_detail, true))
+
+
 
 
 <!-- LOGIN START-->
@@ -46,6 +50,11 @@
                          <button type="submit" id="login_form_submit" class="btn-fill-block">Submit Now</button>
                     </div>
                     @csrf
+                    <div class="form-note">
+                        <i class="fa fa-bell" style="color: rgb(196, 142, 44);"></i>
+                        {{ isset($details['note']) ? $details['note'] : '' }}
+                        <a href="{{ url('/reset-username') }}">Reset Username</a>
+                    </div>
                 </div>
             </div>
         </form>

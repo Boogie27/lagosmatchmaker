@@ -1877,6 +1877,11 @@ public function ajax_check_member_detail(Request $request)
                 return response()->json(['error' => $validator->errors()]);
             }
 
+            if(preg_match('/@/', $request->username))
+            {
+                return response()->json(['error' => ['username' => '*Must not use @ or an email address']]);
+            }
+
             if($validator->passes())
             {
                 $register_details['username'] = $request->username;

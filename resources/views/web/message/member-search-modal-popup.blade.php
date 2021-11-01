@@ -96,6 +96,15 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
+                                    <select name="hiv" class="selectpicker form-control">
+                                        <option value="">HIV Status</option>
+                                        <option value="YES">Positive</option>
+                                        <option value="NO">Negative</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
                                     <select name="marital_status" class="selectpicker form-control">
                                         <option value="">Marital status</option>
                                         @if(count($marital_status))

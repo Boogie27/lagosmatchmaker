@@ -40,25 +40,31 @@
                                                 <div class="row">
                                                     <div class="col-xl-6 col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" name="title" parsley-trigger="change" placeholder="Title" class="form-control" value="{{ $register_detail['title'] }}">
+                                                            <input type="text" name="title" parsley-trigger="change" placeholder="Title" class="form-control" value="{{ isset($register_detail['title']) ? $register_detail['title'] : '' }}">
                                                             <div class="alert-form text-danger">@if($errors->first('title')) {{ $errors->first('title') }} @endif</div>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6 col-lg-6 col-md-6">
                                                         <div class="form-group">
-                                                            <input type="text" name="title_small" parsley-trigger="change" placeholder="Second Title" class="form-control" value="{{ $register_detail['title_small'] }}">
+                                                            <input type="text" name="title_small" parsley-trigger="change" placeholder="Second Title" class="form-control" value="{{ isset($register_detail['title_small']) ? $register_detail['title_small'] : '' }}">
                                                             <div class="alert-form text-danger">@if($errors->first('title_small')) {{ $errors->first('title_small') }} @endif</div>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6 col-lg-6">
                                                         <div class="form-group">
-                                                        <textarea name="body" class="form-control" cols="10" rows="3" placeholder="Body">{{ $register_detail['body'] }}</textarea>
+                                                        <textarea name="body" class="form-control" cols="10" rows="3" placeholder="Body">{{ isset($register_detail['body']) ? $register_detail['body'] : '' }}</textarea>
                                                             <div class="alert-form text-danger">@if($errors->first('body')) {{ $errors->first('body') }} @endif</div>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6 col-lg-6">
                                                         <div class="form-group">
-                                                        <textarea name="body_small" class="form-control" cols="10" rows="3" placeholder="Second Body">{{ $register_detail['body_small'] }}</textarea>
+                                                        <textarea name="note" class="form-control" cols="10" rows="3" placeholder="Note">{{ isset($register_detail['note']) ? $register_detail['note'] : '' }}</textarea>
+                                                            <div class="alert-form text-danger">@if($errors->first('note')) {{ $errors->first('note') }} @endif</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6 col-lg-6">
+                                                        <div class="form-group">
+                                                        <textarea name="body_small" class="form-control" cols="10" rows="3" placeholder="Second Body">{{ isset($register_detail['body_small']) ? $register_detail['body_small'] : '' }}</textarea>
                                                             <div class="alert-form text-danger">@if($errors->first('body_small')) {{ $errors->first('body_small') }} @endif</div>
                                                         </div>
                                                     </div>

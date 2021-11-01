@@ -159,7 +159,7 @@ a {
     height: 0px;
 }
 .bottom-alert-danger, .bottom-alert-success{
-    z-index: 10;
+    z-index: 30;
     right: 3px;
     bottom: -100px;
     width: 450px;
@@ -275,7 +275,7 @@ button:focus{
     z-index: 20;
     padding: 0px 20px;
     position: absolute;
-    background-color: rgba(10, 10, 10, 0.692);
+    background-color: rgba(37, 37, 37, 0.692);
 }
 .nav-inner{
     display: flex;
@@ -2182,13 +2182,23 @@ ul.ul-profile-detail li{
     padding: 8px 0px;
 }
 ul.ul-profile-detail li .title{
-    width: 40%;
+    width: 25%;
 }
 ul.ul-profile-detail li .body{
     font-size: 11px;
 }
 ul.ul-profile-detail li p.detail-about-p{
     font-size: 12px;
+}
+@media only screen and (max-width: 567px){
+    ul.ul-profile-detail li .title{
+        width: 40%;
+    }
+}
+@media only screen and (max-width: 398px){
+    ul.ul-profile-detail li .title{
+        width: 50%;
+    }
 }
 /*  ********** PROFILE IMAGE OPTION BOX ******** */
 .profile-option-content{
@@ -4567,6 +4577,13 @@ a.gallery-btn{
 a.gallery-btn:hover{
     box-shadow: 2px 0px 7px 0px rgba(0, 0, 0, 0.863)
 }
+.form-note{
+    padding: 0px 80px;
+    text-align: center;
+}
+.form-note a{
+    color: rgb(196, 142, 44);
+}
 @media only screen and (max-width: 1125px){
     .register-form-content{
         margin-bottom: 100px;
@@ -4586,10 +4603,16 @@ a.gallery-btn:hover{
     ul.ul-left-content  li p.break{
         width: 90%;
     }
+    .form-note{
+        padding: 0px 40px;
+    }
 }
 @media only screen and (max-width: 567px){
     ul.ul-left-content  li p.break{
         width: 100%;
+    }
+    .form-note{
+        padding: 0px;
     }
 }
 @media only screen and (max-width: 320px){

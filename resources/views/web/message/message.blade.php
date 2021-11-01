@@ -164,7 +164,15 @@
                                     <option value="muslim">Muslim</option>
                                 </select>
                             </div>
-                           
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <select name="hiv" class="selectpicker form-control">
+                                        <option value="">HIV Status</option>
+                                        <option value="YES">Positive</option>
+                                        <option value="NO">Negative</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <select name="membership_level" class="selectpicker form-control">
                                     <option value="basic">Basic </option>

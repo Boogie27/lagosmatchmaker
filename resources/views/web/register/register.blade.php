@@ -59,13 +59,13 @@
                                 <input type="email" id="register_email" class="form-control" value="" placeholder="Email">
                             </div>
                         </div>
-                        <div class="col-xl-12">
+                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div class="form-group">
                                 <div class="alert-form alert_password text-danger"></div>
                                 <input type="password" id="register_password" class="form-control" value="" placeholder="Password">
                             </div>
                         </div>
-                        <div class="col-xl-12">
+                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <div class="form-group">
                                 <div class="alert-form alert_confirm_password text-danger"></div>
                                 <input type="password" id="register_confirm_password" class="form-control" value="" placeholder="Confirm Password">
@@ -366,7 +366,7 @@ function validate_field(username, email, password, confirm_password, phone, gend
         }
         if(confirm_password !== password){
             is_state = true;
-            $(".alert_confirm_password").html('*Confirm password must equall to Password')
+            $(".alert_confirm_password").html('*Confirm password must be equal to Password')
         }
         if(phone.length > 13){
             is_state = true;

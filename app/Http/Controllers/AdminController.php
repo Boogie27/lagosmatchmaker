@@ -1755,6 +1755,7 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'max:50',
             'title_small' => 'max:50',
+            'note' => 'max:500',
             'body' => 'max:300',
             'body_small' => 'max:300'
         ]);
@@ -1766,6 +1767,7 @@ class AdminController extends Controller
         }
 
         $register_form['title'] = $request->title;
+        $register_form['note'] = $request->note;
         $register_form['body'] = $request->body;
         $register_form['title_small'] = $request->title_small;
         $register_form['body_small'] = $request->body_small;
