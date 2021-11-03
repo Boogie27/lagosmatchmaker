@@ -1,6 +1,6 @@
 
 
-<!-- FORGOT PASSWORD START-->
+<!-- CHANGE USERNAME START-->
 <section class="login-form-section small">
     <div class="form-container">
         <form action="{{ current_url() }}" method="POST">
@@ -37,7 +37,7 @@
         </form>
     </div>
 </section>
-<!-- FORGOT PASSWORD END-->
+<!-- CHANGE USERNAME END-->
 
 
 

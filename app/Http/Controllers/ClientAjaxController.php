@@ -45,6 +45,12 @@ class ClientAjaxController extends Controller
                 'state_of_origin' => 'required',
             ]);
 
+            if(preg_match('/@/', $request->display_name))
+            {
+                return response()->json(['error' => ['display_name' => '*Must not use @ or an email address']]);
+            }
+
+
             if(!$validator->passes())
             {
                 return response()->json(['error' => $validator->errors()]);

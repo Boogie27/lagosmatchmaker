@@ -370,7 +370,7 @@
                         @php($home_page = json_decode(settings()->home_page, true))
                         <div class="search-bottom-info inner-search">
                             <p>
-                                <i class="fa fa-bell"></i>
+                                <i class="fa fa-bell text-warning"></i>
                                 {!! nl2br($home_page['search_bottom']) !!}
                             </p>
                         </div>

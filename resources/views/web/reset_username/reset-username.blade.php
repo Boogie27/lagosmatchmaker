@@ -1,6 +1,6 @@
 
 
-<!-- FORGOT PASSWORD START-->
+<!-- CHANGE USERNAME START-->
 <section class="login-form-section small">
     <div class="form-container">
         <form action="{{ current_url() }}" method="POST">
@@ -27,13 +27,17 @@
                     <div class="form-group">
                          <button type="submit" class="btn-fill-block">Submit</button>
                     </div>
+                    <div class="form-note">
+                        <i class="fa fa-bell" style="color: rgb(196, 142, 44);"></i>
+                        A username reset token will be sent to you by email, please ensure to check your email soon
+                    </div>
                     @csrf
                 </div>
             </div>
         </form>
     </div>
 </section>
-<!-- FORGOT PASSWORD END-->
+<!-- CHANGE USERNAME END-->
 
 
 

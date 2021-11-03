@@ -269,6 +269,11 @@ class AdminAjaxController extends Controller
                 return response()->json(['error' => $validator->errors()]);
             }
 
+            if(preg_match('/@/', $request->display_name))
+            {
+                return response()->json(['error' => ['display_name' => '*Must not use @ or an email address']]);
+            }
+
             if($validator->passes())
             {
                 if($request->phone)

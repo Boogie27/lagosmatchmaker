@@ -241,6 +241,11 @@ class ClientController extends Controller
             return back()->with('error', 'This account has been suspended, contact the admin');
         }
 
+        if(preg_match('/@/', $user->user_name))
+        {
+            return redirect('/reset-username')->with('error', 'We noticed that your username has @ or looks like an email, please reset your username!');
+        }
+       
         if(Auth::login($user->email, $request->remember_me))
         {
             if(Session::has('old_url'))
@@ -405,7 +410,6 @@ class ClientController extends Controller
         {
             $url = url('/new-password?token='.$token);
             Mail::to($request->email)->send(new UserMail($url));
-            // SendEmailJob::dispatch($request->email, $url)->delay(now()->addSeconds(5));
         }
         
         return back()->with('success', 'Password reset token has been sent to your email.');
@@ -525,7 +529,9 @@ class ClientController extends Controller
 
 
     public function register_store(Request $request)
-    {       
+    {      
+        return redirect('/404');
+
         $request->validate([
             'user_name' => 'required|min:3|max:50|unique:users',
             'email' => 'required|email|unique:users',
@@ -1309,6 +1315,11 @@ class ClientController extends Controller
         $request->validate([
             'username' => 'required|min:3|max:100',
         ]);
+
+        if(preg_match('/@/', $request->username))
+        {
+            return back()->with('error-username', '*Must not use @ or an email address');
+        }
 
         $user = User::where('id', Auth::user('id'))->where('email', Auth::user('email'))->where('user_name', $request->username)->first();
         if(!$user)
