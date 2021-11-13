@@ -85,6 +85,15 @@ Route::group(['middleware' => 'remember_me'], function(){
     Route::post("/ajax-block-member", [ClientAjaxController::class, "ajax_block_member"]);
     Route::post("/ajax-deactivate-account", [ClientAjaxController::class, "ajax_deactivate_account"]);
     Route::post("/ajax-add-registered-profile-image", [ClientAjaxController::class, "ajax_add_registered_profile_image"]);
+    Route::post("/ajax-get-daily-match-request", [ClientAjaxController::class, "ajax_get_daily_match_request"]);
+    Route::post("/ajax-umatch-member", [ClientAjaxController::class, "ajax_umatch_member"]);
+    Route::post("/ajax-fetch-user-matches", [ClientAjaxController::class, "ajax_fetch_user_matches"]);
+    Route::post("/ajax-cancel-match-request", [ClientAjaxController::class, "ajax_cancel_match_request"]);
+    Route::post("/ajax-fetch-member-matches-request", [ClientAjaxController::class, "ajax_fetch_member_matches_request"]);
+    Route::post("/ajax-fetch-user-sent-request", [ClientAjaxController::class, "ajax_fetch_user_sent_request"]);
+    
+    
+    
     
     
    

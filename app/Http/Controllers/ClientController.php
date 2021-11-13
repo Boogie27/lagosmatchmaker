@@ -76,7 +76,6 @@ class ClientController extends Controller
         }
 
         $user = user_detail();
-
        
         return view('web.index', compact('friendship', 'latest_members', 'user', 'images', 'descriptions', 'personalized', 'subscriptions', 'banners', 'states', 'genotypes', 'marital_status'));
     }
@@ -248,6 +247,13 @@ class ClientController extends Controller
        
         if(Auth::login($user->email, $request->remember_me))
         {
+            $today = date('Y-m-d H:i:s');
+            $daily_match = DB::table('daily_matches')->where('user_id', $user->id)->first();
+            if($daily_match && $today >= $daily_match->match_expire)
+            {
+                $delete = DB::table('daily_matches')->where('id', $daily_match->id)->delete();
+            }
+
             if(Session::has('old_url'))
             {
                 $old_url = Session::get('old_url');
@@ -630,8 +636,8 @@ class ClientController extends Controller
 
         $display_name = $user->display_name ? $user->display_name : $user->user_name; //user name
 
-        
-        
+        $daily_matches = DB::table('daily_matches')->where('user_id', $user->id)->first();
+
         if($user->gender)
         {
             if($user->gender == 'male')
@@ -655,8 +661,18 @@ class ClientController extends Controller
 
         $is_blocked = Block::where('blocker', Auth::user('id'))->where('blocked_member', $id)->first();
 
-        return view('web.profile', compact('is_blocked', 'is_friend', 'reports', 'marital_status', 'was_liked', 'you_liked','states', 'user', 'display_name', 'gender', 'smokings', 'drinkings', 'heights', 'weights', 'body_types', 'ethnicities', 'genotypes'));
+        $matches = $this->matches_request(); //get matches
+        $friends = $matches['friends'];
+        $friends_count = $matches['friends_count'];
+        $friends_request = $matches['friends_request'];
+        
+
+        return view('web.profile', compact('friends', 'friends_count' ,'friends_request', 'daily_matches', 'is_blocked', 'is_friend', 'reports', 'marital_status', 'was_liked', 'you_liked','states', 'user', 'display_name', 'gender', 'smokings', 'drinkings', 'heights', 'weights', 'body_types', 'ethnicities', 'genotypes'));
     }
+
+
+
+
 
 
 
@@ -992,6 +1008,21 @@ class ClientController extends Controller
         return view('web.friends', compact('friends', 'friends_count' ,'friends_request'));
     }
     
+
+
+
+
+    public function matches_request()
+    {
+        $friends_request = DB::table('likes')->where('acceptor_id', Auth::user('id'))->where('is_accept', 0)
+        ->leftJoin('users', 'likes.initiator_id', 'users.id')->get();
+
+        $friend = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('is_accept', 1)->orWhere('acceptor_id', Auth::user('id'))->where('is_accept', 1);
+        $friends_count = $friend->get();
+        $friends = $friend->paginate(50);
+
+        return ['friends' => $friends, 'friends_count' => $friends_count, 'friends_request' => $friends_request];
+    }
 
 
 

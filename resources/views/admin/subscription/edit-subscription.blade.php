@@ -29,42 +29,61 @@
                                     <div class="main-alert-success text-center mb-3">{{ Session::get('success')}}</div>
                                     @endif
                                    <form action="{{ url('/admin/edit-subscription/'.$subscription->sub_id) }}" method="POST" class="parsley-examples">
-                                        <div class="form-group">
-                                            <label for="userName">Amount<span class="text-danger">*</span></label>
-                                            <input type="text" name="amount" parsley-trigger="change" placeholder="Enter Amount" class="form-control" value="{{ $subscription->amount ?? old('amount') }}">
-                                            @if($errors->first('amount'))
-                                            <div class="alert-form text-danger">{{ $errors->first('amount') }}</div>
-                                            @endif
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="emailAddress">Duration<span class="text-danger">*</span></label>
-                                            <select name="duration"  class="selectpicker form-control">
-                                                <option value="">Select duration</option>
-                                                @if(count($durations))
-                                                    @foreach($durations as $duration)
-                                                    <option value="{{ $duration->duration }}" {{  $duration->duration == $subscription->duration ? 'selected' : '' }}>{{ $duration->duration }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                            @if($errors->first('duration'))
-                                            <div class="alert-form text-danger">{{ $errors->first('duration') }}</div>
-                                            @endif
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="emailAddress">Description<span class="text-danger">*</span></label>
-                                            <textarea name="description"  class="form-control" cols="30" rows="5" placeholder="Write something..">{{ $subscription->description}}</textarea>
-                                            @if($errors->first('description'))
-                                            <div class="alert-form text-danger">{{ $errors->first('description') }}</div>
-                                            @endif
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-16">
-                                                    <div class="checkbox checkbox-success">
-                                                        <input id="feature_type_checker" type="checkbox" class="featured_checkbox_input" {{  $subscription->sub_is_featured ? 'checked' : '' }}>
-                                                        <label for="feature_type_checker">
-                                                            Feature
-                                                        </label>
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <div class="form-group">
+                                                    <label for="userName">Amount<span class="text-danger">*</span></label>
+                                                    <input type="text" name="amount" parsley-trigger="change" placeholder="Enter Amount" class="form-control" value="{{ $subscription->amount ?? old('amount') }}">
+                                                    @if($errors->first('amount'))
+                                                    <div class="alert-form text-danger">{{ $errors->first('amount') }}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="emailAddress">Duration<span class="text-danger">*</span></label>
+                                                    <select name="duration"  class="selectpicker form-control">
+                                                        <option value="">Select duration</option>
+                                                        @if(count($durations))
+                                                            @foreach($durations as $duration)
+                                                            <option value="{{ $duration->duration }}" {{  $duration->duration == $subscription->duration ? 'selected' : '' }}>{{ $duration->duration }}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                    @if($errors->first('duration'))
+                                                    <div class="alert-form text-danger">{{ $errors->first('duration') }}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="daily-request">Daily Request<span class="text-danger">*</span></label>
+                                                    <input type="number" min="0" name="daily_request" class="form-control" value="{{ $subscription->daily_request ?? old('daily_request') }}">
+                                                    @if($errors->first('daily_request'))
+                                                    <div class="alert-form text-danger">{{ $errors->first('daily_request') }}</div>
+                                                    @endif
+                                                </div> 
+                                            </div>
+                                            <div class="col-xl-12">
+                                                <div class="form-group">
+                                                    <label for="description">Description<span class="text-danger">*</span></label>
+                                                    <textarea name="description"  class="form-control" cols="30" rows="5" placeholder="Write something..">{{ $subscription->description}}</textarea>
+                                                    @if($errors->first('description'))
+                                                    <div class="alert-form text-danger">{{ $errors->first('description') }}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-16">
+                                                            <div class="checkbox checkbox-success">
+                                                                <input id="feature_type_checker" type="checkbox" class="featured_checkbox_input" {{  $subscription->sub_is_featured ? 'checked' : '' }}>
+                                                                <label for="feature_type_checker">
+                                                                    Feature
+                                                                </label>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

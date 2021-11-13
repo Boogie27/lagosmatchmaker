@@ -97,6 +97,9 @@
                                                                 <a href="{{ url('/admin/member-detail/'.$member->id) }}">Detail</a>
                                                             </li>
                                                             <li>
+                                                                <a href="{{ url('/admin/read-chats?user='.$member->id.'&friend='.$blocked_member->id) }}">Read chats</a>
+                                                            </li>
+                                                            <li>
                                                                 <a href="{{ url('/admin/subscription-history/'.$member->id) }}" class="">subscription details</a>
                                                             </li>
                                                             @if(!$member->is_approved)

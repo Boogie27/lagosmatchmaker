@@ -551,6 +551,7 @@ class AdminController extends Controller
             DB::table('subscriptions')->where('sub_id', $id)->update([
                         'amount' => $amount,
                         'duration' => $request->duration,
+                        'daily_request' => $request->daily_request,
                         'sub_is_featured' => $request->featured,
                         'description' => $request->description,
             ]);

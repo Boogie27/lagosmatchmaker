@@ -144,16 +144,8 @@
                 <!-- <div class="text-right">
                     <button class="confirm-box-close"><i class="fa fa-times"></i></button>
                 </div> -->
-                <div class="confirm-header">
-                    <p><b>Crop image</b></p>
-                </div>
-                <div class="cropper-form" id="profile_image_cropper">
-                    <div class="inner-cropper-img">
-                        <img src="{{ asset('web/images/avatar/male.png') }}" alt="" id="cropper_sample_img">
-                    </div>
-                </div>
                 <div class="confirm-form">
-                    <form action="" method="POST">
+                    <form action="" method="POST" class="profile-cropper-btn">
                         <a href="#" class="gallery-btn confirm-box-close"><i class="fa fa-trash"></i></a>
                         <button type="button"  id="cropper_confirm_submit_btn" class="btn-empty">
                             <i class="fa fa-arrow-up"></i>
@@ -161,6 +153,14 @@
                         </button>
                         @csrf
                     </form>
+                </div>
+                <div class="confirm-header">
+                    <p><b>Crop image</b></p>
+                </div>
+                <div class="cropper-form" id="profile_image_cropper">
+                    <div class="inner-cropper-img">
+                        <img src="{{ asset('web/images/avatar/male.png') }}" alt="" id="cropper_sample_img">
+                    </div>
                 </div>
             </div>
         </div>
@@ -274,3 +274,96 @@
 
 
 
+
+
+
+<!--  DELETE PROFILE IMAGE MODAL ALERT START -->
+<section class="modal-alert-popup" id="unmatch_member_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to unmatch <b>example</b> ?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button" id="unmatch_member_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  DELETE PROFILE IMAGE MODAL ALERT END -->
+
+
+
+
+
+
+<!--  CANCLE MATCH REQUEST ALERT START -->
+<section class="modal-alert-popup" id="cancel_member_request_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to cancel <b>example</b> ?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button" id="cancel_member_request_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  CANCLE MATCH REQUEST ALERT END -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  DELETE MATCH REQUEST ALERT START -->
+<section class="modal-alert-popup" id="delete_sent_request_modal_popup_box">
+    <div class="sub-confirm-container">
+        <div class="sub-confirm-dark-theme">
+            <div class="sub-inner-content">
+                <div class="text-right p-2">
+                    <button class="confirm-box-close"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="confirm-header">
+                    <p>Do you wish to cancel <b>example</b> ?</p>
+                </div>
+                <div class="confirm-form">
+                    <form action="" method="POST">
+                        <button type="button" id="delete_sent_request_confirm_submit_btn" class="confirm-btn">Proceed</button>
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  DELETE MATCH REQUEST ALERT END -->

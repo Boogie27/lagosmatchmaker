@@ -515,15 +515,23 @@ class ClientAjaxController extends Controller
             $user = $this->user_detail();
             if($user->membership_level == 'basic') //when you are a basic
             {
+                $daily_matches = $this->daily_matches($user, $request->user_id);
+                if($daily_matches == 'daily_count_completed')
+                {
+                    return response()->json(['daily_count_completed' => true]);
+                }
+
                 $data = $this->run_as_basic($request->user_id);
                 if($data == 'subscribe_to_premium')
                 {
                     return response()->json(['subscribe_to_premium' => true]);
                 }
+
                 if($data == 'like_this_user')
                 {
                     return response()->json(['like_this_user' => true]);
                 }
+
                 if($data == 'subscribe')
                 {
                     return response()->json(['subscribe' => true]);
@@ -630,7 +638,6 @@ class ClientAjaxController extends Controller
      public function initiator_like($user_id)
      {
         $user = $this->user_detail();
-
         $upadate_like = DB::table('likes')->insert([
                         'initiator_id' => Auth::user('id'),
                         'acceptor_id' => $user_id,
@@ -642,6 +649,65 @@ class ClientAjaxController extends Controller
        $this->match_mail($acceptor->email, $message);
 
         return true;
+     }
+
+
+
+
+
+
+
+     public function daily_matches($user, $user_id)
+     {
+        //count basic user daily match
+        $check_subscription = DB::table('subscriptions')->where('type', 'basic')->first();
+        if($check_subscription)
+        {
+            if($check_subscription->sub_is_featured && $check_subscription->daily_request > 0)
+            {
+                $counter = $check_subscription->daily_request;
+                $today = date('Y-m-d H:i:s');
+                $tomorrow = date('Y-m-d H:i:s', strtotime('+ 1day'));
+                $matches[$user_id] = ['id' => $user_id, 'time' => $today];
+        
+                $old_daily_match = DB::table('daily_matches')->where('user_id', $user->id)->first();
+        
+                if($old_daily_match && $today >= $old_daily_match->match_expire)
+                {
+                    $delete = DB::table('daily_matches')->where('id', $old_daily_match->id)->delete();
+                }
+        
+                $daily_match = DB::table('daily_matches')->where('user_id', $user->id)->first();
+                if($user->membership_level == 'basic' && !$daily_match)
+                {
+                    $create = DB::table('daily_matches')->insert([
+                            'user_id' => $user->id,
+                            'match_id' => json_encode($matches),
+                            'counter' => 1,
+                            'date_matched' => $today,
+                            'match_expire' => $tomorrow,
+                   ]);
+                }else if($daily_match && $user->membership_level == 'basic' && $daily_match->counter < $counter && $daily_match->match_expire > $today)
+                {
+                    $matches = json_decode($daily_match->match_id, true);
+                    if(!array_key_exists($user_id, $matches))
+                    {
+                        $matches[$user_id] = ['id' => $user_id, 'time' => $today];
+        
+                        $update = DB::table('daily_matches')->where('user_id', $user->id)->update([
+                            'match_id' => json_encode($matches),
+                            'counter' => $daily_match->counter += 1
+                        ]);
+                        if($update) return;
+                    }
+                }
+        
+                if($daily_match && $daily_match->counter == $counter && $daily_match->match_expire > $today)
+                {
+                    return 'daily_count_completed';
+                }
+            }
+        }
      }
 
 
@@ -741,7 +807,7 @@ class ClientAjaxController extends Controller
 
                 $message = Auth::user('user_name').' has accepted your match on Lagosmatchmaker, now you can chat with eachother.';
                 
-                $this->match_mail($initiator->email, $message);
+                // $this->match_mail($initiator->email, $message);
                 
                 $avatar = is_matched_avatar($request->user_id);
 
@@ -1910,6 +1976,133 @@ public function ajax_check_member_detail(Request $request)
 
 
 
+
+
+ public function ajax_get_daily_match_request(Request $request)
+ {
+    if($request->ajax())
+    {
+        $data = false;
+        $daily_matches = DB::table('daily_matches')->where('user_id', Auth::user('id'))->first();
+        return view('web.profile.matches-requests', compact('daily_matches'));
+    }
+ }
+
+
+
+
+
+
+
+
+
+
+public function ajax_umatch_member(Request $request)
+{
+    if($request->ajax())
+    {
+        $data = false;
+        $check = DB::table('likes')->where('like_id', $request->like_id)->first();
+        if($check)
+        {
+            $unmatch = DB::table('likes')->where('like_id', $request->like_id)->delete();
+            if($unmatch)
+            {
+                $data = true;
+            }
+        }
+    }
+    return response()->json(['data' => $data]);
+}
+
+
+
+
+
+
+
+
+
+
+public function ajax_fetch_user_matches(Request $request)
+{
+    if($request->ajax())
+    {
+        $data = false;
+        $friends = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('is_accept', 1)->orWhere('acceptor_id', Auth::user('id'))->where('is_accept', 1)->get();
+
+        return view('web.profile.matches', compact('friends'));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+public function ajax_cancel_match_request(Request $request)
+{
+    if($request->ajax())
+    {
+        $data = false;
+        $check = DB::table('likes')->where('like_id', $request->like_id)->first();
+        if($check)
+        {
+            $unmatch = DB::table('likes')->where('like_id', $request->like_id)->delete();
+            if($unmatch)
+            {
+                $data = true;
+            }
+        }
+    }
+    return response()->json(['data' => $data]);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+public function ajax_fetch_member_matches_request(Request $request)
+{
+    if($request->ajax())
+    {
+        $data = false;
+        $friends_request = DB::table('likes')->where('acceptor_id', Auth::user('id'))->where('is_accept', 0)->leftJoin('users', 'likes.initiator_id', 'users.id')->get();
+
+        return view('web.profile.friend-request', compact('friends_request'));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+public function ajax_fetch_user_sent_request(Request $request)
+{
+    if($request->ajax())
+    {
+        $data = false;
+        $sent_request = DB::table('likes')->where('initiator_id', Auth::user('id'))->where('is_accept', 0)->leftJoin('users', 'likes.acceptor_id', 'users.id')->get();
+
+        return view('web.profile.sent-request', compact('sent_request'));
+    }
+}
 
 
 

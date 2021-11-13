@@ -38,7 +38,16 @@
                         </li>
                         @if($is_loggedin && user('id') == $user->id)
                         <li class="profile-settings">
-                            <a href="{{ url('/friends') }}"><i class="fa fa-users"></i> Matches</a>
+                            <a href="#" id="fetch_user_matches_btn"><i class="fa fa-users"></i> Matches</a>
+                        </li>
+                        <li class="profile-settings">
+                            <a href="#" id="user_sent_request_btn">Sent Request</a>
+                        </li>
+                        <li class="profile-settings">
+                            <a href="#" id="member_match_request_btn">Match Request</a>
+                        </li>
+                        <li class="profile-settings">
+                            <a href="#" id="daily_matche_request">Daily Requests</a>
                         </li>
                         <li class="profile-settings">
                             <a href="{{ url('/settings') }}"><i class="fa fa-cog"></i> Settings</a>
@@ -99,10 +108,12 @@
 <!-- PROFILE START-->
 
 
-
 <!-- PROFILE DETAILS START-->
 <section class="profile-detail-section">
     <div class="profile-detail-container">
+        <div class="long-bar" id="matches_request_container">
+            <!-- requests goes here using ajax -->
+        </div>
         <div class="row">
             <div class="col-xl-8 col-lg-8"><!-- profile detail left end-->
                 @if(Session::has('success'))

@@ -603,6 +603,9 @@ $("ul#ul_member_anchor").on('click', '.like-a-member-btn', function(e){
                 apend_message('<p>Subscribe to match with <b>'+display_name+'</b></p>')
                 $("#user_confirm_sub_modal_popup").show()
                 $("#access_preloader_container").hide()
+            }else if(response.daily_count_completed){
+                $("#access_preloader_container").hide()
+                bottom_alert_error(`${display_name} your daily matches is completed`)
             }else{
                 bottom_error_danger('Network error, try again later!')
                 $("#access_preloader_container").hide()

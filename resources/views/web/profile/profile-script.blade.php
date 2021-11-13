@@ -178,6 +178,9 @@ function apend_message(message){
     $("#login_confirm_modal_popup").find('.confirm-header').html(message)
     $("#membership_sub_modal_popup").find('.confirm-header').html(message)
     $("#block_member_modal_popup_box").find('.confirm-header').html(message)
+    $("#unmatch_member_modal_popup_box").find('.confirm-header').html(message)
+    $("#cancel_member_request_modal_popup_box").find('.confirm-header').html(message)
+    $("#delete_sent_request_modal_popup_box").find('.confirm-header').html(message)
 }
 
 
@@ -248,6 +251,9 @@ $("#user_like_action_btns").on('click', '.user_like_confirm_modal_popup', functi
                 apend_message('<p>Subscribe to match with <b>'+display_name+'</b></p>')
                 $("#membership_sub_modal_popup").show()
                 $("#access_preloader_container").hide()
+            }else if(response.daily_count_completed){
+                $("#access_preloader_container").hide()
+                bottom_alert_error(`your daily matches is completed`)
             }
             console.log(response)
         }, 
@@ -816,6 +822,386 @@ $("#block_member_confirm_submit_btn").click(function(e){
                 }
            }
 
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+
+// ************ DISPLAY DAILY MATCH REQUEST ****************//
+$("#daily_matche_request").click(function(e){
+    e.preventDefault()
+    $("#access_preloader_container").show()
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/ajax-get-daily-match-request') }}",
+        method: "post",
+        data: {
+           daily_request: 'daily_request'
+        },
+        success: function (response){
+            $("#matches_request_container").html(response)
+            $("#access_preloader_container").hide()
+        }, 
+        error: function(){
+            $("#access_preloader_container").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+// ********** UNMATCH MEMBER *************//
+var username
+var like_id
+var parent
+$("#matches_request_container").on('click', '.unmatch-user-button', function(e){
+    e.preventDefault()
+    like_id = $(this).attr('id')
+    username = $(this).attr('data-name')
+    parent = $(this).parent().parent().parent().parent().parent().parent()
+    apend_message('<p>Do you wish to unmatch <b>'+username+'</b></p>')
+    $("#unmatch_member_modal_popup_box").show()
+    $("#unmatch_member_confirm_submit_btn").html('Proceed')
+})
+
+
+
+
+$("#unmatch_member_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    var match_counter = $("#matches_request_container .title-header span");
+    var counter = parseInt($(match_counter).html()) 
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/ajax-umatch-member') }}",
+        method: "post",
+        data: {
+            like_id: like_id
+        },
+        success: function (response){
+            if(response.data){
+                $(parent).remove()
+                counter = counter - 1;
+                $(match_counter).html(counter)
+
+                if(counter == 0){
+                    var empty_match =  `<div class="title-header">
+                                            <h3>My Matches ( <span>0</span> )</h3>
+                                            <p>Members who you matched with you</p>
+                                        </div>
+                                        <div class="note-text">You have no matches!</div>`;
+                    $("#matches_request_container").html(empty_match)
+                }
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+// ************ FETCH USER MATCHES ************//
+$("#fetch_user_matches_btn").click(function(e){
+    e.preventDefault()
+    $("#access_preloader_container").show()
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/ajax-fetch-user-matches') }}",
+        method: "post",
+        data: {
+        fetch_matches: 'fetch_matches'
+        },
+        success: function (response){
+            $("#matches_request_container").html(response)
+            $("#access_preloader_container").hide()
+        }, 
+        error: function(){
+            $("#access_preloader_container").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+
+
+// ************ CANCEL MATCH REQUEST *************//
+$("#matches_request_container").on('click', '.cancel-user-request-button', function(e){
+    e.preventDefault()
+    like_id = $(this).attr('id')
+    username = $(this).attr('data-name')
+    parent = $(this).parent().parent().parent().parent().parent().parent()
+    $("#cancel_member_request_modal_popup_box").show()
+    apend_message('<p>Do you wish to unmatch <b>'+username+'</b></p>')
+    $("#cancel_member_request_confirm_submit_btn").html('Proceed')
+})
+
+
+
+
+
+$("#cancel_member_request_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    $(this).html('Please wait...')
+
+    var match_counter = $("#matches_request_container .title-header span");
+    var counter = parseInt($(match_counter).html()) 
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/ajax-cancel-match-request') }}",
+        method: "post",
+        data: {
+            like_id: like_id
+        },
+        success: function (response){
+            if(response.data){
+                $(parent).remove()
+                counter = counter - 1;
+                $(match_counter).html(counter)
+
+                if(counter == 0){
+                    var empty_match =  `<div class="title-header">
+                                            <h3>My Matches ( <span>0</span> )</h3>
+                                            <p>Members who would love to match with you</p>
+                                        </div>
+                                        <div class="note-text">You have no match requests!</div>`;
+                    $("#matches_request_container").html(empty_match)
+                }
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
+            $(".modal-alert-popup").hide()
+        }, 
+        error: function(){
+            $(".modal-alert-popup").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+
+
+
+
+// ************ FETCH MATCH REQUEST *************//
+$("#member_match_request_btn").click(function(e){
+    e.preventDefault()
+
+    $("#access_preloader_container").show()
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/ajax-fetch-member-matches-request') }}",
+        method: "post",
+        data: {
+            fetch_member_matches: 'fetch_matches'
+        },
+        success: function (response){
+            $("#matches_request_container").html(response)
+            $("#access_preloader_container").hide()
+        }, 
+        error: function(){
+            $("#access_preloader_container").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+
+// ************** ACCEPT FRIEND REQUEST **************//
+$("#matches_request_container").on('click', '.accept-friend-request-btn', function(e){
+    e.preventDefault()
+    user_id = $(this).attr('id')
+    parent = $(this).parent().parent().parent().parent().parent().parent()
+    var match_counter = $("#matches_request_container .title-header span");
+    var counter = parseInt($(match_counter).html()) 
+    
+    var display_name = $(".user-display-name").html()
+    $("#access_preloader_container").show()
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/ajax-accept-like-request') }}",
+        method: "post",
+        data: {
+            user_id: user_id,
+        },
+        success: function (response){
+            if(response.subscribe_to_premium){
+                apend_message('<p>Subscribe to premium to accept <br><b>'+display_name+'</b> match</p>')
+                $("#membership_sub_modal_popup").show()
+                $("#access_preloader_container").hide()
+            }else if(response.matched){
+                $(parent).remove()
+                counter = counter - 1;
+                $(match_counter).html(counter)
+                if(counter == 0){
+                    var empty_match =  `<div class="title-header">
+                                            <h3>Match Request ( <span>0</span> )</h3>
+                                            <p>Members who would love to match with you</p>
+                                        </div>
+                                        <div class="note-text">You have no match requests!</div>`;
+                    $("#matches_request_container").html(empty_match)
+                }
+                get_matched_modal(user_id)
+               
+            }else{
+                $("#access_preloader_container").hide()
+            }
+        }, 
+        error: function(){
+           $("#access_preloader_container").hide()
+        }
+    });
+})
+
+
+
+
+
+
+
+// *************** FETCH SENT REQUEST ************//
+$("#user_sent_request_btn").click(function(e){
+    e.preventDefault()
+
+    $("#access_preloader_container").show()
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/ajax-fetch-user-sent-request') }}",
+        method: "post",
+        data: {
+            fetch_sent_request: 'fetch_sent_request'
+        },
+        success: function (response){
+            $("#matches_request_container").html(response)
+            $("#access_preloader_container").hide()
+        }, 
+        error: function(){
+            $("#access_preloader_container").hide()
+            bottom_alert_error('Network error, try again later!')
+        }
+    });
+})
+
+
+
+
+
+
+
+
+
+
+// ************ CANCEL MATCH REQUEST *************//
+$("#matches_request_container").on('click', '.delete-user-request-button', function(e){
+    e.preventDefault()
+    like_id = $(this).attr('id')
+    username = $(this).attr('data-name')
+    parent = $(this).parent().parent().parent().parent().parent().parent()
+    $("#delete_sent_request_modal_popup_box").show()
+    apend_message('<p>Do you wish to cancel match request with <b>'+username+'</b></p>')
+    $("#delete_sent_request_confirm_submit_btn").html('Proceed')
+})
+
+
+
+
+
+
+$("#delete_sent_request_confirm_submit_btn").click(function(e){
+    e.preventDefault()
+    $(this).html('Please wait...')
+
+    var match_counter = $("#matches_request_container .title-header span");
+    var counter = parseInt($(match_counter).html()) 
+
+    csrf_token() //csrf token
+
+    $.ajax({
+        url: "{{ url('/ajax-cancel-match-request') }}",
+        method: "post",
+        data: {
+            like_id: like_id
+        },
+        success: function (response){
+            if(response.data){
+                $(parent).remove()
+                counter = counter - 1;
+                $(match_counter).html(counter)
+
+                if(counter == 0){
+                    var empty_match =  `<div class="title-header">
+                                            <h3>Sent Request ( <span>0</span> )</h3>
+                                            <p>Members who you love to match with you</p>
+                                        </div>
+                                        <div class="note-text">You have no sent requests!</div>`;
+                    $("#matches_request_container").html(empty_match)
+                }
+            }else{
+                bottom_alert_error('Network error, try again later!')
+            }
             $(".modal-alert-popup").hide()
         }, 
         error: function(){

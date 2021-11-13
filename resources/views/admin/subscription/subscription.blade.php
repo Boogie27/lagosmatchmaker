@@ -38,6 +38,7 @@
                                                 <th>Type</th>
                                                 <th>Amount</th>
                                                 <th>Duration</th>
+                                                <th>Daily Request</th>
                                                 <th>Description</th>
                                                 <th>Featured</th>
                                                 <th>Date</th>
@@ -56,6 +57,9 @@
                                                 </td>
                                                 <td>
                                                     {{ $subscription->duration }}
+                                                </td>
+                                                <td>
+                                                    {{ $subscription->daily_request }}
                                                 </td>
                                                 <td>
                                                     {{ $subscription->description }}</td>
