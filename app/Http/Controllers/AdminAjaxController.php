@@ -296,6 +296,8 @@ class AdminAjaxController extends Controller
                 $user =  $user = User::where('id', $id)->first(); //get user detail
                 if($user)
                 {
+                    $user->children = $request->children;
+                    $user->birth_date = $request->birth_date;
                     $user->age = $request->age ? $request->age : null;
                     $user->gender = $request->i_am ? $request->i_am : null;
                     $user->phone = $request->phone ? $request->phone : null;

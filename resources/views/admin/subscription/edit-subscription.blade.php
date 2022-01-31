@@ -30,12 +30,21 @@
                                     @endif
                                    <form action="{{ url('/admin/edit-subscription/'.$subscription->sub_id) }}" method="POST" class="parsley-examples">
                                         <div class="row">
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-4">
                                                 <div class="form-group">
                                                     <label for="userName">Amount<span class="text-danger">*</span></label>
                                                     <input type="text" name="amount" parsley-trigger="change" placeholder="Enter Amount" class="form-control" value="{{ $subscription->amount ?? old('amount') }}">
                                                     @if($errors->first('amount'))
                                                     <div class="alert-form text-danger">{{ $errors->first('amount') }}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-8">
+                                                <div class="form-group">
+                                                    <label for="userName">Amount in words</label>
+                                                    <input type="text" name="amount_in_words" parsley-trigger="change" placeholder="Enter Amount in words" class="form-control" value="{{ $subscription->amount_in_words ?? old('amount_in_words') }}">
+                                                    @if($errors->first('amount_in_words'))
+                                                    <div class="alert-form text-danger">{{ $errors->first('amount_in_words') }}</div>
                                                     @endif
                                                 </div>
                                             </div>
@@ -65,12 +74,20 @@
                                                 </div> 
                                             </div>
                                             <div class="col-xl-12">
-                                                <div class="form-group">
+                                                <!-- <div class="form-group">
                                                     <label for="description">Description<span class="text-danger">*</span></label>
                                                     <textarea name="description"  class="form-control" cols="30" rows="5" placeholder="Write something..">{{ $subscription->description}}</textarea>
                                                     @if($errors->first('description'))
                                                     <div class="alert-form text-danger">{{ $errors->first('description') }}</div>
                                                     @endif
+                                                </div> -->
+                                                <div class="form-group">
+                                                    <label for="emailAddress">Description<span class="text-danger">*</span></label>
+                                                    <div class="summernote-editor">
+                                                        {!! $subscription->description ?? old('description') !!} 
+                                                    </div> <!-- end summernote-editor-->
+                                                    <textarea name="description" id="subscription_input" style="display: none;"></textarea>
+                                                    <div class="alert-form text-danger">@if($errors->first('description')) {{ $errors->first('description') }} @endif</div>
                                                 </div>
                                             </div>
                                             <div class="col-xl-12">
@@ -127,9 +144,12 @@
 
 <script>
 $(document).ready(function(){
-// *********** LOGIN BUTTON *********//
+
+// ************ LOAD INPUT TO SUBSCRIPTION INPUT BAR *******//
 $("#edit_subscription_submit").click(function(e){
     $(this).html('Please wait...')
+    inner_content = $(this).parent().parent().parent().find('.note-editable').html()
+    $("#subscription_input").val(inner_content)
 })
 
 
@@ -143,6 +163,12 @@ $(featured).click(function(e){
         $(".featured_input").val('1');
     }
 })
+
+
+
+
+
+
 
 
 

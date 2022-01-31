@@ -770,7 +770,7 @@ ul.ul-profile-detail li.user-profile-img img{
     background-color: rgba(0, 0, 0, 0.623);
 }
 .edit-info-container{
-    width: 800px;
+    width: 90%;
 }
 .edit-info-container{
     margin: 0 auto;
@@ -778,10 +778,6 @@ ul.ul-profile-detail li.user-profile-img img{
     position: relative;
     border-radius: 10px;
     background-color:#fff;
-}
-.edit-info-container .title-header{
-    padding: 10px 0px;
-    margin-top: 20px;
 }
 .btn-close-container{
     height: 0px;
@@ -842,11 +838,15 @@ ul.ul-profile-detail li.user-profile-img img{
 }
 /* ********** ADD MEMBERS *********** */
 .form-validation{
-    width: 50%;
+    width: 70%;
     margin: 0 auto;
     padding: 30px 0px;
 }
-
+@media only screen and (max-width: 767px){
+    .form-validation{
+        width: 100%;
+    }
+}
 
 /* ************ REPORT PAGE ************* */
 ul.ul-report li.other-reports{

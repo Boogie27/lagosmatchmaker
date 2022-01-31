@@ -37,6 +37,7 @@
                                             <tr>
                                                 <th>Type</th>
                                                 <th>Amount</th>
+                                                <th>Amount W</th>
                                                 <th>Duration</th>
                                                 <th>Daily Request</th>
                                                 <th>Description</th>
@@ -56,13 +57,16 @@
                                                     @money($subscription->amount)
                                                 </td>
                                                 <td>
+                                                    {{ $subscription->amount_in_words }}
+                                                </td>
+                                                <td>
                                                     {{ $subscription->duration }}
                                                 </td>
                                                 <td>
                                                     {{ $subscription->daily_request }}
                                                 </td>
                                                 <td>
-                                                    {{ $subscription->description }}</td>
+                                                    {!! $subscription->description !!}</td>
                                                 <td>
                                                     <div class="check-box {{ $subscription->sub_is_featured ? 'active' : ''}}">
                                                         <a href="#" data-name="{{ $subscription->type }}" id="{{ $subscription->sub_id  }}" class="feature-confirm-box-open"></a>

@@ -24,88 +24,68 @@
     <div class="index-subscription-content">
         <br><br>
         <div class="row">
-            <div class="col-xl-12"><!-- sub content start-->
-                <div class="main-subscription-body">
-                    <div class="row expand">
-                        @if(count($subscriptions))
-                            @foreach($subscriptions as $subscription)
-                            <div class="col-xl-3 col-lg-4 col-md-6">
-                                <div class="index-subscription-banner"><!-- sub start-->
-                                    <div class="sub-banner">
-                                        <img src="{{ asset('web/images/banner/sub-2.svg') }}" alt="">
-                                        <ul class="ul-index-sub-head">
-                                            <li><b><p>{{ ucfirst($subscription->type) }}</p></b></li>
-                                            @if($subscription->amount == 0)
-                                            <li><h3>Free</h3></li>
-                                            <li><p>Membership currently free</p></li>
-                                            @else
-                                            <li><h3>{{ $subscription->amount_in_words }}</h3></li>
-                                            <li><p>{{ $subscription->duration }}</p></li>
-                                            @endif
-                                        </ul>
-                                    </div>
-                                    <ul class="ul-index-sub-body">
-                                        @if($subscription->description)
-                                        <li class="desc">
-                                            <p>{!! nl2br($subscription->description) !!}</p>
-                                        </li>
-                                        @endif
-                                        @if($subscription->type == 'basic' || $subscription->type == 'premium')
-                                            @if(!is_loggedin())
-                                            <li class="text-center" style="list-style: none; "><a href="#" class="btn-fill manual-payment-btn">Subscribe Now</a></li>
-                                            @else
-                                            <li class="text-center" style="list-style: none; "><a href="#" id="{{ $subscription->sub_id }}" class="btn-fill manual-payment-modal-open">Subscribe Now</a></li>
-                                            @endif
-                                        @endif
-                                    </ul>
-                                </div><!-- sub end-->
+            <div class="col-xl-12">
+                <div class="front-banner-container">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6"><!--about us start-->
+                            <div class="about-us-body">
+                                <div class="font"><i class="fa fa-circle"></i></div>
+                                <div class="about-us-img">
+                                    <img src="{{ asset('web/images/svg/1.png') }}" alt="">
+                                </div>
+                                <div class="about-us-content">
+                                    <div class="title-header"><h4>Safe and secure</h4></div>
+                                    <p>in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
+                                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                                    </p>
+                                </div>
                             </div>
-                            @endforeach
-                        @endif
-                        @if($personalized && $personalized['is_feature'])
-                        <div class="col-xl-3 col-lg-4 col-md-6">
-                            <div class="index-subscription-banner"><!-- sub start-->
-                                <div class="sub-banner">
-                                    <img src="{{ asset('web/images/banner/sub-2.svg') }}" alt="">
-                                        <ul class="ul-index-sub-head">
-                                            <li><b><p>{{ $personalized['title'] }}</p></b></li>
-                                            <li><h3><i class="fa fa-phone-alt"></i></h3></li>
-                                            <li><p>{{ $personalized['head'] }}</p></li>
-                                        </ul>
+                        </div><!--about us end-->
+                        <div class="col-xl-6 col-lg-6"><!--about us start-->
+                            <div class="about-us-body">
+                                <div class="font"><i class="fa fa-circle"></i></div>
+                                <div class="about-us-img">
+                                    <img src="{{ asset('web/images/svg/2.png') }}" alt="">
                                 </div>
-                                <ul class="ul-index-sub-body">
-                                    <li class="desc">{!!  nl2br($personalized['descriptions']) !!}</li>
-                                    @if(is_loggedin())
-                                    <li class="text-center" style="list-style: none;"><a href="https://api.whatsapp.com/send?phone={{ settings()->phone }}" class="btn-fill">Subscribe Now</a></li>
-                                    @else
-                                    <li class="text-center" style="list-style: none;">
-                                        <a href="#" class="btn-fill manual-payment-btn">Contact Us Now</a>
-                                    </li>
-                                    @endif
-                                </ul>
-                            </div><!-- sub end-->
-                        </div>
-                        @endif
-                        @if($friendship && $friendship['is_feature'])
-                        <div class="col-xl-3 col-lg-4 col-md-6">
-                            <div class="index-subscription-banner"><!-- sub start-->
-                                <div class="sub-banner">
-                                    <img src="{{ asset('web/images/banner/sub-2.svg') }}" alt="">
-                                        <ul class="ul-index-sub-head">
-                                            <li><b><p>{{ $friendship['title'] }}</p></b></li>
-                                            <li><h3><i class="fa fa-users"></i></h3></li>
-                                            <li><p>{{ $friendship['head'] }}</p></li>
-                                        </ul>
+                                <div class="about-us-content">
+                                    <div class="title-header"><h4>Easy to use</h4></div>
+                                    <p>in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
+                                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                                    </p>
                                 </div>
-                                <ul class="ul-index-sub-body friendship">
-                                    <li>{!! nl2br($friendship['descriptions']) !!}</li>
-                                </ul>
-                            </div><!-- sub end-->
-                        </div>
-                        @endif
+                            </div>
+                        </div><!--about us end-->
+                        <div class="col-xl-6 col-lg-6"><!--about us start-->
+                            <div class="about-us-body">
+                                <div class="font"><i class="fa fa-circle"></i></div>
+                                <div class="about-us-img">
+                                    <img src="{{ asset('web/images/svg/3.png') }}" alt="">
+                                </div>
+                                <div class="about-us-content">
+                                    <div class="title-header"><h4>24/7 Customer service</h4></div>
+                                    <p>in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
+                                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                                    </p>
+                                </div>
+                            </div>
+                        </div><!--about us end-->
+                        <div class="col-xl-6 col-lg-6"><!--about us start-->
+                            <div class="about-us-body">
+                                <div class="font"><i class="fa fa-circle"></i></div>
+                                <div class="about-us-img">
+                                    <img src="{{ asset('web/images/svg/4.jpg') }}" alt="">
+                                </div>
+                                <div class="about-us-content">
+                                    <div class="title-header"><h4>Customer friendly rate</h4></div>
+                                    <p>in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
+                                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                                    </p>
+                                </div>
+                            </div>
+                        </div><!--about us end-->
                     </div>
                 </div>
-            </div><!-- sub content end-->
+            </div>
             <div class="col-xl-12"><!-- form content start-->
                 <div class="search-bar-container">
                     <div class="inner-search-form">
@@ -285,38 +265,58 @@
 
 
 
+
+
+
+
+
+
+
 @if(count($latest_members))
-<section class="latest-members-section">
-    <div class="title-header">
-            <h4>Latest Members</h4>
+<section class="friends-section index">
+    <div class="long-bar friends-page">
+        <div class="title-header">
+            <h3>Latest Members</h3>
             <p> Lagosmatchmaker newly registered members</p>
         </div>
-    <div class="latest-members">
-        <div class="row">
-            @foreach($latest_members as $latest_member)
-            @php($image =  gender($latest_member->gender))
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 expand"> <!-- member start-->
-                <a href="{{ url('/profile/'.$latest_member->id) }}">
-                    <div class="member-content">
-                        <ul>
-                            <li class="header">
+        <div class="matches-request-container">
+            <div class="row">
+                @foreach($latest_members as $latest_member)
+                @php($image =  gender($latest_member->gender))
+                <div class="col-xl-6 col-lg-6 col-md-6">
+                    <div class="match-ipod"> <!-- match reqest start-->
+                        <div class="match-img">
+                            <a href="{{ url('/profile/'.$latest_member->id) }}"> 
                                 @if(!is_loggedin() || !is_matched($latest_member->id))
-                                <h3>{{ $image }}</h3>
+                                <div class="img-letter {{ $latest_member->is_active ? 'active' : '' }}"><h4>{{ $image }}</h4></div>
                                 @endif
                                 @if(is_loggedin() && is_matched($latest_member->id) && $latest_member->avatar)
-                                <a href="{{ url('/profile/'.$latest_member->id) }}">
-                                    <img src="{{ asset($latest_member->avatar) }}" alt="">
-                                </a>
+                                <img src="{{ asset($latest_member->avatar) }}" alt="{{ $latest_member->user_name }}" class="{{ $latest_member->is_active ? 'active' : '' }}">
                                 @endif
-                            </li>
-                            <li class="level pt-2 {{ $latest_member->is_active ? 'text-success' : 'text-danger' }}">{{ $latest_member->is_active ? 'online' : 'offline' }}</li>
-                            <li class="name">{{ $latest_member->user_name }}</li>
-                            <li class="level">{{ ucfirst($latest_member->membership_level) }} Member</li>
-                        </ul>
-                    </div>
-                </a>
-            </div><!-- member end-->
-            @endforeach
+                                @if(is_loggedin() && is_matched($latest_member->id) && !$latest_member->avatar)
+                                <img src="{{ asset(avatar($latest_member->gender)) }}" alt="{{ $latest_member->user_name }}" class="{{ $latest_member->is_active ? 'active' : '' }}">
+                                @endif
+                            </a>
+                            <ul>
+                                <li> <a href="{{ url('/profile/'.$latest_member->id) }}"> {{ $latest_member->user_name }} </a></li>
+                                <li class="level">{{ $latest_member->membership_level}}</li>
+                                <li class="date-added">Registered on {{ date('d M Y', strtotime($latest_member->date_registered)) }}</li>
+                            </ul>
+                        </div>
+                        <div class="right-drop-down">
+                            <div class="drop-down">
+                                <i class="fa fa-ellipsis-h drop-down-btn"></i>
+                                <ul class="drop-down-body">
+                                    <li>
+                                        <a href="{{ url('/profile/'.$latest_member->id) }}">View Detail</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!-- match reqest end-->
+                </div>
+                @endforeach
+            </div>
         </div>
     </div>
 </section>
@@ -327,42 +327,6 @@
 
 
 
-
-
-
-<!-- PAGE SWIPPER SECTION-->
-<section>
-    <div class="swipper-background">
-        <div class="title-header">
-            <h3>LAGOSMATCHMAKER APPEARANCES</h3>
-        </div>
-        <div class="swiper-container infiniteSwipper">
-            <div class="swipper-body swipper-frame">
-                <div class="inner-swiper">
-                    <img src="{{ asset('/web/images/swipper/1.jpg') }}" alt="">
-                </div>
-                <div class="inner-swiper">
-                    <img src="{{ asset('/web/images/swipper/2.jpg') }}" alt="">
-                </div>
-                <div class="inner-swiper">
-                    <img src="{{ asset('/web/images/swipper/3.jpg') }}" alt="">
-                </div>
-                <div class="inner-swiper">
-                    <img src="{{ asset('/web/images/swipper/4.jpg') }}" alt="">
-                </div>
-                <div class="inner-swiper">
-                    <img src="{{ asset('/web/images/swipper/5.jpg') }}" alt="">
-                </div>
-                <div class="inner-swiper">
-                    <img src="{{ asset('/web/images/swipper/6.jpg') }}" alt="">
-                </div>
-                <div class="inner-swiper">
-                    <img src="{{ asset('/web/images/swipper/7.jpg') }}" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 
 

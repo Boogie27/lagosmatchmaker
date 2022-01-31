@@ -48,15 +48,15 @@ function display_name($display_name, $user_name)
 
 
 
+
 function current_url()
 {
     $http_host = $_SERVER['HTTP_HOST'];
     $http = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 
-    if($http_host == 'lagosmatchmaker.com'){
+    if($http_host == 'lagosmatchmaker.com' || $http_host == 'matchmakerdidi.com'){
         $http = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
     }
-    
     return $http;
 }
 
@@ -389,6 +389,7 @@ function is_complete()
                 && $user->education && $user->career && $user->state_of_origin && $user->phone && !$user->is_complete)
             {
                 $state = true;
+                $user->is_approved = 1;
                 $user->is_complete = 1;
                 $user->save();
             }

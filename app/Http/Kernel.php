@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'remember_me' => \App\Http\Middleware\RememberMe::class, //lagosmatchmaker remember me middleware
         'admin_authentication' => \App\Http\Middleware\AdminAuth::class, //Admin authentication middleware
         'end_subscription' => \App\Http\Middleware\Subscription::class, //Admin end members subscription middleware
+        'daily_match' => \App\Http\Middleware\DailyMatchMiddleware::class, //refresh daily match request middleware
     ];
 }

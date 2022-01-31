@@ -10,19 +10,11 @@
                 <div class="nav-right">
                     <ul class="ul-nav-right">
                         <li><a href="{{ url('/') }}">HOME</a></li>
-                        <!-- <li>
-                            <div class="drop-down">
-                                <a href="#" class="drop-down-btn">MEMBERS</a>
-                                <ul class="drop-down-body ul-drop-down">
-                                    <li><a href="{{ url('/basic') }}">Basic</a></li>
-                                    <li><a href="{{ url('/premium') }}">Premium</a></li>
-                                </ul>
-                            </div>
-                        </li> -->
                         @if(is_loggedin())
                         <li><a href="{{ url('/manual-payment') }}">SUBSCRIPTION</a></li>
                         @endif
                         <li><a href="{{ url('/how-it-works') }}">HOW IT WORKS</a></li>
+                        <li><a href="{{ url('https://lagosmatchmaker.ng/') }}">ABOUT US</a></li>
                         @if(is_loggedin())
                         <li>
                             <div class="notification-drop-down">

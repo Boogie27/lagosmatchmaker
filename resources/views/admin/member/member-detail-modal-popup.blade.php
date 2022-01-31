@@ -111,10 +111,22 @@
                                     <input type="text" id="edit_education_input" class="form-control" value="{{ $user->education }}" placeholder="University">
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <div class="alert-form alert_career text-danger"></div>
                                     <input type="text" id="edit_career_input" class="form-control" value="{{ $user->career }}" placeholder="Career">
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <div class="alert-form alert_birthdate text-danger"></div>
+                                    <input type="date" id="edit_birthdate_input" class="form-control" value="{{ date('Y-m-d', strtotime($user->birth_date))}}" placeholder="Birth date">
+                                </div>
+                            </div>
+                             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <div class="alert-form alert_kids text-danger"></div>
+                                    <input type="number" min="0" id="edit_children_input" class="form-control" value="{{ $user->children }}" placeholder="Number of kids">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
@@ -221,6 +233,8 @@ function edit_detail_info(){
     var career = $("#edit_career_input").val()
     var phone = $("#edit_phone_number_input").val()
     var country = $("#edit_country_input").val()
+    var children = $("#edit_children_input").val()
+    var birth_date = $("#edit_birthdate_input").val()
     var state_of_origin = $("#edit_state_of_origin_input").val()
    
 
@@ -247,7 +261,9 @@ function edit_detail_info(){
             genotype: genotype,
             location: location,
             religion: religion,
+            children: children,
             university: education,
+            birth_date: birth_date,
             complexion: complexion,
             looking_for: looking_for,
             display_name: display_name,

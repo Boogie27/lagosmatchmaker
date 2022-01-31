@@ -28,7 +28,7 @@ use App\Http\Controllers\AgoraVideoController;
 // ********************************************************************************************************************************//
 
 
-Route::group(['middleware' => 'remember_me'], function(){
+Route::group(['middleware' => ['remember_me', 'daily_match']], function(){
     // ************ HOME SECTION ***************//
     Route::get("/", [ClientController::class, "index"]);
     Route::get("/search", [ClientController::class, "index_search"]);

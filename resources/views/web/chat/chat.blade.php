@@ -81,23 +81,35 @@
                                 <li><a href="{{ url('/messages') }}"><i class="fa fa-arrow-left"></i></a></li>
                                 <li class="chat-profile-img {{ $receiver->is_active ? 'active' : '' }}">
                                     @if(!is_loggedin() || !is_matched($receiver->id))   
-                                    <h4>{{ $profile_image }}</h4>
+                                    <h4>
+                                        <a href="{{ url('/profile/'.$receiver->id) }}">
+                                        {{ $profile_image }}
+                                        </a>
+                                    </h4>
                                     @endif
                                     @if(is_loggedin() && is_matched($receiver->id) && $receiver->avatar)
-                                    <img src="{{ asset($receiver->avatar) }}" alt="">
+                                    <a href="{{ url('/profile/'.$receiver->id) }}">
+                                        <img src="{{ asset($receiver->avatar) }}" alt="">
+                                    </a>
                                     @endif
                                     @if(is_loggedin() && is_matched($receiver->id) && !$receiver->avatar)
-                                    <img src="{{ asset(avatar($receiver->gender)) }}" alt="">
+                                    <a href="{{ url('/profile/'.$receiver->id) }}">
+                                        <img src="{{ asset(avatar($receiver->gender)) }}" alt="">
+                                    </a>
                                     @endif
                                 </li>
-                                <li><h5>{{ ucfirst($display_name) }}</h5></li>
+                                <li>
+                                    <h5>
+                                      <a href="{{ url('/profile/'.$receiver->id) }}"> {{ ucfirst($display_name) }} </a>
+                                    </h5>
+                                </li>
                             </ul>
                         </div>
                         <div class="chat-head-right">
                             <ul>
                                 <!-- <li><a href="#" id="video_call_open_btn"><i class="fa fa-video"></i></a></li> -->
-                                <li><a href="{{ url('/profile/'.$receiver->id) }}"><i class="fa fa-info"></i></a></li>
                                 <li><a href="#" id="refresh_chat_btn" class="refresh-btn">Refresh</a></li>
+                                <li><a href="#" class="side-navigation-open-button"><i class="fa fa-bars"></i></a></li>
                             </ul>
                         </div>
                     </div><!-- chat right header end -->

@@ -120,11 +120,12 @@
                                                 @endif
                                             </div>
                                             <div class="form-group">
-                                                <label for="">Description</label>
-                                                <textarea name="descriptions" class="form-control" cols="30" rows="5" placeholder="Write something...">{{ $personalized['descriptions'] ?? old('descriptions') }}</textarea>
-                                                @if($errors->first('descriptions'))
-                                                <div class="alert-form text-danger">{{ $errors->first('descriptions') }}</div>
-                                                @endif
+                                                <label for="emailAddress">Description<span class="text-danger">*</span></label>
+                                                <div class="summernote-editor">
+                                                    {!! $personalized['descriptions'] ?? old('descriptions') !!} 
+                                                </div> <!-- end summernote-editor-->
+                                                <textarea name="descriptions" id="personalized_input" style="display: none;"></textarea>
+                                                <div class="alert-form text-danger">@if($errors->first('descriptions')) {{ $errors->first('descriptions') }} @endif</div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="checkbox checkbox-success">
@@ -133,7 +134,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group text-right">
-                                                <button type="submit" class="btn-mini">Update...</button>
+                                                <button type="submit" id="admin_update_personalize_submit" class="btn-mini">Update...</button>
                                                 @csrf
                                             </div>
                                         </form>
@@ -162,11 +163,12 @@
                                                 @endif
                                             </div>
                                             <div class="form-group">
-                                                <label for="">Description</label>
-                                                <textarea name="descriptions" class="form-control" cols="30" rows="5" placeholder="Write something...">{{ $friendship['descriptions'] ?? old('descriptions') }}</textarea>
-                                                @if($errors->first('descriptions'))
-                                                <div class="alert-form text-danger">{{ $errors->first('descriptions') }}</div>
-                                                @endif
+                                                <label for="emailAddress">Description<span class="text-danger">*</span></label>
+                                                <div class="summernote-editor">
+                                                    {!! $friendship['descriptions'] ?? old('descriptions') !!} 
+                                                </div> <!-- end summernote-editor-->
+                                                <textarea name="descriptions" id="friendship_input" style="display: none;"></textarea>
+                                                <div class="alert-form text-danger">@if($errors->first('descriptions')) {{ $errors->first('descriptions') }} @endif</div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="checkbox checkbox-success">
@@ -175,7 +177,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group text-right">
-                                                <button type="submit" class="btn-mini">Update...</button>
+                                                <button type="submit" id="admin_update_friendship_submit" class="btn-mini">Update...</button>
                                                 @csrf
                                             </div>
                                         </form>
@@ -341,6 +343,22 @@ $(".feature_checkbox_input").click(function(){
 
 
 
+
+// ************ LOAD INPUT TO PERSONALIZE INPUT BAR *******//
+$("#admin_update_personalize_submit").click(function(e){
+    inner_content = $(this).parent().parent().find('.note-editable').html()
+    $("#personalized_input").val(inner_content)
+})
+
+
+
+
+
+// ************ LOAD INPUT TO FRIENDSHIP INPUT BAR *******//
+$("#admin_update_friendship_submit").click(function(e){
+    inner_content = $(this).parent().parent().find('.note-editable').html()
+    $("#friendship_input").val(inner_content)
+})
 
 
 

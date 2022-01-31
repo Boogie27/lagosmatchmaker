@@ -3,13 +3,13 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Cookie;
 use Session;
 use App\Models\User;
 use App\Models\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
-class RememberMe
+class DailyMatchMiddleware
 {
     /**
      * Handle an incoming request.
@@ -20,16 +20,15 @@ class RememberMe
      */
     public function handle(Request $request, Closure $next)
     {
-       
-        if(!Session::has('user') && Cookie::has('lagosmatchmaker_remember_me'))
+        if(Session::has('user'))
         {
-            if(Auth::remember_login())
+            $today = date('Y-m-d H:i:s');
+            $daily_match = DB::table('daily_matches')->where('user_id', Auth::user('id'))->first();
+            if($daily_match && $today >= $daily_match->match_expire)
             {
-               
-                return redirect('/');
+                DB::table('daily_matches')->where('id', $daily_match->id)->delete();
             }
         }
-        
         return $next($request);
     }
 }

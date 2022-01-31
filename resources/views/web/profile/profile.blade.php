@@ -148,8 +148,16 @@
                             <div class="body">: {{ $user->age ?? 'Empty' }}</div>
                         </li>
                         <li>
+                            <div class="title">Birth date  </div>
+                            <div class="body">: {{ $user->birth_date ? date('d M Y', strtotime($user->birth_date)) : 'Empty' }}</div>
+                        </li>
+                        <li>
                             <div class="title">Genotype  </div>
                             <div class="body">: {{ $user->genotype ?? 'Empty' }}</div>
+                        </li>
+                        <li>
+                            <div class="title">Number of children  </div>
+                            <div class="body">: {{ $user->children ?? 'Empty' }}</div>
                         </li>
                         <li>
                             <div class="title">HIV Status  </div>

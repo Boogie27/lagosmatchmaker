@@ -541,7 +541,7 @@ class AdminController extends Controller
         $request->validate([
             'duration' => 'required',
             'featured' => 'required',
-            'description' => 'required|min:10|max:100'
+            'description' => 'required|min:10|max:500'
         ]);
 
         $subscription = DB::table('subscriptions')->where('sub_id', $id)->first();
@@ -554,6 +554,7 @@ class AdminController extends Controller
                         'daily_request' => $request->daily_request,
                         'sub_is_featured' => $request->featured,
                         'description' => $request->description,
+                        'amount_in_words' => $request->amount_in_words,
             ]);
             return back()->with('success', 'Subscritpion updated successfully!');
         }
@@ -1367,7 +1368,7 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'max:30',
             'head' => 'max:30',
-            'descriptions' => 'max:500'
+            'descriptions' => 'max:1000'
         ]);
 
 
@@ -1404,7 +1405,7 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'max:30',
             'head' => 'max:30',
-            'descriptions' => 'max:500'
+            'descriptions' => 'max:1000'
         ]);
 
 

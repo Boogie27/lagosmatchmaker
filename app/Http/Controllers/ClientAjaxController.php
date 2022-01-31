@@ -60,7 +60,11 @@ class ClientAjaxController extends Controller
             {
                 if(!is_numeric($request->phone))
                 {
-                    return response()->json(['error' => ['phone' => 'Wrong phone number format!']]);
+                    return response()->json(['error' => ['phone' => '*Wrong phone number format!']]);
+                }
+                if($request->age < 18)
+                {
+                    return response()->json(['error' => ['age' => '*You must be 18+!']]);
                 }
 
                 $id = Auth::user('id');
@@ -74,6 +78,8 @@ class ClientAjaxController extends Controller
                     $user->HIV = strtoupper($request->hiv);
                     $user->complexion = $request->complexion;
                     $user->career = $request->career;
+                    $user->children = $request->children;
+                    $user->birth_date = $request->birth_date;
                     $user->education = $request->university;
                     $user->location = strtolower($request->location);
                     $user->genotype = $request->genotype;
@@ -111,9 +117,10 @@ class ClientAjaxController extends Controller
             && $user->education && $user->career && $user->state_of_origin && $user->phone && !$user->is_complete)
             {
                 $state = true;
+                $user->is_approved = 1;
                 $user->is_complete = 1;
                 $user->save();
-        }
+            }
         return $state;
     }
 

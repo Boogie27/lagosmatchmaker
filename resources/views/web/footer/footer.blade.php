@@ -247,3 +247,4 @@ function csrf_token(){
 <script type="text/javascript" src="{{ asset('web/js/bootstrap.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('web/js/bootstrap-select.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('web/js/script.js') }}"></script>
+<script src="{{ asset('web/js/swipper.js') }}"></script> <!-- swipper script -->

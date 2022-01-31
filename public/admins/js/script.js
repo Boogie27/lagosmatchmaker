@@ -1,3 +1,12 @@
+// *********** MULTIPLE SUMMER NOTE ****************//
+
+$(document).ready(function() {
+    $('.summernote-editor').summernote();
+});
+
+  
+
+
 
 
 // *********** BOTTOM ALERT DANGER ****************//

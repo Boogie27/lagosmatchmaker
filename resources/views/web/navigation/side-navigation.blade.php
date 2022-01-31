@@ -14,6 +14,7 @@
             <li><a href="{{ url('/manual-payment') }}">Subscription</a></li>
             @endif
             <li><a href="{{ url('/how-it-works') }}">How it works</a></li>
+            <li><a href="{{ url('https://lagosmatchmaker.ng/') }}">About us</a></li>
             @if(is_loggedin())
             <li><a href="{{ url('/profile/'.user('id')) }}">Profile</a></li>
             <li><a href="{{ url('/settings') }}">Settings</a></li>

@@ -113,25 +113,37 @@
                                     <input type="text" id="edit_phone_number_input" class="form-control" value="{{ $user->phone }}" placeholder="Phone number">
                                 </div>
                             </div>
-                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <div class="alert-form alert_career text-danger"></div>
                                     <input type="text" id="edit_career_input" class="form-control" value="{{ $user->career }}" placeholder="Career">
                                 </div>
                             </div>
-                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <div class="alert-form alert_birthdate text-danger"></div>
+                                    <input type="date" id="edit_birthdate_input" class="form-control" value="{{ date('Y-m-d', strtotime($user->birth_date)) }}" placeholder="Birth date">
+                                </div>
+                            </div>
+                             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <div class="alert-form alert_kids text-danger"></div>
+                                    <input type="number" min="0" id="edit_children_input" class="form-control" value="{{ $user->children }}" placeholder="Number of kids">
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <div class="alert-form alert_7 text-danger"></div>
                                     <input type="text" id="edit_location_input" class="form-control" value="{{ $user->location }}" placeholder="Enter state">
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <div class="alert-form alert_state_of_origin text-danger"></div>
                                     <input type="text" id="edit_state_of_origin_input" class="form-control" value="{{ $user->state_of_origin }}" placeholder="State of origin">
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <div class="alert-form alert_country text-danger"></div>
                                     <input type="text" id="edit_country_input" class="form-control" value="{{ $user->country }}" placeholder="Enter country">
@@ -213,6 +225,8 @@ function edit_detail_info(){
     var career = $("#edit_career_input").val()
     var phone = $("#edit_phone_number_input").val()
     var country = $("#edit_country_input").val()
+    var children = $("#edit_children_input").val()
+    var birth_date = $("#edit_birthdate_input").val()
     var state_of_origin = $("#edit_state_of_origin_input").val()
    
 
@@ -235,9 +249,11 @@ function edit_detail_info(){
             phone: phone,
             career: career,
             country: country,
+            children: children,
             genotype: genotype,
             location: location,
             religion: religion,
+            birth_date: birth_date,
             university: education,
             complexion: complexion,
             looking_for: looking_for,
@@ -329,6 +345,10 @@ function validate_detail_field(country, phone, state_of_origin, hiv, complexion,
         if(phone.length > 20){
             is_state = true;
             $(".alert_phone_number").html('*Maximum of 20 characters')
+        }
+        if(age < 18){
+            is_state = true;
+            $(".alert_4").html('*You must be 18+')
         }
     }
     return is_state;

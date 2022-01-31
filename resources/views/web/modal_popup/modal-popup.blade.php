@@ -1,5 +1,6 @@
 @php($user_detail = user_detail())
 @php($settings = settings())
+@php($is_loggedin = is_loggedin())
 
 
 
@@ -15,7 +16,7 @@
                         <p>Are you sure you want to logout?</p>
                     </li>
                     <li class="logout-btns">
-                        <div class="logout-cancle"><a href="#" id="logout_user_cancle_btn">Cancle</a> </div>
+                        <div class="logout-cancle"><a href="#" id="logout_user_cancle_btn">Cancel</a> </div>
                         <div class="logout-btn"><a href="{{ url('/ajax-logout') }}" id="logout_user_btn" class="logout-btn text-danger">Logout</a></div> 
                     </li>
                 </ul>
@@ -265,7 +266,7 @@
 
 
 <!-- USER NOTIFICATION BANNER START -->
-@if(is_loggedin() && !$user_detail->is_approved && !is_complete() && $settings->profile_alert)
+@if($is_loggedin && !$user_detail->is_approved && !is_complete() && $settings->profile_alert)
 <div class="top-banner-start top-banner-alert">
     <div class="top-banner-inner error">
         <i class="fa fa-times top-banner-cancle-btn"></i>
@@ -285,7 +286,7 @@
 
 
  <!-- NOTIFICATION WARNING BANNER START -->
- @if(is_loggedin() && !$user_detail->is_approved && $user_detail->is_complete)
+ @if($is_loggedin && !$user_detail->is_approved && $user_detail->is_complete)
     <div class="top-banner-start top-banner-alert">
         <div class="top-banner-inner warning">
             <i class="fa fa-times top-banner-cancle-btn"></i>
@@ -303,7 +304,7 @@
 
 
  <!-- NOTIFICATION WARNING BANNER START -->
- @if(is_loggedin() && $notification = approved_notification())
+ @if($is_loggedin && $notification = approved_notification())
     @if($notification->description)
     <div class="top-banner-start top-banner-alert">
         <div class="top-banner-inner warning">
@@ -367,7 +368,45 @@
 
 
 
+<!-- MESSAGE MODAL START-->
 
+<!-- <div class="message-modal-container">
+    <div class="messages-container">
+        <div class="close-button">
+            <button><i class="fa fa-times"></i></button>
+        </div>
+        <div class="title-header"><h3>Messanger</h3></div>
+        <div class="matches-request-container">
+            <div class="match-ipod">
+                <div class="match-img">
+                    <a href="{{ url('/profile/') }}"> 
+                        <img src="{{ asset('/web/images/avatar/male.png') }}" alt="" class="active">
+                    </a>
+                    <ul>
+                        <li class="level"><a href="#">boogie</a></li>
+                        <li class="date-added"><a href="#">Hello how are you doing</a> </li>
+                    </ul>
+                </div>
+                <div class="right-drop-down">
+                    <div class="drop-down">
+                        <i class="fa fa-ellipsis-h drop-down-btn"></i>
+                        <ul class="drop-down-body">
+                            <li>
+                                <a href="#">Reply</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/profile/') }}">View Detail</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+<!-- MESSAGE MODAL END-->
 
 
 

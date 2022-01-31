@@ -22,67 +22,78 @@
 <section class="message-section-chart">
     <div class="profile-detail-container">
         <div class="row">
-            <div class="col-xl-8 col-lg-8">
-                <div class="message-content ul_message_container"><!-- message content start -->
+            <div class="col-xl-8">
+                <div class="long-bar">
+                    <div class="title-header">
+                        <h3>Your messages ( <span>{{ count( $users) }}</span> )</h3>
+                        <p>Members who you are chating with</p>
+                    </div>
                     @if(count($users))
-                        @foreach($users as $user)
+                    <div class="matches-request-container">
+                        <div class="row">
+                            @foreach($users as $user)
+                            @php($image =  gender($user->gender))
                             @php($last_chat = last_chat($user->id))
                             @php($unread_message = unread($user->id))
-                            @php($image =  gender($user->gender))
-                            <div class="message-inner-content">
-                                <div class="message-img">
-                                    <i class="fa fa-circle {{ $user->is_active ? 'active' : '' }}"></i>   
-                                    @if(!is_loggedin() || !is_matched($user->id))
-                                    <h4>{{ $image }}</h4>
-                                    @endif
-                                    @if(is_loggedin() && is_matched($user->id) && $user->avatar)
-                                    <img src="{{ asset($user->avatar) }}" alt="">
-                                    @endif
-                                    @if(is_loggedin() && is_matched($user->id) && !$user->avatar)
-                                    <img src="{{ asset(avatar($user->gender)) }}" alt="">
-                                    @endif
-                                </div>
-                                <ul class="ul-message">
-                                    <li>
-                                        <h5>
-                                            <a href="{{ url('/chat/'.$user->id) }}"> {{ display_name($user->display_name, $user->user_name) }}  </a>  
-                                            <span class="badge bg-success chat-unread-message" style="color: #fff; display: {{ $unread_message ? 'inline-block' : 'none' }}">{{ $unread_message }}</span>
-                                            <div class="notification-drop-down">
-                                                <i class="fa fa-ellipsis-h drop-down-btn notification-icon"></i>
-                                                <ul class="drop-down-body ul-notification-body">
-                                                    <li><a href="#" id="{{ $user->id }}" class="confirm_modal_popup_btn">Delete</a></li>
-                                                    
-                                                    <li><a href="#" id="{{  $last_chat->chat_token }}" class="mark-message-seen-btn">mark as seen</a></li>
+                            <div class="col-xl-12">
+                                <div class="match-ipod ul_message_container"> <!-- match reqest start-->
+                                    <div class="match-img">
+                                        <a href="{{ url('/profile/'.$user->id) }}"> 
+                                            @if(!is_loggedin() || !is_matched($user->id))
+                                            <div class="img-letter {{ $user->is_active ? 'active' : '' }}"><h4>{{ $image }}</h4></div>
+                                            @endif
+                                            @if(is_loggedin() && is_matched($user->id) && $user->avatar)
+                                            <img src="{{ asset($user->avatar) }}" alt="{{ $user->user_name }}" class="{{ $user->is_active ? 'active' : '' }}">
+                                            @endif
+                                            @if(is_loggedin() && is_matched($user->id) && !$user->avatar)
+                                            <img src="{{ asset(avatar($user->gender)) }}" alt="{{ $user->user_name }}" class="{{ $user->is_active ? 'active' : '' }}">
+                                            @endif
+                                        </a>
+                                        <div class="chat-container-item">
+                                            <a href="{{ url('/chat/'.$user->id) }}"> 
+                                                <ul>
+                                                    <li class="name">{{ $user->user_name }}</li>
+                                                    <li class="level">{{ $user->membership_level}}</li>
+                                                    <li class="chat-messages {{ !$last_chat->is_seen && user('id') != $last_chat->sender_id  ? 'unread-message' : '' }}">
+                                                        @if($last_chat->type == 'text')
+                                                            {{ substr($last_chat->chat, 0, 100) }} 
+                                                        @endif
+                                                        @if($last_chat->type == 'image')
+                                                            <i class="fa fa-image" style="font-size: 20px;"></i>
+                                                        @endif
+                                                    </li>
                                                 </ul>
-                                            </div>
-                                        </h5>
-                                    </li>
-                                    <li>
-                                        <p>
-                                            <a href="{{ url('/chat/'.$user->id) }}" class="{{ !$last_chat->is_seen && user('id') != $last_chat->sender_id  ? 'unread-message' : '' }}"> 
-                                                @if($last_chat->type == 'image')
-                                                    <i class="fa fa-image" style="font-size: 20px;"></i>
-                                                @endif
-                                                @if($last_chat->type == 'text')
-                                                    {{ substr($last_chat->chat, 0, 100) }} 
-                                                @endif
                                             </a>
-                                            <span class="float-right">{{ chat_time($last_chat->time) }}</span>
-                                        </p>
-                                    </li>
-                                </ul>
+                                        </div>
+                                    </div>
+                                    <div class="right-drop-down">
+                                        <div class="drop-down">
+                                            <i class="fa fa-ellipsis-h drop-down-btn"></i>
+                                            <ul class="drop-down-body">
+                                                <li><a href="{{ url('/chat/'.$user->id) }}">Chat</a></li>
+                                                <li><a href="{{ url('/profile/'.$user->id) }}">View Detail</a></li>
+                                                <li><a href="#" id="{{ $user->id }}" class="confirm_modal_popup_btn">Delete chat</a></li>
+                                                <li><a href="#" id="{{  $last_chat->chat_token }}" class="mark-message-seen-btn">mark as seen</a></li>
+                                            </ul>
+                                        </div>
+                                        <span class="chat-time">{{ chat_time($last_chat->time) }}</span>
+                                    </div>
+                                </div><!-- match reqest end-->
                             </div>
-                        @endforeach
-                    @endif
-                </div><!-- message content end -->
-                <div id="bottom_table_part">
-                    @if(!count($users))
-                    <div class="empty-message-page">
-                        <div class="inner-content-item">
-                            <i class="far fa-envelope"></i>
-                            <p>There are no messages yet!</p>
+                            @endforeach
                         </div>
                     </div>
+                    @else
+                        <div id="bottom_table_part">
+                            @if(!count($users))
+                            <div class="empty-message-page">
+                                <div class="inner-content-item">
+                                    <i class="far fa-envelope"></i>
+                                    <p>There are no messages yet!</p>
+                                </div>
+                            </div>
+                            @endif
+                        </div>
                     @endif
                 </div>
             </div>
@@ -292,7 +303,7 @@ var user_id
 $(".ul_message_container").on('click', '.confirm_modal_popup_btn', function(e){
     e.preventDefault()
     user_id = $(this).attr('id')
-    parent = $(this).parent().parent().parent().parent().parent().parent().parent()
+    parent = $(this).parent().parent().parent().parent().parent().parent()
     $("#confirm_modal_popup_container").show()
     $("#delete_max_message_confirm_submit_btn").html('Proceed')    
 })
@@ -348,7 +359,7 @@ var parentHeader
 $(".mark-message-seen-btn").click(function(e){
     e.preventDefault()
     var chat_token = $(this).attr('id')
-    parentHeader = $(this).parent().parent().parent().parent()
+    parentHeader = $(this).parent().parent().parent().parent().parent()
 
     csrf_token() //csrf token
 
@@ -360,7 +371,7 @@ $(".mark-message-seen-btn").click(function(e){
         },
         success: function (response){
             if(response.data){
-                $(parentHeader).children('.chat-unread-message').remove()
+                $(parentHeader).find('.chat-messages').removeClass('unread-message')
             }else{
                 bottom_alert_error('Network error, try again later!')
             }
