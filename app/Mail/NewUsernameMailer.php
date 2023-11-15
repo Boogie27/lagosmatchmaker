@@ -36,7 +36,7 @@ class NewUsernameMailer extends Mailable
     public function build()
     {
         return $this->subject('Reset Username')
-                    ->from($this->app->from_email, 'Lagosmatchmaker')
+                    ->from($this->app->from_email, 'MatchmakerDidi')
                     ->view('web.reset_username.reset-username-message');
     }
 }

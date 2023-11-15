@@ -652,7 +652,7 @@ class ClientAjaxController extends Controller
 
        //send a notification email to other user
        $acceptor = User::where('id', $user_id)->first();
-       $message = 'You have a new match notification, '.Auth::user('user_name').' has matched with you on Lagosmatchmaker.';
+       $message = 'You have a new match notification, '.Auth::user('user_name').' has matched with you on MatchmakerDidi.';
        $this->match_mail($acceptor->email, $message);
 
         return true;
@@ -812,7 +812,7 @@ class ClientAjaxController extends Controller
             {
                 $initiator = User::where('id', $request->user_id)->first();
 
-                $message = Auth::user('user_name').' has accepted your match on Lagosmatchmaker, now you can chat with eachother.';
+                $message = Auth::user('user_name').' has accepted your match on MatchmakerDidi, now you can chat with eachother.';
                 
                 // $this->match_mail($initiator->email, $message);
                 
@@ -1048,9 +1048,9 @@ class ClientAjaxController extends Controller
             if($create)
             {
                 $check = User::where('id', $request->receiver_id)->first();
-                if($check && !$check->is_active)
+                if($check)
                 {
-                    $message = $check->user_name.' You have one new message from '.Auth::user('user_name').' on Lagosmatchmaker';
+                    $message = $check->user_name.' You have one new message from '.Auth::user('user_name').' on MatchmakerDidi';
                     $this->chat_mail($check->email, $message);
                 }
                 $data = true;
@@ -1115,7 +1115,7 @@ class ClientAjaxController extends Controller
                         $check = User::where('id', $receiver_id)->first();
                         if($check && !$check->is_active)
                         {
-                            $message = $check->user_name.' You have one new message from '.Auth::user('user_name').' on Lagosmatchmaker';
+                            $message = $check->user_name.' You have one new message from '.Auth::user('user_name').' on MatchmakerDidi';
                             $this->chat_mail($check->email, $message);
                         }
                         $data = true;
@@ -1809,7 +1809,7 @@ public function ajax_check_member_detail(Request $request)
                             'notification_to' => 'admin',
                             'title' => $user_detail['username'],
                             'type' => 'register',
-                            'description' => $user_detail['username'].' has just registered with lagosmatchmaker',
+                            'description' => $user_detail['username'].' has just registered with MatchmakerDidi',
                             'link' => 'admin/member-detail/'.$id,
                         ]);
 

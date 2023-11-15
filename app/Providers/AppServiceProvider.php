@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
             $naira = "₦";
             return "<?php echo '$naira'.number_format($amount); ?>";
         });
+
+        if(env('APP_ENV') != 'local'){
+            URL::forceScheme('https');
+        }
 
     }
 }

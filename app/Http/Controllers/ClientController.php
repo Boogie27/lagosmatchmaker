@@ -538,6 +538,10 @@ class ClientController extends Controller
     {      
         return redirect('/404');
 
+        $exist_user = User::where('user_name', $request->user_name)->first();
+        if($exist_user){
+            return back()->with('error', 'Username already exists!');
+        }
         $request->validate([
             'user_name' => 'required|min:3|max:50|unique:users',
             'email' => 'required|email|unique:users',
